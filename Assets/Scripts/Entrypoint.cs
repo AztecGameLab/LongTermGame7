@@ -1,4 +1,5 @@
 ﻿using DefaultNamespace;
+using DefaultNamespace.Core;
 using UnityEngine;
 
 /// <summary>
@@ -7,14 +8,25 @@ using UnityEngine;
 /// </summary>
 public class Entrypoint : MonoBehaviour
 {
+    public Event<int> test;
+    
     private GameplaySystem _gameplaySystem;
     private AudioSystem _audioSystem;
     private LevelSystem _levelSystem;
     private VfxSystem _vfxSystem;
     private UISystem _uiSystem;
+
+    private void TestListener(int data)
+    {
+        Debug.Log($"Received test data: {data}");
+    }
     
     private void Start()
     {
+        test.AddListener(TestListener, "Entrypoint");
+        test.Invoke(5, "Entrypoint");
+        test.RemoveListener(TestListener, "Entrypoint", "Testing removing a listener!");
+        test.Invoke(-125, "Entrypoint");
         var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
 
         // Create systems.

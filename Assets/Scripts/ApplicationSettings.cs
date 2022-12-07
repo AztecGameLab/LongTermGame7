@@ -6,20 +6,20 @@ public class ApplicationSettings : ScriptableObject
 {
     #region Fields
 
-    [SerializeField] 
-    private LevelSettings levelSettings;
-    
-    [SerializeField] 
-    private GameplaySettings gameplaySettings;
-    
-    [SerializeField] 
-    private AudioSettings audioSettings;
-    
-    [SerializeField] 
-    private VfxSettings vfxSettings;
-    
-    [SerializeField] 
-    private UISettings uiSettings;
+        [SerializeField] 
+        private LevelSettings levelSettings;
+        
+        [SerializeField] 
+        private GameplaySettings gameplaySettings;
+        
+        [SerializeField] 
+        private AudioSettings audioSettings;
+        
+        [SerializeField] 
+        private VfxSettings vfxSettings;
+        
+        [SerializeField] 
+        private UISettings uiSettings;
 
     #endregion
     
