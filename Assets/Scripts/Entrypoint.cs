@@ -1,6 +1,7 @@
-﻿using DefaultNamespace;
-using DefaultNamespace.Core;
+﻿using Core;
+using DefaultNamespace;
 using UnityEngine;
+using Logger = Core.Logger;
 
 /// <summary>
 /// This class should be the first one that is loaded in the game.
@@ -8,28 +9,23 @@ using UnityEngine;
 /// </summary>
 public class Entrypoint : MonoBehaviour
 {
-    public Event<int> test;
-    
     private GameplaySystem _gameplaySystem;
     private AudioSystem _audioSystem;
     private LevelSystem _levelSystem;
     private VfxSystem _vfxSystem;
     private UISystem _uiSystem;
 
-    private void TestListener(int data)
-    {
-        Debug.Log($"Received test data: {data}");
-    }
-    
     private void Start()
     {
-        test.AddListener(TestListener, "Entrypoint");
-        test.Invoke(5, "Entrypoint");
-        test.RemoveListener(TestListener, "Entrypoint", "Testing removing a listener!");
-        test.Invoke(-125, "Entrypoint");
+        // Demo of how we could implement cross-cutting concerns.
+        // Ensures global access, polymorphism, and control over construction order + dependencies.
+        Services.Console = new Console();
+        Services.Logger = new Logger();
+        
+        // One approach to loading all our main settings.
         var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
 
-        // Create systems.
+        // Demo of sub-system startup.
         _audioSystem = new AudioSystem(settings.Audio);
         _vfxSystem = new VfxSystem(settings.Vfx);
         _gameplaySystem = new GameplaySystem(settings.Gameplay);
@@ -39,7 +35,7 @@ public class Entrypoint : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        // Dispose in the reverse order they were created.
+        // Shut down sub-systems in the reverse order they were created.
         _levelSystem.Dispose();
         _uiSystem.Dispose();
         _gameplaySystem.Dispose();
