@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace
+﻿namespace Application.Level
 {
     public static class LevelConstants
     {

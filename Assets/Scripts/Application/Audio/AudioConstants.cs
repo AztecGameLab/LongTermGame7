@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace
+﻿namespace Application.Audio
 {
     public static class AudioConstants
     {

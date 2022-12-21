@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace poetools
+namespace Application.Core
 {
     public readonly struct PooledObject<T> : IDisposable where T : class
     {

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-namespace poetools
+namespace Application.Core
 {
     public interface IRichTextData
     {
@@ -27,19 +27,19 @@ namespace poetools
         public static IRichTextData Rtf(this Color color)
         {
             string hexColor = '#' + ColorUtility.ToHtmlStringRGBA(color);
-            return poetools.Rtf.Color(hexColor);
+            return Core.Rtf.Color(hexColor);
         }
 
         #region Single-Tag Shortcuts
 
             public static string Bold(this string message)
             {
-                return message.Format(poetools.Rtf.Bold);
+                return message.Format(Core.Rtf.Bold);
             }
             
             public static string Italic(this string message)
             {
-                return message.Format(poetools.Rtf.Italic);
+                return message.Format(Core.Rtf.Italic);
             }
 
             public static string Color(this string message, Color color)
@@ -49,38 +49,38 @@ namespace poetools
 
             public static string Size(this string message, int size)
             {
-                return message.Format(poetools.Rtf.Size(size));
+                return message.Format(Core.Rtf.Size(size));
             }
             
             public static string Material(this string message, ushort id)
             {
-                return message.Format(poetools.Rtf.Material(id));
+                return message.Format(Core.Rtf.Material(id));
             }
 
             #region Colors
 
-                public static string Aqua(this string message)      { return message.Format(poetools.Rtf.AquaColor); }
-                public static string Black(this string message)     { return message.Format(poetools.Rtf.BlackColor); }
-                public static string Blue(this string message)      { return message.Format(poetools.Rtf.BlueColor); }
-                public static string Brown(this string message)     { return message.Format(poetools.Rtf.BrownColor); }
-                public static string Cyan(this string message)      { return message.Format(poetools.Rtf.CyanColor); }
-                public static string DarkBlue(this string message)  { return message.Format(poetools.Rtf.DarkBlueColor); }
-                public static string Fuchsia(this string message)   { return message.Format(poetools.Rtf.FuchsiaColor); }
-                public static string Green(this string message)     { return message.Format(poetools.Rtf.GreenColor); }
-                public static string Grey(this string message)      { return message.Format(poetools.Rtf.GreyColor); }
-                public static string LightBlue(this string message) { return message.Format(poetools.Rtf.LightBlueColor); }
-                public static string Lime(this string message)      { return message.Format(poetools.Rtf.LimeColor); }
-                public static string Magenta(this string message)   { return message.Format(poetools.Rtf.MagentaColor); }
-                public static string Maroon(this string message)    { return message.Format(poetools.Rtf.MaroonColor); }
-                public static string Navy(this string message)      { return message.Format(poetools.Rtf.NavyColor); }
-                public static string Olive(this string message)     { return message.Format(poetools.Rtf.OliveColor); }
-                public static string Orange(this string message)    { return message.Format(poetools.Rtf.OrangeColor); }
-                public static string Purple(this string message)    { return message.Format(poetools.Rtf.PurpleColor); }
-                public static string Red(this string message)       { return message.Format(poetools.Rtf.RedColor); }
-                public static string Silver(this string message)    { return message.Format(poetools.Rtf.SilverColor); }
-                public static string Teal(this string message)      { return message.Format(poetools.Rtf.TealColor); }
-                public static string White(this string message)     { return message.Format(poetools.Rtf.WhiteColor); }
-                public static string Yellow(this string message)    { return message.Format(poetools.Rtf.YellowColor); }
+                public static string Aqua(this string message)      { return message.Format(Core.Rtf.AquaColor); }
+                public static string Black(this string message)     { return message.Format(Core.Rtf.BlackColor); }
+                public static string Blue(this string message)      { return message.Format(Core.Rtf.BlueColor); }
+                public static string Brown(this string message)     { return message.Format(Core.Rtf.BrownColor); }
+                public static string Cyan(this string message)      { return message.Format(Core.Rtf.CyanColor); }
+                public static string DarkBlue(this string message)  { return message.Format(Core.Rtf.DarkBlueColor); }
+                public static string Fuchsia(this string message)   { return message.Format(Core.Rtf.FuchsiaColor); }
+                public static string Green(this string message)     { return message.Format(Core.Rtf.GreenColor); }
+                public static string Grey(this string message)      { return message.Format(Core.Rtf.GreyColor); }
+                public static string LightBlue(this string message) { return message.Format(Core.Rtf.LightBlueColor); }
+                public static string Lime(this string message)      { return message.Format(Core.Rtf.LimeColor); }
+                public static string Magenta(this string message)   { return message.Format(Core.Rtf.MagentaColor); }
+                public static string Maroon(this string message)    { return message.Format(Core.Rtf.MaroonColor); }
+                public static string Navy(this string message)      { return message.Format(Core.Rtf.NavyColor); }
+                public static string Olive(this string message)     { return message.Format(Core.Rtf.OliveColor); }
+                public static string Orange(this string message)    { return message.Format(Core.Rtf.OrangeColor); }
+                public static string Purple(this string message)    { return message.Format(Core.Rtf.PurpleColor); }
+                public static string Red(this string message)       { return message.Format(Core.Rtf.RedColor); }
+                public static string Silver(this string message)    { return message.Format(Core.Rtf.SilverColor); }
+                public static string Teal(this string message)      { return message.Format(Core.Rtf.TealColor); }
+                public static string White(this string message)     { return message.Format(Core.Rtf.WhiteColor); }
+                public static string Yellow(this string message)    { return message.Format(Core.Rtf.YellowColor); }
 
             #endregion
 

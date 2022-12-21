@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace
+﻿namespace Application.Gameplay
 {
     public static class GameplayConstants
     {

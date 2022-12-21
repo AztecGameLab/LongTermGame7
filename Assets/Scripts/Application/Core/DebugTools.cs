@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Application.Core
 {
     public static class Services
     {

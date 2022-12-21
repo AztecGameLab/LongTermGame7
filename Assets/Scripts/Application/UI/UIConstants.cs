@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace
+﻿namespace Application.UI
 {
     public static class UIConstants
     {

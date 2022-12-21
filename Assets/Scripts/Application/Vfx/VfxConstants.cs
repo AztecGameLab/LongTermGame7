@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace
+﻿namespace Application.Vfx
 {
     public static class VfxConstants
     {

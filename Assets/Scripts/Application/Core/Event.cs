@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using poetools;
 using UnityEngine;
 
-namespace DefaultNamespace.Core
+namespace Application.Core
 {
     /// <summary>
     /// A serialized representation of an Event.
