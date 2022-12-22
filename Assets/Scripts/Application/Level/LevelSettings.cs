@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Application.Core.Events;
+using UnityEngine;
 
 namespace Application.Level
 {
@@ -7,5 +8,7 @@ namespace Application.Level
     {
         // todo: annotation for easy scene selection
         public string demoSceneName;
+
+        public LoadLevelEvent loadLevelEvent;
     }
 }

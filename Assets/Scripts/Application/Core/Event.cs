@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Application.Core
@@ -9,6 +10,18 @@ namespace Application.Core
     /// <typeparam name="TData">The data that should be passed with the event.</typeparam>
     public class Event<TData> : ScriptableObject
     {
+        private struct DisposableListener : IDisposable
+        {
+            public Event<TData> Parent;
+            public Listener Listener;
+            public int Priority;
+
+            public void Dispose()
+            {
+                Parent._listeners[Priority].Remove(Listener);
+            }
+        }
+        
         public delegate void Listener(TData data);
 
         // All listeners to this event. Sorted by priority as an int.
@@ -23,15 +36,15 @@ namespace Application.Core
         /// Register an function that will be called in response to <see cref="Invoke"/>.
         /// </summary>
         /// <seealso cref="Listener"/>
-        /// <seealso cref="IDebugDisposable"/>
         /// <param name="action">The function that will be called.</param>
         /// <param name="debugId">A human-friendly ID for whatever is subscribing to this event.</param>
         /// <param name="priority">Determines the order in which listeners are called:
+        /// <returns>A disposable representing the registered listener. Dispose it to stop listening for events.</returns>
         /// higher priority listeners are called before lower priority listeners.</param>
-        /// <remarks>IMPORTANT: Remember to call <see cref="RemoveListener"/> once you are done!
+        /// <remarks>IMPORTANT: Remember to dispose of your listener once you are done!
         /// If you don't, there may be errors flooding the console when it tries to call a function on 
         /// an object that no longer exists.</remarks>
-        public void AddListener(Listener action, string debugId, int priority = 0)
+        public IDisposable AddListener(Listener action, string debugId, int priority = 0)
         {
             if (_listeners.ContainsKey(priority) == false)
             {
@@ -43,24 +56,8 @@ namespace Application.Core
             
             Debug.Log($"{debugId.Format(_listenerFormat)} started listening to " +
                       $"{name.Format(_eventFormat)} with priority {priority.ToString().Format(_eventFormat)}.");
-        }
 
-        /// <summary>
-        /// Removes a function from being called in response to <see cref="Invoke"/>
-        /// </summary>
-        /// <param name="action">The function that will be removed.</param>
-        /// <param name="debugId">A human-friendly ID for whatever is removing this listener.</param>
-        /// <param name="debugReason">A human-friendly reason for why this listener is being removed.</param>
-        public void RemoveListener(Listener action, string debugId, string debugReason = "None")
-        {
-            Debug.Log($"{debugId.Format(_listenerFormat)} stopped listening to " +
-                      $"{name.Format(_eventFormat)} for reason: \"{debugReason.Italic()}\".");
-
-            foreach (List<Listener> listeners in _listeners.Values)
-            {
-                listeners.Remove(action);
-                _listenerCount--;
-            }
+            return new DisposableListener { Listener = action, Priority = priority, Parent = this };
         }
 
         /// <summary>
