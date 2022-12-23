@@ -8,7 +8,5 @@ namespace Application.Level
     {
         // todo: annotation for easy scene selection
         public string demoSceneName;
-
-        public LoadLevelEvent loadLevelEvent;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Application.Audio;
+﻿using System.Threading.Tasks;
+using Application.Audio;
 using Application.Core;
 using Application.Core.Events;
 using Application.Gameplay;
@@ -7,6 +8,7 @@ using Application.UI;
 using Application.Vfx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Console = Application.Core.Console;
 using Logger = Application.Core.Logger;
 
 namespace Application
@@ -43,6 +45,7 @@ namespace Application
         
             // Demo of how we could implement cross-cutting concerns.
             // Ensures global access, polymorphism, and control over construction order + dependencies.
+            Services.EventBus = new EventBus();
             Services.Console = new Console();
             Services.Logger = new Logger();
         
@@ -56,9 +59,9 @@ namespace Application
             _uiSystem = new UISystem(settings.Ui);
             _levelSystem = new LevelSystem(settings.Level);
         }
-        
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void CheckForAwake()
+        private static async void CheckForAwake()
         {
             if (_initialized == false)
             {
@@ -68,16 +71,12 @@ namespace Application
 #if UNITY_EDITOR
 
                 Debug.LogWarning("Loading Entrypoint...");
-                
                 string originalScene = SceneManager.GetActiveScene().name;
-                
                 SceneManager.LoadScene("Entrypoint", LoadSceneMode.Single);
+                await Task.Yield(); // We have to wait one frame here, so the Entrypoint can initialize itself
+                Debug.LogWarning($"Try to load {originalScene} after Entrypoint...");
+                Services.EventBus.Invoke(new LoadLevelEvent { LevelName = originalScene }, "Entrypoint");
 
-                // Debug.LogWarning($"Try to load {originalScene} after Entrypoint...");
-                //
-                // var loadLevelEvent = Resources.Load<LoadLevelEvent>("LoadLevelEvent");
-                // loadLevelEvent.Invoke(new LoadLevelData {LevelName = originalScene}, "Entrypoint");
-                
 #endif
             }
         }
@@ -88,6 +87,11 @@ namespace Application
         {
             // A demo to showcase how all the sub-systems might come together to manage the game.
             _levelSystem.RunDemo();
+        }
+        
+        private void Update()
+        {
+            Services.EventBus.Update();
         }
 
         private void OnDestroy()

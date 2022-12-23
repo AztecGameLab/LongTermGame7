@@ -1,4 +1,5 @@
 ﻿using System;
+using Application.Core;
 using Application.Core.Events;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,15 +15,15 @@ namespace Application.Level
         public LevelSystem(LevelSettings settings)
         {
             _settings = settings;
-            _loadLevelEventHandler = _settings.loadLevelEvent.AddListener(HandleLoadLevelEvent, "LevelSystem");
+            _loadLevelEventHandler = Services.EventBus.AddListener<LoadLevelEvent>(HandleLoadLevelEvent, "LevelSystem");
             
             Debug.Log($"Loaded level system, with \"{settings.name}\".");
         }
 
-        private void HandleLoadLevelEvent(LoadLevelData data)
+        private void HandleLoadLevelEvent(LoadLevelEvent @event)
         {
-            Debug.Log($"Loading {data.LevelName}...");
-            SceneManager.LoadScene(data.LevelName);
+            Debug.Log($"Loading {@event.LevelName}...");
+            SceneManager.LoadScene(@event.LevelName);
         }
     
         public void Dispose()
@@ -33,6 +34,7 @@ namespace Application.Level
 
         public void RunDemo()
         {
+            Debug.Log("Running demo...");
             SceneManager.LoadScene("SampleScene");
         }
     }
