@@ -1,5 +1,4 @@
-﻿using Application.Core.Events;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Application.Level
 {
