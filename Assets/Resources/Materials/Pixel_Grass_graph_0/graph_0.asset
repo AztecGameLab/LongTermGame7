@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: graph_0
   m_EditorClassIdentifier: 
   AssetPath: Assets/Resources/Materials/Pixel_Grass.sbsar
-  OutputPath: Assets/Pixel_Grass_graph_0
+  OutputPath: Assets/Resources/Materials/Pixel_Grass_graph_0
   RawData: {fileID: -244192453324840774, guid: 1d3db0939aa6da24eb64df6282a83727, type: 3}
   Name: graph_0
   IsRoot: 1
   FlagedForDelete: 0
-  GUID: d05b7ec1-c194-4a48-8626-0ee57ddfd913
+  GUID: 1b1e4756-5bf0-43d6-aaef-b8924f813fd5
   Index: 0
   Input:
   - id: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
       Index: 0
       Type: 8
       Channel: baseColor
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: b2d792ddd53f2394d811c0cc051fd066, type: 3}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -59,7 +59,7 @@ MonoBehaviour:
       Index: 1
       Type: 8
       Channel: normal
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: e9da5727a3f7379458a3f00e9b8d267b, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -91,7 +91,7 @@ MonoBehaviour:
       Index: 3
       Type: 8
       Channel: metallic
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: b466f756fe180fa4fb02aab28931adeb, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -107,7 +107,7 @@ MonoBehaviour:
       Index: 4
       Type: 8
       Channel: height
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: e584aaf2d7e36a74eb823cf36e7f4f44, type: 3}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -138,13 +138,16 @@ MonoBehaviour:
   HasThumbnail: 0
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Pixel_Grass\" label=\"\" >\n  <presetinput
     identifier=\"$outputsize\" uid=\"847235199\" type=\"8\" value=\"10,10\" />\n 
-    <presetinput identifier=\"$randomseed\" uid=\"1695407661\" type=\"4\" value=\"4561\"
-    />\n  <presetinput identifier=\"Normal\" uid=\"1603999873\" type=\"0\" value=\"1.5\"
-    />\n  <presetinput identifier=\"Warp_Intensity\" uid=\"1603491688\" type=\"0\"
-    value=\"1\" />\n  <presetinput identifier=\"Hue\" uid=\"1609161066\" type=\"0\"
-    value=\"0.506\" />\n  <presetinput identifier=\"Saturation\" uid=\"1609161029\"
-    type=\"0\" value=\"0.567\" />\n  <presetinput identifier=\"scale\" uid=\"1609156901\"
-    type=\"0\" value=\"0.95\" />\n </sbspreset>\n"
+    <presetinput identifier=\"Warp_Intensity\" uid=\"1603491688\" type=\"0\" value=\"1\"
+    />\n  <presetinput identifier=\"luminosity\" uid=\"1604009816\" type=\"0\" value=\"0.509\"
+    />\n  <presetinput identifier=\"saturation\" uid=\"1603446609\" type=\"0\" value=\"0.446\"
+    />\n  <presetinput identifier=\"hue\" uid=\"1603446297\" type=\"0\" value=\"0.509\"
+    />\n  <presetinput identifier=\"Grassiness\" uid=\"1603742724\" type=\"0\" value=\"0\"
+    />\n  <presetinput identifier=\"Hue\" uid=\"1609161066\" type=\"0\" value=\"0.476\"
+    />\n  <presetinput identifier=\"Saturation\" uid=\"1609161029\" type=\"0\" value=\"0.536\"
+    />\n  <presetinput identifier=\"scale\" uid=\"1609156901\" type=\"0\" value=\"0.68\"
+    />\n  <presetinput identifier=\"Lightness\" uid=\"1609371021\" type=\"0\" value=\"0.356\"
+    />\n </sbspreset>\n"
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
@@ -153,8 +156,8 @@ MonoBehaviour:
     identifier=\"$outputsize\" uid=\"847235199\" type=\"8\" value=\"10,10\" />\n
     </sbspreset>\n"
   MaterialShader: Universal Render Pipeline/Lit
-  RenderTextures: 1
-  OutputRemaped: 1
+  RenderTextures: 0
+  OutputRemaped: 0
   references:
     version: 1
     00000000:
@@ -187,7 +190,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 4
           WidgetType: 0
-        Data: 4561
+        Data: 0
         NumericalDescription:
           DefaultValue: 0
           MinValue: 0
@@ -209,7 +212,7 @@ MonoBehaviour:
           GuiDescription: 'modifies the intensity of the normal map '
           Type: 0
           WidgetType: 1
-        Data: 1.5
+        Data: 1
         NumericalDescription:
           DefaultValue: 1
           MinValue: 0
@@ -251,7 +254,7 @@ MonoBehaviour:
             of the input image
           Type: 0
           WidgetType: 1
-        Data: 0.5
+        Data: 0.509
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -272,7 +275,7 @@ MonoBehaviour:
             of the input image's color
           Type: 0
           WidgetType: 1
-        Data: 0.5
+        Data: 0.446
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -293,7 +296,7 @@ MonoBehaviour:
             image
           Type: 0
           WidgetType: 1
-        Data: 0.5
+        Data: 0.509
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -313,7 +316,7 @@ MonoBehaviour:
           GuiDescription: Density of grass
           Type: 0
           WidgetType: 1
-        Data: 0.09
+        Data: 0
         NumericalDescription:
           DefaultValue: 0.09
           MinValue: 0
@@ -353,7 +356,7 @@ MonoBehaviour:
           GuiDescription: Determines flower Color
           Type: 0
           WidgetType: 1
-        Data: 0.506
+        Data: 0.476
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -373,7 +376,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 0
           WidgetType: 1
-        Data: 0.567
+        Data: 0.536
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -393,7 +396,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 0
           WidgetType: 1
-        Data: 0.95
+        Data: 0.68
         NumericalDescription:
           DefaultValue: 0.89
           MinValue: 0
@@ -413,7 +416,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 0
           WidgetType: 1
-        Data: 0.5
+        Data: 0.356
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
