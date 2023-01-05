@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8dc3cf505a95dfb43a1bf7cec0242414
+guid: 5d0732e195d9db24dbbfd38938364b8c
 ModelImporter:
   serializedVersion: 20300
   internalIDToNameTable: []
@@ -7,13 +7,33 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: TreeTrunk_v1_geo_Tree_v1_geo_grpMat
+      name: House_v2_geo_grp_Completed_geo_grp_Door_geo_Door_geo_grpMat
+    second: {fileID: 2100000, guid: 09b04ba894419b842b1dcb98e0e4bc0a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: House_v2_geo_grp_Completed_geo_grp_Door_geo_grp_Door_Handle_GeoMat
     second: {fileID: 2100000, guid: fc6bc7a10195eeb47985dd95e2265ac3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Tree_v1_geo_grp_TreeFoliage_v1_geoMat
-    second: {fileID: 2100000, guid: 9e217f2a36c348e4eb8f4075f2ebd93a, type: 2}
+      name: House_v2_geo_grp_Completed_geo_grp_House_Frame_geoMat
+    second: {fileID: 2100000, guid: fc6bc7a10195eeb47985dd95e2265ac3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: House_v2_geo_grp_Completed_geo_grp_House_RoofMat
+    second: {fileID: 2100000, guid: 09b04ba894419b842b1dcb98e0e4bc0a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: House_v2_geo_grp_Completed_geo_grp_House_foundation_geoMat
+    second: {fileID: 2100000, guid: 5e0340f01df175244b5c86d316119659, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: House_walls_geo_House_v2_geo_grp_Completed_geo_grpMat
+    second: {fileID: 2100000, guid: 09501d9b764246d4d94e4a9d27036460, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
