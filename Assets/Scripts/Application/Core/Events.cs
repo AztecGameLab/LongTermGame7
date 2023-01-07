@@ -3,6 +3,5 @@
     public class LoadLevelEvent
     {
         public string LevelName;
-        public string SpawnId;
     }
 }

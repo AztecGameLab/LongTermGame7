@@ -8,8 +8,6 @@ using Application.UI;
 using Application.Vfx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Console = Application.Core.Console;
-using Logger = Application.Core.Logger;
 
 namespace Application
 {
@@ -72,8 +70,6 @@ namespace Application
             // Demo of how we could implement cross-cutting concerns.
             // Ensures global access, polymorphism, and control over construction order + dependencies.
             Services.EventBus = new EventBus();
-            Services.Console = new Console();
-            Services.Logger = new Logger();
         
             // One approach to loading all our main settings.
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
