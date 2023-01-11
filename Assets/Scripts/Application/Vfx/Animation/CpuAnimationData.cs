@@ -3,6 +3,9 @@ using Application;
 using Application.Vfx;
 using UnityEngine;
 
+/// <summary>
+/// Data used for playing an CPU-based animation on a Mesh Renderer.
+/// </summary>
 [CreateAssetMenu(menuName = ApplicationConstants.AssetMenuName + "/" + VfxConstants.AssetMenuName + "/CPU Animation Data")]
 public class CpuAnimationData : ScriptableObject
 {

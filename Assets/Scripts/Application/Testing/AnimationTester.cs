@@ -5,8 +5,8 @@ namespace Application.Testing
 {
     public class AnimationTester : MonoBehaviour
     {
-        public FlipbookAnimationPlayer player;
-        public List<FlipbookAnimationData> data;
+        public MeshRenderer player;
+        public List<Material> data;
 
         private int _index;
         
@@ -15,7 +15,7 @@ namespace Application.Testing
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _index = (_index + 1) % data.Count;
-                player.CurrentAnimation = data[_index];
+                player.material = data[_index];
             }
         }
     }

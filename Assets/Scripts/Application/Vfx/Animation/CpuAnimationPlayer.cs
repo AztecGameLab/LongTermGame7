@@ -1,12 +1,17 @@
 using UnityEngine;
 
+/// <summary>
+/// Applies an animation to a Mesh Renderer.
+/// </summary>
 [ExecuteAlways]
 public class CpuAnimationPlayer : MonoBehaviour
 {
     [SerializeField] 
+    [Tooltip("The animation that should be played initially.")]
     private CpuAnimationData initialAnimation;
 
     [SerializeField] 
+    [Tooltip("The renderer that will host the animation.")]
     private MeshRenderer meshRenderer;
 
     private MeshRenderer _meshRenderer;
@@ -25,6 +30,9 @@ public class CpuAnimationPlayer : MonoBehaviour
     private CpuAnimationData _currentAnimation;
     private bool _hasAnimation;
     
+    /// <summary>
+    /// The currently playing animation.
+    /// </summary>
     public CpuAnimationData CurrentAnimation
     {
         get => _currentAnimation;
