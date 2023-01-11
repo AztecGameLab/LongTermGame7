@@ -8,8 +8,8 @@ public class SpriteToGameObjectEditor : EditorWindow
     private Vector3 _rotation = new Vector3(15f, -90f, 0f);
     private Sprite _sprite;
     private Shader _shader;
-    private const float _customWidth = 12f;
-    private int _selectedFace = 0;
+    private const float CustomWidth = 12f;
+    private int _selectedFace;
     private readonly string[] _faceOptions = {"Two Sided", "One Sided"};
 
     [MenuItem("Window/Custom/Sprite/GameObject Creator", false, 0)]
@@ -20,36 +20,36 @@ public class SpriteToGameObjectEditor : EditorWindow
 
     private void OnEnable()
     {
-        _shader = Shader.Find("Universal Render Pipeline/2D/Sprite-Lit-Default");
+        _shader = Shader.Find("Universal Render Pipeline/Lit");
     }
 
-    void OnGUI()
+    private void OnGUI()
     {
         //title of tool
         GUILayout.Label("Create GameObjects from Sprites", EditorStyles.boldLabel);
-        EditorGUILayout.Space(_customWidth);
+        EditorGUILayout.Space(CustomWidth);
 
         //get shader
         _shader = (Shader) EditorGUILayout.ObjectField("Shader", _shader, typeof(Shader), true);
-        EditorGUILayout.Space(_customWidth);
+        EditorGUILayout.Space(CustomWidth);
 
         //render face
         _selectedFace = EditorGUILayout.Popup("Render Face", _selectedFace, _faceOptions);
-        EditorGUILayout.Space(_customWidth);
+        EditorGUILayout.Space(CustomWidth);
         GUILayout.Label("Render face doesnt apply to default shader.",EditorStyles.toolbar);
-        EditorGUILayout.Space(_customWidth);
+        EditorGUILayout.Space(CustomWidth);
 
         //allow for change of scale of instantiated gameobject
         _scale = EditorGUILayout.Slider("Scale", _scale, 0f, 100f);
-        EditorGUILayout.Space(_customWidth);
+        EditorGUILayout.Space(CustomWidth);
 
         //allow for change of rotation of instantiated gameobject
         _rotation = EditorGUILayout.Vector3Field("Rotation Offset", _rotation);
-        EditorGUILayout.Space(_customWidth);
+        EditorGUILayout.Space(CustomWidth);
 
         //get sprite
         _sprite = (Sprite) EditorGUILayout.ObjectField("Sprite", _sprite, typeof(Sprite), true);
-        EditorGUILayout.Space(_customWidth);
+        EditorGUILayout.Space(CustomWidth);
         
 
         if (GUILayout.Button("Instantiate GameObject"))
@@ -110,7 +110,7 @@ public class SpriteToGameObjectEditor : EditorWindow
         newMat.mainTexture = _sprite.texture;
 
         var spritePath = AssetDatabase.GetAssetPath(_sprite);
-        var savePath = spritePath.Substring(0, spritePath.LastIndexOf("/") + 1) + newMat.name + ".mat";
+        var savePath = spritePath.Substring(0, spritePath.LastIndexOf("/", StringComparison.Ordinal) + 1) + newMat.name + ".mat";
 
         AssetDatabase.CreateAsset(newMat, savePath);
         AssetDatabase.SaveAssets();
