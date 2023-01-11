@@ -60,12 +60,17 @@ public class SpriteToGameObjectEditor : EditorWindow
                 return;
             }
 
+            if (_shader is null)
+            {
+                Debug.LogWarning("Select a shader to create GameObject");
+                return;
+            }
+
             var candidateGameObject = CreateGameObject();
 
             PlaceObjectWithValues(candidateGameObject);
 
             ApplySpriteTextureAlt(candidateGameObject);
-            
         }
     }
 
@@ -99,9 +104,25 @@ public class SpriteToGameObjectEditor : EditorWindow
         MeshRenderer meshRenderer = currentGameObject.GetComponent<MeshRenderer>();
         Material curMaterial;
 
-        curMaterial = AssetDatabase.LoadAssetAtPath<Material>(_selectedFace == 0
-            ? "Assets/Editor/Windows/Sprite/Default_Two_Sided_Material.mat"
-            : "Assets/Editor/Windows/Sprite/Default_One_Sided_Material.mat");
+        switch (_selectedFace)
+        {
+            case 0:
+                curMaterial =
+                    AssetDatabase.LoadAssetAtPath<Material>(
+                        "Assets/Editor/Windows/Sprite/Default_Two_Sided_Sprite_Material.mat");
+                break;
+            case 1:
+                curMaterial =
+                    AssetDatabase.LoadAssetAtPath<Material>(
+                        "Assets/Editor/Windows/Sprite/Default_Two_Sided_Material.mat");
+                break;
+            default:
+                curMaterial =
+                    AssetDatabase.LoadAssetAtPath<Material>(
+                        "Assets/Editor/Windows/Sprite/Default_One_Sided_Material.mat");
+                break;
+        }
+
 
         Material newMat = new Material(_shader);
 
@@ -115,7 +136,7 @@ public class SpriteToGameObjectEditor : EditorWindow
         AssetDatabase.CreateAsset(newMat, savePath);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        
+
         meshRenderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(savePath);
         Debug.Log("<color=yellow>Material Saved Under: " + savePath + "</color>");
     }
