@@ -109,7 +109,7 @@ public class SpriteToGameObjectEditor : EditorWindow
             case 0:
                 curMaterial =
                     AssetDatabase.LoadAssetAtPath<Material>(
-                        "Assets/Editor/Windows/Sprite/Default_Two_Sided_Sprite_Material.mat");
+                        "Assets/Editor/Windows/Sprite/Default_Two_Sided_Material.mat");
                 break;
             case 1:
                 curMaterial =
