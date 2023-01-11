@@ -66,11 +66,14 @@ public class SpriteToGameObjectEditor : EditorWindow
                 return;
             }
 
+            Undo.SetCurrentGroupName("Generate Sprite GameObject");
+            int group = Undo.GetCurrentGroup();
+            
             var candidateGameObject = CreateGameObject();
-
             PlaceObjectWithValues(candidateGameObject);
-
             ApplySpriteTextureAlt(candidateGameObject);
+            
+            Undo.CollapseUndoOperations(group);
         }
     }
 
@@ -79,7 +82,7 @@ public class SpriteToGameObjectEditor : EditorWindow
         var currentGameObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
         currentGameObject.name = _sprite.name;
         DestroyImmediate(currentGameObject.GetComponent<MeshCollider>());
-
+        Undo.RegisterCreatedObjectUndo(currentGameObject, "Create Sprite Object");
         return currentGameObject;
     }
 
@@ -102,27 +105,13 @@ public class SpriteToGameObjectEditor : EditorWindow
     private void ApplySpriteTextureAlt(GameObject currentGameObject)
     {
         MeshRenderer meshRenderer = currentGameObject.GetComponent<MeshRenderer>();
-        Material curMaterial;
 
-        switch (_selectedFace)
+        Material curMaterial = _selectedFace switch
         {
-            case 0:
-                curMaterial =
-                    AssetDatabase.LoadAssetAtPath<Material>(
-                        "Assets/Editor/Windows/Sprite/Default_Two_Sided_Material.mat");
-                break;
-            case 1:
-                curMaterial =
-                    AssetDatabase.LoadAssetAtPath<Material>(
-                        "Assets/Editor/Windows/Sprite/Default_Two_Sided_Material.mat");
-                break;
-            default:
-                curMaterial =
-                    AssetDatabase.LoadAssetAtPath<Material>(
-                        "Assets/Editor/Windows/Sprite/Default_One_Sided_Material.mat");
-                break;
-        }
-
+            0 => AssetDatabase.LoadAssetAtPath<Material>("Assets/Editor/Windows/Sprite/Default_Two_Sided_Material.mat"),
+            1 => AssetDatabase.LoadAssetAtPath<Material>("Assets/Editor/Windows/Sprite/Default_Two_Sided_Material.mat"),
+            _ => AssetDatabase.LoadAssetAtPath<Material>("Assets/Editor/Windows/Sprite/Default_One_Sided_Material.mat")
+        };
 
         Material newMat = new Material(_shader);
 
