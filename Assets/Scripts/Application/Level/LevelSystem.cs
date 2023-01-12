@@ -1,6 +1,5 @@
 ﻿using System;
 using Application.Core;
-using Application.Core.Events;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

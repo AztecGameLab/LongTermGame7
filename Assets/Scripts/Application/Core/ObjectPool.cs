@@ -1,53 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
-    public readonly struct PooledObject<T> : IDisposable where T : class
-    {
-        private readonly T _toReturn;
-        private readonly ObjectPool<T> _pool;
+    using System;
+    using System.Collections.Generic;
 
-        internal PooledObject(T value, ObjectPool<T> pool)
-        {
-            _toReturn = value;
-            _pool = pool;
-        }
-
-        void IDisposable.Dispose() => _pool.Release(_toReturn);
-    }
-    
     /// <summary>
     /// Generic object pool implementation.
     /// </summary>
     /// <typeparam name="T">Type of the object pool.</typeparam>
-    public class ObjectPool<T> : IDisposable where T : class
+    public class ObjectPool<T> : IDisposable
+        where T : class
     {
-        internal readonly Stack<T> m_Stack;
-        readonly Func<T> m_CreateFunc;
-        readonly Action<T> m_ActionOnGet;
-        readonly Action<T> m_ActionOnRelease;
-        readonly Action<T> m_ActionOnDestroy;
-        readonly int m_MaxSize; // Used to prevent catastrophic memory retention.
-        internal bool m_CollectionCheck;
+        private readonly Stack<T> _stack;
+        private readonly bool _collectionCheck;
+        private readonly Func<T> _createFunc;
+        private readonly Action<T> _actionOnGet;
+        private readonly Action<T> _actionOnRelease;
+        private readonly Action<T> _actionOnDestroy;
+        private readonly int _maxSize; // Used to prevent catastrophic memory retention.
 
         /// <summary>
-        /// The total number of active and inactive objects.
-        /// </summary>
-        public int CountAll { get; private set; }
-
-        /// <summary>
-        /// Number of objects that have been created by the pool but are currently in use and have not yet been returned.
-        /// </summary>
-        public int CountActive { get { return CountAll - CountInactive; } }
-
-        /// <summary>
-        /// Number of objects that are currently available in the pool.
-        /// </summary>
-        public int CountInactive { get { return m_Stack.Count; } }
-
-        /// <summary>
-        /// Creates a new ObjectPool.
+        /// Initializes a new instance of the <see cref="ObjectPool{T}"/> class.
         /// </summary>
         /// <param name="createFunc">Use to create a new instance when the pool is empty. In most cases this will just be <code>() => new T()</code></param>
         /// <param name="actionOnGet">Called when the instance is being taken from the pool.</param>
@@ -58,19 +30,39 @@ namespace Application.Core
         /// <param name="maxSize">The maximum size of the pool. When the pool reaches the max size then any further instances returned to the pool will be ignored and can be garbage collected. This can be used to prevent the pool growing to a very large size.</param>
         public ObjectPool(Func<T> createFunc, Action<T> actionOnGet = null, Action<T> actionOnRelease = null, Action<T> actionOnDestroy = null, bool collectionCheck = true, int defaultCapacity = 10, int maxSize = 10000)
         {
-            if (createFunc == null)
-                throw new ArgumentNullException(nameof(createFunc));
-
             if (maxSize <= 0)
+            {
                 throw new ArgumentException("Max Size must be greater than 0", nameof(maxSize));
+            }
 
-            m_Stack = new Stack<T>(defaultCapacity);
-            m_CreateFunc = createFunc;
-            m_MaxSize = maxSize;
-            m_ActionOnGet = actionOnGet;
-            m_ActionOnRelease = actionOnRelease;
-            m_ActionOnDestroy = actionOnDestroy;
-            m_CollectionCheck = collectionCheck;
+            _stack = new Stack<T>(defaultCapacity);
+            _createFunc = createFunc ?? throw new ArgumentNullException(nameof(createFunc));
+            _maxSize = maxSize;
+            _actionOnGet = actionOnGet;
+            _actionOnRelease = actionOnRelease;
+            _actionOnDestroy = actionOnDestroy;
+            _collectionCheck = collectionCheck;
+        }
+
+        /// <summary>
+        /// Gets the total number of active and inactive objects.
+        /// </summary>
+        public int CountAll { get; private set; }
+
+        /// <summary>
+        /// Gets the number of objects that have been created by the pool but are currently in use and have not yet been returned.
+        /// </summary>
+        public int CountActive
+        {
+            get { return CountAll - CountInactive; }
+        }
+
+        /// <summary>
+        /// Gets the number of objects that are currently available in the pool.
+        /// </summary>
+        public int CountInactive
+        {
+            get { return _stack.Count; }
         }
 
         /// <summary>
@@ -80,25 +72,31 @@ namespace Application.Core
         public T Get()
         {
             T element;
-            if (m_Stack.Count == 0)
+
+            if (_stack.Count == 0)
             {
-                element = m_CreateFunc();
+                element = _createFunc();
                 CountAll++;
             }
             else
             {
-                element = m_Stack.Pop();
+                element = _stack.Pop();
             }
-            m_ActionOnGet?.Invoke(element);
+
+            _actionOnGet?.Invoke(element);
             return element;
         }
 
         /// <summary>
-        /// Get a new <see cref="PooledObject"/> which can be used to return the instance back to the pool when the PooledObject is disposed.
+        /// Get a new <see cref="PooledObject{TO}"/> which can be used to return the instance back to the pool when the PooledObject is disposed.
         /// </summary>
         /// <param name="v">Output new typed object.</param>
-        /// <returns>New PooledObject</returns>
-        public PooledObject<T> Get(out T v) => new PooledObject<T>(v = Get(), this);
+        /// <returns>New PooledObject.</returns>
+        public PooledObject<T> Get(out T v)
+        {
+            v = Get();
+            return new PooledObject<T>(v, this);
+        }
 
         /// <summary>
         /// Release an object to the pool.
@@ -106,21 +104,20 @@ namespace Application.Core
         /// <param name="element">Object to release.</param>
         public void Release(T element)
         {
-            if (m_CollectionCheck && m_Stack.Count > 0)
+            if (_collectionCheck && _stack.Count > 0 && _stack.Contains(element))
             {
-                if (m_Stack.Contains(element))
-                    throw new InvalidOperationException("Trying to release an object that has already been released to the pool.");
+                throw new InvalidOperationException("Trying to release an object that has already been released to the pool.");
             }
 
-            m_ActionOnRelease?.Invoke(element);
+            _actionOnRelease?.Invoke(element);
 
-            if (CountInactive < m_MaxSize)
+            if (CountInactive < _maxSize)
             {
-                m_Stack.Push(element);
+                _stack.Push(element);
             }
             else
             {
-                m_ActionOnDestroy?.Invoke(element);
+                _actionOnDestroy?.Invoke(element);
             }
         }
 
@@ -129,22 +126,52 @@ namespace Application.Core
         /// </summary>
         public void Clear()
         {
-            if (m_ActionOnDestroy != null)
+            if (_actionOnDestroy != null)
             {
-                foreach (var item in m_Stack)
+                foreach (var item in _stack)
                 {
-                    m_ActionOnDestroy(item);
+                    _actionOnDestroy(item);
                 }
             }
 
-            m_Stack.Clear();
+            _stack.Clear();
             CountAll = 0;
         }
 
+        /// <summary>
+        /// Releases all pooled objects so they can be garbage collected.
+        /// </summary>
         public void Dispose()
         {
             // Ensure we do a clear so the destroy action can be called.
             Clear();
+        }
+
+        /// <summary>
+        /// An instance of data that has been pooled, and can be re-used.
+        /// </summary>
+        /// <typeparam name="TO">The type of data to store.</typeparam>
+        public readonly struct PooledObject<TO> : IDisposable
+            where TO : class
+        {
+            private readonly TO _toReturn;
+            private readonly ObjectPool<TO> _pool;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="PooledObject{T}"/> struct.
+            /// </summary>
+            /// <param name="value">The data to store in this object.</param>
+            /// <param name="pool">The pool this object belongs to.</param>
+            internal PooledObject(TO value, ObjectPool<TO> pool)
+            {
+                _toReturn = value;
+                _pool = pool;
+            }
+
+            /// <summary>
+            /// Return this object to its pool, so it can be reused.
+            /// </summary>
+            void IDisposable.Dispose() => _pool.Release(_toReturn);
         }
     }
 }

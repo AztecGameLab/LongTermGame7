@@ -1,4 +1,4 @@
-﻿namespace Application.Core.Events
+﻿namespace Application.Core
 {
     public class LoadLevelEvent
     {

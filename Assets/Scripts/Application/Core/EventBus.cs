@@ -1,102 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Application.Core.Rtf;
 
 namespace Application.Core
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+
     /// <summary>
     /// Routes events throughout the codebase.
     /// Allows separate systems to communicate with each other.
     /// </summary>
     public class EventBus
     {
-        private Dictionary<Type, SortedDataStore> _listenerDictionary = new Dictionary<Type, SortedDataStore>();
+        private readonly Dictionary<Type, SortedDataStore> _listenerDictionary = new Dictionary<Type, SortedDataStore>();
 
-        // A collection of data, sorted by priority and counted.
-        private class SortedDataStore
-        {
-            // Unregisters itself when disposed. Struct to avoid allocations.
-            private struct UnregisterDisposable : IDisposable
-            {
-                public SortedDataStore Parent;
-                public object Data;
-                public int Priority;
-                public string ListenerId;
-                
-                private bool _valid; // ensure that we can only be disposed once
-
-                public void Dispose()
-                {
-                    if (!_valid)
-                        return;
-
-                    _valid = false;
-                    
-                    Parent._data[Priority].Remove(Data);
-                    Parent._dataIds.Remove(ListenerId);
-                    Parent.Count--;
-                    Parent.UpdateDebugString();
-                }
-            }
-            
-            /// <summary>
-            /// How many listeners are registered in this group.
-            /// </summary>
-            public int Count { get; private set; }
-            
-            /// <summary>
-            /// All of the Listeners in this group, sorted by priority.
-            /// </summary>
-            public IEnumerable Data => _data.Values;
-            
-            private SortedList<int, List<object>> _data = new SortedList<int, List<object>>();
-            private List<string> _dataIds = new List<string>();
-            private string _debugString;
-
-            public override string ToString()
-            {
-                return _debugString;
-            }
-            
-            private void UpdateDebugString()
-            {
-                _debugString = FormatTools.PrettyList(_dataIds);
-            }
-
-            /// <summary>
-            /// Adds new data to this collection.
-            /// </summary>
-            /// <param name="data">The data to store.</param>
-            /// <param name="priority">Order of storage for data: lower is early, higher is late</param>
-            /// <param name="debugId">A human-readable name for the object calling this function.</param>
-            /// <returns>A handle for this data: dispose it to remove from the collection.</returns>
-            public IDisposable Add(object data, int priority, string debugId)
-            {
-                if (!_data.ContainsKey(priority))
-                    _data.Add(priority, new List<object>());
-                
-                _dataIds.Add(debugId);
-                _data[priority].Add(data);
-                Count++;
-                
-                UpdateDebugString();
-                return new UnregisterDisposable { Data = data, Priority = priority, ListenerId = debugId, Parent = this};
-            }
-        }
-        
         // Color formatting information for debug messages.
-        private IRichTextData _listenerFormat = Rtf.Composite(Rtf.Color(Color.red));
-        private IRichTextData _eventFormat = Rtf.Composite(Rtf.Color(Color.cyan));
+        private readonly IRichTextData _listenerFormat = Rtf.Rtf.Composite(Rtf.Rtf.Color(Color.red));
+        private readonly IRichTextData _eventFormat = Rtf.Rtf.Composite(Rtf.Rtf.Color(Color.cyan));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether debugging messages should be printed to the console when
+        /// events are fired.
+        /// </summary>
         public bool VerboseLogging { get; set; } = true;
 
-        private void Log(string message)
-        {
-            if (VerboseLogging)
-                Debug.Log(message);
-        }
-        
         /// <summary>
         /// Registers a new listener for an event of type T.
         /// </summary>
@@ -109,12 +37,14 @@ namespace Application.Core
         {
             Log($"{debugId.Format(_listenerFormat)} started listening to " +
                       $"{typeof(T).Name.Format(_eventFormat)} with priority {priority.ToString().Format(_eventFormat)}.");
-            
+
             Type type = typeof(T);
 
             if (!_listenerDictionary.ContainsKey(type))
+            {
                 _listenerDictionary.Add(type, new SortedDataStore());
-            
+            }
+
             return _listenerDictionary[type].Add(listener, priority, debugId);
         }
 
@@ -127,23 +57,113 @@ namespace Application.Core
         public void Invoke<T>(T data, string debugId)
         {
             Type type = typeof(T);
-            
+
             if (!_listenerDictionary.ContainsKey(type))
+            {
                 _listenerDictionary.Add(type, new SortedDataStore());
+            }
 
             var listenerData = _listenerDictionary[type];
             int listenerCount = listenerData.Count;
-                
+
             Log($"{debugId.Format(_listenerFormat)} invoked " +
                       $"{typeof(T).Name.Format(_eventFormat)} ({listenerCount} {"Listener".Plural(listenerCount)}: {listenerData}).");
-                
+
             if (listenerCount <= 0)
+            {
                 return;
+            }
 
             foreach (List<object> listeners in listenerData.Data)
             {
                 foreach (Action<T> listener in listeners)
+                {
                     listener.Invoke(data);
+                }
+            }
+        }
+
+        private void Log(string message)
+        {
+            if (VerboseLogging)
+            {
+                Debug.Log(message);
+            }
+        }
+
+        // A collection of data, sorted by priority and counted.
+        private sealed class SortedDataStore
+        {
+            private readonly SortedList<int, List<object>> _data = new SortedList<int, List<object>>();
+            private readonly List<string> _dataIds = new List<string>();
+            private string _debugString;
+
+            /// <summary>
+            /// Gets how many listeners are registered in this group.
+            /// </summary>
+            public int Count { get; private set; }
+
+            /// <summary>
+            /// Gets all of the Listeners in this group, sorted by priority.
+            /// </summary>
+            public IEnumerable Data => _data.Values;
+
+            /// <summary>
+            /// Adds new data to this collection.
+            /// </summary>
+            /// <param name="data">The data to store.</param>
+            /// <param name="priority">Order of storage for data: lower is early, higher is late.</param>
+            /// <param name="debugId">A human-readable name for the object calling this function.</param>
+            /// <returns>A handle for this data: dispose it to remove from the collection.</returns>
+            public IDisposable Add(object data, int priority, string debugId)
+            {
+                if (!_data.ContainsKey(priority))
+                {
+                    _data.Add(priority, new List<object>());
+                }
+
+                _dataIds.Add(debugId);
+                _data[priority].Add(data);
+                Count++;
+
+                UpdateDebugString();
+                return new UnregisterDisposable { Data = data, Priority = priority, ListenerId = debugId, Parent = this };
+            }
+
+            public override string ToString()
+            {
+                return _debugString;
+            }
+
+            private void UpdateDebugString()
+            {
+                _debugString = FormatTools.PrettyList(_dataIds);
+            }
+
+            // Unregisters itself when disposed. Struct to avoid allocations.
+            private struct UnregisterDisposable : IDisposable
+            {
+                public SortedDataStore Parent;
+                public object Data;
+                public int Priority;
+                public string ListenerId;
+
+                private bool _valid; // ensure that we can only be disposed once
+
+                public void Dispose()
+                {
+                    if (!_valid)
+                    {
+                        return;
+                    }
+
+                    _valid = false;
+
+                    Parent._data[Priority].Remove(Data);
+                    Parent._dataIds.Remove(ListenerId);
+                    Parent.Count--;
+                    Parent.UpdateDebugString();
+                }
             }
         }
     }

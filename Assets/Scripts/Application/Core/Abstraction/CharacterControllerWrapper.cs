@@ -1,32 +1,35 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-public class CharacterControllerWrapper : PhysicsComponent
+namespace Application.Core.Abstraction
 {
-    private CharacterController _character;
-    private float _airTime;
-    private bool _isGrounded;
-
-    private void Awake()
+    [RequireComponent(typeof(CharacterController))]
+    public class CharacterControllerWrapper : PhysicsComponent
     {
-        _character = GetComponent<CharacterController>();
-    }
+        private CharacterController _character;
+        private float _airTime;
+        private bool _isGrounded;
 
-    private void Update()
-    {
-        _character.Move(Velocity * Time.deltaTime);
-        _isGrounded = _character.isGrounded;
+        private void Awake()
+        {
+            _character = GetComponent<CharacterController>();
+        }
 
-        if (Mathf.Round(_character.velocity.sqrMagnitude) < Mathf.Round(Velocity.sqrMagnitude))
-            Velocity = _character.velocity;
+        private void Update()
+        {
+            _character.Move(Velocity * Time.deltaTime);
+            _isGrounded = _character.isGrounded;
+
+            if (Mathf.Round(_character.velocity.sqrMagnitude) < Mathf.Round(Velocity.sqrMagnitude))
+                Velocity = _character.velocity;
         
-        if (_isGrounded == false)
-            _airTime += Time.deltaTime;
+            if (_isGrounded == false)
+                _airTime += Time.deltaTime;
 
-        else _airTime = 0;
-    }
+            else _airTime = 0;
+        }
     
-    public override Vector3 Velocity { get; set; }
-    public override bool IsGrounded => _isGrounded;
-    public override float AirTime => _airTime;
+        public override Vector3 Velocity { get; set; }
+        public override bool IsGrounded => _isGrounded;
+        public override float AirTime => _airTime;
+    }
 }
