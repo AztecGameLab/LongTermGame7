@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         if(!_didReverse)
             _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, _accelerationSmoothTime);
         else
-            _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, _accelerationSmoothTime * _reverseMultiplier);
+            _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, _accelerationSmoothTime / _reverseMultiplier);
 
         _movementDirection = new Vector3(_currentDirection.x, _movementDirection.y, _currentDirection.y);
     }
@@ -69,6 +69,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        _controller.Move(_movementDirection * _maxSpeed * Time.deltaTime);
+        _controller.Move(_movementDirection * (_maxSpeed * Time.deltaTime));
     }
 }
