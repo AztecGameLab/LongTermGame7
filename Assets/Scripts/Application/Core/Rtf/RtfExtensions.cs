@@ -101,8 +101,9 @@
         /// Makes a string a certain material.
         /// </summary>
         /// <param name="message">The string to modify.</param>
-        /// <param name="id">The material id. </param> // todo: figure out what this id actually means...
+        /// <param name="id">The index of the text-mesh's material to use.</param>
         /// <returns>The modified string.</returns>
+        /// <remarks>This tag is only useful for text meshes.</remarks>
         public static string Material(this string message, ushort id)
         {
             return message.Format(Core.Rtf.Rtf.Material(id));

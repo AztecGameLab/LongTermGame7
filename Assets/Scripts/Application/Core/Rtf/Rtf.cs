@@ -84,10 +84,11 @@
         }
 
         /// <summary>
-        /// The most un-used RTF tag. Who knows, maybe someone will use it! todo: figure out how this works.
+        /// Generates an Rtf tag that makes a string use a custom material.
         /// </summary>
-        /// <param name="index">Who knows.</param>
+        /// <param name="index">The index of the text-mesh's material to use.</param>
         /// <returns>The generated tag data.</returns>
+        /// <remarks>This tag is only useful for text meshes.</remarks>
         public static IRichTextData Material(ushort index)
         {
             return new MaterialFormat(index);

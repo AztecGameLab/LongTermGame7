@@ -4,8 +4,6 @@
     using UnityEngine;
     using UnityEngine.Assertions;
 
-    // todo: overall hard to understand, clean code
-
     /// <summary>
     /// Stores and updated information about "ground" surfaces, usually below an object.
     /// </summary>
@@ -87,8 +85,6 @@
         /// </value>
         public Collider ConnectedCollider { get; private set; }
 
-        // todo: other scripts polling "justEntered" and "justExited" may be non-deterministic due to update order
-
         /// <summary>
         /// Gets a value indicating whether this object has just started touching the ground this frame.
         /// </summary>
@@ -105,7 +101,7 @@
         /// </value>
         public bool JustExited => !IsGrounded && _wasGroundedLastFrame;
 
-        private void Update()
+        private void FixedUpdate()
         {
             UpdateIsGrounded();
         }
@@ -141,17 +137,17 @@
         {
             // todo: better way to specifying different raycast volumes / strategies
             int hits = Physics.BoxCastNonAlloc(transform.position, new Vector3(0.25f, Mathf.Abs(groundDistance / 2), 0.25f) * 0.99f, -transform.up, _hits, Quaternion.identity, groundDistance / 2);
-
             Assert.IsTrue(hits <= MaxHits);
 
-            int bestFit = -1;
+            // Find the "Best Hit", which is the closest contact to the player.
+            int bestHitIndex = -1;
             float closestDistance = float.PositiveInfinity;
 
             for (int i = 0; i < hits; i++)
             {
                 var cur = _hits[i];
 
-                // We cannot stand on triggers, so early out.
+                // We cannot stand on triggers, or our own collider, so early out.
                 if (cur.collider.isTrigger || cur.transform == transform)
                 {
                     continue;
@@ -165,16 +161,16 @@
                 // We only want to check the nearest collider we hit.
                 if (slopeAngle <= slopeLimitDegrees && cur.distance < closestDistance)
                 {
-                    bestFit = i;
+                    bestHitIndex = i;
                     closestDistance = cur.distance;
                 }
             }
 
-            if (bestFit >= 0)
+            if (bestHitIndex >= 0)
             {
                 IsGrounded = true;
-                ConnectedCollider = _hits[bestFit].collider;
-                ContactNormal = _hits[bestFit].normal;
+                ConnectedCollider = _hits[bestHitIndex].collider;
+                ContactNormal = _hits[bestHitIndex].normal;
             }
             else
             {
@@ -183,7 +179,12 @@
                 ContactNormal = Vector3.zero;
             }
 
-            DebugDrawTools.Arrow(transform.position, transform.position - (transform.up * groundDistance), IsGrounded ? Color.green : Color.red, 0);
+            if (showDebug)
+            {
+                var t = transform;
+                var pos = t.position;
+                DebugDrawTools.Arrow(pos, pos - (t.up * groundDistance), IsGrounded ? Color.green : Color.red, 0);
+            }
         }
 
         private void OnGUI()

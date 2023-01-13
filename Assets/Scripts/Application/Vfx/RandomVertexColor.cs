@@ -8,7 +8,7 @@
     /// </summary>
     public class RandomVertexColor : MonoBehaviour
     {
-        // todo: we don't have to do this at runtime. We can make an editor utility that bakes this information.
+        // I don't think we don't have to do this at runtime. We can make an editor utility that bakes this information.
         private void Awake()
         {
             var filter = GetComponent<MeshFilter>();
