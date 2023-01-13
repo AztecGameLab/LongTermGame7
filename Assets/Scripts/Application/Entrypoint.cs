@@ -1,6 +1,7 @@
 ﻿namespace Application
 {
     using System.Threading.Tasks;
+    using Application.Core.Events;
     using Core;
     using Core.Rtf;
     using UnityEngine;

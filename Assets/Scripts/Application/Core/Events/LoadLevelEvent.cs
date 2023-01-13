@@ -1,13 +1,9 @@
-﻿namespace Application.Core
+﻿namespace Application.Core.Events
 {
-    using System;
-    using JetBrains.Annotations;
-
     /// <summary>
     /// Signals that a level has been successfully loaded.
     /// </summary>
-    [PublicAPI]
-    public readonly struct LoadLevelEvent : IEquatable<LoadLevelEvent>
+    public readonly struct LoadLevelEvent
     {
         /// <summary>
         /// The name of the level that has been loaded.
@@ -22,14 +18,5 @@
         {
             LevelName = levelName;
         }
-
-        /// <inheritdoc/>
-        public bool Equals(LoadLevelEvent other) => LevelName == other.LevelName;
-
-        /// <inheritdoc/>
-        public override bool Equals(object obj) => obj is LoadLevelEvent other && Equals(other);
-
-        /// <inheritdoc/>
-        public override int GetHashCode() => LevelName != null ? LevelName.GetHashCode() : 0;
     }
 }
