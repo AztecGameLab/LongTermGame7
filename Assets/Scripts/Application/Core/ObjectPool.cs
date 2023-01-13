@@ -23,7 +23,6 @@
         /// <param name="collectionCheck">Collection checks are performed when an instance is returned back to the pool.
         /// An exception will be thrown if the instance is already in the pool. Collection checks are only performed in the Editor.</param>
         /// <param name="defaultCapacity">The default capacity the stack will be created with.</param>
-        /// instances returned to the pool will be ignored and can be garbage collected. This can be used to prevent the pool growing to a very large size.</param>
         public ObjectPool(
             Func<T> createFunc,
             bool collectionCheck = true,
@@ -32,27 +31,6 @@
             _stack = new Stack<T>(defaultCapacity);
             _createFunc = createFunc ?? throw new ArgumentNullException(nameof(createFunc));
             _collectionCheck = collectionCheck;
-        }
-
-        /// <summary>
-        /// Gets or sets the maximum size of the pool. When the pool reaches the max size then any further.
-        /// </summary>
-        /// <value>
-        /// The maximum size of the pool. When the pool reaches the max size then any further.
-        /// </value>
-        [PublicAPI]
-        public int MaxSize
-        {
-            get => _maxSize;
-            set
-            {
-                if (MaxSize <= 0)
-                {
-                    throw new ArgumentException("Max Size must be greater than 0", nameof(value));
-                }
-
-                _maxSize = value;
-            }
         }
 
         /// <summary>
@@ -81,6 +59,27 @@
         /// </value>
         [PublicAPI]
         public event Action<T> ActionOnDestroy;
+
+        /// <summary>
+        /// Gets or sets the maximum size of the pool. When the pool reaches the max size then any further.
+        /// </summary>
+        /// <value>
+        /// The maximum size of the pool. When the pool reaches the max size then any further.
+        /// </value>
+        [PublicAPI]
+        public int MaxSize
+        {
+            get => _maxSize;
+            set
+            {
+                if (MaxSize <= 0)
+                {
+                    throw new ArgumentException("Max Size must be greater than 0", nameof(value));
+                }
+
+                _maxSize = value;
+            }
+        }
 
         /// <summary>
         /// Gets the total number of active and inactive objects.

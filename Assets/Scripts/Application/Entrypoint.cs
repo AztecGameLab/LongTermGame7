@@ -1,43 +1,19 @@
 ﻿namespace Application
 {
-    using System;
     using System.Threading.Tasks;
-    using Audio;
     using Core;
     using Core.Rtf;
-    using Gameplay;
-    using Level;
-    using UI;
     using UnityEngine;
     using UnityEngine.SceneManagement;
-    using Vfx;
 
     /// <summary>
     /// This class should be the first one that is loaded in the game.
     /// It should persist for the entire application lifetime, only being destroyed when the application quits.
     /// It controls the startup, updating, and shutdown of the game sub-systems.
     /// </summary>
-    public class Entrypoint : MonoBehaviour, IDisposable
+    public class Entrypoint : MonoBehaviour
     {
-        private GameplaySystem _gameplaySystem;
-        private AudioSystem _audioSystem;
-        private LevelSystem _levelSystem;
-        private VfxSystem _vfxSystem;
-        private UISystem _uiSystem;
-
         private static bool Initialized { get; set; }
-
-        /// <summary>
-        /// Cleans up systems that were created in the entrypoint.
-        /// </summary>
-        public void Dispose()
-        {
-            _gameplaySystem?.Dispose();
-            _audioSystem?.Dispose();
-            _levelSystem?.Dispose();
-            _vfxSystem?.Dispose();
-            _uiSystem?.Dispose();
-        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStatics()
@@ -58,7 +34,7 @@
                 SceneManager.LoadScene("Entrypoint", LoadSceneMode.Single);
                 await Task.Yield(); // We have to wait one frame here, so the Entrypoint can initialize itself
                 Debug.Log($"{"[EDITOR ONLY]".Bold()} Trying to load {originalScene} after Entrypoint...");
-                var loadLevelEvent = new LoadLevelEvent { LevelName = originalScene };
+                var loadLevelEvent = new LoadLevelEvent(originalScene);
                 Services.EventBus.Invoke(loadLevelEvent, "Editor Entrypoint Setup");
 #endif
             }
@@ -82,25 +58,7 @@
 
             // One approach to loading all our main settings.
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
-
-            // Demo of sub-system startup.
-            _audioSystem = new AudioSystem(settings.Audio);
-            _vfxSystem = new VfxSystem(settings.Vfx);
-            _gameplaySystem = new GameplaySystem(settings.Gameplay);
-            _uiSystem = new UISystem(settings.Ui);
-            _levelSystem = new LevelSystem(settings.Level);
-        }
-
-        private void Start()
-        {
-            // A demo to showcase how all the sub-systems might come together to manage the game.
-            _levelSystem.RunDemo();
-        }
-
-        private void OnDestroy()
-        {
-            // Shut down sub-systems in the reverse order they were created.
-            Dispose();
+            Debug.Log($"Loaded settings: {settings.name}");
         }
     }
 }

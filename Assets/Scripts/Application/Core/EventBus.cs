@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
+    using JetBrains.Annotations;
     using Rtf;
     using UnityEngine;
 
@@ -26,6 +27,7 @@
         /// <value>
         /// A value indicating the logging state of this EventBus.
         /// </value>
+        [PublicAPI]
         public bool VerboseLogging { get; set; } = true;
 
         /// <summary>
@@ -36,6 +38,7 @@
         /// <param name="priority">Order of execution for listeners: lower is early, higher is late.</param>
         /// <typeparam name="T">The type of event you are listening for.</typeparam>
         /// <returns>A handle for your listener: call dispose on it to stop listening for events.</returns>
+        [PublicAPI]
         public IDisposable AddListener<T>(Action<T> listener, string debugId, int priority)
         {
             Log($"{debugId.Format(_listenerFormat)} started listening to " +
@@ -58,6 +61,7 @@
         /// <param name="debugId">A human-readable name for the object calling this function.</param>
         /// <typeparam name="T">The type of event you are listening for.</typeparam>
         /// <returns>A handle for your listener: call dispose on it to stop listening for events.</returns>
+        [PublicAPI]
         public IDisposable AddListener<T>(Action<T> listener, string debugId)
         {
             return AddListener(listener, debugId, 0);
@@ -69,6 +73,7 @@
         /// <param name="data">The data to pass along with the event.</param>
         /// <param name="debugId">A human-readable name for the object calling this function.</param>
         /// <typeparam name="T">The type of data to send with the event.</typeparam>
+        [PublicAPI]
         public void Invoke<T>(T data, string debugId)
         {
             Type type = typeof(T);

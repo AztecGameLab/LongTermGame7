@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace Application.Core.Abstraction
+﻿namespace Application.Core.Abstraction
 {
+    using UnityEngine;
+
     [RequireComponent(typeof(CharacterController))]
     public class CharacterControllerWrapper : PhysicsComponent
     {

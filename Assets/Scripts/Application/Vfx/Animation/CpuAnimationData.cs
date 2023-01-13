@@ -6,7 +6,7 @@
     /// <summary>
     /// Data used for playing an CPU-based animation on a Mesh Renderer.
     /// </summary>
-    [CreateAssetMenu(menuName = ApplicationConstants.AssetMenuName + "/" + VfxConstants.AssetMenuName + "/CPU Animation Data")]
+    [CreateAssetMenu(menuName = ApplicationConstants.AssetMenuName + "/CPU Animation Data")]
     public class CpuAnimationData : ScriptableObject
     {
         [SerializeField]
@@ -20,11 +20,17 @@
         /// <summary>
         /// Gets the images that will be played, in order, for this animation.
         /// </summary>
+        /// <value>
+        /// The images that will be played, in order, for this animation.
+        /// </value>
         public IReadOnlyList<Texture2D> Frames => frames;
 
         /// <summary>
         /// Gets how many frames-per-second this animation should run at.
         /// </summary>
+        /// <value>
+        /// How many frames-per-second this animation should run at.
+        /// </value>
         public float FrameRate => frameRate;
     }
 }

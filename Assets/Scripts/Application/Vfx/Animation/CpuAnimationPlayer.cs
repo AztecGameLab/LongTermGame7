@@ -1,4 +1,4 @@
-namespace Application.Vfx.Animation
+﻿namespace Application.Vfx.Animation
 {
     using UnityEngine;
 
@@ -24,6 +24,9 @@ namespace Application.Vfx.Animation
         /// <summary>
         /// Gets or sets the currently playing animation.
         /// </summary>
+        /// <value>
+        /// The currently playing animation.
+        /// </value>
         public CpuAnimationData CurrentAnimation
         {
             get => _currentAnimation;
