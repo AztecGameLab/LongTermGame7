@@ -1,9 +1,10 @@
-﻿using System.Linq;
-using System.Text;
-using UnityEngine;
-
-namespace Application.Core.Rtf
+﻿namespace Application.Core.Rtf
 {
+    using System;
+    using System.Linq;
+    using System.Text;
+    using Color = UnityEngine.Color;
+
     /// <summary>
     /// Provides utility methods for quickly encoding rich-text information into strings,
     /// such as bold, italic, size, color, ect.
@@ -14,13 +15,13 @@ namespace Application.Core.Rtf
         /// An Rtf tag that makes a string bold.
         /// <seealso cref="RtfExtensions.Bold"/>
         /// </summary>
-        public static readonly IRichTextData Bold = default(BoldFormat);
+        public static readonly IRichTextData Bold = new BoldFormat();
 
         /// <summary>
         /// An Rtf tag that makes a string italic.
         /// </summary>
         /// <see cref="RtfExtensions.Italic"/>
-        public static readonly IRichTextData Italic = default(ItalicFormat);
+        public static readonly IRichTextData Italic = new ItalicFormat();
 
         /// <summary>
         /// Common error formatting.
@@ -64,11 +65,11 @@ namespace Application.Core.Rtf
         /// <seealso cref="RtfColorExtensions"/>
         /// <seealso cref="RtfExtensions.Color"/>
         /// </summary>
-        /// <param name="color">The Unity color struct to use.</param>
+        /// <param name="unityColor">The Unity color struct to use.</param>
         /// <returns>The generated tag data.</returns>
-        public static IRichTextData Color(Color color)
+        public static IRichTextData Color(Color unityColor)
         {
-            return color.Rtf();
+            return unityColor.Rtf();
         }
 
         /// <summary>
@@ -102,21 +103,51 @@ namespace Application.Core.Rtf
             return new CompositeFormat(rtfData);
         }
 
-        private readonly struct BoldFormat : IRichTextData
+        private readonly struct BoldFormat : IRichTextData, IEquatable<BoldFormat>
         {
             public string Opener => "<b>";
 
             public string Closer => "</b>";
+
+            public bool Equals(BoldFormat other)
+            {
+                return true;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is BoldFormat other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return 0;
+            }
         }
 
-        private readonly struct ItalicFormat : IRichTextData
+        private readonly struct ItalicFormat : IRichTextData, IEquatable<ItalicFormat>
         {
             public string Opener => "<i>";
 
             public string Closer => "</i>";
+
+            public bool Equals(ItalicFormat other)
+            {
+                return true;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is ItalicFormat other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return 0;
+            }
         }
 
-        private readonly struct ColorFormat : IRichTextData
+        private readonly struct ColorFormat : IRichTextData, IEquatable<ColorFormat>
         {
             private readonly string _hexColor;
 
@@ -128,9 +159,24 @@ namespace Application.Core.Rtf
             public string Opener => $"<color={_hexColor}>";
 
             public string Closer => "</color>";
+
+            public bool Equals(ColorFormat other)
+            {
+                return _hexColor == other._hexColor;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is ColorFormat other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return _hexColor != null ? _hexColor.GetHashCode() : 0;
+            }
         }
 
-        private readonly struct SizeFormat : IRichTextData
+        private readonly struct SizeFormat : IRichTextData, IEquatable<SizeFormat>
         {
             private readonly int _pixels;
 
@@ -142,9 +188,24 @@ namespace Application.Core.Rtf
             public string Opener => $"<size={_pixels}>";
 
             public string Closer => "</size>";
+
+            public bool Equals(SizeFormat other)
+            {
+                return _pixels == other._pixels;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is SizeFormat other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return _pixels;
+            }
         }
 
-        private readonly struct MaterialFormat : IRichTextData
+        private readonly struct MaterialFormat : IRichTextData, IEquatable<MaterialFormat>
         {
             private readonly ushort _index;
 
@@ -156,36 +217,69 @@ namespace Application.Core.Rtf
             public string Opener => $"<material={_index}>";
 
             public string Closer => "</material>";
+
+            public bool Equals(MaterialFormat other)
+            {
+                return _index == other._index;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is MaterialFormat other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return _index.GetHashCode();
+            }
         }
 
-        private readonly struct CompositeFormat : IRichTextData
+        private readonly struct CompositeFormat : IRichTextData, IEquatable<CompositeFormat>
         {
             public CompositeFormat(params IRichTextData[] data)
             {
                 // Aggregate openers.
-                var sbO = new StringBuilder();
+                var openerBuilder = new StringBuilder();
 
                 foreach (var textData in data)
                 {
-                    sbO.Append(textData.Opener);
+                    openerBuilder.Append(textData.Opener);
                 }
 
-                Opener = sbO.ToString();
+                Opener = openerBuilder.ToString();
 
                 // Aggregate closers.
-                var sbC = new StringBuilder();
+                var closerBuilder = new StringBuilder();
 
                 foreach (var textData in data.Reverse())
                 {
-                    sbC.Append(textData.Closer);
+                    closerBuilder.Append(textData.Closer);
                 }
 
-                Closer = sbC.ToString();
+                Closer = closerBuilder.ToString();
             }
 
             public string Opener { get; }
 
             public string Closer { get; }
+
+            public bool Equals(CompositeFormat other)
+            {
+                return Opener == other.Opener && Closer == other.Closer;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is CompositeFormat other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return ((Opener != null ? Opener.GetHashCode() : 0) * 397) ^ (Closer != null ? Closer.GetHashCode() : 0);
+                }
+            }
         }
     }
 }

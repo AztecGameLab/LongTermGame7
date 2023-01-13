@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace Application.Core.Rtf
+﻿namespace Application.Core.Rtf
 {
+    using UnityEngine;
+
     /// <summary>
     /// General-purpose extensions to make the Rtf application process more natural.
     /// </summary>
@@ -15,6 +15,11 @@ namespace Application.Core.Rtf
         /// <returns>The modified string.</returns>
         public static string Format(this string message, params IRichTextData[] rtfData)
         {
+            if (rtfData == null)
+            {
+                return message;
+            }
+
             foreach (var formatData in rtfData)
             {
                 message = formatData.Apply(message);
@@ -31,6 +36,11 @@ namespace Application.Core.Rtf
         /// <returns>The modified string.</returns>
         public static string Apply(this IRichTextData rtfData, string message)
         {
+            if (rtfData == null)
+            {
+                return message;
+            }
+
             return $"{rtfData.Opener}{message}{rtfData.Closer}";
         }
 
@@ -69,22 +79,22 @@ namespace Application.Core.Rtf
         /// Makes a string colored.
         /// </summary>
         /// <param name="message">The string to modify.</param>
-        /// <param name="color">The color to apply.</param>
+        /// <param name="targetColor">The color to apply.</param>
         /// <returns>The modified string.</returns>
-        public static string Color(this string message, Color color)
+        public static string Color(this string message, Color targetColor)
         {
-            return message.Format(color.Rtf());
+            return message.Format(targetColor.Rtf());
         }
 
         /// <summary>
         /// Makes a string a desired size.
         /// </summary>
         /// <param name="message">The string to modify.</param>
-        /// <param name="size">The desired font-size, in pixels.</param>
+        /// <param name="targetSize">The desired font-size, in pixels.</param>
         /// <returns>The modified string.</returns>
-        public static string Size(this string message, int size)
+        public static string Size(this string message, int targetSize)
         {
-            return message.Format(Core.Rtf.Rtf.Size(size));
+            return message.Format(Core.Rtf.Rtf.Size(targetSize));
         }
 
         /// <summary>

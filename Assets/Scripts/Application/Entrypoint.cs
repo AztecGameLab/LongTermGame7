@@ -1,10 +1,10 @@
-﻿using Application.Core.Rtf;
-
-namespace Application
+﻿namespace Application
 {
+    using System;
     using System.Threading.Tasks;
     using Audio;
     using Core;
+    using Core.Rtf;
     using Gameplay;
     using Level;
     using UI;
@@ -17,7 +17,7 @@ namespace Application
     /// It should persist for the entire application lifetime, only being destroyed when the application quits.
     /// It controls the startup, updating, and shutdown of the game sub-systems.
     /// </summary>
-    public class Entrypoint : MonoBehaviour
+    public class Entrypoint : MonoBehaviour, IDisposable
     {
         private GameplaySystem _gameplaySystem;
         private AudioSystem _audioSystem;
@@ -27,6 +27,18 @@ namespace Application
 
         private static bool Initialized { get; set; }
 
+        /// <summary>
+        /// Cleans up systems that were created in the entrypoint.
+        /// </summary>
+        public void Dispose()
+        {
+            _gameplaySystem?.Dispose();
+            _audioSystem?.Dispose();
+            _levelSystem?.Dispose();
+            _vfxSystem?.Dispose();
+            _uiSystem?.Dispose();
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStatics()
         {
@@ -34,7 +46,7 @@ namespace Application
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static async Task CheckForAwake()
+        private static async Task CheckForAwakeAsync()
         {
             if (!Initialized)
             {
@@ -88,11 +100,7 @@ namespace Application
         private void OnDestroy()
         {
             // Shut down sub-systems in the reverse order they were created.
-            _levelSystem.Dispose();
-            _uiSystem.Dispose();
-            _gameplaySystem.Dispose();
-            _vfxSystem.Dispose();
-            _audioSystem.Dispose();
+            Dispose();
         }
     }
 }

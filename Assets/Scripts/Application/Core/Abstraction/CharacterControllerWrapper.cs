@@ -21,9 +21,11 @@ namespace Application.Core.Abstraction
 
             if (Mathf.Round(_character.velocity.sqrMagnitude) < Mathf.Round(Velocity.sqrMagnitude))
                 Velocity = _character.velocity;
-        
-            if (_isGrounded == false)
+
+            if (!_isGrounded)
+            {
                 _airTime += Time.deltaTime;
+            }
 
             else _airTime = 0;
         }

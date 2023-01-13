@@ -1,10 +1,10 @@
-﻿using Application.Core.Rtf;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Globalization;
+    using Rtf;
     using UnityEngine;
 
     /// <summary>
@@ -23,6 +23,9 @@ namespace Application.Core
         /// Gets or sets a value indicating whether debugging messages should be printed to the console when
         /// events are fired.
         /// </summary>
+        /// <value>
+        /// A value indicating the logging state of this EventBus.
+        /// </value>
         public bool VerboseLogging { get; set; } = true;
 
         /// <summary>
@@ -33,10 +36,10 @@ namespace Application.Core
         /// <param name="priority">Order of execution for listeners: lower is early, higher is late.</param>
         /// <typeparam name="T">The type of event you are listening for.</typeparam>
         /// <returns>A handle for your listener: call dispose on it to stop listening for events.</returns>
-        public IDisposable AddListener<T>(Action<T> listener, string debugId, int priority = 0)
+        public IDisposable AddListener<T>(Action<T> listener, string debugId, int priority)
         {
             Log($"{debugId.Format(_listenerFormat)} started listening to " +
-                      $"{typeof(T).Name.Format(_eventFormat)} with priority {priority.ToString().Format(_eventFormat)}.");
+                      $"{typeof(T).Name.Format(_eventFormat)} with priority {priority.ToString(CultureInfo.InvariantCulture).Format(_eventFormat)}.");
 
             Type type = typeof(T);
 
@@ -46,6 +49,18 @@ namespace Application.Core
             }
 
             return _listenerDictionary[type].Add(listener, priority, debugId);
+        }
+
+        /// <summary>
+        /// Registers a new listener for an event of type T.
+        /// </summary>
+        /// <param name="listener">The action to take when the event occurs.</param>
+        /// <param name="debugId">A human-readable name for the object calling this function.</param>
+        /// <typeparam name="T">The type of event you are listening for.</typeparam>
+        /// <returns>A handle for your listener: call dispose on it to stop listening for events.</returns>
+        public IDisposable AddListener<T>(Action<T> listener, string debugId)
+        {
+            return AddListener(listener, debugId, 0);
         }
 
         /// <summary>
@@ -127,7 +142,7 @@ namespace Application.Core
                 Count++;
 
                 UpdateDebugString();
-                return new UnregisterDisposable { Data = data, Priority = priority, ListenerId = debugId, Parent = this };
+                return new UnregisterDisposable(this, data, priority, debugId);
             }
 
             public override string ToString()
@@ -141,14 +156,24 @@ namespace Application.Core
             }
 
             // Unregisters itself when disposed. Struct to avoid allocations.
-            private struct UnregisterDisposable : IDisposable
+            private struct UnregisterDisposable : IDisposable, IEquatable<UnregisterDisposable>
             {
-                public SortedDataStore Parent;
-                public object Data;
-                public int Priority;
-                public string ListenerId;
+                private readonly SortedDataStore _parent;
+                private readonly object _data;
+                private readonly int _priority;
+                private readonly string _listenerId;
 
                 private bool _valid; // ensure that we can only be disposed once
+
+                public UnregisterDisposable(SortedDataStore parent, object data, int priority, string listenerId)
+                {
+                    _parent = parent;
+                    _data = data;
+                    _priority = priority;
+                    _listenerId = listenerId;
+
+                    _valid = true;
+                }
 
                 public void Dispose()
                 {
@@ -159,10 +184,39 @@ namespace Application.Core
 
                     _valid = false;
 
-                    Parent._data[Priority].Remove(Data);
-                    Parent._dataIds.Remove(ListenerId);
-                    Parent.Count--;
-                    Parent.UpdateDebugString();
+                    _parent._data[_priority].Remove(_data);
+                    _parent._dataIds.Remove(_listenerId);
+                    _parent.Count--;
+                    _parent.UpdateDebugString();
+                }
+
+                public bool Equals(UnregisterDisposable other)
+                {
+                    if (!Equals(_parent, other._parent))
+                    {
+                        return false;
+                    }
+
+                    return Equals(_data, other._data)
+                           && _priority == other._priority
+                           && _listenerId == other._listenerId;
+                }
+
+                public override bool Equals(object obj)
+                {
+                    return obj is UnregisterDisposable other && Equals(other);
+                }
+
+                public override int GetHashCode()
+                {
+                    unchecked
+                    {
+                        var hashCode = _parent != null ? _parent.GetHashCode() : 0;
+                        hashCode = (hashCode * 397) ^ (_data != null ? _data.GetHashCode() : 0);
+                        hashCode = (hashCode * 397) ^ _priority;
+                        hashCode = (hashCode * 397) ^ (_listenerId != null ? _listenerId.GetHashCode() : 0);
+                        return hashCode;
+                    }
                 }
             }
         }

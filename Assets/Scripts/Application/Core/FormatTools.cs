@@ -17,7 +17,7 @@
         /// <returns>A readable string version of the input data.</returns>
         public static string PrettyList<T>(IList<T> list)
         {
-            if (list.Count <= 0)
+            if (list == null || list.Count <= 0)
             {
                 return "None";
             }
