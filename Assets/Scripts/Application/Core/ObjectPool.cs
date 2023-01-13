@@ -7,7 +7,7 @@
     /// <summary>
     /// Generic object pool implementation.
     /// </summary>
-    /// <typeparam name="T">Type of the object pool.</typeparam>
+    /// <typeparam name="T">Type of the data stored in this pool.</typeparam>
     public class ObjectPool<T> : IDisposable
         where T : class
     {

@@ -2,12 +2,16 @@
 {
     using UnityEngine;
 
+    /// <summary>
+    /// Wraps the Unity CharacterController as a physics object.
+    /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public class CharacterControllerWrapper : PhysicsComponent
     {
         private CharacterController _character;
-        private float _airTime;
-        private bool _isGrounded;
+
+        /// <inheritdoc/>
+        public override Vector3 Velocity { get; set; }
 
         private void Awake()
         {
@@ -17,21 +21,11 @@
         private void Update()
         {
             _character.Move(Velocity * Time.deltaTime);
-            _isGrounded = _character.isGrounded;
 
             if (Mathf.Round(_character.velocity.sqrMagnitude) < Mathf.Round(Velocity.sqrMagnitude))
-                Velocity = _character.velocity;
-
-            if (!_isGrounded)
             {
-                _airTime += Time.deltaTime;
+                Velocity = _character.velocity;
             }
-
-            else _airTime = 0;
         }
-
-        public override Vector3 Velocity { get; set; }
-        public override bool IsGrounded => _isGrounded;
-        public override float AirTime => _airTime;
     }
 }

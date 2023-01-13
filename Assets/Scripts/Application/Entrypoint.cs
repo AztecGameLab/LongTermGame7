@@ -49,7 +49,7 @@
         {
             Initialized = true;
 
-            // Basic implementation of scene persistence. Could move to a dedicated persistent scene, but that is hard.
+            // Basic implementation of scene persistence.
             DontDestroyOnLoad(this);
 
             // Demo of how we could implement cross-cutting concerns.

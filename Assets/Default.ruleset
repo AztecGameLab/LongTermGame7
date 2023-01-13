@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="New Rule Set" Description=" " ToolsVersion="17.0">
   <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
-    <Rule Id="S100" Action="None" />
     <Rule Id="S103" Action="Warning" />
     <Rule Id="S104" Action="Warning" />
     <Rule Id="S105" Action="Warning" />
@@ -30,7 +29,6 @@
     <Rule Id="S134" Action="Warning" />
     <Rule Id="S138" Action="Warning" />
     <Rule Id="S1449" Action="Warning" />
-    <Rule Id="S1451" Action="None" />
     <Rule Id="S1479" Action="Warning" />
     <Rule Id="S1541" Action="Warning" />
     <Rule Id="S1659" Action="Warning" />
@@ -83,6 +81,7 @@
     <Rule Id="S3874" Action="Warning" />
     <Rule Id="S3876" Action="Warning" />
     <Rule Id="S3880" Action="Warning" />
+    <Rule Id="S3881" Action="None" />
     <Rule Id="S3898" Action="Warning" />
     <Rule Id="S3900" Action="Warning" />
     <Rule Id="S3902" Action="Warning" />
@@ -118,10 +117,6 @@
     <Rule Id="S4049" Action="Warning" />
     <Rule Id="S4050" Action="Warning" />
     <Rule Id="S4052" Action="Warning" />
-    <Rule Id="S4055" Action="None" />
-    <Rule Id="S3908" Action="None" />
-    <Rule Id="S3906" Action="None" />
-    <Rule Id="S2360" Action="None" />
     <Rule Id="S4056" Action="Warning" />
     <Rule Id="S4057" Action="Warning" />
     <Rule Id="S4058" Action="Warning" />
@@ -143,11 +138,12 @@
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1101" Action="None" />
     <Rule Id="SA1129" Action="None" />
-    <Rule Id="SA1633" Action="None" />
+    <Rule Id="SA1135" Action="None" />
     <Rule Id="SA1305" Action="Warning" />
     <Rule Id="SA1309" Action="None" />
     <Rule Id="SA1412" Action="Warning" />
     <Rule Id="SA1609" Action="Warning" />
+    <Rule Id="SA1633" Action="None" />
     <Rule Id="SA1639" Action="Warning" />
     <Rule Id="SX1101" Action="Warning" />
     <Rule Id="SX1309S" Action="Warning" />

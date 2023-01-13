@@ -1,35 +1,26 @@
-﻿using System;
-using UnityEngine;
-
-namespace Application.Core.Abstraction
+﻿namespace Application.Core.Abstraction
 {
+    using UnityEngine;
+
+    /// <summary>
+    /// Wraps the Unity Rigidbody as a physics object.
+    /// </summary>
     [RequireComponent(typeof(Rigidbody))]
     public class RigidbodyWrapper : PhysicsComponent
     {
         private Rigidbody _rigidbody;
-        private float _airTime;
+        private bool _isGrounded;
 
-        private void Awake()
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-        }
-
-        private void FixedUpdate()
-        {
-            if (!IsGrounded)
-                _airTime += Time.deltaTime;
-
-            else _airTime = 0;
-        }
-
+        /// <inheritdoc/>
         public override Vector3 Velocity
         {
             get => _rigidbody.velocity;
             set => _rigidbody.velocity = value;
         }
 
-        // todo: implement IsGrounded.
-        public override bool IsGrounded => throw new NotImplementedException();
-        public override float AirTime => _airTime;
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+        }
     }
 }
