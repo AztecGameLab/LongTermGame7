@@ -1,5 +1,7 @@
 ﻿namespace Application.Core
 {
+    using UnityEngine;
+
     /// <summary>
     /// A global access point for cross-cutting concerns.
     /// </summary>
@@ -12,5 +14,12 @@
         /// The global EventBus.
         /// </value>
         public static EventBus EventBus { get; set; }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Init()
+        {
+            // Resets static data, so fast play mode works without carried-over data..
+            EventBus = null;
+        }
     }
 }

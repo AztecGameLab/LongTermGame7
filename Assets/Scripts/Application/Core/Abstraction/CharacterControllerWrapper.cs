@@ -29,7 +29,7 @@
 
             else _airTime = 0;
         }
-    
+
         public override Vector3 Velocity { get; set; }
         public override bool IsGrounded => _isGrounded;
         public override float AirTime => _airTime;
