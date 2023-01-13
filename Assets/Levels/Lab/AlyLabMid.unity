@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 51406882}
   - component: {fileID: 51406883}
   m_Layer: 0
-  m_Name: Brush (8)
+  m_Name: PlayerSize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4467,23 +4467,6 @@ MonoBehaviour:
   Version: 1
   owner: {fileID: 1739058892}
   helperSurfaces:
-  - SharedMesh: {fileID: 2121051167}
-    RenderSurfaceType: 2
-    HasGeneratedNormals: 0
-    MeshDescription:
-      meshQuery:
-        layers: 8388608
-        maskAndChannels: 8388608
-      surfaceParameter: 0
-      meshQueryIndex: 4
-      subMeshQueryIndex: 0
-      geometryHashValue: 4069093463248316130
-      surfaceHashValue: -1828196824745834751
-      vertexCount: 232
-      indexCount: 348
-    GameObject: {fileID: 0}
-    MeshFilter: {fileID: 0}
-    MeshRenderer: {fileID: 0}
   - SharedMesh: {fileID: 1215199628}
     RenderSurfaceType: 4
     HasGeneratedNormals: 0
@@ -4532,6 +4515,23 @@ MonoBehaviour:
       surfaceHashValue: -7946856979451079389
       vertexCount: 734
       indexCount: 1188
+    GameObject: {fileID: 0}
+    MeshFilter: {fileID: 0}
+    MeshRenderer: {fileID: 0}
+  - SharedMesh: {fileID: 2121051167}
+    RenderSurfaceType: 2
+    HasGeneratedNormals: 0
+    MeshDescription:
+      meshQuery:
+        layers: 8388608
+        maskAndChannels: 8388608
+      surfaceParameter: 0
+      meshQueryIndex: 4
+      subMeshQueryIndex: 0
+      geometryHashValue: 4069093463248316130
+      surfaceHashValue: -1828196824745834751
+      vertexCount: 232
+      indexCount: 348
     GameObject: {fileID: 0}
     MeshFilter: {fileID: 0}
     MeshRenderer: {fileID: 0}
@@ -5784,7 +5784,7 @@ GameObject:
   - component: {fileID: 844187764}
   - component: {fileID: 844187765}
   m_Layer: 0
-  m_Name: Brush (9)
+  m_Name: PlayerSize (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6304,7 +6304,7 @@ GameObject:
   - component: {fileID: 934509141}
   - component: {fileID: 934509142}
   m_Layer: 0
-  m_Name: Brush (10)
+  m_Name: Doorway (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7248,7 +7248,7 @@ GameObject:
   - component: {fileID: 1119857468}
   - component: {fileID: 1119857469}
   m_Layer: 0
-  m_Name: Brush (10)
+  m_Name: PlayerSize (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12075,23 +12075,6 @@ MonoBehaviour:
     GameObject: {fileID: 0}
     MeshFilter: {fileID: 0}
     MeshRenderer: {fileID: 0}
-  - SharedMesh: {fileID: 259124613}
-    RenderSurfaceType: 1
-    HasGeneratedNormals: 0
-    MeshDescription:
-      meshQuery:
-        layers: 0
-        maskAndChannels: 1
-      surfaceParameter: 0
-      meshQueryIndex: 3
-      subMeshQueryIndex: 0
-      geometryHashValue: -8123382061418808690
-      surfaceHashValue: 5640309175524040129
-      vertexCount: 8
-      indexCount: 12
-    GameObject: {fileID: 0}
-    MeshFilter: {fileID: 0}
-    MeshRenderer: {fileID: 0}
   - SharedMesh: {fileID: 282304635}
     RenderSurfaceType: 4
     HasGeneratedNormals: 0
@@ -12106,6 +12089,23 @@ MonoBehaviour:
       surfaceHashValue: 2312891464957534065
       vertexCount: 178
       indexCount: 318
+    GameObject: {fileID: 0}
+    MeshFilter: {fileID: 0}
+    MeshRenderer: {fileID: 0}
+  - SharedMesh: {fileID: 259124613}
+    RenderSurfaceType: 1
+    HasGeneratedNormals: 0
+    MeshDescription:
+      meshQuery:
+        layers: 0
+        maskAndChannels: 1
+      surfaceParameter: 0
+      meshQueryIndex: 3
+      subMeshQueryIndex: 0
+      geometryHashValue: -8123382061418808690
+      surfaceHashValue: 5640309175524040129
+      vertexCount: 8
+      indexCount: 12
     GameObject: {fileID: 0}
     MeshFilter: {fileID: 0}
     MeshRenderer: {fileID: 0}
@@ -12171,7 +12171,7 @@ GameObject:
   - component: {fileID: 1818887557}
   - component: {fileID: 1818887558}
   m_Layer: 0
-  m_Name: Brushes (1)
+  m_Name: Stairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13472,7 +13472,7 @@ GameObject:
   - component: {fileID: 2077557737}
   - component: {fileID: 2077557738}
   m_Layer: 0
-  m_Name: Brush (9)
+  m_Name: Doorway (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13732,7 +13732,7 @@ GameObject:
   - component: {fileID: 2103709715}
   - component: {fileID: 2103709716}
   m_Layer: 0
-  m_Name: Brush (8)
+  m_Name: Doorway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14156,7 +14156,7 @@ GameObject:
   - component: {fileID: 2139636170}
   - component: {fileID: 2139636171}
   m_Layer: 0
-  m_Name: Brush (11)
+  m_Name: Doorway (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
