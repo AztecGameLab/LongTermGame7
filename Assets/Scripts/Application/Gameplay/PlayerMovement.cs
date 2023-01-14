@@ -1,74 +1,109 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
-
-[RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviour
+﻿namespace Application.Gameplay
 {
-    [SerializeField] private float _gravity = -9.81f;
-    [SerializeField] private float _maxSpeed = 5;
-    [SerializeField] private float _accelerationSmoothTime = 0.1f; //Acceleration & Deceleration speed
-    [SerializeField] private float _reverseMultiplier = 1; //Used to cut _accelerationSmoothTime to allow more snappy movement when changing direction
+    using UnityEngine;
+    using UnityEngine.InputSystem;
 
-    private CharacterController _controller;
-    private Vector2 _playerInput;
-    private Vector2 _currentDirection;
-    private Vector2 _currentVelocity;
-    private Vector3 _movementDirection;
-    private bool _didReverse;
-
-    private void Start()
+    /// <summary>
+    /// Applies movement to the player.
+    /// </summary>
+    [RequireComponent(typeof(CharacterController))]
+    public class PlayerMovement : MonoBehaviour
     {
-        _controller = GetComponent<CharacterController>();
-    }
+        [SerializeField]
+        private float gravity = -9.81f;
 
-    private void Update()
-    {
-        ApplyGravity();
-        ApplyAcceleration();
-        CheckIfReverse();
-        MovePlayer();
-    }
+        [SerializeField]
+        private float maxSpeed = 5;
 
-    /* OnMove() is automatically called by PlayerInput component with value change */
-    public void OnMove(InputValue value)
-    {
-        _playerInput = value.Get<Vector2>();  
-    }
+        [SerializeField]
+        private float accelerationSmoothTime = 0.1f; // Acceleration & Deceleration speed
 
-    private void ApplyGravity()
-    {
-        if (_controller.isGrounded && _movementDirection.y < 0f)
-            _movementDirection.y = 0f;
+        [SerializeField]
+        private float reverseMultiplier = 1; // Used to cut _accelerationSmoothTime to allow more snappy movement when changing direction
 
-        _movementDirection.y += _gravity * Time.deltaTime;
-    }
+        private CharacterController _controller;
+        private Vector2 _playerInput;
+        private Vector2 _currentDirection;
+        private Vector2 _currentVelocity;
+        private Vector3 _movementDirection;
+        private bool _didReverse;
 
-    private void ApplyAcceleration()
-    {
-        if(!_didReverse)
-            _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, _accelerationSmoothTime);
-        else
-            _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, _accelerationSmoothTime / _reverseMultiplier);
+        private void Start()
+        {
+            _controller = GetComponent<CharacterController>();
+        }
 
-        _movementDirection = new Vector3(_currentDirection.x, _movementDirection.y, _currentDirection.y);
-    }
+        private void Update()
+        {
+            ApplyGravity();
+            ApplyAcceleration();
+            CheckIfReverse();
+            MovePlayer();
+        }
 
-    private void CheckIfReverse()
-    {
-        if (_currentDirection.x > 0f && _playerInput.x < 0f)
-            _didReverse = true;
-        else if(_currentDirection.x < 0f && _playerInput.x > 0f)
-            _didReverse = true;
-        else if(_currentDirection.y > 0f && _playerInput.y < 0f)
-            _didReverse = true;
-        else if(_currentDirection.y < 0f && _playerInput.y > 0f)
-            _didReverse = true;
-        else
-            _didReverse = false;
-    }
+        /// <summary>
+        /// Automatically called from PlayerInput component.
+        /// </summary>
+        /// <param name="value">The input value.</param>
+        public void OnMove(InputValue value)
+        {
+            if (value != null)
+            {
+                _playerInput = value.Get<Vector2>();
+            }
+        }
 
-    private void MovePlayer()
-    {
-        _controller.Move(_movementDirection * (_maxSpeed * Time.deltaTime));
+        private void ApplyGravity()
+        {
+            if (_controller.isGrounded && _movementDirection.y < 0f)
+            {
+                _movementDirection.y = 0f;
+            }
+
+            _movementDirection.y += gravity * Time.deltaTime;
+        }
+
+        private void ApplyAcceleration()
+        {
+            if (!_didReverse)
+            {
+                _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime);
+            }
+            else
+            {
+                _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
+            }
+
+            _movementDirection = new Vector3(_currentDirection.x, _movementDirection.y, _currentDirection.y);
+        }
+
+        private void CheckIfReverse()
+        {
+            if (_currentDirection.x > 0f && _playerInput.x < 0f)
+            {
+                _didReverse = true;
+            }
+            else if (_currentDirection.x < 0f && _playerInput.x > 0f)
+            {
+                _didReverse = true;
+            }
+            else if (_currentDirection.y > 0f && _playerInput.y < 0f)
+            {
+                _didReverse = true;
+            }
+            else if (_currentDirection.y < 0f && _playerInput.y > 0f)
+            {
+                _didReverse = true;
+            }
+            else
+            {
+                _didReverse = false;
+            }
+        }
+
+        private void MovePlayer()
+        {
+            _controller.Move(_movementDirection * (maxSpeed * Time.deltaTime));
+        }
     }
 }
