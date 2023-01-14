@@ -161,7 +161,7 @@
             }
 
             // Unregisters itself when disposed. Struct to avoid allocations.
-            private struct UnregisterDisposable : IDisposable, IEquatable<UnregisterDisposable>
+            private struct UnregisterDisposable : IDisposable
             {
                 private readonly SortedDataStore _parent;
                 private readonly object _data;
@@ -193,35 +193,6 @@
                     _parent._dataIds.Remove(_listenerId);
                     _parent.Count--;
                     _parent.UpdateDebugString();
-                }
-
-                public bool Equals(UnregisterDisposable other)
-                {
-                    if (!Equals(_parent, other._parent))
-                    {
-                        return false;
-                    }
-
-                    return Equals(_data, other._data)
-                           && _priority == other._priority
-                           && _listenerId == other._listenerId;
-                }
-
-                public override bool Equals(object obj)
-                {
-                    return obj is UnregisterDisposable other && Equals(other);
-                }
-
-                public override int GetHashCode()
-                {
-                    unchecked
-                    {
-                        var hashCode = _parent != null ? _parent.GetHashCode() : 0;
-                        hashCode = (hashCode * 397) ^ (_data != null ? _data.GetHashCode() : 0);
-                        hashCode = (hashCode * 397) ^ _priority;
-                        hashCode = (hashCode * 397) ^ (_listenerId != null ? _listenerId.GetHashCode() : 0);
-                        return hashCode;
-                    }
                 }
             }
         }
