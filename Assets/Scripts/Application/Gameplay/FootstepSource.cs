@@ -1,62 +1,59 @@
-using System;
-using Application.Core;
-using UnityEngine;
-
-public struct StepEvent
+﻿namespace Application.Gameplay
 {
+    using Core;
+    using Core.Abstraction;
+    using Core.Events;
+    using UnityEngine;
 
-}
-
-public class FootstepSource : MonoBehaviour
-{
-    [SerializeField] private float stepDistance = 1;
-    
-    private PhysicsComponent _physics;
-    private float _elapsedDistance;                         //distance from one frame  of a step to another
-    private Vector3 frameBefore_elapsedDistanced = new Vector3(0,0,0);   //initial point to measure distance
-
-    private IDisposable _disposable;
-
-    private void Start()
+    /// <summary>
+    /// Tracks the distance walked and periodically emits footstep events.
+    /// </summary>
+    public class FootstepSource : MonoBehaviour
     {
-        _physics = GetComponent<PhysicsComponent>();
-        _disposable = Services.EventBus.AddListener<StepEvent>(stepEvent, "Testing Step Listener");
-    }
+        [SerializeField]
+        [Tooltip("The distance between steps.")]
+        private float stepDistance = 1;
 
-    private void OnDestroy()
-    {
-        _disposable.Dispose();
-    }
+        [SerializeField]
+        private bool showDebug;
 
-    private void Update()
-    {
-        // if (_physics.IsGrounded)
-        // {
-            _elapsedDistance += Vector3.Distance(transform.position, frameBefore_elapsedDistanced);
-            // Debug.DrawLine(Vector3.zero, transform.position, Color.red, 0);
-            // Update elapsedDistance with how far we have moved this frame.
+        private GroundCheck _groundCheck;
 
-            if (_elapsedDistance >= stepDistance)  
-            {  // Compare elapsedDistance to our step distance to see if we walked far enough
+        // distance walked since last step.
+        private float _elapsedDistance;
+        private Vector3 _previousPosition = new Vector3(0, 0, 0);
 
-                Services.EventBus.Invoke(new StepEvent(), "Demo Step");
-                // If we did, fire the event and reset elapsedDistance to 0
-                _elapsedDistance = 0;
+        private void Start()
+        {
+            _groundCheck = GetComponent<GroundCheck>();
+        }
+
+        private void Update()
+        {
+            if (_groundCheck.IsGrounded)
+            {
+                // Update elapsedDistance with how far we have moved this frame.
+                _elapsedDistance += Vector3.Distance(transform.position, _previousPosition);
+
+                // Compare elapsedDistance to our step distance to see if we walked far enough
+                if (_elapsedDistance >= stepDistance)
+                {
+                    Services.EventBus.Invoke(new StepEvent(), "Demo Step");
+
+                    // If we did, fire the event and reset elapsedDistance to 0
+                    _elapsedDistance = 0;
+                }
+
+                _previousPosition = transform.position;
             }
+        }
 
-            frameBefore_elapsedDistanced = transform.position;
-        // }
-    }
-
-    // private void OnGUI()
-    // {
-    //    GUILayout.Label($"elapsedDistance: {_elapsedDistance}");
-    //    GUILayout.Label($"isGrounded: {_physics.IsGrounded}");
-    //    GUILayout.Label($"isGrounded: {Vector3.Distance(transform.position, frameBefore_elapsedDistanced)}");
-    // }
-
-    private void stepEvent(StepEvent stepEvent)
-    {
-        Debug.Log("Footstep sound!");      //Plug in footstep sound
+        private void OnGUI()
+        {
+            if (showDebug)
+            {
+                GUILayout.Label($"elapsedDistance: {_elapsedDistance}");
+            }
+        }
     }
 }
