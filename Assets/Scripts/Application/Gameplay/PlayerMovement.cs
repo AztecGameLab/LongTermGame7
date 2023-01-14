@@ -28,6 +28,18 @@
         private Vector3 _movementDirection;
         private bool _didReverse;
 
+        /// <summary>
+        /// Automatically called from PlayerInput component.
+        /// </summary>
+        /// <param name="value">The input value.</param>
+        public void OnMove(InputValue value)
+        {
+            if (value != null)
+            {
+                _playerInput = value.Get<Vector2>();
+            }
+        }
+
         private void Start()
         {
             _controller = GetComponent<CharacterController>();
@@ -39,18 +51,6 @@
             ApplyAcceleration();
             CheckIfReverse();
             MovePlayer();
-        }
-
-        /// <summary>
-        /// Automatically called from PlayerInput component.
-        /// </summary>
-        /// <param name="value">The input value.</param>
-        public void OnMove(InputValue value)
-        {
-            if (value != null)
-            {
-                _playerInput = value.Get<Vector2>();
-            }
         }
 
         private void ApplyGravity()
@@ -65,14 +65,9 @@
 
         private void ApplyAcceleration()
         {
-            if (!_didReverse)
-            {
-                _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime);
-            }
-            else
-            {
-                _currentDirection = Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
-            }
+            _currentDirection = !_didReverse
+                ? Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime)
+                : Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
 
             _movementDirection = new Vector3(_currentDirection.x, _movementDirection.y, _currentDirection.y);
         }
