@@ -451,13 +451,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1213972800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0f1e74c9d8e7ab4291501df48c0929d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8778e716ac2b4ac8a1e1face4ea9c9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _gravity: -9.81
   _maxSpeed: 5
-  _accelerationSmoothTime: 0.2
-  _reverseMultiplier: 1.3
+  _accelerationSmoothTime: 0.1
+  _reverseMultiplier: 1
 --- !u!143 &1213972803
 CharacterController:
   m_ObjectHideFlags: 0
