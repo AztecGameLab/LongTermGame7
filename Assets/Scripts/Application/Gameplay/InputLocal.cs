@@ -1,12 +1,21 @@
-﻿using UnityEngine;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
+    using JetBrains.Annotations;
+    using UnityEngine;
+
+    /// <summary>
+    /// Input data associated with this object.
+    /// </summary>
     public class InputLocal : MonoBehaviour
     {
+        /// <summary>
+        /// Gets the current direction the Player is trying to move.
+        /// </summary>
+        /// <value>
+        /// The current direction the Player is trying to move.
+        /// </value>
+        [PublicAPI]
         public Vector2 InputDirection { get; private set; }
-
-        // and so on, with different input data.
 
         private void Update()
         {

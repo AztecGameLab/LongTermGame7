@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
+    using System.Collections.Generic;
+    using System.Text;
+    using UnityEngine;
+
     /// <summary>
     /// Utilities for formatting data into a human-readable form.
     /// </summary>
@@ -16,22 +17,27 @@ namespace Application.Core
         /// <returns>A readable string version of the input data.</returns>
         public static string PrettyList<T>(IList<T> list)
         {
-            if (list.Count <= 0)
+            if (list == null || list.Count <= 0)
+            {
                 return "None";
-            
-            string result = "";
-            
-            for (int i = 0; i < list.Count - 1; i++)
-                result += $"{list[i].ToString()}, ";
+            }
 
-            return result + list[list.Count - 1];
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                result.Append($"{list[i].ToString()}, ");
+            }
+
+            result.Append(list[list.Count - 1]);
+            return result.ToString();
         }
 
         /// <summary>
         /// Determines whether you need an S or not when describing a list.
         /// </summary>
         /// <param name="source">The original string.</param>
-        /// <param name="count">How many items are considered</param>
+        /// <param name="count">How many items are considered.</param>
         /// <returns>The source, with possibly an "s" appended.</returns>
         public static string Plural(this string source, int count)
         {
