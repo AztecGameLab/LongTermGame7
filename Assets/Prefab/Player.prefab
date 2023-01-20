@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4553517088579073634}
   - component: {fileID: 4553517088579073639}
   - component: {fileID: 4553517088579073632}
-  - component: {fileID: 4553517088579073633}
   - component: {fileID: 4553517088579073638}
+  - component: {fileID: 2185250829772405042}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4553517088579073635}
-  m_LocalRotation: {x: -0, y: 0.7072281, z: -0, w: 0.7069855}
+  m_LocalRotation: {x: 0, y: 0.70723015, z: 0, w: 0.7069834}
   m_LocalPosition: {x: -12.48387, y: -3.5, z: -13.582798}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -65,22 +65,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f57dfb049afd624a83a4d75d35024a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4553517088579073633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4553517088579073635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0f1e74c9d8e7ab4291501df48c0929d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gravity: -9.81
-  _maxSpeed: 5
-  _accelerationSmoothTime: 0.1
-  _reverseMultiplier: 1
 --- !u!114 &4553517088579073638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +95,22 @@ MonoBehaviour:
   m_DefaultActionMap: Land
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &2185250829772405042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4553517088579073635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8778e716ac2b4ac8a1e1face4ea9c9ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: -9.81
+  maxSpeed: 4
+  accelerationSmoothTime: 0.1
+  reverseMultiplier: 1
 --- !u!1 &4553517088610782881
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 4553517088610782880}
   - component: {fileID: 4553517088610782886}
   - component: {fileID: 4553517088610782887}
+  - component: {fileID: 4200848581067276792}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -138,7 +139,7 @@ Transform:
   m_GameObject: {fileID: 4553517088610782881}
   m_LocalRotation: {x: 0.09229593, y: -0.7010574, z: 0.09229593, w: 0.7010574}
   m_LocalPosition: {x: 0, y: -0.173, z: 0}
-  m_LocalScale: {x: 1, y: 1.8, z: 1}
+  m_LocalScale: {x: 1.2848911, y: 1.7131883, z: 0.85659415}
   m_Children: []
   m_Father: {fileID: 4553517088579073634}
   m_RootOrder: 0
@@ -170,7 +171,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f12dab003d94967499edd58aa0de2472, type: 2}
+  - {fileID: 2100000, guid: 1f59cc87b154f8544bc389d807af6b99, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,3 +193,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4200848581067276792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4553517088610782881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad785549a9de3845a1a26c7ff05c010, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4553517088610782887}
+  idleMaterials:
+    up: {fileID: 2100000, guid: cda657dd50da69945a62d8144c321393, type: 2}
+    down: {fileID: 2100000, guid: 1f59cc87b154f8544bc389d807af6b99, type: 2}
+    left: {fileID: 2100000, guid: a4d62152b55dc024cb4491a7755c5d42, type: 2}
+    right: {fileID: 2100000, guid: fec89b413f1d35147a7b40e3c3b27661, type: 2}
+  runMaterials:
+    up: {fileID: 2100000, guid: f20b893fafb45ae49bc72b79485b28d4, type: 2}
+    down: {fileID: 2100000, guid: 5c28b5061b596b44d98a8e1e309d79e6, type: 2}
+    left: {fileID: 2100000, guid: 0bb77d3cd67aad546a292a28a38047d4, type: 2}
+    right: {fileID: 2100000, guid: 0a21eb57dcd3f5e4b97a9daae5cac3a7, type: 2}
