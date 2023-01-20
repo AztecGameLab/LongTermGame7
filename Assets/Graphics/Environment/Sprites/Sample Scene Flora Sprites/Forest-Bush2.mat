@@ -21,18 +21,21 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Forest-Bush2
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 75e1909a7dd88594493fe843eea57ff4, type: 3}
   m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TransparentCutout
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_6ee057018ea64b479592901994535831:
+        m_Texture: {fileID: 2800000, guid: e4d82c12371bd3945a59851da82e33ff, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: e4d82c12371bd3945a59851da82e33ff, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -90,6 +93,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_0f47676ed33741a68766d7c469a90918: 2
+    - Vector1_3f476a49dc6b43fe9e8e9f9ab23856eb: 5
+    - Vector1_64e78f2307b347b2829973e9053f7cde: 0.25
+    - Vector1_e86e472a43b041ec96ad07b6ffec2bf9: 0.45
     - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
