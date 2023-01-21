@@ -7,9 +7,6 @@
             "m_Id": "6ee057018ea64b479592901994535831"
         },
         {
-            "m_Id": "e86e472a43b041ec96ad07b6ffec2bf9"
-        },
-        {
             "m_Id": "e87e60c79f4843568c06a6efde38b333"
         },
         {
@@ -22,10 +19,13 @@
             "m_Id": "72b3b2e36301446cbdcfe60e8a1bf041"
         },
         {
-            "m_Id": "aeb6a42ed7d04eb7a8858c5d23d4d03a"
+            "m_Id": "e86e472a43b041ec96ad07b6ffec2bf9"
         },
         {
             "m_Id": "018f692442be41f5a6b3f24dea325452"
+        },
+        {
+            "m_Id": "aeb6a42ed7d04eb7a8858c5d23d4d03a"
         }
     ],
     "m_Keywords": [
@@ -839,7 +839,7 @@
     "m_Guid": {
         "m_GuidSerialized": "d12e6e74-eb42-4336-8999-7257bb3b0d6e"
     },
-    "m_Name": "Min Dither",
+    "m_Name": "Min Dither Distance",
     "m_DefaultReferenceName": "Vector1_018f692442be41f5a6b3f24dea325452",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -1292,7 +1292,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "16d5e076e7684e2a97b9cdf342f0d9ca",
     "m_Id": 0,
-    "m_DisplayName": "Min Dither",
+    "m_DisplayName": "Min Dither Distance",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2948,7 +2948,7 @@
     "m_Guid": {
         "m_GuidSerialized": "35759eb0-1f1f-4aea-b522-f08bd85b467d"
     },
-    "m_Name": "Albedo",
+    "m_Name": "Texture",
     "m_DefaultReferenceName": "Texture2D_6ee057018ea64b479592901994535831",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -3115,7 +3115,7 @@
     "m_Guid": {
         "m_GuidSerialized": "cd27545f-b573-46b8-859f-5c440f03eda3"
     },
-    "m_Name": "Speed (1)",
+    "m_Name": "Wind Speed",
     "m_DefaultReferenceName": "Vector1_72b3b2e36301446cbdcfe60e8a1bf041",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -4104,7 +4104,7 @@
     "m_Guid": {
         "m_GuidSerialized": "ab6f7d8e-9caf-4974-adfe-e8f849ce33f4"
     },
-    "m_Name": "Max Dither",
+    "m_Name": "Max Dither Distance",
     "m_DefaultReferenceName": "Vector1_aeb6a42ed7d04eb7a8858c5d23d4d03a",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -4678,7 +4678,7 @@
     "m_Guid": {
         "m_GuidSerialized": "a9b8936f-790b-4d9e-a071-64974acf02a3"
     },
-    "m_Name": "Direction",
+    "m_Name": "Wind Direction",
     "m_DefaultReferenceName": "Vector2_cff6daf703b44222a7b134aff3f1633c",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -5000,7 +5000,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "da1df3f82df642d0acec21ae58b7155f",
     "m_Id": 0,
-    "m_DisplayName": "Max Dither",
+    "m_DisplayName": "Max Dither Distance",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -5082,7 +5082,7 @@
     "m_Guid": {
         "m_GuidSerialized": "41ce521d-6130-4620-9a1b-31a34767d8fa"
     },
-    "m_Name": "Bend",
+    "m_Name": "Wind Strength",
     "m_DefaultReferenceName": "Vector1_e32918c3024e464f9d29b8a938e7d4ad",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -5215,7 +5215,7 @@
     "m_Guid": {
         "m_GuidSerialized": "d14ed382-3a96-4be0-92e8-062f3b37438b"
     },
-    "m_Name": "Offset",
+    "m_Name": "Bend-Base Offset",
     "m_DefaultReferenceName": "Vector1_e86e472a43b041ec96ad07b6ffec2bf9",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -5238,7 +5238,7 @@
     "m_Guid": {
         "m_GuidSerialized": "77d037fd-baff-429b-89e3-0d8978be864e"
     },
-    "m_Name": "tiling",
+    "m_Name": "Texture Tiling",
     "m_DefaultReferenceName": "Vector1_e87e60c79f4843568c06a6efde38b333",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
