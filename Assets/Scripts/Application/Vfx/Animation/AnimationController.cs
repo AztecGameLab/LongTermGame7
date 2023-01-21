@@ -19,7 +19,7 @@
         private MovementMaterialSet runMaterials;
 
         private Vector3 _previousPosition;
-        private MovementDirection _currentDirection;
+        private MovementDirection _currentDirection = MovementDirection.Down;
 
         private static bool InputHeld(params KeyCode[] keys)
         {
@@ -42,11 +42,6 @@
         {
             idleMaterials.Build();
             runMaterials.Build();
-        }
-
-        private void Start()
-        {
-            player.material = idleMaterials.Get(MovementDirection.Down);
         }
 
         private void Update()
