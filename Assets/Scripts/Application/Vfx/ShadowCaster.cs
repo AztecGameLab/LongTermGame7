@@ -14,6 +14,8 @@
         private void Awake()
         {
             var originalFilter = GetComponent<MeshFilter>();
+            var originalRenderer = GetComponent<MeshRenderer>();
+            originalRenderer.shadowCastingMode = ShadowCastingMode.Off;
 
             var shadowCasterObject = new GameObject($"{gameObject.name}'s Shadow Caster");
             shadowCasterObject.transform.SetParent(transform, false);
