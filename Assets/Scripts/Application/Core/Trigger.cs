@@ -41,6 +41,9 @@ namespace poetools
         private HashSet<Collider> _colliders = new HashSet<Collider>();
 
         public Collider Collider => _collider;
+        public UnityEvent<Collider> CollisionExit => collisionExit;
+        public UnityEvent<Collider> CollisionEnter => collisionEnter;
+        
     
         // Methods
 
