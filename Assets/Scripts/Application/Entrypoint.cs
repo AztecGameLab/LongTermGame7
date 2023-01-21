@@ -62,6 +62,11 @@
             Debug.Log($"Loaded settings: {settings.name}");
 
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
+
+            if (!Application.isEditor)
+            {
+                SceneManager.LoadScene("PPArtPlayerDemo");
+            }
         }
     }
 }

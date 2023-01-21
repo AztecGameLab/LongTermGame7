@@ -35,6 +35,11 @@
 
         private void OnValidate()
         {
+            Awake();
+        }
+
+        private void Awake()
+        {
             idleMaterials.Build();
             runMaterials.Build();
         }
