@@ -10,11 +10,11 @@
         public static readonly int ActivePriority = 50;
 
         [SerializeField]
-        private new CinemachineVirtualCamera camera;
+        private CinemachineVirtualCamera targetCamera;
 
         public void SetCamera(CinemachineVirtualCamera newCamera)
         {
-            camera = newCamera;
+            targetCamera = newCamera;
         }
 
         private void Awake()
@@ -26,12 +26,12 @@
 
         private void HandleCollisionEnter(Collider col)
         {
-            camera.Priority = ActivePriority;
+            targetCamera.Priority = ActivePriority;
         }
 
         private void HandleCollisionExit(Collider col)
         {
-            camera.Priority = 0;
+            targetCamera.Priority = 0;
         }
     }
 }

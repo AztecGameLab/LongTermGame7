@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -52,6 +51,7 @@ namespace poetools
         private void Start()
         {
             _collider = GetComponent<Collider>();
+            Debug.LogError($"start: {_collider == null}");
         }
 
         private void OnValidate()

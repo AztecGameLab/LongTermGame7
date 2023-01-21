@@ -65,7 +65,7 @@
 
             if (!Application.isEditor)
             {
-                SceneManager.LoadScene("PPArtPlayerDemo");
+                SceneManager.LoadScene(1);
             }
         }
     }
