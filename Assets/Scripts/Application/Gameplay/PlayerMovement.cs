@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using Application.Core.Abstraction;
+
+namespace Application.Gameplay
 {
     using UnityEngine;
     using UnityEngine.InputSystem;
@@ -20,6 +22,9 @@
 
         [SerializeField]
         private float reverseMultiplier = 1; // Used to cut _accelerationSmoothTime to allow more snappy movement when changing direction
+
+        [SerializeField]
+        private GroundCheck groundCheck;
 
         private CharacterController _controller;
         private Vector2 _playerInput;
@@ -55,7 +60,7 @@
 
         private void ApplyGravity()
         {
-            if (_controller.isGrounded && _movementDirection.y < 0f)
+            if (groundCheck.IsGrounded && _movementDirection.y < 0f)
             {
                 _movementDirection.y = 0f;
             }
