@@ -1,4 +1,6 @@
-﻿namespace Application.Vfx.Animation
+﻿using Application.Core;
+
+namespace Application.Vfx.Animation
 {
     using UnityEngine;
 

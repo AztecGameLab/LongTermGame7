@@ -1,4 +1,4 @@
-﻿namespace Application.Vfx.Animation
+﻿namespace Application.Core
 {
     /// <summary>
     /// The different directions that the player can move.
