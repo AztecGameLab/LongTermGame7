@@ -1,8 +1,7 @@
-﻿using Application.Core;
-
-namespace Application.Vfx.Animation
+﻿namespace Application.Vfx.Animation
 {
     using System;
+    using Core;
     using JetBrains.Annotations;
     using UnityEngine;
 

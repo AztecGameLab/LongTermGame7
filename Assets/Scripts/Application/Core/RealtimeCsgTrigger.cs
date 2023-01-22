@@ -2,6 +2,7 @@
 {
     using System;
     using UnityEngine;
+    using UnityEngine.Events;
 
     /// <summary>
     /// Different types of collision that can be registered by a trigger.
@@ -27,6 +28,14 @@
         [SerializeField]
         private CollisionType collisionType = CollisionType.Collider;
 
+        [SerializeField]
+        [Tooltip("Called when an object enters the trigger.")]
+        private UnityEvent<GameObject> onEnter;
+
+        [SerializeField]
+        [Tooltip("Which layers should be excluded from activating this trigger?")]
+        private LayerMask excludeLayers;
+
         private TriggerEvents _triggerEvents;
 
         /// <inheritdoc/>
@@ -39,6 +48,8 @@
         {
             _triggerEvents = GetComponentInChildren<Collider>()
                 .GetTriggerEvents();
+
+            _triggerEvents.ExcludeLayers = excludeLayers;
         }
 
         private void OnEnable()
@@ -46,12 +57,12 @@
             switch (collisionType)
             {
                 case CollisionType.Rigidbody:
-                    _triggerEvents.RigidbodyTriggerEnter += HandleRigidbodyEnter;
-                    _triggerEvents.RigidbodyTriggerExit += HandleRigidbodyExit;
+                    _triggerEvents.RigidbodyTriggerEnter += HandleEnter;
+                    _triggerEvents.RigidbodyTriggerExit += HandleExit;
                     break;
                 case CollisionType.Collider:
-                    _triggerEvents.ColliderTriggerEnter += HandleColliderEnter;
-                    _triggerEvents.ColliderTriggerExit += HandleColliderExit;
+                    _triggerEvents.ColliderTriggerEnter += HandleEnter;
+                    _triggerEvents.ColliderTriggerExit += HandleExit;
                     break;
                 default: throw new ArgumentOutOfRangeException(string.Empty);
             }
@@ -59,30 +70,21 @@
 
         private void OnDisable()
         {
-            _triggerEvents.RigidbodyTriggerEnter -= HandleRigidbodyEnter;
-            _triggerEvents.RigidbodyTriggerExit -= HandleRigidbodyExit;
-            _triggerEvents.ColliderTriggerEnter -= HandleColliderEnter;
-            _triggerEvents.ColliderTriggerExit -= HandleColliderExit;
+            _triggerEvents.RigidbodyTriggerEnter -= HandleEnter;
+            _triggerEvents.RigidbodyTriggerExit -= HandleExit;
+            _triggerEvents.ColliderTriggerEnter -= HandleEnter;
+            _triggerEvents.ColliderTriggerExit -= HandleExit;
         }
 
-        private void HandleRigidbodyEnter(Rigidbody rb)
+        private void HandleEnter(Component rb)
         {
             CollisionEnter?.Invoke(rb.gameObject);
+            onEnter.Invoke(rb.gameObject);
         }
 
-        private void HandleRigidbodyExit(Rigidbody rb)
+        private void HandleExit(Component rb)
         {
             CollisionExit?.Invoke(rb.gameObject);
-        }
-
-        private void HandleColliderEnter(Collider col)
-        {
-            CollisionEnter?.Invoke(col.gameObject);
-        }
-
-        private void HandleColliderExit(Collider col)
-        {
-            CollisionExit?.Invoke(col.gameObject);
         }
     }
 }

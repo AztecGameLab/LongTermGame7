@@ -10,7 +10,7 @@
     [RequireComponent(typeof(Trigger))]
     public class ChangeCameraTriggerEffect : MonoBehaviour
     {
-        private static readonly int ActivePriority = 50;
+        private const int ActivePriority = 50;
 
         [SerializeField]
         private CinemachineVirtualCamera targetCamera;

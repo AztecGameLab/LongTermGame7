@@ -1,7 +1,6 @@
-﻿using Application.Core.Abstraction;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
+    using Core.Abstraction;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
