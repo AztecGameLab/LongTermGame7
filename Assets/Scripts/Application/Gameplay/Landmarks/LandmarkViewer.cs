@@ -81,8 +81,7 @@
             {
                 AddTemporary();
             }
-
-
+            
             if (Input.GetKeyDown(KeyCode.Alpha1)) TeleportTo(0);
             if (Input.GetKeyDown(KeyCode.Alpha2)) TeleportTo(1);
             if (Input.GetKeyDown(KeyCode.Alpha3)) TeleportTo(2);

@@ -66,6 +66,9 @@ namespace Application
             var landmarkViewer = new LandmarkViewer();
             landmarkViewer.Init();
 
+            // var console = new RuntimeConsole();
+            // console.Init();
+
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
 
             if (!Application.isEditor)
