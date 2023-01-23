@@ -1,4 +1,6 @@
-﻿namespace Application
+﻿using Application.Gameplay.Landmarks;
+
+namespace Application
 {
     using System.Threading.Tasks;
     using Core;
@@ -60,6 +62,9 @@
             // One approach to loading all our main settings.
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
             Debug.Log($"Loaded settings: {settings.name}");
+
+            var landmarkViewer = new LandmarkViewer();
+            landmarkViewer.Init();
 
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
 

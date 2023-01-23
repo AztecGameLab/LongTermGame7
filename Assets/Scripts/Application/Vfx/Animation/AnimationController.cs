@@ -45,7 +45,7 @@
             runMaterials.Build();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             // Square Magnitude is faster than computing normal magnitude.
             bool isRunning = (transform.position - _previousPosition).sqrMagnitude > MinSpeed * MinSpeed * Time.deltaTime;

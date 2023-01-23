@@ -7,7 +7,7 @@
     /// <summary>
     /// Applies movement to the player.
     /// </summary>
-    [RequireComponent(typeof(CharacterController))]
+    // [RequireComponent(typeof(CharacterController))]
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField]
@@ -25,7 +25,7 @@
         [SerializeField]
         private GroundCheck groundCheck;
 
-        private CharacterController _controller;
+        private IPhysicsComponent _controller;
         private Vector2 _playerInput;
         private Vector2 _currentDirection;
         private Vector2 _currentVelocity;
@@ -46,7 +46,7 @@
 
         private void Start()
         {
-            _controller = GetComponent<CharacterController>();
+            _controller = GetComponent<IPhysicsComponent>();
         }
 
         private void Update()
@@ -102,7 +102,8 @@
 
         private void MovePlayer()
         {
-            _controller.Move(_movementDirection * (maxSpeed * Time.deltaTime));
+            Physics.SyncTransforms();
+            _controller.Velocity = _movementDirection * (maxSpeed);
         }
     }
 }

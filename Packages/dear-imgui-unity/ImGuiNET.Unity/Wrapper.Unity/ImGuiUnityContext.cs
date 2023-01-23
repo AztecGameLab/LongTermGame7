@@ -16,6 +16,12 @@ namespace ImGuiNET
         public static event Action Layout;    // global/default Layout event, each DearImGui instance also has a private one
         internal static void DoLayout() => Layout?.Invoke();
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Init()
+        {
+            Layout = null;
+        }
+        
         // textures
         public static int GetTextureId(Texture texture) => s_currentUnityContext?.textures.GetTextureId(texture) ?? -1;
         internal static SpriteInfo GetSpriteInfo(Sprite sprite) => s_currentUnityContext?.textures.GetSpriteInfo(sprite) ?? null;
