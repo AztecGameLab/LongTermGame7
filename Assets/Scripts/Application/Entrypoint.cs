@@ -66,6 +66,9 @@ namespace Application
             var landmarkViewer = new LandmarkViewer();
             landmarkViewer.Init();
 
+            var levelDesignUtil = new LevelDesignUtil();
+            levelDesignUtil.Init();
+            
             // var console = new RuntimeConsole();
             // console.Init();
 
