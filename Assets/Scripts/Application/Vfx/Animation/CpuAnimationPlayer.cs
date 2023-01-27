@@ -1,60 +1,65 @@
-using UnityEngine;
-
-/// <summary>
-/// Applies an animation to a Mesh Renderer.
-/// </summary>
-[ExecuteAlways]
-public class CpuAnimationPlayer : MonoBehaviour
+﻿namespace Application.Vfx.Animation
 {
-    [SerializeField] 
-    [Tooltip("The animation that should be played initially.")]
-    private CpuAnimationData initialAnimation;
+    using UnityEngine;
 
-    [SerializeField] 
-    [Tooltip("The renderer that will host the animation.")]
-    private MeshRenderer meshRenderer;
-
-    private MeshRenderer _meshRenderer;
-    private bool _hasMeshRenderer;
-
-    private MeshRenderer MeshRenderer
-    {
-        get => _meshRenderer;
-        set
-        {
-            _hasMeshRenderer = value != null;
-            _meshRenderer = value;
-        }
-    }
-    
-    private CpuAnimationData _currentAnimation;
-    private bool _hasAnimation;
-    
     /// <summary>
-    /// The currently playing animation.
+    /// Applies an animation to a Mesh Renderer.
     /// </summary>
-    public CpuAnimationData CurrentAnimation
+    [ExecuteAlways]
+    public class CpuAnimationPlayer : MonoBehaviour
     {
-        get => _currentAnimation;
-        set
+        [SerializeField]
+        [Tooltip("The animation that should be played initially.")]
+        private CpuAnimationData initialAnimation;
+
+        [SerializeField]
+        [Tooltip("The renderer that will host the animation.")]
+        private MeshRenderer meshRenderer;
+
+        private CpuAnimationData _currentAnimation;
+        private MeshRenderer _meshRenderer;
+        private bool _hasMeshRenderer;
+        private bool _hasAnimation;
+
+        /// <summary>
+        /// Gets or sets the currently playing animation.
+        /// </summary>
+        /// <value>
+        /// The currently playing animation.
+        /// </value>
+        public CpuAnimationData CurrentAnimation
         {
-            _hasAnimation = value != null;
-            _currentAnimation = value;
+            get => _currentAnimation;
+            set
+            {
+                _hasAnimation = value != null;
+                _currentAnimation = value;
+            }
         }
-    }
 
-    private void OnValidate()
-    {
-        CurrentAnimation = initialAnimation;
-        MeshRenderer = meshRenderer;
-    }
-
-    private void Update()
-    {
-        if (_hasAnimation && _hasMeshRenderer)
+        private MeshRenderer MeshRenderer
         {
-            var currentFrame = (int) (Time.time * CurrentAnimation.FrameRate) % CurrentAnimation.Frames.Count;
-            MeshRenderer.material.mainTexture = CurrentAnimation.Frames[currentFrame];
+            get => _meshRenderer;
+            set
+            {
+                _hasMeshRenderer = value != null;
+                _meshRenderer = value;
+            }
+        }
+
+        private void OnValidate()
+        {
+            CurrentAnimation = initialAnimation;
+            MeshRenderer = meshRenderer;
+        }
+
+        private void Update()
+        {
+            if (_hasAnimation && _hasMeshRenderer)
+            {
+                var currentFrame = (int)(Time.time * CurrentAnimation.FrameRate) % CurrentAnimation.Frames.Count;
+                MeshRenderer.material.mainTexture = CurrentAnimation.Frames[currentFrame];
+            }
         }
     }
 }
