@@ -13,18 +13,18 @@
 
         private void Awake()
         {
-            var originalFilter = GetComponent<MeshFilter>();
-            var originalRenderer = GetComponent<MeshRenderer>();
-            originalRenderer.shadowCastingMode = ShadowCastingMode.Off;
-
+            // var originalFilter = GetComponent<MeshFilter>();
+            // var originalRenderer = GetComponent<MeshRenderer>();
+            // originalRenderer.shadowCastingMode = ShadowCastingMode.Off;
+            
             var shadowCasterObject = new GameObject($"{gameObject.name}'s Shadow Caster");
-            shadowCasterObject.transform.SetParent(transform, false);
-
-            var newRenderer = shadowCasterObject.AddComponent<MeshRenderer>();
-            var newFilter = shadowCasterObject.AddComponent<MeshFilter>();
-            newFilter.sharedMesh = originalFilter.sharedMesh;
-            newRenderer.material = material;
-            newRenderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+            // shadowCasterObject.transform.SetParent(transform, false);
+            //
+            // var newRenderer = shadowCasterObject.AddComponent<MeshRenderer>();
+            // var newFilter = shadowCasterObject.AddComponent<MeshFilter>();
+            // newFilter.sharedMesh = originalFilter.sharedMesh;
+            // newRenderer.material = material;
+            // newRenderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
         }
     }
 }

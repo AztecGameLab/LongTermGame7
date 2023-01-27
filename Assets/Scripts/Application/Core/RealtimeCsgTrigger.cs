@@ -1,4 +1,6 @@
-﻿namespace Application.Core
+﻿using ImGuiNET;
+
+namespace Application.Core
 {
     using System;
     using UnityEngine;

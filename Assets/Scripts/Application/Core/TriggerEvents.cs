@@ -8,7 +8,7 @@
     /// <summary>
     /// Handles OnTrigger events, and passes them to C# events.
     /// </summary>
-    public class TriggerEvents : MonoBehaviour
+    public class TriggerEvents : Trigger
     {
         private readonly List<Rigidbody> _currentRigidbodies = new List<Rigidbody>();
         private readonly List<Collider> _currentColliders = new List<Collider>();
@@ -59,7 +59,13 @@
         /// </summary>
         public event Action<Rigidbody> RigidbodyTriggerExit;
 
-        /// <summary>
+        /// <inheritdoc/>
+        public override event Action<GameObject> CollisionEnter;
+
+        /// <inheritdoc/>
+        public override event Action<GameObject> CollisionExit;
+
+         /// <summary>
         /// Gets or sets the layers that should be excluded from triggering this object.
         /// </summary>
         public LayerMask ExcludeLayers
@@ -101,6 +107,7 @@
                     if (!_previousRigidbodies.Contains(currentRigidbody))
                     {
                         // this is new
+                        CollisionEnter?.Invoke(currentRigidbody.gameObject);
                         RigidbodyTriggerEnter?.Invoke(currentRigidbody);
                         rigidbodyTriggerEnter.Invoke(currentRigidbody);
 
@@ -119,6 +126,7 @@
                     if (!_currentRigidbodies.Contains(previousRigidbody))
                     {
                         // this has been removed
+                        CollisionExit?.Invoke(previousRigidbody.gameObject);
                         RigidbodyTriggerExit?.Invoke(previousRigidbody);
                         rigidbodyTriggerExit.Invoke(previousRigidbody);
 
@@ -138,6 +146,7 @@
                     if (!_previousColliders.Contains(currentCollider))
                     {
                         // this is new
+                        CollisionEnter?.Invoke(currentCollider.gameObject);
                         ColliderTriggerEnter?.Invoke(currentCollider);
                         colliderTriggerEnter.Invoke(currentCollider);
 
@@ -157,6 +166,7 @@
                     if (!_currentColliders.Contains(previousCollider))
                     {
                         // this has been removed
+                        CollisionExit?.Invoke(previousCollider.gameObject);
                         ColliderTriggerExit?.Invoke(previousCollider);
                         colliderTriggerExit.Invoke(previousCollider);
 
