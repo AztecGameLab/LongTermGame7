@@ -8,6 +8,23 @@
     /// </summary>
     public abstract class Trigger : MonoBehaviour
     {
+        private static bool CsgFixed { get; set; }
+
+        private void Awake()
+        {
+            if (!CsgFixed)
+            {
+                var fix = new GameObject("CSG Fix");
+                Destroy(fix);
+                CsgFixed = true;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            CsgFixed = false;
+        }
+
         /// <summary>
         /// Called when an object enters this trigger.
         /// </summary>
