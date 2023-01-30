@@ -29,7 +29,7 @@
             _disposable.Dispose();
         }
 
-        private static void TeleportTo(Landmark landmark)
+        private static void TeleportTo(Component landmark)
         {
             var player = Object.FindObjectOfType<PlayerMovement>();
             player.transform.position = landmark.transform.position;
@@ -58,6 +58,8 @@
 
         private void DrawLandmarkView()
         {
+            const int maxLandmarkNameSize = 32;
+
             ImGui.Begin("Landmarks", ref _isOpen);
 
             for (var index = 0; index < Landmark.Landmarks.Count; index++)
@@ -75,22 +77,17 @@
                 ImGui.Spacing();
             }
 
-            ImGui.SetNextItemWidth(100);
+            ImGui.Text("Add new landmark");
 
-            if (ImGui.InputText("Add New Landmark", ref _landmarkName, 32, ImGuiInputTextFlags.EnterReturnsTrue))
+            if (ImGui.InputText(string.Empty, ref _landmarkName, maxLandmarkNameSize, ImGuiInputTextFlags.EnterReturnsTrue))
             {
                 AddTemporary();
             }
-            
-            if (Input.GetKeyDown(KeyCode.Alpha1)) TeleportTo(0);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) TeleportTo(1);
-            if (Input.GetKeyDown(KeyCode.Alpha3)) TeleportTo(2);
-            if (Input.GetKeyDown(KeyCode.Alpha4)) TeleportTo(3);
-            if (Input.GetKeyDown(KeyCode.Alpha5)) TeleportTo(4);
-            if (Input.GetKeyDown(KeyCode.Alpha6)) TeleportTo(5);
-            if (Input.GetKeyDown(KeyCode.Alpha7)) TeleportTo(6);
-            if (Input.GetKeyDown(KeyCode.Alpha8)) TeleportTo(7);
-            if (Input.GetKeyDown(KeyCode.Alpha9)) TeleportTo(8);
+
+            if (InputTools.TryGetNumberDown(out int number))
+            {
+                TeleportTo(number - 1);
+            }
 
             ImGui.End();
         }

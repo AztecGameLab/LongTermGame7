@@ -15,7 +15,10 @@
         /// <param name="component">The component attached to a GameObject that should be watched.</param>
         public static void AddTo(this IDisposable disposable, Component component)
         {
-            AddTo(disposable, component.gameObject);
+            if (component != null)
+            {
+                AddTo(disposable, component.gameObject);
+            }
         }
 
         /// <summary>
@@ -25,12 +28,15 @@
         /// <param name="obj">The GameObject to associate the disposable with.</param>
         public static void AddTo(this IDisposable disposable, GameObject obj)
         {
-            if (!obj.TryGetComponent(out GameObjectLifetimeEvents lifetimeEvents))
+            if (obj != null)
             {
-                lifetimeEvents = obj.AddComponent<GameObjectLifetimeEvents>();
-            }
+                if (!obj.TryGetComponent(out GameObjectLifetimeEvents lifetimeEvents))
+                {
+                    lifetimeEvents = obj.AddComponent<GameObjectLifetimeEvents>();
+                }
 
-            lifetimeEvents.Destroy += _ => disposable.Dispose();
+                lifetimeEvents.Destroy += _ => disposable.Dispose();
+            }
         }
     }
 }

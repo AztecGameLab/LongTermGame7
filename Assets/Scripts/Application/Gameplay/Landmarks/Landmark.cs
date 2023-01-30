@@ -15,6 +15,14 @@
         private string id;
 
         /// <summary>
+        /// Gets all of the currently loaded landmarks in the scene.
+        /// </summary>
+        /// <value>
+        /// All of the currently loaded landmarks in the scene.
+        /// </value>
+        public static IReadOnlyList<Landmark> Landmarks => _landmarks;
+
+        /// <summary>
         /// Gets a human-readable way to identify this landmark.
         /// </summary>
         public string Id
@@ -22,11 +30,6 @@
             get => id;
             set => id = value;
         }
-
-        /// <summary>
-        /// Gets all of the currently loaded landmarks in the scene.
-        /// </summary>
-        public static IReadOnlyList<Landmark> Landmarks => _landmarks;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()

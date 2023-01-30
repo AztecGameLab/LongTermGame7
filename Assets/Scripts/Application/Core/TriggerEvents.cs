@@ -65,9 +65,12 @@
         /// <inheritdoc/>
         public override event Action<GameObject> CollisionExit;
 
-         /// <summary>
+        /// <summary>
         /// Gets or sets the layers that should be excluded from triggering this object.
         /// </summary>
+        /// <value>
+        /// The layers that should be excluded from triggering this object.
+        /// </value>
         public LayerMask ExcludeLayers
         {
             get => excludeLayers;
@@ -77,11 +80,17 @@
         /// <summary>
         /// Gets all of the rigidbodies currently inside this trigger.
         /// </summary>
+        /// <value>
+        /// All of the rigidbodies currently inside this trigger.
+        /// </value>
         public IReadOnlyCollection<Rigidbody> CurrentRigidbodies => _currentRigidbodies;
 
         /// <summary>
         /// Gets all of the colliders currently inside this trigger.
         /// </summary>
+        /// <value>
+        /// All of the colliders currently inside this trigger.
+        /// </value>
         public IReadOnlyCollection<Collider> CurrentColliders => _currentColliders;
 
         private void OnTriggerStay(Collider other)
@@ -97,85 +106,106 @@
             }
         }
 
+        private void AddRigidbodies()
+        {
+            foreach (Rigidbody currentRigidbody in _currentRigidbodies)
+            {
+                if (!_previousRigidbodies.Contains(currentRigidbody))
+                {
+                    // this is new
+                    CollisionEnter?.Invoke(currentRigidbody.gameObject);
+                    RigidbodyTriggerEnter?.Invoke(currentRigidbody);
+                    rigidbodyTriggerEnter.Invoke(currentRigidbody);
+
+                    if (showDebug)
+                    {
+                        Debug.Log($"Rigidbody {currentRigidbody.name} entered the trigger {name}");
+                    }
+                }
+            }
+        }
+
+        private void RemoveRigidbodies()
+        {
+            foreach (Rigidbody previousRigidbody in _previousRigidbodies)
+            {
+                if (!_currentRigidbodies.Contains(previousRigidbody))
+                {
+                    // this has been removed
+                    CollisionExit?.Invoke(previousRigidbody.gameObject);
+                    RigidbodyTriggerExit?.Invoke(previousRigidbody);
+                    rigidbodyTriggerExit.Invoke(previousRigidbody);
+
+                    if (showDebug)
+                    {
+                        Debug.Log($"Rigidbody {previousRigidbody.name} exited the trigger {name}");
+                    }
+                }
+            }
+        }
+
+        private void AddColliders()
+        {
+            foreach (Collider currentCollider in _currentColliders)
+            {
+                if (!_previousColliders.Contains(currentCollider))
+                {
+                    // this is new
+                    CollisionEnter?.Invoke(currentCollider.gameObject);
+                    ColliderTriggerEnter?.Invoke(currentCollider);
+                    colliderTriggerEnter.Invoke(currentCollider);
+
+                    if (showDebug)
+                    {
+                        Debug.Log($"Collider {currentCollider.name} entered the trigger {name}");
+                    }
+                }
+            }
+        }
+
+        private void RemoveColliders()
+        {
+            foreach (Collider previousCollider in _previousColliders)
+            {
+                if (!_currentColliders.Contains(previousCollider))
+                {
+                    // this has been removed
+                    CollisionExit?.Invoke(previousCollider.gameObject);
+                    ColliderTriggerExit?.Invoke(previousCollider);
+                    colliderTriggerExit.Invoke(previousCollider);
+
+                    if (showDebug)
+                    {
+                        Debug.Log($"Collider {previousCollider.name} exited the trigger {name}");
+                    }
+                }
+            }
+        }
+
         private void FixedUpdate()
         {
             if (_currentRigidbodies.Count > _previousRigidbodies.Count)
             {
                 // we gained some rigidbodies
-                foreach (Rigidbody currentRigidbody in _currentRigidbodies)
-                {
-                    if (!_previousRigidbodies.Contains(currentRigidbody))
-                    {
-                        // this is new
-                        CollisionEnter?.Invoke(currentRigidbody.gameObject);
-                        RigidbodyTriggerEnter?.Invoke(currentRigidbody);
-                        rigidbodyTriggerEnter.Invoke(currentRigidbody);
-
-                        if (showDebug)
-                        {
-                            Debug.Log($"Rigidbody {currentRigidbody.name} entered the trigger {name}");
-                        }
-                    }
-                }
+                AddRigidbodies();
             }
 
             if (_currentRigidbodies.Count < _previousRigidbodies.Count)
             {
-                foreach (Rigidbody previousRigidbody in _previousRigidbodies)
-                {
-                    if (!_currentRigidbodies.Contains(previousRigidbody))
-                    {
-                        // this has been removed
-                        CollisionExit?.Invoke(previousRigidbody.gameObject);
-                        RigidbodyTriggerExit?.Invoke(previousRigidbody);
-                        rigidbodyTriggerExit.Invoke(previousRigidbody);
-
-                        if (showDebug)
-                        {
-                            Debug.Log($"Rigidbody {previousRigidbody.name} exited the trigger {name}");
-                        }
-                    }
-                }
+                // we lost some rigidbodies
+                RemoveRigidbodies();
             }
 
             if (_currentColliders.Count > _previousColliders.Count)
             {
                 // we gained some colliders
-                foreach (Collider currentCollider in _currentColliders)
-                {
-                    if (!_previousColliders.Contains(currentCollider))
-                    {
-                        // this is new
-                        CollisionEnter?.Invoke(currentCollider.gameObject);
-                        ColliderTriggerEnter?.Invoke(currentCollider);
-                        colliderTriggerEnter.Invoke(currentCollider);
-
-                        if (showDebug)
-                        {
-                            Debug.Log($"Collider {currentCollider.name} entered the trigger {name}");
-                        }
-                    }
-                }
+                AddColliders();
             }
 
             if (_currentColliders.Count < _previousColliders.Count)
             {
                 // we lost some colliders
-                foreach (Collider previousCollider in _previousColliders)
-                {
-                    if (!_currentColliders.Contains(previousCollider))
-                    {
-                        // this has been removed
-                        CollisionExit?.Invoke(previousCollider.gameObject);
-                        ColliderTriggerExit?.Invoke(previousCollider);
-                        colliderTriggerExit.Invoke(previousCollider);
-
-                        if (showDebug)
-                        {
-                            Debug.Log($"Collider {previousCollider.name} exited the trigger {name}");
-                        }
-                    }
-                }
+                RemoveColliders();
             }
 
             // Cleanup, to prepare for next physics update.

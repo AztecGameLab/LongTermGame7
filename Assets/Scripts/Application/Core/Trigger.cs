@@ -8,6 +8,16 @@
     /// </summary>
     public abstract class Trigger : MonoBehaviour
     {
+        /// <summary>
+        /// Called when an object enters this trigger.
+        /// </summary>
+        public abstract event Action<GameObject> CollisionEnter;
+
+        /// <summary>
+        /// Called when an object exits this trigger.
+        /// </summary>
+        public abstract event Action<GameObject> CollisionExit;
+
         private static bool CsgFixed { get; set; }
 
         private void Awake()
@@ -24,15 +34,5 @@
         {
             CsgFixed = false;
         }
-
-        /// <summary>
-        /// Called when an object enters this trigger.
-        /// </summary>
-        public abstract event Action<GameObject> CollisionEnter;
-
-        /// <summary>
-        /// Called when an object exits this trigger.
-        /// </summary>
-        public abstract event Action<GameObject> CollisionExit;
     }
 }

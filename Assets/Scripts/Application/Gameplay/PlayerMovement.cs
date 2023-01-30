@@ -103,7 +103,7 @@
         private void MovePlayer()
         {
             Physics.SyncTransforms();
-            _controller.Velocity = _movementDirection * (maxSpeed);
+            _controller.Velocity = _movementDirection * maxSpeed;
         }
     }
 }
