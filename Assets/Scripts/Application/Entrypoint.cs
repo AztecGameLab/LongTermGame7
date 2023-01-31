@@ -1,4 +1,6 @@
-﻿namespace Application
+﻿using UnityEngine.Rendering;
+
+namespace Application
 {
     using System.Threading.Tasks;
     using Core;
