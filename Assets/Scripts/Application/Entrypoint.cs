@@ -1,9 +1,12 @@
-﻿namespace Application
+﻿using UnityEngine.Rendering;
+
+namespace Application
 {
     using System.Threading.Tasks;
     using Core;
     using Core.Events;
     using Core.Rtf;
+    using Gameplay.Landmarks;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
@@ -61,11 +64,17 @@
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
             Debug.Log($"Loaded settings: {settings.name}");
 
+            var landmarkViewer = new LandmarkViewer();
+            landmarkViewer.Init();
+
+            var levelDesignUtil = new LevelDesignUtil();
+            levelDesignUtil.Init();
+
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
 
             if (!Application.isEditor)
             {
-                SceneManager.LoadScene("PPArtPlayerDemo");
+                SceneManager.LoadScene(1);
             }
         }
     }

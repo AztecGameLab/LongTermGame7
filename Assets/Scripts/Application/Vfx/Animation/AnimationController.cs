@@ -1,5 +1,6 @@
 ﻿namespace Application.Vfx.Animation
 {
+    using Core;
     using UnityEngine;
 
     /// <summary>
@@ -19,7 +20,7 @@
         private MovementMaterialSet runMaterials;
 
         private Vector3 _previousPosition;
-        private MovementDirection _currentDirection;
+        private MovementDirection _currentDirection = MovementDirection.Down;
 
         private static bool InputHeld(params KeyCode[] keys)
         {
@@ -44,12 +45,7 @@
             runMaterials.Build();
         }
 
-        private void Start()
-        {
-            player.material = idleMaterials.Get(MovementDirection.Down);
-        }
-
-        private void Update()
+        private void FixedUpdate()
         {
             // Square Magnitude is faster than computing normal magnitude.
             bool isRunning = (transform.position - _previousPosition).sqrMagnitude > MinSpeed * MinSpeed * Time.deltaTime;
