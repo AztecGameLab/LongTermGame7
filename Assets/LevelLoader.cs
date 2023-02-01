@@ -1,32 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Application.Core;
+using UnityEngine.SceneManagement;
+using Application.Gameplay;
+using System.Threading.Tasks;
 public class LevelLoader : MonoBehaviour
 {
+    public void Init()
+    {
+        Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
+    }
+    private async void HandleSceneChange(LevelChangeEvent data)
+    {
+       SceneManager.LoadScene(data.Next_Scene);
+        await Task.Delay(1);
+       LevelEntrance[] listOfScenes = FindObjectsOfType<LevelEntrance>();
 
-    // if (other.CompareTag("Player"))
-    // {
-    //     SceneManager.LoadScene(Next_Scene);
-    // }
+       foreach(LevelEntrance entrance in listOfScenes)
+       {
+        if (entrance.Entrance_ID == data.target_ID) {
+            PlayerMovement playerInfo = FindObjectOfType<PlayerMovement>();
+            playerInfo.transform.position = entrance.transform.position;
+            return;
+        }
+       }
+       foreach(LevelEntrance entrance in listOfScenes)
+       {
+        if (entrance.default_entrance)
+        {
+            PlayerMovement playerInfo = FindObjectOfType<PlayerMovement>();
+            playerInfo.transform.position = entrance.transform.position;
+            return;
+        }
 
-// Finally, we need a persistent manager to hook everything together 
-// by listening for the LoadLevel events and responding. You can add 
-// this to the Entrypoint and add the data it needs to the ApplicationSettings.
-
-// When the LevelLoader recieves a LoadLevel event, it loads the desired scene, 
-// then FindObjectOfType searches through LevelEntrance's for one that matches the target ID.
-
-// If none are found, use the first one that is "default entrance" and Debug log a warning.
-    // if () {
-        
-    //}
-// If none are the "default entrance", then just use the first one and Debug log a warning.
-
-// If no entrances are found, then just throw an exception.
-
-// Finally, once we have the scene loaded and our entrance found, instantiate the player prefab and change its transform to the entrance.
-   
-   
-
+        Debug.LogError("No default entrance!!!");
+       }
+    }
 }
