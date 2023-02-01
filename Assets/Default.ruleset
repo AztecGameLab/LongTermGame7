@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="New Rule Set" Description=" " ToolsVersion="17.0">
+<RuleSet Name="New Rule Set" Description="" ToolsVersion="10.0">
   <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
     <Rule Id="S103" Action="Warning" />
     <Rule Id="S104" Action="Warning" />
@@ -32,7 +32,7 @@
     <Rule Id="S1479" Action="Warning" />
     <Rule Id="S1541" Action="Warning" />
     <Rule Id="S1659" Action="Warning" />
-    <Rule Id="S1694" Action="Warning" />
+    <Rule Id="S1694" Action="None" />
     <Rule Id="S1696" Action="Warning" />
     <Rule Id="S1698" Action="Warning" />
     <Rule Id="S1821" Action="Warning" />
@@ -44,7 +44,7 @@
     <Rule Id="S2221" Action="Warning" />
     <Rule Id="S2228" Action="Warning" />
     <Rule Id="S2302" Action="Warning" />
-    <Rule Id="S2325" Action="Warning" />
+    <Rule Id="S2325" Action="None" />
     <Rule Id="S2327" Action="Warning" />
     <Rule Id="S2330" Action="Warning" />
     <Rule Id="S2333" Action="Warning" />
@@ -70,6 +70,7 @@
     <Rule Id="S3253" Action="Warning" />
     <Rule Id="S3254" Action="Warning" />
     <Rule Id="S3257" Action="Warning" />
+    <Rule Id="S3267" Action="None" />
     <Rule Id="S3353" Action="Warning" />
     <Rule Id="S3366" Action="Warning" />
     <Rule Id="S3431" Action="Warning" />
@@ -145,7 +146,6 @@
     <Rule Id="SA1609" Action="Warning" />
     <Rule Id="SA1633" Action="None" />
     <Rule Id="SA1639" Action="Warning" />
-    <Rule Id="SX1101" Action="Warning" />
     <Rule Id="SX1309S" Action="Warning" />
   </Rules>
 </RuleSet>

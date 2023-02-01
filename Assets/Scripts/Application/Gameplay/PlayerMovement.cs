@@ -1,12 +1,13 @@
 ﻿namespace Application.Gameplay
 {
+    using Core.Abstraction;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
     /// <summary>
     /// Applies movement to the player.
     /// </summary>
-    [RequireComponent(typeof(CharacterController))]
+    // [RequireComponent(typeof(CharacterController))]
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField]
@@ -21,7 +22,10 @@
         [SerializeField]
         private float reverseMultiplier = 1; // Used to cut _accelerationSmoothTime to allow more snappy movement when changing direction
 
-        private CharacterController _controller;
+        [SerializeField]
+        private GroundCheck groundCheck;
+
+        private IPhysicsComponent _controller;
         private Vector2 _playerInput;
         private Vector2 _currentDirection;
         private Vector2 _currentVelocity;
@@ -42,7 +46,7 @@
 
         private void Start()
         {
-            _controller = GetComponent<CharacterController>();
+            _controller = GetComponent<IPhysicsComponent>();
         }
 
         private void Update()
@@ -55,7 +59,7 @@
 
         private void ApplyGravity()
         {
-            if (_controller.isGrounded && _movementDirection.y < 0f)
+            if (groundCheck.IsGrounded && _movementDirection.y < 0f)
             {
                 _movementDirection.y = 0f;
             }
@@ -98,7 +102,8 @@
 
         private void MovePlayer()
         {
-            _controller.Move(_movementDirection * (maxSpeed * Time.deltaTime));
+            Physics.SyncTransforms();
+            _controller.Velocity = _movementDirection * maxSpeed;
         }
     }
 }
