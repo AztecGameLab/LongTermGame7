@@ -21,9 +21,7 @@ public class LevelExit : MonoBehaviour
     }
 }
 public class LevelChangeEvent{
-    //Contains a string with a target ID for the entrance to use for the scene (where to appear in the next scene)
+    // Passes the level exit and next scene to the LevelLoader
     public string target_ID;
-
-    //and a string for a the target scene to load.
     public string Next_Scene;
     }

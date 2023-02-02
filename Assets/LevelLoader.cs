@@ -7,16 +7,25 @@ using Application.Gameplay;
 using System.Threading.Tasks;
 public class LevelLoader : MonoBehaviour
 {
+    /* Manager that hooks everything together
+    *  by listening for the LoadLevel events
+    */
     public void Init()
-    {
-        Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
+    {   
+        Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading"); 
     }
+
+    // Once the listener catches an event, it responds with the HandleSceneChange method
+    // by passing the data from the LevelChangeEvent
     private async void HandleSceneChange(LevelChangeEvent data)
     {
+        // Loads the Next Scene and creates a list of all the entrances in that scene
        SceneManager.LoadScene(data.Next_Scene);
-        await Task.Delay(1);
+       await Task.Delay(1);
        LevelEntrance[] listOfScenes = FindObjectsOfType<LevelEntrance>();
 
+        // Then, runs a loop to see which entrance to use.
+        // Once and entrance is found, position the player on the entrance
        foreach(LevelEntrance entrance in listOfScenes)
        {
         if (entrance.Entrance_ID == data.target_ID) {
@@ -25,6 +34,8 @@ public class LevelLoader : MonoBehaviour
             return;
         }
        }
+
+       // If the entrance is not found, search for a default entrance
        foreach(LevelEntrance entrance in listOfScenes)
        {
         if (entrance.default_entrance)
@@ -34,6 +45,7 @@ public class LevelLoader : MonoBehaviour
             return;
         }
 
+        // If no default entrance is found, displa an error message to let the debugger know
         Debug.LogError("No default entrance!!!");
        }
     }
