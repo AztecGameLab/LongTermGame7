@@ -1,58 +1,77 @@
-using Application.Core;
-using Application.Gameplay;
-using System;
-using System.Threading.Tasks;
-using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
-
-public class LevelLoader
+namespace Application.Gameplay
 {
-    public void Init()
-    {
-        Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
-    }
+    using System;
+    using System.Threading.Tasks;
+    using Core;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+    using Object = UnityEngine.Object;
 
-    // Once the listener catches an event, it responds with the HandleSceneChange method
-    // by passing the data from the LevelChangeEvent
-    private async void HandleSceneChange(LevelChangeEvent data)
+    /// <summary>
+    /// Responds to LevelChangeEvents and performs the logic needed to load and position the
+    /// player in the new scene.
+    /// </summary>
+    public class LevelLoader : IDisposable
     {
-        // Loads the Next Scene and creates a list of all the entrances in that scene
-        SceneManager.LoadScene(data.Next_Scene);
-        await Task.Delay(1);
-        LevelEntrance[] allEntrances = Object.FindObjectsOfType<LevelEntrance>();
-        LevelEntrance targetEntrance = null;
-        LevelEntrance defaultEntrance = null;
+        private IDisposable _disposable;
 
-        // Then, runs a loop to see which entrance to use.
-        // Once and entrance is found, position the player on the entrance
-        foreach (LevelEntrance entrance in allEntrances)
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            if (entrance.Entrance_ID == data.target_ID)
+            _disposable.Dispose();
+        }
+
+        /// <summary>
+        /// Sets up the Level Loader.
+        /// </summary>
+        public void Init()
+        {
+            _disposable = Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
+        }
+
+        private static async void HandleSceneChange(LevelChangeEvent data)
+        {
+            SceneManager.LoadScene(data.NextScene);
+            await Task.Delay(1);
+
+            LevelEntrance[] allEntrances = Object.FindObjectsOfType<LevelEntrance>();
+            LevelEntrance targetEntrance = null;
+            LevelEntrance defaultEntrance = null;
+
+            foreach (LevelEntrance entrance in allEntrances)
             {
-                targetEntrance = entrance;
-                break;
+                if (entrance.EntranceID == data.TargetID)
+                {
+                    targetEntrance = entrance;
+                    break;
+                }
+
+                if (entrance.DefaultEntrance)
+                {
+                    defaultEntrance = entrance;
+                }
             }
 
-            if (entrance.default_entrance)
+            if (targetEntrance == null && defaultEntrance != null)
             {
-                defaultEntrance = entrance;
+                Debug.LogWarning($"The entrance \"{data.TargetID}\" could not be found, falling back to \"{defaultEntrance.EntranceID}\"");
+                targetEntrance = defaultEntrance;
+            }
+            else if (targetEntrance == null && allEntrances.Length > 0)
+            {
+                Debug.LogWarning($"The entrance \"{data.TargetID}\" could not be found, falling back to \"{allEntrances[0].EntranceID}\"");
+                targetEntrance = allEntrances[0];
+            }
+            else if (targetEntrance == null)
+            {
+                Debug.LogError("No entrances have been found!");
+            }
+
+            if (targetEntrance != null)
+            {
+                PlayerMovement playerInfo = Object.FindObjectOfType<PlayerMovement>();
+                playerInfo.transform.position = targetEntrance.transform.position;
             }
         }
-
-        if (targetEntrance == null && defaultEntrance != null)
-        {
-            targetEntrance = defaultEntrance;
-        }
-        else if (targetEntrance == null && allEntrances.Length > 0)
-        {
-            targetEntrance = allEntrances[0];
-        }
-        else if (targetEntrance == null)
-        {
-            throw new Exception("No entrances!");
-        }
-        
-        PlayerMovement playerInfo = Object.FindObjectOfType<PlayerMovement>();
-        playerInfo.transform.position = targetEntrance.transform.position;
     }
 }

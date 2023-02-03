@@ -1,10 +1,27 @@
-using UnityEngine;
-
-public class LevelEntrance : MonoBehaviour
+namespace Application.Gameplay
 {
-    //Pretty much only contains a string ID to identify itself with.
-    public string Entrance_ID;
+    using UnityEngine;
 
-    //Should also have a bool for "default entrance".s
-    public bool default_entrance;
+    /// <summary>
+    /// A place where the player may enter the level from.
+    /// </summary>
+    public class LevelEntrance : MonoBehaviour
+    {
+        [SerializeField]
+        private string entranceID;
+
+        [SerializeField]
+        private bool defaultEntrance;
+
+        /// <summary>
+        /// Gets the ID of this entrance. This is used to link the exit and the entrance together.
+        /// </summary>
+        public string EntranceID => entranceID;
+
+        /// <summary>
+        /// Gets a value indicating whether gets whether this entrance should be the default one.
+        /// That means it is used as a fallback if the requested one cannot be found.
+        /// </summary>
+        public bool DefaultEntrance => defaultEntrance;
+    }
 }
