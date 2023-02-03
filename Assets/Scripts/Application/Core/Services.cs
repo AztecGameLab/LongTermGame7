@@ -15,11 +15,14 @@
         /// </value>
         public static EventBus EventBus { get; set; }
 
+        public static Serializer Serializer { get; set; }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
             // Resets static data, so fast play mode works without carried-over data..
             EventBus = null;
+            Serializer = null;
         }
     }
 }

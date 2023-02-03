@@ -1,4 +1,5 @@
-﻿using UnityEngine.Rendering;
+﻿using System;
+using UnityEngine.Rendering;
 
 namespace Application
 {
@@ -49,6 +50,11 @@ namespace Application
             Initialize();
         }
 
+        private void OnDestroy()
+        {
+            Services.Serializer.WriteToDisk("TestingSave");
+        }
+
         private void Initialize()
         {
             Initialized = true;
@@ -56,9 +62,9 @@ namespace Application
             // Basic implementation of scene persistence.
             DontDestroyOnLoad(this);
 
-            // Demo of how we could implement cross-cutting concerns.
-            // Ensures global access, polymorphism, and control over construction order + dependencies.
             Services.EventBus = new EventBus();
+            Services.Serializer = new Serializer();
+            Services.Serializer.ReadFromDisk("TestingSave");
 
             // One approach to loading all our main settings.
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
