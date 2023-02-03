@@ -70,6 +70,9 @@ namespace Application
             var levelDesignUtil = new LevelDesignUtil();
             levelDesignUtil.Init();
 
+            var levelLoader = new LevelLoader();
+            levelLoader.Init();
+            
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
 
             if (!Application.isEditor)

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelEntrance : MonoBehaviour
@@ -8,6 +6,5 @@ public class LevelEntrance : MonoBehaviour
     public string Entrance_ID;
 
     //Should also have a bool for "default entrance".s
-    public bool default_entrance = false;
-
+    public bool default_entrance;
 }
