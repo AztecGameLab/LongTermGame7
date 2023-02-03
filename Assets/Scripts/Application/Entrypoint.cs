@@ -1,11 +1,10 @@
-﻿using UnityEngine.Rendering;
-
-namespace Application
+﻿namespace Application
 {
     using System.Threading.Tasks;
     using Core;
     using Core.Events;
     using Core.Rtf;
+    using Gameplay;
     using Gameplay.Landmarks;
     using UnityEngine;
     using UnityEngine.SceneManagement;
@@ -69,6 +68,9 @@ namespace Application
 
             var levelDesignUtil = new LevelDesignUtil();
             levelDesignUtil.Init();
+
+            var levelLoader = new LevelLoader();
+            levelLoader.Init();
 
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
 
