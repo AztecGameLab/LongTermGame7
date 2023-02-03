@@ -2,9 +2,9 @@ namespace Application
 {
     using System;
     using System.Collections.Generic;
+    using FMOD;
     using FMOD.Studio;
     using FMODUnity;
-    using FMOD;
 
     /// <summary>
     /// Manages the playing of music in the game.
@@ -16,85 +16,70 @@ namespace Application
         /// <summary>
         /// Gets the currently playing music.
         /// </summary>
+        /// <value>
+        /// The currently playing music.
+        /// </value>
         public IReadOnlyCollection<ActiveMusic> MusicList => _musicList;
 
         /// <summary>
         /// Begins playing a new song. Old music will be paused for this new song.
         /// When this new song is removed or disposed, the old music begins playing again.
         /// </summary>
-        /// <param name="song">The new song to play.</param>
+        /// <param name="musicEvent">The new song to play.</param>
+        /// <param name="pauseForInterrupts">How should this music handle being interrupted? If true, the
+        /// music will pause when something else is played on top of it, and resume when it becomes active
+        /// again. If false, the music will completely stop and restart when interrupted.</param>
         /// <returns>A disposable for stopping the newly created song.</returns>
-        public ActiveMusic AddMusic(EventReference song)
+        public ActiveMusic AddMusic(EventReference musicEvent, bool pauseForInterrupts = true)
         {
-            ActiveMusic music = new ActiveMusic(this, RuntimeManager.CreateInstance(song));
+            ActiveMusic musicToPlay = new ActiveMusic(this, RuntimeManager.CreateInstance(musicEvent), pauseForInterrupts);
 
-            // now that the music is set up, we need to actually manage the logic
-            // of figuring out which song should currently be playing. Only the most recently
-            // added song should play, but if it is removed the next most recent one starts.
-            if (_musicList.First != null) {
-                _musicList.First.Value.Instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);    // fades out current song if there is one playing
-            }
-            
-            _musicList.AddFirst(music);                                         // adds new song to be played to front of list
-            music.Instance.start();                                             // plays new song
-
-            // Note: don't worry about automatically removing a song if it ends! that responsibility
-            // should be on the user of the player, and most music in the game loops anyways.
-
-            // 1) Here is how to start / stop a song, along with some other cool and useful operations.
-            // More info here! https://www.fmod.com/docs/2.02/api/studio-api-eventinstance.html
-            //music.Instance.start();
-            //music.Instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            //music.Instance.setPaused(true);
-            //music.Instance.getDescription(out EventDescription description);
-            //description.getLength(out int songLengthInMilliseconds);
-
-            // 2) Here is how to manage a C# Linked List.
-            // More info here! https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.linkedlist-1?view=net-7.0
-            //_musicList.AddFirst(music);
-            //_musicList.RemoveFirst();
-            //_musicList.Remove(music);
-            //ActiveMusic mostRecentMusic = _musicList.First.Value;
-            //ActiveMusic oldestMusic = _musicList.Last.Value;
-
-            return music;
+            // Stop the currently playing music if it exists.
+            _musicList.First?.Value.SetPlaying(false);
+            _musicList.AddFirst(musicToPlay);
+            musicToPlay.SetPlaying(true);
+            return musicToPlay;
         }
 
         /// <summary>
         /// Removes a song from the player. If it is active, then the currently playing music will change.
         /// </summary>
-        /// <param name="music">The music to remove.</param>
-        public void RemoveMusic(ActiveMusic music)
+        /// <param name="musicToRemove">The music to remove.</param>
+        public void RemoveMusic(ActiveMusic musicToRemove)
         {
-            // You'll want to remove the requested music from the internal list, and update
-            // the currently playing music if it changed.
+            ActiveMusic currentMusic = _musicList.First.Value;
+            var currentMusicId = GetGuid(currentMusic.Instance);
 
-            ActiveMusic currentSong = _musicList.First.Value;
-            currentSong.Instance.getDescription(out EventDescription currDesc);
-            currDesc.getID(out GUID currID);                                    // obtain ID of current song
-            music.Instance.getDescription(out EventDescription musDesc);
-            musDesc.getID(out GUID musID);                                      // obtain ID of song to be played
+            musicToRemove.Instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            _musicList.Remove(musicToRemove);
 
-            if (currID == musID) {                                              // if the current playing music is the one to be removed
-                music.Instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);            // stop playing with a fadeout
-                _musicList.Remove(music);                                           // remove song from the list
-                if (_musicList.First != null) {                                     // if there is another song to be played, play it
-                    _musicList.First.Value.Instance.start();
+            // If there is still music in the list after removing this one, we want to check to see if
+            // it needs to be started or stopped.
+            if (_musicList.Count > 0)
+            {
+                ActiveMusic newMusic = _musicList.First.Value;
+                var newMusicId = GetGuid(newMusic.Instance);
+
+                if (currentMusicId != newMusicId)
+                {
+                    _musicList.First?.Value.SetPlaying(true);
                 }
-            } else {
-                _musicList.Remove(music);                                       // otherwise, just remove the music.
             }
         }
 
-        // note to adam; dont worry too music about the disposable stuff below, it should already be all set up.
-        // Essentially, it allows the user to mess with the music EventInstance if they want, and lets them remove
-        // the music from the player by calling "Dispose" on the thing they get back.
+        private static GUID GetGuid(EventInstance instance)
+        {
+            instance.getDescription(out var desc);
+            desc.getID(out var guid);
+            return guid;
+        }
 
         /// <summary>
         /// Represents a currently active piece of music in the game.
         /// </summary>
         public readonly struct ActiveMusic : IDisposable
         {
+            private readonly bool _pauseForInterrupts;
             private readonly MusicPlayer _parent;
 
             /// <summary>
@@ -102,15 +87,28 @@ namespace Application
             /// </summary>
             /// <param name="parent">The music player managing this music.</param>
             /// <param name="instance">The music this object represents.</param>
-            public ActiveMusic(MusicPlayer parent, EventInstance instance)
+            /// <param name="pauseForInterrupts">How should this music handle being interrupted? If true, the
+            /// music will pause when something else is played on top of it, and resume when it becomes active
+            /// again. If false, the music will completely stop and restart when interrupted.</param>
+            public ActiveMusic(MusicPlayer parent, EventInstance instance, bool pauseForInterrupts)
             {
                 _parent = parent;
                 Instance = instance;
+                _pauseForInterrupts = pauseForInterrupts;
+
+                if (pauseForInterrupts)
+                {
+                    Instance.start();
+                    Instance.setPaused(true);
+                }
             }
 
             /// <summary>
             /// Gets the FMOD instance data for this music.
             /// </summary>
+            /// <value>
+            /// The FMOD instance data for this music.
+            /// </value>
             public EventInstance Instance { get; }
 
             /// <summary>
@@ -119,6 +117,30 @@ namespace Application
             public void Dispose()
             {
                 _parent.RemoveMusic(this);
+            }
+
+            /// <summary>
+            /// Changes the current playing status of this instance. The actual
+            /// behavior may change based on this music's pauseForInterrupts setting.
+            /// </summary>
+            /// <param name="value">Should this music be playing.</param>
+            public void SetPlaying(bool value)
+            {
+                if (_pauseForInterrupts)
+                {
+                    Instance.setPaused(!value);
+                }
+                else
+                {
+                    if (value)
+                    {
+                        Instance.start();
+                    }
+                    else
+                    {
+                        Instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                    }
+                }
             }
         }
     }

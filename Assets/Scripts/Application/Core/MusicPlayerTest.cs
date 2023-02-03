@@ -62,6 +62,10 @@ namespace Application
                 handle.Dispose();
                 handle = null;
             }
+            else
+            {
+                // No buttons have been pressed.
+            }
         }
     }
 }
