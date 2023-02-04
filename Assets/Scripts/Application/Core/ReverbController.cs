@@ -20,11 +20,12 @@ public class ReverbController : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         _reverbData.Clear();
-        _reverbData.AddFirst(new ReverbData(0f));    // starts with reverb level of 0
+        AddData(new ReverbData(0f));    // starts with reverb level of 0
     }
 
     public void AddData(ReverbData data)
     {
+        UnityEngine.Debug.Log("Data Added");
         _reverbData.AddFirst(data);                                     // adds new reverbData to front of list
         var errorCode = RuntimeManager.GetBus("bus:/Reverb").setVolume(data.Level);     // sets the reverb to the new data level
         if (errorCode == RESULT.OK)
