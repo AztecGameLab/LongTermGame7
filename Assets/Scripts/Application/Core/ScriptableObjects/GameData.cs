@@ -12,6 +12,9 @@ namespace Application.Core.ScriptableObjects
 
         public enum Region
         {
+            /// <summary>
+            /// Undefined is the default region and should be changed for every scene
+            /// </summary>
             Undefined,
             Forest,
             Plains,

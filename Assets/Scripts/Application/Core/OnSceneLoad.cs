@@ -14,6 +14,11 @@ namespace Application.Core
         // Start is called before the first frame update
         void Start()
         {
+            if (_thisRegion == GameData.Region.Undefined)
+            {
+                Debug.LogWarning("This region is undefined! Please change this in this scene's OnSceneLoad.");
+            }
+
             GameData.CurrentRegion = _thisRegion;
         }
     }
