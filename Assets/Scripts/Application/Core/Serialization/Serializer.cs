@@ -119,6 +119,22 @@ namespace Application.Core
             fileStream.Dispose();
         }
 
+        public void ApplySavedDataTo(GameObject gameObject)
+        {
+            foreach (var serializable in gameObject.GetComponentsInChildren<ISerializable>())
+            {
+                ApplySavedDataTo(serializable);
+            }
+        }
+
+        public void UpdateSavedDataFrom(GameObject gameObject)
+        {
+            foreach (var serializable in gameObject.GetComponentsInChildren<ISerializable>())
+            {
+                UpdateSavedDataFrom(serializable);
+            }
+        }
+
         public void ApplySavedDataTo(ISerializable serializable)
         {
             string id = serializable.GetID();
