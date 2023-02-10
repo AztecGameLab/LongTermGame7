@@ -1,5 +1,6 @@
 ﻿namespace Application.Core
 {
+    using Gameplay;
     using UnityEngine;
 
     /// <summary>
@@ -15,11 +16,20 @@
         /// </value>
         public static EventBus EventBus { get; set; }
 
+        /// <summary>
+        /// Gets or sets the global RegionTracker.
+        /// </summary>
+        /// <value>
+        /// The global RegionTracker.
+        /// </value>
+        public static RegionTracker RegionTracker { get; set; }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
             // Resets static data, so fast play mode works without carried-over data..
             EventBus = null;
+            RegionTracker = null;
         }
     }
 }
