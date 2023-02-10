@@ -6,7 +6,7 @@ public class KillAllEnemiesObjective : Hook
     
     public override void OnBattleStart()
     {
-        foreach (var enemy in Controller.EnemyTeam)
+        foreach (var enemy in Controller.enemyTeam)
         {
             if (enemy.TryGetComponent(out Health health))
             {

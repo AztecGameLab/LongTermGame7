@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Gameplay.Combat.Hooks;
 using System;
 using System.Collections.Generic;
 
@@ -30,7 +31,7 @@ public class OverworldBattleSetup : IDisposable
         {
             EnemyTeamInstances = data.EnemyTeamInstances, 
             PlayerTeamInstances = data.PlayerTeamInstances,
-            Hooks = new List<Hook>(new []{new KillAllEnemiesObjective()}),
+            Hooks = new List<Hook>(new []{new DebuggingHook()}),
         };
         
         _controller.BeginBattle(battleData);

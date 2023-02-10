@@ -21,6 +21,7 @@ public class ArenaBattleSetup : IDisposable
     private void HandleArenaBattleStart(ArenaBattleStartData data)
     {
         // todo: load new scene, based on region and random selection
+        
         // todo: find spawns
         // todo: instantiate prefabs into spawn positions
         // todo: pass a battle start to the controller

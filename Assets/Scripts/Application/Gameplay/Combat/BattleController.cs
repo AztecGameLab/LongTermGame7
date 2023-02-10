@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using ImGuiNET;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,17 +8,43 @@ using UnityEngine;
 /// The generic controller for all battles.
 /// Handles the common turn sequencing and logic, win and lose conditions.
 /// </summary>
-public class BattleController
+public class BattleController : MonoBehaviour
 {
-    public List<GameObject> PlayerTeam;
-    public List<GameObject> EnemyTeam;
+    public List<GameObject> playerTeam;
+    public List<GameObject> enemyTeam;
     
+    private List<Hook> _hooks;
+
+    private void Awake()
+    {
+    }
+
+    private void DrawImGuiWindow()
+    {
+        ImGui.Begin("Battle Controller");
+
+        if (ImGui.Button("End Battle"))
+        {
+            EndBattle();
+        }
+
+        ImGui.End();
+    }
+
     public void BeginBattle(BattleData data)
     {
         Debug.Log("Starting battle!");
         
         Debug.Log("Enemy objects:");
 
+        _hooks = data.Hooks;
+        
+        foreach (Hook dataHook in _hooks)
+        {
+            dataHook.Controller = this;
+            dataHook.OnBattleStart();
+        }
+        
         foreach (GameObject enemyTeamInstance in data.EnemyTeamInstances)
         {
             Debug.Log(enemyTeamInstance.name);
@@ -34,5 +62,10 @@ public class BattleController
     {
         // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
         Debug.Log("Ending battle!");
+
+        foreach (var hook in _hooks)
+        {
+            hook.OnBattleEnd();
+        }
     }
 }

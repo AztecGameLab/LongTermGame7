@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using Application.Gameplay.Landmarks;
 using System;
+using Object = UnityEngine.Object;
 
 namespace Application.Gameplay
 {
@@ -13,14 +14,16 @@ namespace Application.Gameplay
         private LevelDesignUtil _levelDesignUtil = new LevelDesignUtil();
 
         // Combat-related systems
-        private BattleController _battleController = new BattleController();
         private OverworldBattleSetup _overworldBattleSetup = new OverworldBattleSetup();
         private ArenaBattleSetup _arenaBattleSetup = new ArenaBattleSetup();
+        private BattleController _battleController;
         
         private DisposableBag _disposables;
         
         public void Init()
         {
+            _battleController = Object.FindObjectOfType<BattleController>();
+            
             _disposables = new DisposableBag(new IDisposable[]
             {
                 _landmarkViewer.Init(),
