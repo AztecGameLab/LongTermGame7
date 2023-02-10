@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine.Rendering;
 
 namespace Application
@@ -7,6 +7,7 @@ namespace Application
     using Core;
     using Core.Events;
     using Core.Rtf;
+    using Gameplay;
     using Gameplay.Landmarks;
     using UnityEngine;
     using UnityEngine.SceneManagement;
@@ -65,6 +66,7 @@ namespace Application
             Services.EventBus = new EventBus();
             Services.Serializer = new Serializer();
             Services.Serializer.ReadFromDisk("TestingSave");
+            Services.RegionTracker = new RegionTracker();
 
             // One approach to loading all our main settings.
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
@@ -75,6 +77,11 @@ namespace Application
 
             var levelDesignUtil = new LevelDesignUtil();
             levelDesignUtil.Init();
+
+            var levelLoader = new LevelLoader();
+            levelLoader.Init();
+
+            RegionDebugger.Init();
 
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
 
