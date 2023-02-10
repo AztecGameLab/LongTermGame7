@@ -18,9 +18,10 @@
         /// <summary>
         /// Initialize this window.
         /// </summary>
-        public void Init()
+        public LevelDesignUtil Init()
         {
             _disposable = ImGuiUtil.Register(Draw);
+            return this;
         }
 
         /// <summary>

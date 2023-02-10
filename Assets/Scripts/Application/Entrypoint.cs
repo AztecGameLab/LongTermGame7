@@ -17,34 +17,11 @@ namespace Application
     /// It should persist for the entire application lifetime, only being destroyed when the application quits.
     /// It controls the startup, updating, and shutdown of the game sub-systems.
     /// </summary>
-    public class Entrypoint : MonoBehaviour
+    public partial class Entrypoint : MonoBehaviour
     {
+        private GameplaySystem _gameplaySystem = new GameplaySystem();
+        
         private static bool Initialized { get; set; }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetStatics()
-        {
-            Initialized = false;
-        }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static async Task CheckForAwakeAsync()
-        {
-            if (!Initialized)
-            {
-                Debug.LogWarning("Entrypoint must be initialized before anything else!");
-                Application.Quit();
-#if UNITY_EDITOR
-                Debug.Log($"{"[EDITOR ONLY]".Bold()} Loading Entrypoint...");
-                string originalScene = SceneManager.GetActiveScene().name;
-                SceneManager.LoadScene("Entrypoint", LoadSceneMode.Single);
-                await Task.Yield(); // We have to wait one frame here, so the Entrypoint can initialize itself
-                Debug.Log($"{"[EDITOR ONLY]".Bold()} Trying to load {originalScene} after Entrypoint...");
-                var loadLevelEvent = new LoadLevelEvent(originalScene);
-                Services.EventBus.Invoke(loadLevelEvent, "Editor Entrypoint Setup");
-#endif
-            }
-        }
 
         private void Awake()
         {
@@ -54,37 +31,29 @@ namespace Application
         private void OnDestroy()
         {
             Services.Serializer.WriteToDisk("TestingSave");
+            
+            _gameplaySystem.Dispose();
         }
 
         private void Initialize()
         {
             Initialized = true;
-
-            // Basic implementation of scene persistence.
             DontDestroyOnLoad(this);
 
             Services.EventBus = new EventBus();
+            Services.RegionTracker = new RegionTracker();
             Services.Serializer = new Serializer();
             Services.Serializer.ReadFromDisk("TestingSave");
-            Services.RegionTracker = new RegionTracker();
 
-            // One approach to loading all our main settings.
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
             Debug.Log($"Loaded settings: {settings.name}");
 
-            var landmarkViewer = new LandmarkViewer();
-            landmarkViewer.Init();
-
-            var levelDesignUtil = new LevelDesignUtil();
-            levelDesignUtil.Init();
-
-            var levelLoader = new LevelLoader();
-            levelLoader.Init();
-
-            RegionDebugger.Init();
-
+            // todo: unify level loading to clear confusion
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
+            
+            _gameplaySystem.Init();
 
+            // todo: is this important?
             if (!Application.isEditor)
             {
                 SceneManager.LoadScene(1);

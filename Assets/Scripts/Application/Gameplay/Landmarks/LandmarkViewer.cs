@@ -18,9 +18,10 @@
         /// <summary>
         /// Set up the landmark viewing window.
         /// </summary>
-        public void Init()
+        public LandmarkViewer Init()
         {
             _disposable = ImGuiUtil.Register(DrawLandmarkView);
+            return this;
         }
 
         /// <inheritdoc/>
