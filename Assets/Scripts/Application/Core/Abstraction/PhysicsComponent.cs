@@ -1,15 +1,11 @@
-﻿using UnityEngine;
-
-public interface IPhysicsComponent
+﻿namespace Application.Core.Abstraction
 {
-    Vector3 Velocity { get; set; }
-    bool IsGrounded { get; }
-    float AirTime { get; }
-}
+    using UnityEngine;
 
-public abstract class PhysicsComponent : MonoBehaviour, IPhysicsComponent
-{
-    public abstract Vector3 Velocity { get; set; }
-    public abstract bool IsGrounded { get; }
-    public abstract float AirTime { get; }
+    /// <inheritdoc cref="IPhysicsComponent" />
+    public abstract class PhysicsComponent : MonoBehaviour, IPhysicsComponent
+    {
+        /// <inheritdoc/>
+        public abstract Vector3 Velocity { get; set; }
+    }
 }
