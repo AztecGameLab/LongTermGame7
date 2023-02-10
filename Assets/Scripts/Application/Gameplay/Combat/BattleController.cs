@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +8,9 @@ using UnityEngine;
 /// </summary>
 public class BattleController
 {
+    public List<GameObject> PlayerTeam;
+    public List<GameObject> EnemyTeam;
+    
     public void BeginBattle(BattleData data)
     {
         Debug.Log("Starting battle!");
@@ -24,5 +28,11 @@ public class BattleController
         {
             Debug.Log(playerTeamInstance.name);
         }
+    }
+
+    public void EndBattle()
+    {
+        // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
+        Debug.Log("Ending battle!");
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using System;
+using System.Collections.Generic;
 
 
 /// <summary>
@@ -29,6 +30,7 @@ public class OverworldBattleSetup : IDisposable
         {
             EnemyTeamInstances = data.EnemyTeamInstances, 
             PlayerTeamInstances = data.PlayerTeamInstances,
+            Hooks = new List<Hook>(new []{new KillAllEnemiesObjective()}),
         };
         
         _controller.BeginBattle(battleData);

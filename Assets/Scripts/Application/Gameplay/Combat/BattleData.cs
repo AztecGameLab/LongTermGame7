@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,4 +9,5 @@ public struct BattleData
 {
     public List<GameObject> PlayerTeamInstances;
     public List<GameObject> EnemyTeamInstances;
+    public List<Hook> Hooks;
 }
