@@ -15,7 +15,12 @@ public class EnterOverworldCombat : TriggerEffect
     {
         List<GameObject> enemyTeamInstances = enemyTeam;
         List<GameObject> playerTeamInstances = FindObjectOfType<PlayerPartyView>().PartyMemberInstances;
-        var battleData = new OverworldBattleStartData{EnemyTeamInstances = enemyTeamInstances, PlayerTeamInstances = playerTeamInstances};
+
+        var battleData = new OverworldBattleStartData
+        {
+            EnemyTeamInstances = enemyTeamInstances, 
+            PlayerTeamInstances = playerTeamInstances,
+        };
         
         Services.EventBus.Invoke(battleData, $"Overworld Combat Trigger: {gameObject.name}");
     }
