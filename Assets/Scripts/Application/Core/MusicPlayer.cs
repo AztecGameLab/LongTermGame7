@@ -1,11 +1,11 @@
-namespace Application
-{
-    using System;
-    using System.Collections.Generic;
-    using FMOD;
-    using FMOD.Studio;
-    using FMODUnity;
+using FMOD;
+using FMOD.Studio;
+using FMODUnity;
+using System;
+using System.Collections.Generic;
 
+namespace Application.Core
+{
     /// <summary>
     /// Manages the playing of music in the game.
     /// </summary>
