@@ -1,15 +1,18 @@
-namespace Application.Core.ScriptableObjects
+namespace Application.Gameplay
 {
     using UnityEngine;
 
     /// <summary>
-    /// Data to be made available
+    /// Data to be made available.
     /// </summary>
-    public class GameData : ScriptableObject
+    public class RegionTracker
     {
         // the current region
-        private static Region _currentRegion = Region.Undefined;
+        private Region _currentRegion = Region.Undefined;
 
+        /// <summary>
+        /// The different potential areas in the game.
+        /// </summary>
         public enum Region
         {
             /// <summary>
@@ -18,14 +21,14 @@ namespace Application.Core.ScriptableObjects
             Undefined,
             Forest,
             Plains,
-            Mountains
+            Mountains,
         }
 
         /// <summary>
-        /// Gets or sets the current region
+        /// Gets or sets the current region.
         /// </summary>
         /// <value>The current region.</value>
-        public static Region CurrentRegion
+        public Region CurrentRegion
         {
             get
             {
@@ -34,8 +37,11 @@ namespace Application.Core.ScriptableObjects
 
             set
             {
-                Debug.Log("Updating region to: " + value);
-                _currentRegion = value;
+                if (_currentRegion != value)
+                {
+                    Debug.Log("Updating region to: " + value);
+                    _currentRegion = value;    
+                }
             }
         }
     }
