@@ -1,11 +1,22 @@
 ﻿title: Start
 ---
-Wow!
-My first ever Yarn script in Unity!
+Follow the tree
+<<cam-follow Tree>>
 
--> Gosh!
--> Incredible!
--> I'm amazed!
+Follow the player
+<<cam-follow Player>>
+
+Swivel the cam relatvely by 30 -40 50
+<<swivel-rel 30 -40 50>>
+
+Set the camera to 0, 0, 0 slowly
+<<swivel-abs 0 0 0 .2>>
+
+Move the cam offset
+<<cam-offset-abs 10 21.9 30 .5>>
+
+Return to the player with relative offset
+<<cam-offset-rel -10 -20 -30 .8>>
 
 Anyway, time to get writing!
 ===
