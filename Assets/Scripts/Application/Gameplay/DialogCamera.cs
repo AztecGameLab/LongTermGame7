@@ -5,7 +5,7 @@ namespace Application.Gameplay
     using Yarn.Unity;
 
     /// <summary>
-    /// Handle camera movements
+    /// Yarn camera commands.
     /// </summary>
     public class DialogCamera : MonoBehaviour
     {
@@ -25,7 +25,7 @@ namespace Application.Gameplay
         private static float _movementTime;
 
         /// <summary>
-        /// Make the camera Look At the target game object. You must be using a camera with Aim that supports this!
+        /// Make the camera Look At the target game object. You must be using a camera with Aim that supports this.
         /// </summary>
         /// <param name="target">The name of the game object to look at.</param>
         [YarnCommand("cam-look-at")]
@@ -42,7 +42,7 @@ namespace Application.Gameplay
         }
 
         /// <summary>
-        /// Make the camera Follow the target game object. You must be using a camera with Aim that supports this!
+        /// Make the camera Follow the target game object. You must be using a camera with Aim that supports this.
         /// </summary>
         /// <param name="target">The name of the game object to follow.</param>
         [YarnCommand("cam-follow")]
@@ -179,7 +179,7 @@ namespace Application.Gameplay
             }
         }
 
-        void Update()
+        private void Update()
         {
             if (_isRotating)
             {
