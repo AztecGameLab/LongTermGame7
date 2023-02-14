@@ -15,13 +15,13 @@ namespace Application.Gameplay
         private static Quaternion _startRotation;
         private static Quaternion _endRotation;
         private static bool _isRotating;
-        private static float _rotationTimeScalar = 1.0f;
+        private static float _rotationDuration = 1.0f;
         private static float _rotationTime;
 
         private static Vector3 _startMovement;
         private static Vector3 _endMovement;
         private static bool _isMoving;
-        private static float _movementTimeScalar = 1.0f;
+        private static float _movementDuration = 1.0f;
         private static float _movementTime;
 
         /// <summary>
@@ -65,8 +65,7 @@ namespace Application.Gameplay
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
-        /// <param name="timeScalar">Optional: The time to complete the swivel. 1 is default, less than 1 is slower,
-        /// greater than 1 is faster.</param>
+        /// <param name="timeScalar">Optional: The time to complete the swivel in seconds, default is 1.</param>
         [YarnCommand("swivel-rel")]
         public static void SwivelRel(float x, float y, float z, float timeScalar = 1)
         {
@@ -87,7 +86,7 @@ namespace Application.Gameplay
             newRotation += new Vector3(x, y, z);
 
             _endRotation.eulerAngles = newRotation;
-            _rotationTimeScalar = timeScalar;
+            _rotationDuration = timeScalar;
             _isRotating = true;
         }
 
@@ -97,7 +96,7 @@ namespace Application.Gameplay
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
-        /// <param name="timeScalar">Optional: The time to complete the swivel. 1 is default, less than 1 is slower, greater than 1 is faster.</param>
+        /// <param name="timeScalar">Optional: The time to complete the swivel in seconds, default is 1.</param>
         [YarnCommand("swivel-abs")]
         public static void SwivelAbs(float x, float y, float z, float timeScalar = 1)
         {
@@ -107,7 +106,7 @@ namespace Application.Gameplay
 
             Vector3 newRotation = new Vector3(x, y, z);
             _endRotation.eulerAngles = newRotation;
-            _rotationTimeScalar = timeScalar;
+            _rotationDuration = timeScalar;
             _isRotating = true;
         }
 
@@ -118,8 +117,7 @@ namespace Application.Gameplay
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
-        /// <param name="timeScalar">Optional: The time to complete the movement. 1 is default, less than 1 is slower,
-        /// greater than 1 is faster.</param>
+        /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 1.</param>
         [YarnCommand("cam-offset-rel")]
         public static void MoveRel(float x, float y, float z, float timeScalar = 1)
         {
@@ -136,7 +134,7 @@ namespace Application.Gameplay
             // If a movement is not in progress, then _camTrans = _endMovement and has the expected effect.
             Vector3 newMovement = new Vector3(x, y, z);
             _endMovement += newMovement;
-            _movementTimeScalar = timeScalar;
+            _movementDuration = timeScalar;
             _isMoving = true;
         }
 
@@ -146,8 +144,7 @@ namespace Application.Gameplay
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
-        /// <param name="timeScalar">Optional: The time to complete the movement. 1 is default, less than 1 is slower,
-        /// greater than 1 is faster.</param>
+        /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 1.</param>
         [YarnCommand("cam-offset-abs")]
         public static void MoveAbs(float x, float y, float z, float timeScalar = 1)
         {
@@ -156,7 +153,7 @@ namespace Application.Gameplay
 
             Vector3 newMovement = new Vector3(x, y, z);
             _endMovement = newMovement;
-            _movementTimeScalar = timeScalar;
+            _movementDuration = timeScalar;
             _isMoving = true;
         }
 
@@ -190,15 +187,15 @@ namespace Application.Gameplay
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_isRotating)
             {
-                _camTrans.rotation = Quaternion.Slerp(_startRotation, _endRotation, _rotationTime);
+                _camTrans.rotation = Quaternion.Slerp(_startRotation, _endRotation, _rotationTime / _rotationDuration);
 
                 // Apply the time scalar to adjust how far to progress the Slerp.
-                _rotationTime += _rotationTimeScalar * Time.deltaTime;
-                if (_rotationTime >= 1)
+                _rotationTime += Time.deltaTime;
+                if (_rotationTime >= _rotationDuration)
                 {
                     _isRotating = false;
                     _rotationTime = 0.0f;
@@ -210,11 +207,11 @@ namespace Application.Gameplay
 
             if (_isMoving)
             {
-                _camFramingTransposer.m_TrackedObjectOffset = Vector3.Slerp(_startMovement, _endMovement, _movementTime);
+                _camFramingTransposer.m_TrackedObjectOffset = Vector3.Slerp(_startMovement, _endMovement, _movementTime / _movementDuration);
 
                 // Apply the time scalar to adjust how far to progress the Slerp.
-                _movementTime += _movementTimeScalar * Time.deltaTime;
-                if (_movementTime >= 1)
+                _movementTime += Time.deltaTime;
+                if (_movementTime >= _movementDuration)
                 {
                     _isMoving = false;
                     _movementTime = 0.0f;

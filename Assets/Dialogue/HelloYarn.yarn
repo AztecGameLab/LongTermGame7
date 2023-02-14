@@ -9,14 +9,14 @@ Follow the player
 Swivel the cam relatvely by 30 -40 50
 <<swivel-rel 30 -40 50>>
 
-Set the camera to 0, 0, 0 slowly
-<<swivel-abs 0 0 0 .2>>
+Set the camera to 0, 0, 0 over 3 seconds
+<<swivel-abs 0 0 0 3>>
 
-Move the cam offset
-<<cam-offset-abs 10 21.9 30 .5>>
+Move the cam offset over 2 seconds
+<<cam-offset-abs 10 21.9 30 2>>
 
-Return to the player with relative offset
-<<cam-offset-rel -10 -20 -30 .8>>
+Return to the player with relative offset 1 sec
+<<cam-offset-rel -10 -20 -30>>
 
 Anyway, time to get writing!
 ===
