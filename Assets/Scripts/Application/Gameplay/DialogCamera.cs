@@ -128,7 +128,6 @@ namespace Application.Gameplay
             _isMoving = false;
             _movementTime = 0;
 
-            _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
 
             // If a movement was in progress, _camTrans != _endMovement. It is assumed the yarn author wants the
@@ -153,7 +152,6 @@ namespace Application.Gameplay
         public static void MoveAbs(float x, float y, float z, float timeScalar = 1)
         {
             FindActiveCamera();
-            _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
 
             Vector3 newMovement = new Vector3(x, y, z);
@@ -174,6 +172,19 @@ namespace Application.Gameplay
                 {
                     _cam = c;
                     _camTrans = c.transform;
+                    _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
+
+                    // Set _end values if not in the middle of moving to handle if a rel is called first
+                    if (!_isMoving)
+                    {
+                        _endMovement = _camFramingTransposer.m_TrackedObjectOffset;
+                    }
+
+                    if (!_isRotating)
+                    {
+                        _endRotation = _camTrans.rotation;
+                    }
+
                     return;
                 }
             }
