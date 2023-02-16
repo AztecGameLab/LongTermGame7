@@ -58,6 +58,7 @@
             // Demo of how we could implement cross-cutting concerns.
             // Ensures global access, polymorphism, and control over construction order + dependencies.
             Services.EventBus = new EventBus();
+            Services.RegionTracker = new RegionTracker();
 
             // One approach to loading all our main settings.
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
@@ -71,6 +72,8 @@
 
             var levelLoader = new LevelLoader();
             levelLoader.Init();
+
+            RegionDebugger.Init();
 
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
 
