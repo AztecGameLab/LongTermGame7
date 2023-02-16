@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class GameplayCutsceneTransition : MonoBehaviour
+public class CutsceneManager : MonoBehaviour
 {
     [Serializable]
     public struct KeyValuePair {
