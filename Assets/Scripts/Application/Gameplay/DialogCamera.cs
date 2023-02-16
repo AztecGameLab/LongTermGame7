@@ -65,10 +65,11 @@ namespace Application.Gameplay
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
-        /// <param name="timeScalar">Optional: The time to complete the swivel in seconds, default is 1.</param>
+        /// <param name="timeScalar">Optional: The time to complete the swivel in seconds, default is 0 - instant.</param>
         [YarnCommand("swivel-rel")]
-        public static void SwivelRel(float x, float y, float z, float timeScalar = 1)
+        public static void SwivelRel(float x, float y, float z, float timeScalar = 0)
         {
+            timeScalar = MakePositive(timeScalar);
             FindActiveCamera();
 
             // Stop a rotation if it is in progress
@@ -96,10 +97,11 @@ namespace Application.Gameplay
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
-        /// <param name="timeScalar">Optional: The time to complete the swivel in seconds, default is 1.</param>
+        /// <param name="timeScalar">Optional: The time to complete the swivel in seconds, default is 0 - instant.</param>
         [YarnCommand("swivel-abs")]
-        public static void SwivelAbs(float x, float y, float z, float timeScalar = 1)
+        public static void SwivelAbs(float x, float y, float z, float timeScalar = 0)
         {
+            timeScalar = MakePositive(timeScalar);
             FindActiveCamera();
             _startRotation = _camTrans.rotation;
             _endRotation = _startRotation;
@@ -117,10 +119,11 @@ namespace Application.Gameplay
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
-        /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 1.</param>
+        /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 0 - instant.</param>
         [YarnCommand("cam-offset-rel")]
-        public static void MoveRel(float x, float y, float z, float timeScalar = 1)
+        public static void MoveRel(float x, float y, float z, float timeScalar = 0)
         {
+            timeScalar = MakePositive(timeScalar);
             FindActiveCamera();
 
             _isMoving = false;
@@ -144,10 +147,11 @@ namespace Application.Gameplay
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
-        /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 1.</param>
+        /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 0 - instant.</param>
         [YarnCommand("cam-offset-abs")]
-        public static void MoveAbs(float x, float y, float z, float timeScalar = 1)
+        public static void MoveAbs(float x, float y, float z, float timeScalar = 0)
         {
+            timeScalar = MakePositive(timeScalar);
             FindActiveCamera();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
 
@@ -187,14 +191,26 @@ namespace Application.Gameplay
             }
         }
 
+        /// <summary>
+        /// Ensure that the duration is positive, warn if it is not.
+        /// </summary>
+        /// <param name="input">The duration to check.</param>
+        /// <returns>The absolute value of the duration.</returns>
+        private static float MakePositive(float input)
+        {
+            if (input < 0)
+            {
+                Debug.LogWarning("DialogCamera: A negative duration was provided from Yarn!");
+                return System.Math.Abs(input);
+            }
+
+            return input;
+        }
+
         private void FixedUpdate()
         {
             if (_isRotating)
             {
-                _camTrans.rotation = Quaternion.Slerp(_startRotation, _endRotation, _rotationTime / _rotationDuration);
-
-                // Apply the time scalar to adjust how far to progress the Slerp.
-                _rotationTime += Time.deltaTime;
                 if (_rotationTime >= _rotationDuration)
                 {
                     _isRotating = false;
@@ -203,21 +219,46 @@ namespace Application.Gameplay
                     // Snap to the final rotation as Slerp won't go all the way.
                     _camTrans.rotation = _endRotation;
                 }
+                else
+                {
+                    _camTrans.rotation = Quaternion.Slerp(_startRotation, _endRotation, _rotationTime / _rotationDuration);
+
+                    // Apply the time scalar to adjust how far to progress the Slerp.
+                    _rotationTime += Time.deltaTime;
+                }
             }
 
             if (_isMoving)
             {
-                _camFramingTransposer.m_TrackedObjectOffset = Vector3.Slerp(_startMovement, _endMovement, _movementTime / _movementDuration);
-
-                // Apply the time scalar to adjust how far to progress the Slerp.
-                _movementTime += Time.deltaTime;
                 if (_movementTime >= _movementDuration)
                 {
                     _isMoving = false;
                     _movementTime = 0.0f;
 
                     // Snap to the final offset as Slerp won't go all the way.
+                    // Remove damping so this is instant, but remember the original values.
+
+                    // This is not working, cinemachine still applies damping
+                    Vector3 origDamping;
+                    origDamping.x = _camFramingTransposer.m_XDamping;
+                    origDamping.y = _camFramingTransposer.m_YDamping;
+                    origDamping.z = _camFramingTransposer.m_ZDamping;
+                    _camFramingTransposer.m_XDamping = 0;
+                    _camFramingTransposer.m_YDamping = 0;
+                    _camFramingTransposer.m_ZDamping = 0;
+
                     _camFramingTransposer.m_TrackedObjectOffset = _endMovement;
+
+                    _camFramingTransposer.m_XDamping = origDamping.x;
+                    _camFramingTransposer.m_YDamping = origDamping.y;
+                    _camFramingTransposer.m_ZDamping = origDamping.z;
+                }
+                else
+                {
+                    _camFramingTransposer.m_TrackedObjectOffset = Vector3.Slerp(_startMovement, _endMovement, _movementTime / _movementDuration);
+
+                    // Apply the time scalar to adjust how far to progress the Slerp.
+                    _movementTime += Time.deltaTime;
                 }
             }
         }

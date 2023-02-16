@@ -6,17 +6,17 @@ Follow the tree
 Follow the player
 <<cam-follow Player>>
 
-Swivel the cam relatvely by 30 -40 50
+Swivel the cam relatvely by 30 -40 50 instantly
 <<swivel-rel 30 -40 50>>
 
-Set the camera to 0, 0, 0 over 3 seconds
-<<swivel-abs 0 0 0 3>>
+Set the camera to 0, 0, 0 over 1 second
+<<swivel-abs 0 0 0 1>>
 
 Move the cam offset over 2 seconds
 <<cam-offset-abs 10 21.9 30 2>>
 
 Return to the player with relative offset 1 sec
-<<cam-offset-rel -10 -20 -30>>
+<<cam-offset-rel -10 -20 -30 1>>
 
 Anyway, time to get writing!
 ===
