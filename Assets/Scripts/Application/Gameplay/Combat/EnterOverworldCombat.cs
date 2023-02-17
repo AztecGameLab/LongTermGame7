@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.Gameplay;
+using Application.Gameplay.Combat;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,7 @@ using UnityEngine;
 public class EnterOverworldCombat : TriggerEffect
 {
     [SerializeField] private List<GameObject> enemyTeam;
+    [SerializeField] private EnemyOrderDecider enemyOrderDecider;
     
     protected override void HandleCollisionEnter(GameObject obj)
     {
@@ -20,6 +22,7 @@ public class EnterOverworldCombat : TriggerEffect
         {
             EnemyTeamInstances = enemyTeamInstances, 
             PlayerTeamInstances = playerTeamInstances,
+            EnemyOrderDecider = enemyOrderDecider,
         };
         
         Services.EventBus.Invoke(battleData, $"Overworld Combat Trigger: {gameObject.name}");

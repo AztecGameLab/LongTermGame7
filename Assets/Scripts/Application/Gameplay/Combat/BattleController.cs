@@ -1,6 +1,9 @@
 ﻿using Application.Core;
+using Application.Gameplay.Combat;
+using Application.StateMachine;
 using ImGuiNET;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -21,9 +24,32 @@ public class BattleController : MonoBehaviour
     // todo: statemachinify
     private bool _isBattling;
 
+    public StateMachine BattleStateMachine { get; private set; }
+    
+    public BattleIntro BattleIntro {get; private set;}
+    public BattleLoss BattleLoss {get; private set;}
+    public BattleVictory BattleVictory {get; private set;}
+    public BattleRound BattleRound {get; private set;}
+    public EnemyOrderDecider Decider { get; private set; }
+
     private void Awake()
     {
         ImGuiUtil.Register(DrawImGuiWindow).AddTo(this);
+
+        BattleStateMachine = new StateMachine();
+
+        BattleIntro = new BattleIntro { Controller = this };
+        BattleLoss = new BattleLoss { Controller = this };
+        BattleVictory = new BattleVictory { Controller = this };
+        BattleRound = new BattleRound { Controller = this };
+    }
+
+    private void Update()
+    {
+        if (_isBattling)
+        {
+            BattleStateMachine.Tick();
+        }
     }
 
     public void BeginBattle(BattleData data)
@@ -36,6 +62,7 @@ public class BattleController : MonoBehaviour
         _isBattling = true;
         
         Debug.Log("Starting battle!");
+        Decider = data.Decider;
 
         _hooks.Clear();
         _hooks.AddRange(data.Hooks);

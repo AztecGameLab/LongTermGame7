@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Application.Gameplay.Combat;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,4 +9,5 @@ public struct OverworldBattleStartData
 {
     public List<GameObject> PlayerTeamInstances;
     public List<GameObject> EnemyTeamInstances;
+    public EnemyOrderDecider EnemyOrderDecider;
 }

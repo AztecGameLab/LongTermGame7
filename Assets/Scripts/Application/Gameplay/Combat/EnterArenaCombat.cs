@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using Application.Gameplay;
+using Application.Gameplay.Combat;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class EnterArenaCombat : TriggerEffect
 {
     [SerializeField] private List<GameObject> enemyTeamPrefabs;
+    [SerializeField] private EnemyOrderDecider enemyOrderDecider;
     
     protected override void HandleCollisionEnter(GameObject obj)
     {
@@ -17,6 +19,7 @@ public class EnterArenaCombat : TriggerEffect
         {
             EnemyTeamPrefabs = enemyTeamPrefabs, 
             PlayerTeamPrefabs = playerTeamPrefabs,
+            EnemyOrderDecider = enemyOrderDecider,
         };
         
         Services.EventBus.Invoke(battleData, $"Arena Combat Trigger: {gameObject.name}");

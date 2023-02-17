@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Application.Gameplay.Combat;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,4 +9,5 @@ public struct ArenaBattleStartData
 {
     public List<GameObject> PlayerTeamPrefabs;
     public List<GameObject> EnemyTeamPrefabs;
+    public EnemyOrderDecider EnemyOrderDecider;
 }

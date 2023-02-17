@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Gameplay.Combat;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,4 +11,6 @@ public struct BattleData
     public List<GameObject> PlayerTeamInstances;
     public List<GameObject> EnemyTeamInstances;
     public List<Hook> Hooks;
+
+    public EnemyOrderDecider Decider;
 }
