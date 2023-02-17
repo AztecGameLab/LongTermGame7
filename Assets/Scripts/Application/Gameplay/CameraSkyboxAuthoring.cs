@@ -8,7 +8,7 @@ namespace Application.Gameplay
         public CameraClearFlags flags;
         public Color color;
         
-        private void Awake()
+        private void Start()
         {
             Camera.main.clearFlags = flags;
             Camera.main.backgroundColor = color;
