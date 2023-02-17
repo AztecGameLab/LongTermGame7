@@ -8,7 +8,7 @@
     /// <summary>
     /// Renders a custom editor for the Camera Change trigger effect.
     /// </summary>
-    [CustomEditor(typeof(ChangeCamera))]
+    [CustomEditor(typeof(ChangeCameraTrigger))]
     public class ChangeCameraTriggerEffectEditor : Editor
     {
         private SerializedProperty _camera;
@@ -21,7 +21,7 @@
             if (GUILayout.Button("Generate Camera"))
             {
                 serializedObject.Update();
-                var cameraTrigger = (ChangeCamera)target;
+                var cameraTrigger = (ChangeCameraTrigger)target;
 
                 var prefab = Resources.Load<CinemachineVirtualCamera>("Tracking Camera");
                 var newCamera = Instantiate(prefab, cameraTrigger.transform, true);

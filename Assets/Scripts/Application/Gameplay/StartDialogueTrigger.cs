@@ -7,7 +7,7 @@ using Yarn.Unity;
 namespace Application.Gameplay
 {
     [RequireComponent(typeof(Trigger))]
-    public class DialogueTriggerEffect : MonoBehaviour
+    public class StartDialogueTrigger : TriggerEffect
     {
         [SerializeField] private string nodeId;
         
@@ -19,18 +19,8 @@ namespace Application.Gameplay
             _trigger = GetComponent<Trigger>();
             _dialogueRunner = FindObjectOfType<DialogueRunner>();
         }
-
-        private void OnEnable()
-        {
-            _trigger.CollisionEnter += HandleCollisionEnter;
-        }
-
-        private void OnDisable()
-        {
-            _trigger.CollisionEnter -= HandleCollisionEnter;
-        }
         
-        private void HandleCollisionEnter(GameObject obj)
+        protected override void HandleCollisionEnter(GameObject obj)
         {
             _dialogueRunner.StartDialogue(nodeId);
             _dialogueRunner.onDialogueComplete.AddListener(HandleDialogueComplete);

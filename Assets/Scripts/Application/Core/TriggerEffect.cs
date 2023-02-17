@@ -6,23 +6,18 @@ namespace Application.Gameplay
     [RequireComponent(typeof(Trigger))]
     public abstract class TriggerEffect : MonoBehaviour
     {
-        private Trigger _trigger;
-
-        private void Awake()
-        {
-            _trigger = GetComponent<Trigger>();
-        }
-
         private void OnEnable()
         {
-            _trigger.CollisionEnter += HandleCollisionEnter;
-            _trigger.CollisionExit += HandleCollisionExit;
+            var trigger = GetComponent<Trigger>();
+            trigger.CollisionEnter += HandleCollisionEnter;
+            trigger.CollisionExit += HandleCollisionExit;
         }
 
         private void OnDisable()
         {
-            _trigger.CollisionEnter -= HandleCollisionEnter;
-            _trigger.CollisionExit -= HandleCollisionExit;
+            var trigger = GetComponent<Trigger>();
+            trigger.CollisionEnter -= HandleCollisionEnter;
+            trigger.CollisionExit -= HandleCollisionExit;
         }
 
         protected virtual void HandleCollisionEnter(GameObject obj) {}

@@ -6,7 +6,7 @@
     /// <summary>
     /// Hooks into a trigger to change the priority of a Cinemachine camera.
     /// </summary>
-    public class ChangeCamera : TriggerEffect
+    public class ChangeCameraTrigger : TriggerEffect
     {
         private const int ActivePriority = 50;
 
