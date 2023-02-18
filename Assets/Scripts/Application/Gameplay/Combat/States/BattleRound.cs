@@ -1,3 +1,6 @@
+using Application.Core;
+using Cinemachine;
+using ImGuiNET;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -8,10 +11,21 @@ namespace Application.StateMachine
     public abstract class RoundState : IState
     {
         public BattleRound BattleRound { get; set; }
+
+        private IDisposable _disposable;
+
+        public virtual void OnEnter()
+        {
+            _disposable = ImGuiUtil.Register(DrawGui);
+        }
+
+        public virtual void OnExit()
+        {
+            _disposable?.Dispose();
+        }
         
-        public virtual void OnEnter() {}
         public virtual void OnTick() {}
-        public virtual void OnExit() {}
+        protected virtual void DrawGui() {}
     }
     
     public class BattleRound : BattleState
@@ -29,15 +43,31 @@ namespace Application.StateMachine
         public BattleRound()
         {
             StateMachine = new StateMachine();
-            
+
             PickMonster = new PickMonster { BattleRound = this };
             PickActions = new PickActionsForMonster { BattleRound = this };
             PlayAnimation = new PlayActionAnimation { BattleRound = this };
             EnemyMoveMonsters = new EnemyMoveMonsters { BattleRound = this };
         }
-        
+
+        protected override void DrawGui()
+        {
+            ImGui.Begin("Battle Round");
+            
+            ImGui.Text($"Current State: {StateMachine.CurrentState.GetType().Name}");
+            
+            if (ImGui.Button("Win Battle"))
+                Controller.BattleStateMachine.SetState(Controller.BattleVictory);
+            
+            if (ImGui.Button("Lose Battle"))
+                Controller.BattleStateMachine.SetState(Controller.BattleLoss);
+            
+            ImGui.End();
+        }
+
         public override void OnEnter()
         {
+            base.OnEnter();
             StateMachine.SetState(PickMonster);
         }
         
@@ -48,6 +78,7 @@ namespace Application.StateMachine
 
         public override void OnExit()
         {
+            base.OnExit();
             StateMachine.SetState(null);
         }
     }

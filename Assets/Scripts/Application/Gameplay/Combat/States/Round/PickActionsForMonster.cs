@@ -1,9 +1,12 @@
-﻿namespace Application.StateMachine
+﻿using ImGuiNET;
+
+namespace Application.StateMachine
 {
     public class PickActionsForMonster : RoundState
     {
         public override void OnEnter()
         {
+            base.OnEnter();
             var targetMonster = BattleRound.SelectedMonster;
             
             // now that we have the target monster, we can find out what it wants to do with some GetComponent calls
@@ -15,6 +18,16 @@
             }
             
             // we also probably want to load in a UI for this as well, same thing with the OnSelectAction call.
+        }
+
+        protected override void DrawGui()
+        {
+            ImGui.Begin("Decide Monster Actions");
+            
+            if (ImGui.Button("Choose Action"))
+                OnSelectAction(null);
+            
+            ImGui.End();
         }
 
         private void OnSelectAction(MonsterAction monsterAction)

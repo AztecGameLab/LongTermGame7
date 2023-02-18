@@ -78,6 +78,8 @@ public class BattleController : MonoBehaviour
         
         _enemyTeam.Clear();
         _enemyTeam.AddRange(data.EnemyTeamInstances);
+        
+        BattleStateMachine.SetState(BattleIntro);
     }
 
     public void EndBattle()
@@ -92,6 +94,8 @@ public class BattleController : MonoBehaviour
             hook.OnBattleEnd();
         }
         
+        BattleStateMachine.SetState(null);
+
         _hooks.Clear();
         _playerTeam.Clear();
         _enemyTeam.Clear();
@@ -100,32 +104,26 @@ public class BattleController : MonoBehaviour
     private void DrawImGuiWindow()
     {
         ImGui.Begin("Battle Controller");
+        
+        ImGui.Text($"Current State: {BattleStateMachine.CurrentState?.GetType().Name}");
 
         if (ImGui.Button("End Battle"))
-        {
             EndBattle();
-        }
         
         ImGui.Text("Enemy team:");
         
         foreach (GameObject enemyTeamInstance in EnemyTeam)
-        {
             ImGui.Text($"\t{enemyTeamInstance.name}");
-        }
         
         ImGui.Text("Player team:");
 
         foreach (GameObject playerTeamInstance in PlayerTeam)
-        {
             ImGui.Text($"\t{playerTeamInstance.name}");
-        }
         
         ImGui.Text("Hooks:");
 
         foreach (Hook hook in _hooks)
-        {
             ImGui.Text($"\t{hook.GetType().Name}");
-        }
 
         ImGui.End();
     }

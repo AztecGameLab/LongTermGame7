@@ -10,7 +10,7 @@
     {
         private const bool V = false;
 
-        private static List<Transition> _emptyTransitions = new List<Transition>();
+        private static readonly List<Transition> EmptyTransitions = new List<Transition>();
 
         private IState _currentState;
 
@@ -18,6 +18,14 @@
 
         private List<Transition> _currentTransitions = new List<Transition>();
         private List<Transition> _anyTransitions = new List<Transition>();
+
+        public IState CurrentState => _currentState;
+
+        public StateMachine()
+        {
+            _currentTransitions = EmptyTransitions;
+            _anyTransitions = EmptyTransitions;
+        }
 
         /// <summary>
         /// This method hooks into the Monobehavior implementing the StateMachine. 
@@ -54,15 +62,17 @@
             _currentState?.OnExit();
             _currentState = state;
 
-            _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
-
-            if (_currentTransitions == null)
+            if (_currentState != null)
             {
-                _currentTransitions = _emptyTransitions;
+                if (!_transitions.TryGetValue(_currentState.GetType(), out _currentTransitions))
+                {
+                    _currentTransitions = EmptyTransitions;
+                }
+                _currentState.OnEnter();
             }
-
-            _currentState.OnEnter();
+            else _currentTransitions = EmptyTransitions;
         }
+        
         /// <summary>
         /// This method allows objects implementing a state machine to add state transitions and the transition predicates to the transition map.
         /// </summary>
