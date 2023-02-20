@@ -54,10 +54,10 @@
         /// <param name="state"> Which state should become the next state. </param>
         public void SetState(IState state)
         {
-            if (state == _currentState)
-            {
-                return;
-            }
+            // if (state == _currentState)
+            // {
+            //     return;
+            // }
 
             _currentState?.OnExit();
             _currentState = state;

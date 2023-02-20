@@ -26,6 +26,9 @@ namespace Application.StateMachine
         
         public virtual void OnTick() {}
         protected virtual void DrawGui() {}
+        
+        public virtual void OnRoundBegin() {}
+        public virtual void OnRoundEnd() {}
     }
     
     public class BattleRound : BattleState
@@ -40,14 +43,24 @@ namespace Application.StateMachine
         public GameObject SelectedMonster { get; set; }
         public MonsterAction SelectedAction { get; set; }
 
+        private RoundState[] _states;
+
         public BattleRound()
         {
             StateMachine = new StateMachine();
 
-            PickMonster = new PickMonster { BattleRound = this };
-            PickActions = new PickActionsForMonster { BattleRound = this };
-            PlayAnimation = new PlayActionAnimation { BattleRound = this };
-            EnemyMoveMonsters = new EnemyMoveMonsters { BattleRound = this };
+            _states = new RoundState[]
+            {
+                PickMonster = new PickMonster(),
+                PickActions = new PickActionsForMonster(),
+                PlayAnimation = new PlayActionAnimation(),
+                EnemyMoveMonsters = new EnemyMoveMonsters(),
+            };
+
+            foreach (RoundState roundState in _states)
+            {
+                roundState.BattleRound = this;
+            }
         }
 
         protected override void DrawGui()
@@ -68,6 +81,12 @@ namespace Application.StateMachine
         public override void OnEnter()
         {
             base.OnEnter();
+
+            foreach (RoundState roundState in _states)
+            {
+                roundState.OnRoundBegin();
+            }
+            
             StateMachine.SetState(PickMonster);
         }
         
@@ -79,6 +98,12 @@ namespace Application.StateMachine
         public override void OnExit()
         {
             base.OnExit();
+
+            foreach (RoundState roundState in _states)
+            {
+                roundState.OnRoundEnd();
+            }
+            
             StateMachine.SetState(null);
         }
     }
