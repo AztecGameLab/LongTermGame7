@@ -9,27 +9,45 @@ namespace Application.Gameplay
     /// </summary>
     public class DialogCamera : MonoBehaviour
     {
-        private static CinemachineVirtualCamera _cam;
-        private static CinemachineFramingTransposer _camFramingTransposer;
-        private static Transform _camTrans;
-        private static Quaternion _startRotation;
-        private static Quaternion _endRotation;
-        private static bool _isRotating;
-        private static float _rotationDuration = 1.0f;
-        private static float _rotationTime;
+        [SerializeField]
+        private CinemachineVirtualCamera dialogueCamera;
 
-        private static Vector3 _startMovement;
-        private static Vector3 _endMovement;
-        private static bool _isMoving;
-        private static float _movementDuration = 1.0f;
-        private static float _movementTime;
+        private CinemachineVirtualCamera _cam;
+        private CinemachineFramingTransposer _camFramingTransposer;
+        private Transform _camTrans;
+        private Quaternion _startRotation;
+        private Quaternion _endRotation;
+        private bool _isRotating;
+        private float _rotationDuration = 1.0f;
+        private float _rotationTime;
+
+        private Vector3 _startMovement;
+        private Vector3 _endMovement;
+        private bool _isMoving;
+        private float _movementDuration = 1.0f;
+        private float _movementTime;
+
+        /// <summary>
+        /// Ensure that the duration is positive, warn if it is not.
+        /// </summary>
+        /// <param name="input">The duration to check.</param>
+        /// <returns>The absolute value of the duration.</returns>
+        private static float MakePositive(float input)
+        {
+            if (input < 0)
+            {
+                Debug.LogWarning("DialogCamera: A negative duration was provided from Yarn!");
+                return System.Math.Abs(input);
+            }
+
+            return input;
+        }
 
         /// <summary>
         /// Make the camera Look At the target game object. You must be using a camera with Aim that supports this.
         /// </summary>
         /// <param name="target">The name of the game object to look at.</param>
-        [YarnCommand("cam-look-at")]
-        public static void LookAt(GameObject target)
+        private void LookAt(GameObject target)
         {
             if (target == null)
             {
@@ -37,7 +55,7 @@ namespace Application.Gameplay
                 return;
             }
 
-            FindActiveCamera();
+            UpdateEndState();
             _cam.LookAt = target.transform;
         }
 
@@ -45,8 +63,7 @@ namespace Application.Gameplay
         /// Make the camera Follow the target game object. You must be using a camera with Aim that supports this.
         /// </summary>
         /// <param name="target">The name of the game object to follow.</param>
-        [YarnCommand("cam-follow")]
-        public static void Follow(GameObject target)
+        private void Follow(GameObject target)
         {
             if (target == null)
             {
@@ -54,7 +71,7 @@ namespace Application.Gameplay
                 return;
             }
 
-            FindActiveCamera();
+            UpdateEndState();
             _cam.Follow = target.transform;
         }
 
@@ -66,11 +83,10 @@ namespace Application.Gameplay
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
         /// <param name="timeScalar">Optional: The time to complete the swivel in seconds, default is 0 - instant.</param>
-        [YarnCommand("swivel-rel")]
-        public static void SwivelRel(float x, float y, float z, float timeScalar = 0)
+        private void SwivelRel(float x, float y, float z, float timeScalar = 0)
         {
             timeScalar = MakePositive(timeScalar);
-            FindActiveCamera();
+            UpdateEndState();
 
             // Stop a rotation if it is in progress
             _isRotating = false;
@@ -98,11 +114,10 @@ namespace Application.Gameplay
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
         /// <param name="timeScalar">Optional: The time to complete the swivel in seconds, default is 0 - instant.</param>
-        [YarnCommand("swivel-abs")]
-        public static void SwivelAbs(float x, float y, float z, float timeScalar = 0)
+        private void SwivelAbs(float x, float y, float z, float timeScalar = 0)
         {
             timeScalar = MakePositive(timeScalar);
-            FindActiveCamera();
+            UpdateEndState();
             _startRotation = _camTrans.rotation;
             _endRotation = _startRotation;
 
@@ -120,11 +135,10 @@ namespace Application.Gameplay
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
         /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 0 - instant.</param>
-        [YarnCommand("cam-offset-rel")]
-        public static void MoveRel(float x, float y, float z, float timeScalar = 0)
+        private void MoveRel(float x, float y, float z, float timeScalar = 0)
         {
             timeScalar = MakePositive(timeScalar);
-            FindActiveCamera();
+            UpdateEndState();
 
             _isMoving = false;
             _movementTime = 0;
@@ -148,11 +162,10 @@ namespace Application.Gameplay
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
         /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 0 - instant.</param>
-        [YarnCommand("cam-offset-abs")]
-        public static void MoveAbs(float x, float y, float z, float timeScalar = 0)
+        private void MoveAbs(float x, float y, float z, float timeScalar = 0)
         {
             timeScalar = MakePositive(timeScalar);
-            FindActiveCamera();
+            UpdateEndState();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
 
             Vector3 newMovement = new Vector3(x, y, z);
@@ -161,51 +174,69 @@ namespace Application.Gameplay
             _isMoving = true;
         }
 
+        private void ResetRotation()
+        {
+            _cam.LookAt = null;
+            _cam.transform.rotation = _originalRotation;
+        }
+
         /// <summary>
         /// Find the current active Cinemachine camera and update the private variables.
         /// </summary>
-        private static void FindActiveCamera()
+        private void UpdateEndState()
         {
-            CinemachineVirtualCamera[] cams = Object.FindObjectsOfType<CinemachineVirtualCamera>();
-            foreach (CinemachineVirtualCamera c in cams)
+            // Set _end values if not in the middle of moving to handle if a rel is called first
+            if (!_isMoving)
             {
-                if (c.isActiveAndEnabled)
-                {
-                    _cam = c;
-                    _camTrans = c.transform;
-                    _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
+                _endMovement = _camFramingTransposer.m_TrackedObjectOffset;
+            }
 
-                    // Set _end values if not in the middle of moving to handle if a rel is called first
-                    if (!_isMoving)
-                    {
-                        _endMovement = _camFramingTransposer.m_TrackedObjectOffset;
-                    }
-
-                    if (!_isRotating)
-                    {
-                        _endRotation = _camTrans.rotation;
-                    }
-
-                    return;
-                }
+            if (!_isRotating)
+            {
+                _endRotation = _camTrans.rotation;
             }
         }
 
-        /// <summary>
-        /// Ensure that the duration is positive, warn if it is not.
-        /// </summary>
-        /// <param name="input">The duration to check.</param>
-        /// <returns>The absolute value of the duration.</returns>
-        private static float MakePositive(float input)
-        {
-            if (input < 0)
-            {
-                Debug.LogWarning("DialogCamera: A negative duration was provided from Yarn!");
-                return System.Math.Abs(input);
-            }
+        private Quaternion _originalRotation;
 
-            return input;
+        private void Awake()
+        {
+            _originalRotation = dialogueCamera.transform.rotation;
+
+            var dialogueRunner = FindObjectOfType<DialogueRunner>();
+            dialogueRunner.AddCommandHandler<float, float, float, float>("cam-offset-abs", MoveAbs);
+            dialogueRunner.AddCommandHandler<float, float, float, float>("cam-offset-rel", MoveRel);
+            dialogueRunner.AddCommandHandler<float, float, float, float>("cam-swivel-abs", SwivelAbs);
+            dialogueRunner.AddCommandHandler<float, float, float, float>("cam-swivel-rel", SwivelRel);
+            dialogueRunner.AddCommandHandler<GameObject>("cam-follow", Follow);
+            dialogueRunner.AddCommandHandler<GameObject>("cam-lookAt", LookAt);
+            dialogueRunner.AddCommandHandler("cam-reset-rotation", ResetRotation);
+
+            dialogueRunner.onNodeStart.AddListener(ActivateDialogueCamera);
+            dialogueRunner.onNodeComplete.AddListener(DeactivateDialogueCamera);
+
+            _cam = dialogueCamera;
+            _camTrans = _cam.transform;
+            _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
         }
+
+        private void OnDestroy()
+        {
+            var dialogueRunner = FindObjectOfType<DialogueRunner>();
+            dialogueRunner.onNodeStart.AddListener(ActivateDialogueCamera);
+            dialogueRunner.onNodeComplete.AddListener(DeactivateDialogueCamera);
+        }
+
+        private void ActivateDialogueCamera(string node)
+        {
+            dialogueCamera.Priority = 10;
+        }
+
+        private void DeactivateDialogueCamera(string node)
+        {
+            dialogueCamera.Priority = 0;
+        }
+
 
         private void FixedUpdate()
         {
@@ -218,6 +249,7 @@ namespace Application.Gameplay
 
                     // Snap to the final rotation as Slerp won't go all the way.
                     _camTrans.rotation = _endRotation;
+                    _cam.PreviousStateIsValid = false;
                 }
                 else
                 {
@@ -239,19 +271,20 @@ namespace Application.Gameplay
                     // Remove damping so this is instant, but remember the original values.
 
                     // This is not working, cinemachine still applies damping
-                    Vector3 origDamping;
-                    origDamping.x = _camFramingTransposer.m_XDamping;
-                    origDamping.y = _camFramingTransposer.m_YDamping;
-                    origDamping.z = _camFramingTransposer.m_ZDamping;
-                    _camFramingTransposer.m_XDamping = 0;
-                    _camFramingTransposer.m_YDamping = 0;
-                    _camFramingTransposer.m_ZDamping = 0;
-
+                    // Vector3 origDamping;
+                    // origDamping.x = _camFramingTransposer.m_XDamping;
+                    // origDamping.y = _camFramingTransposer.m_YDamping;
+                    // origDamping.z = _camFramingTransposer.m_ZDamping;
+                    // _camFramingTransposer.m_XDamping = 0;
+                    // _camFramingTransposer.m_YDamping = 0;
+                    // _camFramingTransposer.m_ZDamping = 0;
+                    //
                     _camFramingTransposer.m_TrackedObjectOffset = _endMovement;
-
-                    _camFramingTransposer.m_XDamping = origDamping.x;
-                    _camFramingTransposer.m_YDamping = origDamping.y;
-                    _camFramingTransposer.m_ZDamping = origDamping.z;
+                    _cam.PreviousStateIsValid = false;
+                    //
+                    // _camFramingTransposer.m_XDamping = origDamping.x;
+                    // _camFramingTransposer.m_YDamping = origDamping.y;
+                    // _camFramingTransposer.m_ZDamping = origDamping.z;
                 }
                 else
                 {
