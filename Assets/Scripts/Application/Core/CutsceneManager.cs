@@ -31,32 +31,36 @@ public class CutsceneManager : MonoBehaviour
         //Yarn command handlers
         runner.AddCommandHandler<string>("Scene", SceneChange);
         runner.AddCommandHandler("ClearScene", ClearScene);
-        runner.AddCommandHandler("LoadScene", LoadScene);
+        runner.AddCommandHandler<string>("LoadScene", LoadScene);
     }
 
     #region YarnCommands
+    //Use case: When you are changing cutscene images.
     public void SceneChange(string cutsceneName) {
         bgImage.sprite = FetchAsset<Sprite>(cutsceneName);
     }
 
-    public void LoadScene() {
+    //Use case: When you are going from gameplay to cutscene.
+    public void LoadScene(string cutsceneName) {
         bgImage.enabled = true;
+        bgImage.sprite = FetchAsset<Sprite>(cutsceneName);
     }
 
+    //Use case: When you are going from cutscene to gameplay.
     public void ClearScene() {
         bgImage.sprite = null;
         bgImage.enabled = false;
     }
     #endregion
 
-    //Helper Function for SceneChange
+    //Helper Function for SceneChange and LoadScene
     T FetchAsset<T>(string cutsceneName) where T: UnityEngine.Object {
         if (typeof(T) == typeof(Sprite)) {
             if (cutsceneDict.ContainsKey(cutsceneName)) {
                 return cutsceneDict[cutsceneName] as T;
             }
         }
-        Debug.LogErrorFormat(this, "Could not find asset. Maybe it was misspelled or never imported?");
+        Debug.LogErrorFormat(this, "CutsceneManager could not find asset. Maybe it was misspelled or never imported?");
         return null;
     }
 }
