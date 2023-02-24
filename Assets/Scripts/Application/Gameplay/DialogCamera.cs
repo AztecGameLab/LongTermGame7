@@ -9,6 +9,8 @@ namespace Application.Gameplay
     /// </summary>
     public class DialogCamera : MonoBehaviour
     {
+        private const int ActivePriority = 10;
+
         [SerializeField]
         private CinemachineVirtualCamera dialogueCamera;
 
@@ -21,6 +23,7 @@ namespace Application.Gameplay
         private float _rotationDuration = 1.0f;
         private float _rotationTime;
 
+        private Quaternion _originalRotation;
         private Vector3 _startMovement;
         private Vector3 _endMovement;
         private bool _isMoving;
@@ -57,6 +60,7 @@ namespace Application.Gameplay
 
             UpdateEndState();
             _cam.LookAt = target.transform;
+            _cam.AddCinemachineComponent<CinemachineComposer>();
         }
 
         /// <summary>
@@ -178,6 +182,7 @@ namespace Application.Gameplay
         {
             _cam.LookAt = null;
             _cam.transform.rotation = _originalRotation;
+            _cam.DestroyCinemachineComponent<CinemachineComposer>();
         }
 
         /// <summary>
@@ -196,8 +201,6 @@ namespace Application.Gameplay
                 _endRotation = _camTrans.rotation;
             }
         }
-
-        private Quaternion _originalRotation;
 
         private void Awake()
         {
@@ -223,20 +226,31 @@ namespace Application.Gameplay
         private void OnDestroy()
         {
             var dialogueRunner = FindObjectOfType<DialogueRunner>();
-            dialogueRunner.onNodeStart.AddListener(ActivateDialogueCamera);
-            dialogueRunner.onNodeComplete.AddListener(DeactivateDialogueCamera);
+
+            if (dialogueRunner != null)
+            {
+                dialogueRunner.RemoveCommandHandler("cam-offset-abs");
+                dialogueRunner.RemoveCommandHandler("cam-offset-rel");
+                dialogueRunner.RemoveCommandHandler("cam-swivel-abs");
+                dialogueRunner.RemoveCommandHandler("cam-swivel-rel");
+                dialogueRunner.RemoveCommandHandler("cam-follow");
+                dialogueRunner.RemoveCommandHandler("cam-lookAt");
+                dialogueRunner.RemoveCommandHandler("cam-reset-rotation");
+
+                dialogueRunner.onNodeStart.RemoveListener(ActivateDialogueCamera);
+                dialogueRunner.onNodeComplete.RemoveListener(DeactivateDialogueCamera);
+            }
         }
 
         private void ActivateDialogueCamera(string node)
         {
-            dialogueCamera.Priority = 10;
+            dialogueCamera.Priority = ActivePriority;
         }
 
         private void DeactivateDialogueCamera(string node)
         {
             dialogueCamera.Priority = 0;
         }
-
 
         private void FixedUpdate()
         {
@@ -269,22 +283,8 @@ namespace Application.Gameplay
 
                     // Snap to the final offset as Slerp won't go all the way.
                     // Remove damping so this is instant, but remember the original values.
-
-                    // This is not working, cinemachine still applies damping
-                    // Vector3 origDamping;
-                    // origDamping.x = _camFramingTransposer.m_XDamping;
-                    // origDamping.y = _camFramingTransposer.m_YDamping;
-                    // origDamping.z = _camFramingTransposer.m_ZDamping;
-                    // _camFramingTransposer.m_XDamping = 0;
-                    // _camFramingTransposer.m_YDamping = 0;
-                    // _camFramingTransposer.m_ZDamping = 0;
-                    //
                     _camFramingTransposer.m_TrackedObjectOffset = _endMovement;
                     _cam.PreviousStateIsValid = false;
-                    //
-                    // _camFramingTransposer.m_XDamping = origDamping.x;
-                    // _camFramingTransposer.m_YDamping = origDamping.y;
-                    // _camFramingTransposer.m_ZDamping = origDamping.z;
                 }
                 else
                 {
