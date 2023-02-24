@@ -1,6 +1,7 @@
 ﻿namespace Application.Vfx.Animation
 {
     using System;
+    using Core;
     using JetBrains.Annotations;
     using UnityEngine;
 
