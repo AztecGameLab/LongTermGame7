@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using Application.Gameplay.Combat.Brains;
+using System.Collections;
 using UnityEngine;
 
-namespace Application.Gameplay.Combat
+namespace Application.Gameplay.Combat.Deciders
 {
     [CreateAssetMenu]
     public class RandomOrderDecider : EnemyOrderDecider

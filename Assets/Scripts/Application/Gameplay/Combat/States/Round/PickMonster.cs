@@ -1,10 +1,8 @@
 ﻿using ImGuiNET;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace Application.StateMachine
+namespace Application.Gameplay.Combat.States.Round
 {
     public class PickMonster : RoundState
     {

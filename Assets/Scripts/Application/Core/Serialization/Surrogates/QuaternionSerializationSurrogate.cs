@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using UnityEngine;
 
-namespace Utility
+namespace Application.Core.Serialization.Surrogates
 {
     public class QuaternionSerializationSurrogate : ISerializationSurrogate
     {

@@ -1,9 +1,8 @@
-﻿using Application.Gameplay.Combat;
-using ImGuiNET;
+﻿using ImGuiNET;
 using System;
 using UniRx;
 
-namespace Application.StateMachine
+namespace Application.Gameplay.Combat.States.Round
 {
     public class PlayActionAnimation : RoundState
     {

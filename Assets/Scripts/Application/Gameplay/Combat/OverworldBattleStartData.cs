@@ -1,13 +1,16 @@
-﻿using Application.Gameplay.Combat;
+﻿using Application.Gameplay.Combat.Deciders;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// The information needed to start an overworld battle.
-/// </summary>
-public struct OverworldBattleStartData
+namespace Application.Gameplay.Combat
 {
-    public List<GameObject> PlayerTeamInstances;
-    public List<GameObject> EnemyTeamInstances;
-    public EnemyOrderDecider EnemyOrderDecider;
+    /// <summary>
+    /// The information needed to start an overworld battle.
+    /// </summary>
+    public struct OverworldBattleStartData
+    {
+        public List<GameObject> PlayerTeamInstances;
+        public List<GameObject> EnemyTeamInstances;
+        public EnemyOrderDecider EnemyOrderDecider;
+    }
 }

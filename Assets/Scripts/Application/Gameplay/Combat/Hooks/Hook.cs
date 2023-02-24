@@ -1,8 +1,11 @@
-﻿public abstract class Hook
+﻿namespace Application.Gameplay.Combat.Hooks
 {
-    public BattleController Controller { get; set; }
+    public abstract class Hook
+    {
+        public BattleController Controller { get; set; }
     
-    public virtual void OnBattleStart() {}
-    public virtual void OnBattleUpdate() {}
-    public virtual void OnBattleEnd() {}
+        public virtual void OnBattleStart() {}
+        public virtual void OnBattleUpdate() {}
+        public virtual void OnBattleEnd() {}
+    }
 }

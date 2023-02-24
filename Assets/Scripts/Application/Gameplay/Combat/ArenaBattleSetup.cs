@@ -1,29 +1,32 @@
 ﻿using Application.Core;
 using System;
 
-public class ArenaBattleSetup : IDisposable
+namespace Application.Gameplay.Combat
 {
-    private BattleController _controller;
-    private IDisposable _disposable;
-    
-    public ArenaBattleSetup Init(BattleController controller)
+    public class ArenaBattleSetup : IDisposable
     {
-        _controller = controller;
-        _disposable = Services.EventBus.AddListener<ArenaBattleStartData>(HandleArenaBattleStart, "Arena battle setup");
-        return this;
-    }
+        private BattleController _controller;
+        private IDisposable _disposable;
+    
+        public ArenaBattleSetup Init(BattleController controller)
+        {
+            _controller = controller;
+            _disposable = Services.EventBus.AddListener<ArenaBattleStartData>(HandleArenaBattleStart, "Arena battle setup");
+            return this;
+        }
 
-    public void Dispose()
-    {
-        _disposable.Dispose();
-    }
+        public void Dispose()
+        {
+            _disposable.Dispose();
+        }
     
-    private void HandleArenaBattleStart(ArenaBattleStartData data)
-    {
-        // todo: load new scene, based on region and random selection
+        private void HandleArenaBattleStart(ArenaBattleStartData data)
+        {
+            // todo: load new scene, based on region and random selection
         
-        // todo: find spawns
-        // todo: instantiate prefabs into spawn positions
-        // todo: pass a battle start to the controller
+            // todo: find spawns
+            // todo: instantiate prefabs into spawn positions
+            // todo: pass a battle start to the controller
+        }
     }
 }

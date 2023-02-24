@@ -1,30 +1,31 @@
 ﻿using Application.Core;
-using Application.Gameplay;
-using Application.Gameplay.Combat;
+using Application.Gameplay.Combat.Deciders;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// The in-game trigger effect that can begin a combat sequence.
-/// </summary>
-public class EnterOverworldCombat : TriggerEffect
+namespace Application.Gameplay.Combat
 {
-    [SerializeField] private List<GameObject> enemyTeam;
-    [SerializeField] private EnemyOrderDecider enemyOrderDecider;
-    
-    protected override void HandleCollisionEnter(GameObject obj)
+    /// <summary>
+    /// The in-game trigger effect that can begin a combat sequence.
+    /// </summary>
+    public class EnterOverworldCombat : TriggerEffect
     {
-        List<GameObject> enemyTeamInstances = enemyTeam;
-        List<GameObject> playerTeamInstances = FindObjectOfType<PlayerPartyView>().PartyMemberInstances;
-
-        var battleData = new OverworldBattleStartData
+        [SerializeField] private List<GameObject> enemyTeam;
+        [SerializeField] private EnemyOrderDecider enemyOrderDecider;
+    
+        protected override void HandleCollisionEnter(GameObject obj)
         {
-            EnemyTeamInstances = enemyTeamInstances, 
-            PlayerTeamInstances = playerTeamInstances,
-            EnemyOrderDecider = enemyOrderDecider,
-        };
+            List<GameObject> enemyTeamInstances = enemyTeam;
+            List<GameObject> playerTeamInstances = FindObjectOfType<PlayerPartyView>().PartyMemberInstances;
+
+            var battleData = new OverworldBattleStartData
+            {
+                EnemyTeamInstances = enemyTeamInstances, 
+                PlayerTeamInstances = playerTeamInstances,
+                EnemyOrderDecider = enemyOrderDecider,
+            };
         
-        Services.EventBus.Invoke(battleData, $"Overworld Combat Trigger: {gameObject.name}");
+            Services.EventBus.Invoke(battleData, $"Overworld Combat Trigger: {gameObject.name}");
+        }
     }
 }

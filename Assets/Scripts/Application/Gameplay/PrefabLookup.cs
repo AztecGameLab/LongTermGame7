@@ -1,32 +1,35 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Associates prefabs with integer ID's.
-/// </summary>
-public class PrefabLookup : ScriptableObject
+namespace Application.Gameplay
 {
-    [SerializeField] private List<GameObject> prefabs;
-
-    private Dictionary<GameObject, int> _idLookup;
-
-    public void Init()
+    /// <summary>
+    /// Associates prefabs with integer ID's.
+    /// </summary>
+    public class PrefabLookup : ScriptableObject
     {
-        _idLookup = new Dictionary<GameObject, int>();
-        
-        for (int i = 0; i < prefabs.Count; i++)
+        [SerializeField] private List<GameObject> prefabs;
+
+        private Dictionary<GameObject, int> _idLookup;
+
+        public void Init()
         {
-            _idLookup.Add(prefabs[i], i);
+            _idLookup = new Dictionary<GameObject, int>();
+        
+            for (int i = 0; i < prefabs.Count; i++)
+            {
+                _idLookup.Add(prefabs[i], i);
+            }
         }
-    }
 
-    public GameObject GetPrefab(int id)
-    {
-        return prefabs[id];
-    }
+        public GameObject GetPrefab(int id)
+        {
+            return prefabs[id];
+        }
 
-    public int GetId(GameObject prefab)
-    {
-        return _idLookup[prefab];
+        public int GetId(GameObject prefab)
+        {
+            return _idLookup[prefab];
+        }
     }
 }

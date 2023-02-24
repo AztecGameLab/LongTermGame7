@@ -1,27 +1,28 @@
-﻿using Application.Gameplay;
-
-public class KillAllEnemiesObjective : Hook
+﻿namespace Application.Gameplay.Combat.Hooks
 {
-    private float _remainingHealth;
-    
-    public override void OnBattleStart()
+    public class KillAllEnemiesObjective : Hook
     {
-        foreach (var enemy in Controller.EnemyTeam)
+        private float _remainingHealth;
+    
+        public override void OnBattleStart()
         {
-            if (enemy.TryGetComponent(out Health health))
+            foreach (var enemy in Controller.EnemyTeam)
             {
-                health.OnHealthChange += HandleEnemyHealthChange;
+                if (enemy.TryGetComponent(out Health health))
+                {
+                    health.OnHealthChange += HandleEnemyHealthChange;
+                }
             }
         }
-    }
 
-    private void HandleEnemyHealthChange(HealthChangeData data)
-    {
-        _remainingHealth += data.Delta;
-
-        if (_remainingHealth <= 0)
+        private void HandleEnemyHealthChange(HealthChangeData data)
         {
-            Controller.EndBattle();
+            _remainingHealth += data.Delta;
+
+            if (_remainingHealth <= 0)
+            {
+                Controller.EndBattle();
+            }
         }
     }
 }

@@ -1,13 +1,10 @@
 using Application.Core;
-using Application.Gameplay.Combat;
-using Cinemachine;
+using Application.Gameplay.Combat.States.Round;
 using ImGuiNET;
 using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Application.StateMachine
+namespace Application.Gameplay.Combat.States
 {
     public abstract class RoundState : IState
     {

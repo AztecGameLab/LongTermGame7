@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using Application.Core;
+
+namespace Application.Gameplay
 {
     using Cinemachine;
     using UnityEngine;

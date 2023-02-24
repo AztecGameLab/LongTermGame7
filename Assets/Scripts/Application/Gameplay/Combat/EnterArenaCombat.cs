@@ -1,27 +1,29 @@
 ﻿using Application.Core;
-using Application.Gameplay;
-using Application.Gameplay.Combat;
+using Application.Gameplay.Combat.Deciders;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnterArenaCombat : TriggerEffect
+namespace Application.Gameplay.Combat
 {
-    [SerializeField] private List<GameObject> enemyTeamPrefabs;
-    [SerializeField] private EnemyOrderDecider enemyOrderDecider;
-    
-    protected override void HandleCollisionEnter(GameObject obj)
+    public class EnterArenaCombat : TriggerEffect
     {
-        // List<GameObject> enemyTeamPrefabs = new List<GameObject>(); // todo: properly get random enemies, or whatever 
-        List<GameObject> playerTeamPrefabs = FindObjectOfType<PlayerPartyView>().Party.GetPartyMemberPrefabs().ToList();
-
-        var battleData = new ArenaBattleStartData
+        [SerializeField] private List<GameObject> enemyTeamPrefabs;
+        [SerializeField] private EnemyOrderDecider enemyOrderDecider;
+    
+        protected override void HandleCollisionEnter(GameObject obj)
         {
-            EnemyTeamPrefabs = enemyTeamPrefabs, 
-            PlayerTeamPrefabs = playerTeamPrefabs,
-            EnemyOrderDecider = enemyOrderDecider,
-        };
+            // List<GameObject> enemyTeamPrefabs = new List<GameObject>(); // todo: properly get random enemies, or whatever 
+            List<GameObject> playerTeamPrefabs = FindObjectOfType<PlayerPartyView>().Party.GetPartyMemberPrefabs().ToList();
+
+            var battleData = new ArenaBattleStartData
+            {
+                EnemyTeamPrefabs = enemyTeamPrefabs, 
+                PlayerTeamPrefabs = playerTeamPrefabs,
+                EnemyOrderDecider = enemyOrderDecider,
+            };
         
-        Services.EventBus.Invoke(battleData, $"Arena Combat Trigger: {gameObject.name}");
+            Services.EventBus.Invoke(battleData, $"Arena Combat Trigger: {gameObject.name}");
+        }
     }
 }

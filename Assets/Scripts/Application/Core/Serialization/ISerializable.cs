@@ -1,4 +1,4 @@
-﻿namespace Application.Core
+﻿namespace Application.Core.Serialization
 {
     public interface ISerializable
     {

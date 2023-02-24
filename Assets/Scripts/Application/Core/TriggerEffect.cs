@@ -1,7 +1,6 @@
-﻿using Application.Core;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Application.Gameplay
+namespace Application.Core
 {
     [RequireComponent(typeof(Trigger))]
     public abstract class TriggerEffect : MonoBehaviour

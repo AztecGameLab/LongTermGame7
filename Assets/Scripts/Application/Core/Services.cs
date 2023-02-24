@@ -1,4 +1,7 @@
-﻿namespace Application.Core
+using Application.Core.Serialization;
+using Application.Gameplay.Regions;
+
+namespace Application.Core
 {
     using Gameplay;
     using UnityEngine;

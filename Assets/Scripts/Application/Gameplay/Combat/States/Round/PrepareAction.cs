@@ -1,7 +1,6 @@
-﻿using Application.Gameplay.Combat;
-using ImGuiNET;
+﻿using ImGuiNET;
 
-namespace Application.StateMachine
+namespace Application.Gameplay.Combat.States.Round
 {
     public class PrepareAction : RoundState
     {

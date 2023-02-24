@@ -1,15 +1,14 @@
-﻿using ImGuiNET;
+﻿using Application.Core.Serialization.Surrogates;
+using ImGuiNET;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.Rendering;
-using Utility;
 using Debug = UnityEngine.Debug;
 
-namespace Application.Core
+namespace Application.Core.Serialization
 {
     public class Serializer
     {

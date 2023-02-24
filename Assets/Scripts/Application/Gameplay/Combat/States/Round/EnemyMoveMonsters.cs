@@ -1,6 +1,6 @@
 ﻿using ImGuiNET;
 
-namespace Application.StateMachine
+namespace Application.Gameplay.Combat.States.Round
 {
     public class EnemyMoveMonsters : RoundState
     {

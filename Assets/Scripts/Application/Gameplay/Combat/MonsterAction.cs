@@ -1,4 +1,4 @@
-﻿namespace Application.StateMachine
+﻿namespace Application.Gameplay.Combat
 {
     public class MonsterAction
     {

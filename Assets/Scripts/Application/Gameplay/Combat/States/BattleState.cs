@@ -1,23 +1,25 @@
 ﻿using Application.Core;
-using Application.StateMachine;
 using System;
 
-public abstract class BattleState : IState
+namespace Application.Gameplay.Combat.States
 {
-    public BattleController Controller { get; set; }
-
-    private IDisposable _disposable;
-
-    public virtual void OnEnter()
+    public abstract class BattleState : IState
     {
-        _disposable = ImGuiUtil.Register(DrawGui);
-    }
+        public BattleController Controller { get; set; }
+
+        private IDisposable _disposable;
+
+        public virtual void OnEnter()
+        {
+            _disposable = ImGuiUtil.Register(DrawGui);
+        }
     
-    public virtual void OnExit()
-    {
-        _disposable?.Dispose();
-    }
+        public virtual void OnExit()
+        {
+            _disposable?.Dispose();
+        }
     
-    public virtual void OnTick() {}
-    protected virtual void DrawGui() {}
+        public virtual void OnTick() {}
+        protected virtual void DrawGui() {}
+    }
 }

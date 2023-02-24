@@ -1,6 +1,4 @@
-using System.Collections;
-
-namespace Application.StateMachine
+namespace Application.Gameplay.Combat.States
 {
     public class BattleVictory : BattleState
     {

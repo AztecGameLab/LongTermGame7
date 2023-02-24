@@ -1,7 +1,7 @@
-namespace Application.Gameplay
-{
-    using UnityEngine;
+﻿using UnityEngine;
 
+namespace Application.Gameplay.Regions
+{
     /// <summary>
     /// Data to be made available.
     /// </summary>
@@ -40,7 +40,7 @@ namespace Application.Gameplay
                 if (_currentRegion != value)
                 {
                     Debug.Log("Updating region to: " + value);
-                    _currentRegion = value;    
+                    _currentRegion = value;
                 }
             }
         }

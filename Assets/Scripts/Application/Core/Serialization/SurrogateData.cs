@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Application.Core
+namespace Application.Core.Serialization
 {
     public struct SurrogateData
     {

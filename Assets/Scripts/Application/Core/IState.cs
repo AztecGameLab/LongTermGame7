@@ -1,6 +1,4 @@
-using System.Collections;
-
-namespace Application.StateMachine
+namespace Application.Core
 {
     /// <summary>
     /// An object that can be loaded by the StateMachine class.

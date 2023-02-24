@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Application.Core
+namespace Application.Core.Serialization
 {
     public abstract class SerializedBehavior : MonoBehaviour, ISerializable
     {

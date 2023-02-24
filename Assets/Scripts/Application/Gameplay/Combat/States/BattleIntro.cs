@@ -1,7 +1,6 @@
-using System.Collections;
 using UnityEngine;
 
-namespace Application.StateMachine
+namespace Application.Gameplay.Combat.States
 {
     public class BattleIntro : BattleState
     {
