@@ -1,4 +1,6 @@
-﻿namespace Application.Core
+﻿using Application.Gameplay.Regions;
+
+namespace Application.Core
 {
     using Gameplay;
     using UnityEngine;
