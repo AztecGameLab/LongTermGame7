@@ -27,6 +27,7 @@ namespace Application.StateMachine
         
         public virtual void OnTick() {}
         protected virtual void DrawGui() {}
+        protected virtual void DrawGizmos() {}
         
         public virtual void OnRoundBegin() {}
         public virtual void OnRoundEnd() {}
@@ -38,11 +39,12 @@ namespace Application.StateMachine
 
         public PickMonster PickMonster {get; private set;}
         public PickActionsForMonster PickActions {get; private set;}
+        public PrepareAction PrepareAction { get; private set; }
         public PlayActionAnimation PlayAnimation {get; private set;}
         public EnemyMoveMonsters EnemyMoveMonsters { get; private set; }
 
         public GameObject SelectedMonster { get; set; }
-        public IAction SelectedAction { get; set; }
+        public BattleAction SelectedAction { get; set; }
 
         private RoundState[] _states;
 
@@ -54,6 +56,7 @@ namespace Application.StateMachine
             {
                 PickMonster = new PickMonster(),
                 PickActions = new PickActionsForMonster(),
+                PrepareAction = new PrepareAction(),
                 PlayAnimation = new PlayActionAnimation(),
                 EnemyMoveMonsters = new EnemyMoveMonsters(),
             };

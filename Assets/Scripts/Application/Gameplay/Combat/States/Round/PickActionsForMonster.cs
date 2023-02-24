@@ -23,12 +23,15 @@ namespace Application.StateMachine
 
         private int _currentActionIndex;
 
-        private IAction CurrentAction =>
+        private BattleAction CurrentAction =>
             _selectedActionSet.actions[_currentActionIndex % _selectedActionSet.actions.Count];
 
         protected override void DrawGui()
         {
             ImGui.Begin("Decide Monster Actions");
+            
+            if (_actionPointTracker != null)
+                ImGui.Text($"Action Points: {_actionPointTracker.remainingActionPoints}/{_actionPointTracker.maxActionPoints}");
             
             if (ImGui.Button("Next Action"))
                 _currentActionIndex++;
@@ -39,10 +42,10 @@ namespace Application.StateMachine
             ImGui.End();
         }
 
-        private void OnSelectAction(IAction monsterAction)
+        private void OnSelectAction(BattleAction monsterAction)
         {
             Round.SelectedAction = monsterAction;
-            Round.StateMachine.SetState(Round.PlayAnimation);
+            Round.StateMachine.SetState(Round.PrepareAction);
         }
     }
 }
