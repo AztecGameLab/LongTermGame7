@@ -11,7 +11,7 @@ namespace Application.Gameplay
     public class FadeIntoBlack : MonoBehaviour
     {
         [SerializeField]
-        private GameObject blackOutSquare;
+        private Image blackOutSquare;
 
         /// <summary>
         /// Causes screen to fade into black. When yarn spinner uses "false, fade out of black.
@@ -22,16 +22,16 @@ namespace Application.Gameplay
         // [YarnCommand("fade_camera")]
         public IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadeSpeed = 1)
         {
-            Color objectColor = blackOutSquare.GetComponent<Image>().color;
+            Color objectColor = blackOutSquare.color;
             float fadeAmount;
 
             if (fadeToBlack)
             {
-                while (blackOutSquare.GetComponent<Image>().color.a < 1)
+                while (blackOutSquare.color.a < 1)
                 {
                     fadeAmount = objectColor.a + (1.0f / fadeSpeed * Time.deltaTime);
                     objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                    blackOutSquare.GetComponent<Image>().color = objectColor;
+                    blackOutSquare.color = objectColor;
                     yield return null;
                 }
             }
@@ -39,11 +39,11 @@ namespace Application.Gameplay
             // If we are fading OUT of black
             else
             {
-                while (blackOutSquare.GetComponent<Image>().color.a > 0)
+                while (blackOutSquare.color.a > 0)
                 {
                     fadeAmount = objectColor.a - (1.0f / fadeSpeed * Time.deltaTime);
                     objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                    blackOutSquare.GetComponent<Image>().color = objectColor;
+                    blackOutSquare.color = objectColor;
                     yield return null;
                 }
             }

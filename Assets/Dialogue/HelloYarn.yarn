@@ -1,14 +1,31 @@
 ﻿title: Start
 ---
-<<cam-fade-out>>
+Follow the tree
+<<cam-follow Tree>>
 
-Wow!
-My first ever Yarn script in Unity!
+Follow the player
+<<cam-follow Player>>
 
--> Gosh!
--> Incredible!
--> I'm amazed!
+Swivel the cam relatively by 30 -40 50 instantly
+<<cam-swivel-rel 30 -40 50>>
+
+Set the camera to 0, 0, 0 over 1 second
+<<cam-swivel-abs 0 0 0 1>>
+
+Move the cam offset over 2 seconds
+<<cam-offset-abs 10 21.9 30 2>>
+
+Look at the player
+<<cam-lookAt Player>>
+
+Resetting rotation
+<<cam-reset-rotation>>
+
+Return to the player with relative offset 1 sec
+<<cam-offset-rel -10 -20 -30 1>>
 
 Anyway, time to get writing!
-<<cam-fade-in 0.1>>
+
+<<cam-fade-out>>
+<<cam-fade-in>>
 ===
