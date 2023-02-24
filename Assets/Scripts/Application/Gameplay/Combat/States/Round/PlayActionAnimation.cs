@@ -22,7 +22,7 @@ namespace Application.StateMachine
 
         private void OnActionEnd()
         {
-            BattleRound.StateMachine.SetState(BattleRound.EnemyMoveMonsters);
+            Round.StateMachine.SetState(Round.PickActions);
         }
     }
 }

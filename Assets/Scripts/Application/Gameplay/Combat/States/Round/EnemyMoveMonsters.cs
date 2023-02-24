@@ -7,7 +7,7 @@ namespace Application.StateMachine
         public override void OnEnter()
         {
             base.OnEnter();
-            var controller = BattleRound.Controller;
+            var controller = Round.Controller;
             // controller.StartCoroutine(controller.Decider.ExecuteTurn(controller));
             
             // subscribe to when the decider finishes its stuff, and call below method
@@ -25,7 +25,7 @@ namespace Application.StateMachine
 
         private void OnDeciderFinish()
         {
-            BattleRound.StateMachine.SetState(BattleRound.PickMonster);
+            Round.StateMachine.SetState(Round.PickMonster);
         }
     }
 }

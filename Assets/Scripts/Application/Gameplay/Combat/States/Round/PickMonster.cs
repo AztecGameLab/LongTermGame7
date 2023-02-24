@@ -18,7 +18,7 @@ namespace Application.StateMachine
         
         public override void OnRoundBegin()
         {
-            _availableMonsters.AddRange(BattleRound.Controller.PlayerTeam);
+            _availableMonsters.AddRange(Round.Controller.PlayerTeam);
             _selectedMonsterIndex = 0;
         }
 
@@ -36,7 +36,7 @@ namespace Application.StateMachine
                 ImGui.Text("No monsters left to move! You must end the round.");
                 
                 if (ImGui.Button("Next Round"))
-                    BattleRound.Controller.BattleStateMachine.SetState(BattleRound.Controller.BattleRound);
+                    Round.Controller.BattleStateMachine.SetState(Round.Controller.BattleRound);
             }
 
             ImGui.Text("Available Monsters:");
@@ -65,8 +65,8 @@ namespace Application.StateMachine
             _availableMonsters.Remove(monster);
             _selectedMonsterIndex = 0;
             
-            BattleRound.SelectedMonster = monster;
-            BattleRound.StateMachine.SetState(BattleRound.PickActions);
+            Round.SelectedMonster = monster;
+            Round.StateMachine.SetState(Round.PickActions);
         }
     }
 }

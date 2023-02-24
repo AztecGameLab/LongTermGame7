@@ -1,4 +1,5 @@
-﻿using ImGuiNET;
+﻿using Application.Gameplay.Combat;
+using ImGuiNET;
 
 namespace Application.StateMachine
 {
@@ -7,33 +8,41 @@ namespace Application.StateMachine
         public override void OnEnter()
         {
             base.OnEnter();
-            var targetMonster = BattleRound.SelectedMonster;
+            _selectedActionSet = Round.SelectedMonster.GetComponent<ActionSet>();
+            _actionPointTracker = Round.SelectedMonster.GetComponent<ActionPointTracker>();
             
-            // now that we have the target monster, we can find out what it wants to do with some GetComponent calls
-            
-            // this is also the spot where we check and handle the case where there are no action points left to spend
-            if (false) // defaulted to false for now 
+            if (_actionPointTracker.remainingActionPoints <= 0)
             {
-                BattleRound.StateMachine.SetState(BattleRound.EnemyMoveMonsters);
+                _actionPointTracker.remainingActionPoints = _actionPointTracker.maxActionPoints;
+                Round.StateMachine.SetState(Round.EnemyMoveMonsters);
             }
-            
-            // we also probably want to load in a UI for this as well, same thing with the OnSelectAction call.
         }
+
+        private ActionSet _selectedActionSet;
+        private ActionPointTracker _actionPointTracker;
+
+        private int _currentActionIndex;
+
+        private IAction CurrentAction =>
+            _selectedActionSet.actions[_currentActionIndex % _selectedActionSet.actions.Count];
 
         protected override void DrawGui()
         {
             ImGui.Begin("Decide Monster Actions");
             
-            if (ImGui.Button("Choose Action"))
-                OnSelectAction(null);
+            if (ImGui.Button("Next Action"))
+                _currentActionIndex++;
             
+            if (ImGui.Button($"Choose Action {CurrentAction.Name}"))
+                OnSelectAction(CurrentAction);
+                
             ImGui.End();
         }
 
-        private void OnSelectAction(MonsterAction monsterAction)
+        private void OnSelectAction(IAction monsterAction)
         {
-            BattleRound.SelectedAction = monsterAction;
-            BattleRound.StateMachine.SetState(BattleRound.PlayAnimation);
+            Round.SelectedAction = monsterAction;
+            Round.StateMachine.SetState(Round.PlayAnimation);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Application.Core;
+using Application.Gameplay.Combat;
 using Cinemachine;
 using ImGuiNET;
 using System;
@@ -10,7 +11,7 @@ namespace Application.StateMachine
 {
     public abstract class RoundState : IState
     {
-        public BattleRound BattleRound { get; set; }
+        public BattleRound Round { get; set; }
 
         private IDisposable _disposable;
 
@@ -41,7 +42,7 @@ namespace Application.StateMachine
         public EnemyMoveMonsters EnemyMoveMonsters { get; private set; }
 
         public GameObject SelectedMonster { get; set; }
-        public MonsterAction SelectedAction { get; set; }
+        public IAction SelectedAction { get; set; }
 
         private RoundState[] _states;
 
@@ -59,7 +60,7 @@ namespace Application.StateMachine
 
             foreach (RoundState roundState in _states)
             {
-                roundState.BattleRound = this;
+                roundState.Round = this;
             }
         }
 
