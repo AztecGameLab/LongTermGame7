@@ -1,4 +1,4 @@
-namespace Application.StateMachine
+namespace Application.State_Machine.States
 {
     public class BattleIntroState : IState
     {
