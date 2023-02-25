@@ -1,4 +1,4 @@
-namespace Application.StateMachine
+namespace Application.State_Machine
 {
     /// <summary>
     /// An object that can be loaded by the StateMachine class.
