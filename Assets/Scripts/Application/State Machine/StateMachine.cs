@@ -1,8 +1,8 @@
-﻿namespace Application.StateMachine
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace Application.State_Machine
+{
     /// <summary>
     /// Keeps track of the current state of an object.
     /// </summary>
