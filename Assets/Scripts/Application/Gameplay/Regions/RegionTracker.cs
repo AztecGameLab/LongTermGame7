@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay
+namespace Application.Gameplay
 {
     using UnityEngine;
 
@@ -40,7 +40,7 @@
                 if (_currentRegion != value)
                 {
                     Debug.Log("Updating region to: " + value);
-                    _currentRegion = value;
+                    _currentRegion = value;    
                 }
             }
         }

@@ -1,4 +1,4 @@
-namespace Application.State_Machine.States
+namespace Application.StateMachine
 {
     public class PlayerActivityState : IState
     {

@@ -43,6 +43,7 @@ namespace Application.Gameplay
                 if (entrance.EntranceID == data.TargetID)
                 {
                     targetEntrance = entrance;
+                    break;
                 }
 
                 if (entrance.DefaultEntrance)
@@ -61,7 +62,7 @@ namespace Application.Gameplay
                 Debug.LogWarning($"The entrance \"{data.TargetID}\" could not be found, falling back to \"{allEntrances[0].EntranceID}\"");
                 targetEntrance = allEntrances[0];
             }
-            else
+            else if (targetEntrance == null)
             {
                 Debug.LogError("No entrances have been found!");
             }
