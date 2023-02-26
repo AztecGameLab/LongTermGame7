@@ -19,8 +19,7 @@ public class SubArenaLookup : ScriptableObject
     /// <returns>The name of the scene that contains the sub-arena.</returns>
     public string GetSceneName(RegionTracker.Region region)
     {
-        throw new NotImplementedException();
-
+        Debug.Log("GetSceneName ENTERED");
         // if you haven't used it yet, you can do this to find the length of a list
         int listLength = data.Count;
         // The unity random utilities will be helpful, especially this one! (first arg is minInclusive, second arg is maxExclusive)
@@ -28,15 +27,17 @@ public class SubArenaLookup : ScriptableObject
         
         // // and the standard brackets to access elements examples...
         // RegionMappingData firstElement = data[0];
-        // RegionMappingData secondElement = data[1];
-        // RegionMappingData lastElement = data[data.Count - 1];
-        
+        Debug.Log("ListLength and random Int generator initialized. ABOUT TO ENTER LOOP");
         foreach(var RegionData in data){
+            Debug.Log("Loop entered");
             if (region == RegionData.region) {
                 Debug.Log("Scene Found!!!");
+                
                 return RegionData.subArenaSceneNames[randomIndex];
             }
+            Debug.Log("If statement skipped!");
         }
+        Debug.Log("GetSceneName ENDED");
         return string.Empty;
     }
 
