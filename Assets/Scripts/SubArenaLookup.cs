@@ -21,21 +21,28 @@ public class SubArenaLookup : ScriptableObject
     {
         Debug.Log("GetSceneName ENTERED");
         // if you haven't used it yet, you can do this to find the length of a list
-        int listLength = data.Count;
+        int listLength;
         // The unity random utilities will be helpful, especially this one! (first arg is minInclusive, second arg is maxExclusive)
-        int randomIndex = Random.Range(0, listLength - 1);
-        
+        int randomIndex;
+
         // // and the standard brackets to access elements examples...
         // RegionMappingData firstElement = data[0];
-        Debug.Log("ListLength and random Int generator initialized. ABOUT TO ENTER LOOP");
+        Debug.Log("ABOUT TO ENTER LOOP");
         foreach(var RegionData in data){
-            Debug.Log("Loop entered");
+            listLength = RegionData.subArenaSceneNames.Length;
+            randomIndex = Random.Range(0, listLength - 1);
+            //Entered loop check
+            Debug.Log("Loop entered/repeating");
+
+            //Checking if randomIndex is different from last time
+            Debug.Log("RANDOM INDEX CHOSEN: " + randomIndex);
+
             if (region == RegionData.region) {
-                Debug.Log("Scene Found!!!");
-                
+                Debug.Log("correct region found!");
+                Debug.Log("Choosing a random sub arena");
                 return RegionData.subArenaSceneNames[randomIndex];
             }
-            Debug.Log("If statement skipped!");
+            Debug.Log("Scene not found in region this region.");
         }
         Debug.Log("GetSceneName ENDED");
         return string.Empty;

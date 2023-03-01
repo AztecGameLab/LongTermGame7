@@ -13,10 +13,18 @@ MonoBehaviour:
   m_Name: SubArenas
   m_EditorClassIdentifier: 
   data:
+  - region: 2
+    subArenaSceneNames:
+    - P1
+    - P2
+    - P3
   - region: 1
     subArenaSceneNames:
-    - Forest1
-    - Forest2
-    - Forest3
-  - region: 2
-    subArenaSceneNames: []
+    - F1
+    - F2
+  - region: 3
+    subArenaSceneNames:
+    - M1
+    - M2
+    - M3
+    - M4
