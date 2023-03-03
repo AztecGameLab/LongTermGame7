@@ -1,4 +1,6 @@
-﻿namespace Application
+﻿using Application.Gameplay.Regions;
+
+namespace Application
 {
     using System.Threading.Tasks;
     using Core;
