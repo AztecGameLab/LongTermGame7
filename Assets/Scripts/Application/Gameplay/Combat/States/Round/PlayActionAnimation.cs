@@ -12,7 +12,7 @@ namespace Application.Gameplay.Combat.States.Round
         public override void OnEnter()
         {
             base.OnEnter();
-            _disposable = Round.SelectedAction.Run(Round.SelectedMonster).Subscribe(_ => OnActionEnd());
+            _disposable = Round.SelectedAction.Run().Subscribe(_ => OnActionEnd());
             Services.EventBus.Invoke(new RoundStateEnterEvent<PlayActionAnimation>{State = this}, "Play Action Animation State");
         }
 

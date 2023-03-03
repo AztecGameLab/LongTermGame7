@@ -7,12 +7,6 @@ using UnityEngine.Events;
 
 namespace Application.Gameplay.Combat.States
 {
-    public abstract class Display : MonoBehaviour
-    {
-        public abstract void Show();
-        public abstract void Hide();
-    }
-
     public class RoundStateExitEvent<T> where T : RoundState
     {
         public T State;

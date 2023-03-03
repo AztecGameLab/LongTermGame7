@@ -35,6 +35,7 @@ namespace Application.Gameplay.Combat.States.Round
 
         private void OnSelectAction(BattleAction monsterAction)
         {
+            monsterAction.User = Round.SelectedMonster;
             Round.SelectedAction = monsterAction;
             Round.StateMachine.SetState(Round.PrepareAction);
         }
