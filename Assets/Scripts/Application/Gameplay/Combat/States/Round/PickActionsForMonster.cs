@@ -1,9 +1,17 @@
-﻿using ImGuiNET;
+﻿using Application.Core;
+using ImGuiNET;
 
 namespace Application.Gameplay.Combat.States.Round
 {
     public class PickActionsForMonster : RoundState
     {
+        private ActionSet _selectedActionSet;
+        private ActionPointTracker _actionPointTracker;
+        private int _currentActionIndex;
+
+        private BattleAction CurrentAction =>
+            _selectedActionSet.actions[_currentActionIndex % _selectedActionSet.actions.Count];
+        
         public override void OnEnter()
         {
             base.OnEnter();
@@ -15,15 +23,21 @@ namespace Application.Gameplay.Combat.States.Round
                 _actionPointTracker.remainingActionPoints = _actionPointTracker.maxActionPoints;
                 Round.StateMachine.SetState(Round.EnemyMoveMonsters);
             }
+            
+            Services.EventBus.Invoke(new RoundStateEnterEvent<PickActionsForMonster>{State = this}, "Pick Actions For Monster State");
         }
 
-        private ActionSet _selectedActionSet;
-        private ActionPointTracker _actionPointTracker;
+        public override void OnExit()
+        {
+            base.OnExit();
+            Services.EventBus.Invoke(new RoundStateExitEvent<PickActionsForMonster>{State = this}, "Pick Actions For Monster State");
+        }
 
-        private int _currentActionIndex;
-
-        private BattleAction CurrentAction =>
-            _selectedActionSet.actions[_currentActionIndex % _selectedActionSet.actions.Count];
+        private void OnSelectAction(BattleAction monsterAction)
+        {
+            Round.SelectedAction = monsterAction;
+            Round.StateMachine.SetState(Round.PrepareAction);
+        }
 
         protected override void DrawGui()
         {
@@ -39,12 +53,6 @@ namespace Application.Gameplay.Combat.States.Round
                 OnSelectAction(CurrentAction);
                 
             ImGui.End();
-        }
-
-        private void OnSelectAction(BattleAction monsterAction)
-        {
-            Round.SelectedAction = monsterAction;
-            Round.StateMachine.SetState(Round.PrepareAction);
         }
     }
 }

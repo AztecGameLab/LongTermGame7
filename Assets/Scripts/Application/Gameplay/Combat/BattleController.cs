@@ -26,11 +26,11 @@ namespace Application.Gameplay.Combat
 
         public StateMachine BattleStateMachine { get; private set; }
     
-        public BattleIntro BattleIntro {get; private set;}
-        public BattleLoss BattleLoss {get; private set;}
-        public BattleVictory BattleVictory {get; private set;}
-        public BattleRound BattleRound {get; private set;}
-        public EnemyOrderDecider Decider { get; private set; }
+        public BattleIntro BattleIntro;
+        public BattleLoss BattleLoss;
+        public BattleVictory BattleVictory;
+        public BattleRound BattleRound;
+        public EnemyOrderDecider Decider;
 
         private void Awake()
         {

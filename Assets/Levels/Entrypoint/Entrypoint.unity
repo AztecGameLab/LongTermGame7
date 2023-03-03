@@ -220,8 +220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f134da68e4aa45ffbb4803898601690e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTeam: []
-  enemyTeam: []
+  BattleVictory:
+    victoryUI: {fileID: 0}
+  Decider: {fileID: 0}
 --- !u!1001 &1112954807
 PrefabInstance:
   m_ObjectHideFlags: 0

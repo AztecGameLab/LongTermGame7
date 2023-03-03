@@ -3,9 +3,27 @@ using Application.Gameplay.Combat.States.Round;
 using ImGuiNET;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Application.Gameplay.Combat.States
 {
+    public abstract class Display : MonoBehaviour
+    {
+        public abstract void Show();
+        public abstract void Hide();
+    }
+
+    public class RoundStateExitEvent<T> where T : RoundState
+    {
+        public T State;
+    }
+
+    public class RoundStateEnterEvent<T> where T : RoundState
+    {
+        public T State;
+    }
+
+    [Serializable]
     public abstract class RoundState : IState
     {
         public BattleRound Round { get; set; }
@@ -30,6 +48,7 @@ namespace Application.Gameplay.Combat.States
         public virtual void OnRoundEnd() {}
     }
     
+    [Serializable]
     public class BattleRound : BattleState
     {
         public StateMachine StateMachine { get; private set; }

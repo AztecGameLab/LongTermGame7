@@ -1,4 +1,5 @@
-﻿using ImGuiNET;
+﻿using Application.Core;
+using ImGuiNET;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,27 @@ namespace Application.Gameplay.Combat.States.Round
             _availableMonsters.Clear();
         }
 
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            Services.EventBus.Invoke(new RoundStateEnterEvent<PickMonster>{State = this}, "Pick Monster State");
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            Services.EventBus.Invoke(new RoundStateExitEvent<PickMonster>{State = this}, "Pick Monster State");
+        }
+
+        private void OnSelectMonster(GameObject monster)
+        {
+            _availableMonsters.Remove(monster);
+            _selectedMonsterIndex = 0;
+            
+            Round.SelectedMonster = monster;
+            Round.StateMachine.SetState(Round.PickActions);
+        }
+        
         protected override void DrawGui()
         {
             ImGui.Begin("Pick Monster");
@@ -56,15 +78,6 @@ namespace Application.Gameplay.Combat.States.Round
             }
             
             ImGui.End();
-        }
-
-        private void OnSelectMonster(GameObject monster)
-        {
-            _availableMonsters.Remove(monster);
-            _selectedMonsterIndex = 0;
-            
-            Round.SelectedMonster = monster;
-            Round.StateMachine.SetState(Round.PickActions);
         }
     }
 }
