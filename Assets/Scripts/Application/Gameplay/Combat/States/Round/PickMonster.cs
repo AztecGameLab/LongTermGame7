@@ -30,6 +30,11 @@ namespace Application.Gameplay.Combat.States.Round
         {
             base.OnEnter();
             Services.EventBus.Invoke(new RoundStateEnterEvent<PickMonster>{State = this}, "Pick Monster State");
+
+            if (SelectedMonster != null)
+                Round.Controller.BattleCamera.Follow = SelectedMonster.transform;
+            
+            else Round.Controller.BattleCamera.Follow = Round.Controller.PlayerTeam[0].transform;
         }
 
         public override void OnExit()
@@ -45,6 +50,7 @@ namespace Application.Gameplay.Combat.States.Round
             
             Round.SelectedMonster = monster;
             Round.StateMachine.SetState(Round.PickActions);
+            Round.Controller.BattleCamera.Follow = monster.transform;
         }
         
         protected override void DrawGui()
@@ -74,7 +80,10 @@ namespace Application.Gameplay.Combat.States.Round
             if (ImGui.Button("Next Monster"))
             {
                 if (_availableMonsters.Count > 0)
+                {
                     _selectedMonsterIndex = (_selectedMonsterIndex + 1) % _availableMonsters.Count;
+                    Round.Controller.BattleCamera.Follow = SelectedMonster.transform;
+                }
             }
             
             ImGui.End();

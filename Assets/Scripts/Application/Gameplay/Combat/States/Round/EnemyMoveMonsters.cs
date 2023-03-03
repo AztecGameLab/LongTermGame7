@@ -1,25 +1,39 @@
 ﻿using Application.Core;
+using Cinemachine;
 using ImGuiNET;
+using System;
+using UnityEngine;
 
 namespace Application.Gameplay.Combat.States.Round
 {
+    [Serializable]
     public class EnemyMoveMonsters : RoundState
     {
+        public float enemyRadius = 3;
+        
         public override void OnEnter()
         {
             base.OnEnter();
-            var controller = Round.Controller;
-            
             Services.EventBus.Invoke(new RoundStateEnterEvent<EnemyMoveMonsters>{State = this}, "Enemy Move Monsters State");
-            // controller.StartCoroutine(controller.Decider.ExecuteTurn(controller));
-            
-            // subscribe to when the decider finishes its stuff, and call below method
+
+            var group = Round.Controller.TargetGroup;
+            Round.Controller.BattleCamera.Follow = group.transform;
+
+            foreach (GameObject enemy in Round.Controller.EnemyTeam)
+            {
+                group.AddMember(enemy.transform, 1, enemyRadius);
+            }
         }
 
         public override void OnExit()
         {
             base.OnExit();
             Services.EventBus.Invoke(new RoundStateExitEvent<EnemyMoveMonsters>{State = this}, "Enemy Move Monsters State");
+
+            foreach (GameObject enemy in Round.Controller.EnemyTeam)
+            {
+                Round.Controller.TargetGroup.RemoveMember(enemy.transform);
+            }
         }
 
         private void OnDeciderFinish()

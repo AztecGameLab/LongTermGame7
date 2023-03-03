@@ -2,9 +2,11 @@
 using Application.Gameplay.Combat.Deciders;
 using Application.Gameplay.Combat.Hooks;
 using Application.Gameplay.Combat.States;
+using Cinemachine;
 using ImGuiNET;
 using System;
 using System.Collections.Generic;
+using System.Net.Security;
 using UnityEngine;
 
 namespace Application.Gameplay.Combat
@@ -15,6 +17,9 @@ namespace Application.Gameplay.Combat
     /// </summary>
     public class BattleController : MonoBehaviour
     {
+        [SerializeField] private CinemachineVirtualCamera battleCamera;
+        [SerializeField] private CinemachineTargetGroup targetGroup;
+        
         public List<GameObject> PlayerTeam => _playerTeam;
         public List<GameObject> EnemyTeam => _enemyTeam;
 
@@ -26,6 +31,8 @@ namespace Application.Gameplay.Combat
         private bool _isBattling;
 
         public StateMachine BattleStateMachine { get; private set; }
+        public CinemachineVirtualCamera BattleCamera => battleCamera;
+        public CinemachineTargetGroup TargetGroup => targetGroup;
     
         public BattleIntro BattleIntro;
         public BattleLoss BattleLoss;
@@ -61,6 +68,7 @@ namespace Application.Gameplay.Combat
             }
 
             _isBattling = true;
+            BattleCamera.Priority = 10;
         
             Debug.Log("Starting battle!");
             Decider = data.Decider;
@@ -86,6 +94,7 @@ namespace Application.Gameplay.Combat
         public void EndBattle()
         {
             _isBattling = false;
+            BattleCamera.Priority = 0;
         
             // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
             Debug.Log("Ending battle!");
