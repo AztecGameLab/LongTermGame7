@@ -19,6 +19,7 @@ namespace Application.Gameplay.Combat
     {
         [SerializeField] private CinemachineVirtualCamera battleCamera;
         [SerializeField] private CinemachineTargetGroup targetGroup;
+        [SerializeField] private CanvasGroup battleBars;
         
         public List<GameObject> PlayerTeam => _playerTeam;
         public List<GameObject> EnemyTeam => _enemyTeam;
@@ -68,6 +69,7 @@ namespace Application.Gameplay.Combat
             }
 
             _isBattling = true;
+            battleBars.alpha = 1;
             BattleCamera.Priority = 10;
         
             Debug.Log("Starting battle!");
@@ -95,6 +97,7 @@ namespace Application.Gameplay.Combat
         {
             _isBattling = false;
             BattleCamera.Priority = 0;
+            battleBars.alpha = 0;
         
             // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
             Debug.Log("Ending battle!");
