@@ -14,7 +14,7 @@ namespace Application.Gameplay.Combat
         protected override void HandleCollisionEnter(GameObject obj)
         {
             // List<GameObject> enemyTeamPrefabs = new List<GameObject>(); // todo: properly get random enemies, or whatever 
-            List<GameObject> playerTeamPrefabs = FindObjectOfType<PlayerPartyView>().Party.GetPartyMemberPrefabs().ToList();
+            List<GameObject> playerTeamPrefabs = FindObjectOfType<PlayerPartyView>().PartyMemberInstances;
 
             var battleData = new ArenaBattleStartData
             {

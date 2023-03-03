@@ -21,7 +21,8 @@ namespace Application
     /// </summary>
     public partial class Entrypoint : MonoBehaviour
     {
-        private GameplaySystem _gameplaySystem = new GameplaySystem();
+        [SerializeField]
+        private GameplaySystem gameplaySystem = new GameplaySystem();
         
         private static bool Initialized { get; set; }
 
@@ -34,7 +35,7 @@ namespace Application
         {
             Services.Serializer.WriteToDisk("TestingSave");
             
-            _gameplaySystem.Dispose();
+            gameplaySystem.Dispose();
         }
 
         private void Initialize()
@@ -53,7 +54,7 @@ namespace Application
             // todo: unify level loading to clear confusion
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
             
-            _gameplaySystem.Init();
+            gameplaySystem.Init();
 
             // todo: is this important?
             if (!Application.isEditor)

@@ -3,10 +3,12 @@ using Application.Gameplay.Combat;
 using Application.Gameplay.Landmarks;
 using Application.Gameplay.Regions;
 using System;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Application.Gameplay
 {
+    [Serializable]
     public class GameplaySystem : IDisposable
     {
         private LevelLoader _levelLoader = new LevelLoader();
@@ -16,8 +18,9 @@ namespace Application.Gameplay
         private LevelDesignUtil _levelDesignUtil = new LevelDesignUtil();
 
         // Combat-related systems
-        private OverworldBattleSetup _overworldBattleSetup = new OverworldBattleSetup();
-        private ArenaBattleSetup _arenaBattleSetup = new ArenaBattleSetup();
+        [SerializeField] private OverworldBattleSetup overworldBattleSetup;
+        [SerializeField] private ArenaBattleSetup arenaBattleSetup;
+        
         private BattleController _battleController;
         
         private DisposableBag _disposables;
@@ -31,8 +34,8 @@ namespace Application.Gameplay
                 _landmarkViewer.Init(),
                 _levelDesignUtil.Init(),
                 _levelLoader.Init(),
-                _overworldBattleSetup.Init(_battleController),
-                _arenaBattleSetup.Init(_battleController),
+                overworldBattleSetup.Init(_battleController),
+                arenaBattleSetup.Init(_battleController),
             });
             
             RegionDebugger.Init();

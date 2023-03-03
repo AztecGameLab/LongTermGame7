@@ -7,6 +7,7 @@ using ImGuiNET;
 using System;
 using System.Collections.Generic;
 using System.Net.Security;
+using UniRx;
 using UnityEngine;
 
 namespace Application.Gameplay.Combat
@@ -40,6 +41,10 @@ namespace Application.Gameplay.Combat
         public BattleVictory BattleVictory;
         public BattleRound BattleRound;
         public EnemyOrderDecider Decider;
+
+        public IObservable<Unit> OnBattleEnd => _battleEndSubject;
+
+        private Subject<Unit> _battleEndSubject = new Subject<Unit>();
 
         private void Awake()
         {
@@ -112,6 +117,8 @@ namespace Application.Gameplay.Combat
             _hooks.Clear();
             _playerTeam.Clear();
             _enemyTeam.Clear();
+            
+            _battleEndSubject.OnNext(Unit.Default);
         }
     
         private void DrawImGuiWindow()

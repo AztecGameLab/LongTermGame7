@@ -9,6 +9,7 @@ namespace Application.Gameplay.Combat
     /// Listens for the beginning of overworld battles, and prepares the world state
     /// for the <see cref="BattleController"/>. 
     /// </summary>
+    [Serializable]
     public class OverworldBattleSetup : IDisposable
     {
         private BattleController _controller;
