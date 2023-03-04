@@ -24,9 +24,10 @@ namespace Application.Gameplay
         /// <summary>
         /// Sets up the Level Loader.
         /// </summary>
-        public void Init()
+        public LevelLoader Init()
         {
             _disposable = Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
+            return this;
         }
 
         private static async void HandleSceneChange(LevelChangeEvent data)
