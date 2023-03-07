@@ -1,71 +1,117 @@
-﻿using Application.Core;
-using Application.Gameplay.Combat.Deciders;
-using Application.Gameplay.Combat.Hooks;
-using Application.Gameplay.Combat.States;
-using Cinemachine;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Net.Security;
-using UniRx;
-using UnityEngine;
-
-namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using Cinemachine;
+    using Core;
+    using Deciders;
+    using Hooks;
+    using ImGuiNET;
+    using States;
+    using UniRx;
+    using UnityEngine;
+
     /// <summary>
     /// The generic controller for all battles.
     /// Handles the common turn sequencing and logic, win and lose conditions.
     /// </summary>
     public class BattleController : MonoBehaviour
     {
-        [SerializeField] private CinemachineVirtualCamera battleCamera;
-        [SerializeField] private CinemachineTargetGroup targetGroup;
-        [SerializeField] private CanvasGroup battleBars;
-        
-        public List<GameObject> PlayerTeam => _playerTeam;
-        public List<GameObject> EnemyTeam => _enemyTeam;
+        private const int BattleCameraActivePriority = 10;
 
-        private List<GameObject> _playerTeam = new List<GameObject>();
-        private List<GameObject> _enemyTeam = new List<GameObject>();
-        private List<Hook> _hooks = new List<Hook>();
+        private readonly List<Hook> _hooks = new List<Hook>();
+        private readonly Subject<Unit> _battleEndSubject = new Subject<Unit>();
 
-        // todo: statemachinify
+        [Header("States")]
+
+        [SerializeField]
+        private BattleIntro battleIntro;
+
+        [SerializeField]
+        private BattleRound battleRound;
+
+        [SerializeField]
+        private BattleLoss battleLoss;
+
+        [SerializeField]
+        private BattleVictory battleVictory;
+
+        [Header("Camera References")]
+
+        [SerializeField]
+        private CinemachineVirtualCamera battleCamera;
+
+        [SerializeField]
+        private CinemachineTargetGroup battleTargetGroup;
+
+        [SerializeField]
+        private float battleTargetRadius;
+
+        [Header("UI")]
+
+        [SerializeField]
+        private CanvasGroup battleBars;
+
         private bool _isBattling;
 
-        public StateMachine BattleStateMachine { get; private set; }
-        public CinemachineVirtualCamera BattleCamera => battleCamera;
-        public CinemachineTargetGroup TargetGroup => targetGroup;
-    
-        public BattleIntro BattleIntro;
-        public BattleLoss BattleLoss;
-        public BattleVictory BattleVictory;
-        public BattleRound BattleRound;
-        public EnemyOrderDecider Decider;
+        /// <summary>
+        /// Gets the battle intro logic.
+        /// </summary>
+        public BattleIntro Intro => battleIntro;
 
+        /// <summary>
+        /// Gets the battle round logic.
+        /// </summary>
+        public BattleRound Round => battleRound;
+
+        /// <summary>
+        /// Gets the battle victory logic.
+        /// </summary>
+        public BattleVictory Victory => battleVictory;
+
+        /// <summary>
+        /// Gets the battle loss logic.
+        /// </summary>
+        public BattleLoss Loss => battleLoss;
+
+        /// <summary>
+        /// Gets the instantiated GameObjects of every member on the player team.
+        /// </summary>
+        public Collection<GameObject> PlayerTeam { get; } = new Collection<GameObject>();
+
+        /// <summary>
+        /// Gets the instantiated GameObjects of every member on the enemy team.
+        /// </summary>
+        public Collection<GameObject> EnemyTeam { get; } = new Collection<GameObject>();
+
+        /// <summary>
+        /// Gets the script in charge of managing the enemy's turn.
+        /// </summary>
+        public EnemyOrderDecider EnemyOrderDecider { get; private set; }
+
+        /// <summary>
+        /// Gets an observable that watches the end of the battle.
+        /// </summary>
         public IObservable<Unit> OnBattleEnd => _battleEndSubject;
 
-        private Subject<Unit> _battleEndSubject = new Subject<Unit>();
+        private StateMachine BattleStateMachine { get; set; }
 
-        private void Awake()
+        private CinemachineVirtualCamera BattleCamera => battleCamera;
+
+        /// <summary>
+        /// Moves to a new BattleState.
+        /// </summary>
+        /// <param name="state">The new state to begin running.</param>
+        public void TransitionTo(BattleState state)
         {
-            ImGuiUtil.Register(DrawImGuiWindow).AddTo(this);
-
-            BattleStateMachine = new StateMachine();
-
-            BattleIntro = new BattleIntro { Controller = this };
-            BattleLoss = new BattleLoss { Controller = this };
-            BattleVictory = new BattleVictory { Controller = this };
-            BattleRound = new BattleRound { Controller = this };
+            BattleStateMachine.SetState(state);
         }
 
-        private void Update()
-        {
-            if (_isBattling)
-            {
-                BattleStateMachine.Tick();
-            }
-        }
-
+        /// <summary>
+        /// Starts running logic for a battle, specified by the passed in data.
+        /// </summary>
+        /// <param name="data">The initial state needed to start a battle.</param>
         public void BeginBattle(BattleData data)
         {
             if (_isBattling)
@@ -73,37 +119,49 @@ namespace Application.Gameplay.Combat
                 return;
             }
 
-            _isBattling = true;
             battleBars.alpha = 1;
-            BattleCamera.Priority = 10;
-        
+            BattleCamera.Priority = BattleCameraActivePriority;
+            battleTargetGroup.RemoveAllMembers();
+            battleTargetGroup.AddMemberRange(PlayerTeam, 1, battleTargetRadius);
+            battleTargetGroup.AddMemberRange(EnemyTeam, 1, battleTargetRadius);
+
             Debug.Log("Starting battle!");
-            Decider = data.Decider;
+
+            battleIntro.Initialize();
+            battleRound.Initialize();
+            battleVictory.Initialize();
+            battleLoss.Initialize();
 
             _hooks.Clear();
-            _hooks.AddRange(data.Hooks);
-        
-            foreach (Hook dataHook in _hooks)
+            _isBattling = true;
+
+            foreach (Hook hook in data.Hooks)
             {
-                dataHook.Controller = this;
-                dataHook.OnBattleStart();
+                _hooks.Add(hook);
+                hook.Controller = this;
+                hook.OnBattleStart();
             }
 
-            _playerTeam.Clear();
-            _playerTeam.AddRange(data.PlayerTeamInstances);
-        
-            _enemyTeam.Clear();
-            _enemyTeam.AddRange(data.EnemyTeamInstances);
-        
-            BattleStateMachine.SetState(BattleIntro);
+            EnemyOrderDecider = data.Decider;
+
+            PlayerTeam.Clear();
+            AddRange(PlayerTeam, data.PlayerTeamInstances);
+
+            EnemyTeam.Clear();
+            AddRange(EnemyTeam, data.EnemyTeamInstances);
+
+            BattleStateMachine.SetState(battleIntro);
         }
 
+        /// <summary>
+        /// Stops running logic for a battle, cleaning up all of the related state.
+        /// </summary>
         public void EndBattle()
         {
             _isBattling = false;
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
-        
+
             // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
             Debug.Log("Ending battle!");
 
@@ -111,39 +169,80 @@ namespace Application.Gameplay.Combat
             {
                 hook.OnBattleEnd();
             }
-        
+
             BattleStateMachine.SetState(null);
 
             _hooks.Clear();
-            _playerTeam.Clear();
-            _enemyTeam.Clear();
-            
+            PlayerTeam.Clear();
+            EnemyTeam.Clear();
+
             _battleEndSubject.OnNext(Unit.Default);
         }
-    
+
+        private static void AddRange<T>(Collection<T> destination, IEnumerable<T> source)
+        {
+            foreach (T data in source)
+            {
+                destination.Add(data);
+            }
+        }
+
+        private void Awake()
+        {
+            ImGuiUtil.Register(DrawImGuiWindow).AddTo(this);
+
+            BattleStateMachine = new StateMachine();
+
+            battleLoss.Controller = this;
+            battleVictory.Controller = this;
+            battleRound.Controller = this;
+            battleIntro.Controller = this;
+        }
+
+        private void Update()
+        {
+            if (_isBattling)
+            {
+                BattleStateMachine.Tick();
+
+                foreach (Hook hook in _hooks)
+                {
+                    hook.OnBattleUpdate();
+                }
+            }
+        }
+
         private void DrawImGuiWindow()
         {
             ImGui.Begin("Battle Controller");
-        
+
             ImGui.Text($"Current State: {BattleStateMachine.CurrentState?.GetType().Name}");
 
             if (ImGui.Button("End Battle"))
+            {
                 EndBattle();
-        
+            }
+
             ImGui.Text("Enemy team:");
-        
+
             foreach (GameObject enemyTeamInstance in EnemyTeam)
+            {
                 ImGui.Text($"\t{enemyTeamInstance.name}");
-        
+            }
+
             ImGui.Text("Player team:");
 
             foreach (GameObject playerTeamInstance in PlayerTeam)
+            {
                 ImGui.Text($"\t{playerTeamInstance.name}");
-        
+            }
+
             ImGui.Text("Hooks:");
 
             foreach (Hook hook in _hooks)
+            {
                 ImGui.Text($"\t{hook.GetType().Name}");
+            }
 
             ImGui.End();
         }

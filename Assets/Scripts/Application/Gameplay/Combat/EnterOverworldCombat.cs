@@ -1,18 +1,22 @@
-﻿using Application.Core;
-using Application.Gameplay.Combat.Deciders;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat
 {
+    using System.Collections.Generic;
+    using Core;
+    using Deciders;
+    using UnityEngine;
+
     /// <summary>
     /// The in-game trigger effect that can begin a combat sequence.
     /// </summary>
     public class EnterOverworldCombat : TriggerEffect
     {
-        [SerializeField] private List<GameObject> enemyTeam;
-        [SerializeField] private EnemyOrderDecider enemyOrderDecider;
-    
+        [SerializeField]
+        private List<GameObject> enemyTeam;
+
+        [SerializeField]
+        private EnemyOrderDecider enemyOrderDecider;
+
+        /// <inheritdoc/>
         protected override void HandleCollisionEnter(GameObject obj)
         {
             List<GameObject> enemyTeamInstances = enemyTeam;
@@ -20,11 +24,11 @@ namespace Application.Gameplay.Combat
 
             var battleData = new OverworldBattleStartData
             {
-                EnemyTeamInstances = enemyTeamInstances, 
+                EnemyTeamInstances = enemyTeamInstances,
                 PlayerTeamInstances = playerTeamInstances,
                 EnemyOrderDecider = enemyOrderDecider,
             };
-        
+
             Services.EventBus.Invoke(battleData, $"Overworld Combat Trigger: {gameObject.name}");
         }
     }

@@ -70,6 +70,7 @@ namespace Application.Gameplay.Combat
                 PlayerTeamInstances = data.PlayerTeamPrefabs,
                 EnemyTeamInstances = enemyInstances,
                 Hooks = new List<Hook>(new[] { new DebuggingHook() }),
+                Decider = data.EnemyOrderDecider,
             };
             
             _controller.BeginBattle(battleData);
@@ -88,7 +89,7 @@ namespace Application.Gameplay.Combat
         private List<GameObject> SpawnEntities(List<GameObject> entities)
         {
             List<GameObject> result = new List<GameObject>();
-            
+
             foreach (GameObject entity in entities)
             {
                 var instance = Object.Instantiate(entity);

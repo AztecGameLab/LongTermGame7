@@ -1,46 +1,67 @@
-﻿using Application.Core;
-using ImGuiNET;
-
-namespace Application.Gameplay.Combat.States.Round
+﻿namespace Application.Gameplay.Combat.States.Round
 {
-    public class PrepareAction : RoundState
+    using System;
+    using Core;
+    using ImGuiNET;
+
+    /// <summary>
+    /// The battle round state where you give the final additional data to the action before it is performed.
+    /// </summary>
+    [Serializable]
+    public class PrepareAction : RoundState, IDebugImGui
     {
+        /// <summary>
+        /// Sets up the prepare action state.
+        /// </summary>
+        public void Initialize()
+        {
+            RegisterImGuiDebug(this);
+        }
+
+        /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
-            Round.SelectedAction.PrepEnter();
-            Services.EventBus.Invoke(new RoundStateEnterEvent<PrepareAction>{State = this}, "Prepare Action State");
+            Round.PickActions.SelectedAction.PrepEnter();
+            Services.EventBus.Invoke(new RoundStateEnterEvent<PrepareAction> { State = this }, "Prepare Action State");
         }
 
+        /// <inheritdoc/>
         public override void OnTick()
         {
             base.OnTick();
 
-            Round.SelectedAction.PrepTick();
+            Round.PickActions.SelectedAction.PrepTick();
 
-            if (Round.SelectedAction.IsPrepFinished)
+            if (Round.PickActions.SelectedAction.IsPrepFinished)
             {
-                Round.StateMachine.SetState(Round.PlayAnimation);
+                Round.TransitionTo(Round.PlayActionAnimation);
             }
         }
 
+        /// <inheritdoc/>
         public override void OnExit()
         {
             base.OnExit();
-            Round.SelectedAction.PrepExit();
-            Services.EventBus.Invoke(new RoundStateExitEvent<PrepareAction>{State = this}, "Prepare Action State");
+            Round.PickActions.SelectedAction.PrepExit();
+            Services.EventBus.Invoke(new RoundStateExitEvent<PrepareAction> { State = this }, "Prepare Action State");
         }
-        
-        protected override void DrawGui()
+
+        /// <inheritdoc/>
+        public void RenderImGui()
         {
             ImGui.Begin("Preparing Action");
 
-            if (Round.SelectedAction is IDebugImGui debugImGui)
+            if (Round.PickActions.SelectedAction is IDebugImGui debugImGui)
+            {
                 debugImGui.RenderImGui();
+            }
 
             if (ImGui.Button("Cancel Prep"))
-                Round.StateMachine.SetState(Round.PickActions);
-            
+            {
+                Round.TransitionTo(Round.PickActions);
+            }
+
             ImGui.End();
         }
     }

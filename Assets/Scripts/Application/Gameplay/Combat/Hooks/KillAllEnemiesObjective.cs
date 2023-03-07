@@ -1,9 +1,14 @@
 ﻿namespace Application.Gameplay.Combat.Hooks
 {
+    /// <summary>
+    /// A hook that listens for all enemies to be killed, and then awards the player
+    /// a victory.
+    /// </summary>
     public class KillAllEnemiesObjective : Hook
     {
         private float _remainingHealth;
-    
+
+        /// <inheritdoc/>
         public override void OnBattleStart()
         {
             foreach (var enemy in Controller.EnemyTeam)

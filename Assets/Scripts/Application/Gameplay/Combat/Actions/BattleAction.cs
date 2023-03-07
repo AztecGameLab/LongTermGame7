@@ -71,7 +71,7 @@
         }
 
         /// <summary>
-        /// Run an observe the execution of this action.
+        /// Run and observe the execution of this action.
         /// </summary>
         /// <returns>An observable that completes when the action finishes executing.</returns>
         public IObservable<Unit> Run() => Execute().ToObservable();

@@ -41,7 +41,7 @@ namespace Application.Core
                 SetState(transition.NextState);
             }
 
-            _currentState.OnTick();
+            _currentState?.OnTick();
         }
 
         /// <summary>

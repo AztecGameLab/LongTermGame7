@@ -1,97 +1,108 @@
-using Application.Core;
-using Application.Gameplay.Combat.States.Round;
-using ImGuiNET;
-using System;
-using UnityEngine;
-using UnityEngine.Events;
-
 namespace Application.Gameplay.Combat.States
 {
-    public class RoundStateExitEvent<T> where T : RoundState
-    {
-        public T State;
-    }
+    using System;
+    using Core;
+    using ImGuiNET;
+    using Round;
+    using UnityEngine;
 
-    public class RoundStateEnterEvent<T> where T : RoundState
-    {
-        public T State;
-    }
-
+    /// <summary>
+    /// The state of a battle where actions are being executed, and the player
+    /// is taking turns with the enemies to control the game state.
+    /// <remarks>This is the main loop of the battle system, most things happen here.</remarks>
+    /// </summary>
     [Serializable]
-    public abstract class RoundState : IState
+    public class BattleRound : BattleState, IDebugImGui
     {
-        public BattleRound Round { get; set; }
+        [SerializeField]
+        private PickMonster pickMonster;
 
-        private IDisposable _disposable;
+        [SerializeField]
+        private PickActionsForMonster pickActions;
 
-        public virtual void OnEnter()
-        {
-            _disposable = ImGuiUtil.Register(DrawGui);
-        }
+        [SerializeField]
+        private PrepareAction prepareAction;
 
-        public virtual void OnExit()
-        {
-            _disposable?.Dispose();
-        }
-        
-        public virtual void OnTick() {}
-        protected virtual void DrawGui() {}
-        protected virtual void DrawGizmos() {}
-        
-        public virtual void OnRoundBegin() {}
-        public virtual void OnRoundEnd() {}
-    }
-    
-    [Serializable]
-    public class BattleRound : BattleState
-    {
-        public StateMachine StateMachine { get; private set; }
+        [SerializeField]
+        private PlayActionAnimation playAnimation;
 
-        public PickMonster PickMonster {get; private set;}
-        public PickActionsForMonster PickActions {get; private set;}
-        public PrepareAction PrepareAction { get; private set; }
-        public PlayActionAnimation PlayAnimation {get; private set;}
-        public EnemyMoveMonsters EnemyMoveMonsters { get; private set; }
-
-        public GameObject SelectedMonster { get; set; }
-        public BattleAction SelectedAction { get; set; }
+        [SerializeField]
+        private EnemyMoveMonsters enemyMoveMonsters;
 
         private RoundState[] _states;
 
-        public BattleRound()
+        /// <summary>
+        /// Gets the state for picking a monster.
+        /// </summary>
+        public PickMonster PickMonster => pickMonster;
+
+        /// <summary>
+        /// Gets the state for picking actions for a monster.
+        /// </summary>
+        public PickActionsForMonster PickActions => pickActions;
+
+        /// <summary>
+        /// Gets the state for preparing an action.
+        /// </summary>
+        public PrepareAction PrepareAction => prepareAction;
+
+        /// <summary>
+        /// Gets the state for playing an action animation.
+        /// </summary>
+        public PlayActionAnimation PlayActionAnimation => playAnimation;
+
+        /// <summary>
+        /// Gets the state for the enemy monsters moving.
+        /// </summary>
+        public EnemyMoveMonsters EnemyMoveMonsters => enemyMoveMonsters;
+
+        private StateMachine StateMachine { get; set; }
+
+        /// <summary>
+        /// Changes the current battle round state.
+        /// </summary>
+        /// <param name="state">The target state.</param>
+        public void TransitionTo(RoundState state)
+        {
+            StateMachine.SetState(state);
+        }
+
+        /// <summary>
+        /// Sets up the battle round.
+        /// </summary>
+        public void Initialize()
         {
             StateMachine = new StateMachine();
 
+            EnemyMoveMonsters.Initialize();
+            PickMonster.Initialize();
+            PlayActionAnimation.Initialize();
+            PrepareAction.Initialize();
+            PickActions.Initialize();
+
             _states = new RoundState[]
             {
-                PickMonster = new PickMonster(),
-                PickActions = new PickActionsForMonster(),
-                PrepareAction = new PrepareAction(),
-                PlayAnimation = new PlayActionAnimation(),
-                EnemyMoveMonsters = new EnemyMoveMonsters(),
+                PickMonster, PickActions, PrepareAction, PlayActionAnimation, EnemyMoveMonsters,
             };
 
             foreach (RoundState roundState in _states)
             {
                 roundState.Round = this;
             }
+
+            RegisterDebugImGui(this);
         }
 
-        protected override void DrawGui()
+        /// <summary>
+        /// Advances to the next round.
+        /// </summary>
+        public void NextRound()
         {
-            ImGui.Begin("Battle Round");
-            
-            ImGui.Text($"Current State: {StateMachine.CurrentState.GetType().Name}");
-            
-            if (ImGui.Button("Win Battle"))
-                Controller.BattleStateMachine.SetState(Controller.BattleVictory);
-            
-            if (ImGui.Button("Lose Battle"))
-                Controller.BattleStateMachine.SetState(Controller.BattleLoss);
-            
-            ImGui.End();
+            OnExit();
+            OnEnter();
         }
 
+        /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
@@ -100,15 +111,17 @@ namespace Application.Gameplay.Combat.States
             {
                 roundState.OnRoundBegin();
             }
-            
+
             StateMachine.SetState(PickMonster);
         }
-        
+
+        /// <inheritdoc/>
         public override void OnTick()
         {
             StateMachine.Tick();
         }
 
+        /// <inheritdoc/>
         public override void OnExit()
         {
             base.OnExit();
@@ -117,8 +130,28 @@ namespace Application.Gameplay.Combat.States
             {
                 roundState.OnRoundEnd();
             }
-            
+
             StateMachine.SetState(null);
+        }
+
+        /// <inheritdoc/>
+        public void RenderImGui()
+        {
+            ImGui.Begin("Battle Round");
+
+            ImGui.Text($"Current State: {StateMachine.CurrentState.GetType().Name}");
+
+            if (ImGui.Button("Win Battle"))
+            {
+                Controller.TransitionTo(Controller.Victory);
+            }
+
+            if (ImGui.Button("Lose Battle"))
+            {
+                Controller.TransitionTo(Controller.Loss);
+            }
+
+            ImGui.End();
         }
     }
 }
