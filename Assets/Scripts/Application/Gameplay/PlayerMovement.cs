@@ -7,7 +7,6 @@
     /// <summary>
     /// Applies movement to the player.
     /// </summary>
-    // [RequireComponent(typeof(CharacterController))]
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField]
