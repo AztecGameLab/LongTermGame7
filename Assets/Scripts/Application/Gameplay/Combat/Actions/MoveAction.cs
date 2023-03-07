@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections;
+    using Core;
     using ImGuiNET;
     using UnityEngine;
+    using UnityEngine.AI;
     using Object = UnityEngine.Object;
 
     /// <summary>
@@ -18,10 +20,14 @@
         [SerializeField]
         private GameObject targetPrefab;
 
+        [SerializeField]
+        private float moveSpeed = 1;
+
         private Camera _camera;
         private Vector3 _targetPosition;
         private float _distance;
         private GameObject _targetInstance;
+        private NavMeshPath _path;
 
         /// <inheritdoc/>
         public override string Name => "Move";
@@ -37,24 +43,26 @@
             base.PrepEnter();
             _camera = Camera.main;
             _targetInstance = Object.Instantiate(targetPrefab);
+            _path ??= new NavMeshPath();
         }
 
         /// <inheritdoc/>
         public override void PrepTick()
         {
             base.PrepTick();
-            var clickRay = _camera.ScreenPointToRay(Input.mousePosition);
+            Ray clickRay = _camera.ScreenPointToRay(Input.mousePosition);
+            Vector3 position = User.transform.position;
 
-            if (Physics.Raycast(clickRay, out var hitInfo))
+            if (Physics.Raycast(clickRay, out var hitInfo) && NavMesh.CalculatePath(position, hitInfo.point, NavMesh.AllAreas, _path))
             {
-                var position = User.transform.position;
                 _targetPosition = hitInfo.point;
-                _distance = Vector3.Distance(position, _targetPosition);
+                _distance = NavMeshPathUtil.CalculateDistance(_path);
 
-                if (User.TryGetComponent(out ActionPointTracker tracker) && PointCost > tracker.remainingActionPoints)
+                if (User.TryGetComponent(out ActionPointTracker tracker) &&
+                    PointCost > tracker.remainingActionPoints)
                 {
                     _distance = Mathf.Min(tracker.remainingActionPoints * (1 / actionPointsPerUnit), _distance);
-                    _targetPosition = position + ((_targetPosition - position).normalized * _distance);
+                    _targetPosition = NavMeshPathUtil.GetPositionAtDistance(_path, _distance);
                 }
 
                 _targetInstance.transform.position = _targetPosition;
@@ -88,7 +96,14 @@
                 tracker.remainingActionPoints -= PointCost;
             }
 
-            yield return null;
+            float elapsedDistance = 0;
+
+            while (elapsedDistance < _distance)
+            {
+                elapsedDistance += Time.deltaTime * moveSpeed;
+                User.transform.MoveTo(_path, elapsedDistance);
+                yield return null;
+            }
         }
     }
 }
