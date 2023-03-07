@@ -1,8 +1,7 @@
-﻿using Application.Core;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using Cinemachine;
+    using Core;
     using UnityEngine;
 
     /// <summary>
@@ -15,11 +14,13 @@ namespace Application.Gameplay
         [SerializeField]
         private CinemachineVirtualCamera targetCamera;
 
+        /// <inheritdoc/>
         protected override void HandleCollisionEnter(GameObject obj)
         {
             targetCamera.Priority = ActivePriority;
         }
 
+        /// <inheritdoc/>
         protected override void HandleCollisionExit(GameObject obj)
         {
             targetCamera.Priority = 0;

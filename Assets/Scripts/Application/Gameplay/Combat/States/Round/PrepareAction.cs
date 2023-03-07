@@ -15,9 +15,13 @@ namespace Application.Gameplay.Combat.States.Round
         public override void OnTick()
         {
             base.OnTick();
-            
-            if (Round.SelectedAction.PrepTick())
+
+            Round.SelectedAction.PrepTick();
+
+            if (Round.SelectedAction.IsPrepFinished)
+            {
                 Round.StateMachine.SetState(Round.PlayAnimation);
+            }
         }
 
         public override void OnExit()
