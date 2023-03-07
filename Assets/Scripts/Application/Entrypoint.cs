@@ -1,16 +1,10 @@
-using Application.Core.Serialization;
-using Application.Gameplay.Regions;
-using System;
-using UnityEngine.Rendering;
-
 namespace Application
 {
-    using System.Threading.Tasks;
     using Core;
     using Core.Events;
-    using Core.Rtf;
+    using Core.Serialization;
     using Gameplay;
-    using Gameplay.Landmarks;
+    using Gameplay.Regions;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
@@ -23,7 +17,7 @@ namespace Application
     {
         [SerializeField]
         private GameplaySystem gameplaySystem = new GameplaySystem();
-        
+
         private static bool Initialized { get; set; }
 
         private void Awake()
@@ -34,7 +28,7 @@ namespace Application
         private void OnDestroy()
         {
             Services.Serializer.WriteToDisk("TestingSave");
-            
+
             gameplaySystem.Dispose();
         }
 
@@ -53,7 +47,7 @@ namespace Application
 
             // todo: unify level loading to clear confusion
             Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
-            
+
             gameplaySystem.Init();
 
             // todo: is this important?

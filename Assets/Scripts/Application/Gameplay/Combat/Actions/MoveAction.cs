@@ -59,9 +59,9 @@
                 _distance = NavMeshPathUtil.CalculateDistance(_path);
 
                 if (User.TryGetComponent(out ActionPointTracker tracker) &&
-                    PointCost > tracker.remainingActionPoints)
+                    PointCost > tracker.RemainingActionPoints)
                 {
-                    _distance = Mathf.Min(tracker.remainingActionPoints * (1 / actionPointsPerUnit), _distance);
+                    _distance = Mathf.Min(tracker.RemainingActionPoints * (1 / actionPointsPerUnit), _distance);
                     _targetPosition = NavMeshPathUtil.GetPositionAtDistance(_path, _distance);
                 }
 
@@ -93,7 +93,7 @@
 
             if (User.TryGetComponent(out ActionPointTracker tracker))
             {
-                tracker.remainingActionPoints -= PointCost;
+                tracker.TrySpend(PointCost);
             }
 
             float elapsedDistance = 0;

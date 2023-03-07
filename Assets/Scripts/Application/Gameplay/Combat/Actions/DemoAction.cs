@@ -40,7 +40,7 @@
 
             if (User.TryGetComponent(out ActionPointTracker tracker))
             {
-                tracker.remainingActionPoints -= actionPointCost;
+                tracker.TrySpend(actionPointCost);
             }
 
             yield return new WaitForSeconds(1);

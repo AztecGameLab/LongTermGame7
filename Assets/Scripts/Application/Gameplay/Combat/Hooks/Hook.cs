@@ -1,9 +1,12 @@
 ﻿namespace Application.Gameplay.Combat.Hooks
 {
+    using System;
+
     /// <summary>
     /// A logical event that is monitored during a battle.
     /// For example, a hook might be a victory / loss condition.
     /// </summary>
+    [Serializable]
     public abstract class Hook
     {
         /// <summary>

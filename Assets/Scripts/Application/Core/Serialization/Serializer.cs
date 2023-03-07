@@ -160,7 +160,7 @@
                 return;
             }
 
-            string id = serializable.GetID();
+            string id = serializable.Id;
 
             if (_savedData.ContainsKey(id))
             {
@@ -197,7 +197,7 @@
                 return;
             }
 
-            string id = serializable.GetID();
+            string id = serializable.Id;
 
             if (!_savedData.ContainsKey(id))
             {

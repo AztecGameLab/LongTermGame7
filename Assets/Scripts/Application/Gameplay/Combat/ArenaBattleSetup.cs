@@ -1,27 +1,37 @@
-﻿using Application.Core;
-using Application.Core.Events;
-using Application.Gameplay.Combat.Hooks;
-using Application.Vfx;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UniRx;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
-
-namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Core;
+    using Hooks;
+    using UniRx;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+    using Object = UnityEngine.Object;
+    using Random = UnityEngine.Random;
+
+    /// <summary>
+    /// Listens for arena battle start events, and sets up the prerequisite information
+    /// for the battle controller.
+    /// </summary>
     [Serializable]
     public class ArenaBattleSetup : IDisposable
     {
-        [SerializeField] 
+        [SerializeField]
         private SubArenaLookup subArenaLookup;
-        
+
         private BattleController _controller;
+        private string _originalSceneName;
+        private IDisposable _cleanupDisposable;
         private IDisposable _disposable;
-    
+
+        /// <summary>
+        /// Prepares this class for execution.
+        /// </summary>
+        /// <param name="controller">The battle controller to be alerted when a battle is ready to be run.</param>
+        /// <returns>This instance.</returns>
         public ArenaBattleSetup Init(BattleController controller)
         {
             _controller = controller;
@@ -29,24 +39,22 @@ namespace Application.Gameplay.Combat
             return this;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             _disposable.Dispose();
         }
 
-        private ArenaBattleStartData _data;
-    
         private async void HandleArenaBattleStart(ArenaBattleStartData data)
         {
-            _data = data;
             _originalSceneName = SceneManager.GetActiveScene().name;
-            
+
             // todo: save original scene state better (actual serialization stuff)
             foreach (GameObject gameObject in data.PlayerTeamPrefabs)
             {
                 Object.DontDestroyOnLoad(gameObject);
             }
-            
+
             string subArenaSceneName = subArenaLookup.GetSceneName(Services.RegionTracker.CurrentRegion);
             SceneManager.LoadScene(subArenaSceneName);
             await Task.Delay(100);
@@ -55,30 +63,21 @@ namespace Application.Gameplay.Combat
             {
                 SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
             }
-            
-            SubArenaPlayerSpawn[] playerSpawns = Object.FindObjectsOfType<SubArenaPlayerSpawn>();
-            SubArenaEnemySpawn[] enemySpawns = Object.FindObjectsOfType<SubArenaEnemySpawn>();
-            
+
+            Transform[] playerSpawns = Object.FindObjectsOfType<SubArenaPlayerSpawn>().Select(spawn => spawn.transform).ToArray();
+            Transform[] enemySpawns = Object.FindObjectsOfType<SubArenaEnemySpawn>().Select(spawn => spawn.transform).ToArray();
+
             // todo: instantiate prefabs into spawn positions
-            List<GameObject> enemyInstances = SpawnEntities(data.EnemyTeamPrefabs);
+            IReadOnlyCollection<GameObject> enemyInstances = SpawnEntities(data.EnemyTeamPrefabs);
             DistributeSpawns(enemyInstances, enemySpawns);
             DistributeSpawns(data.PlayerTeamPrefabs, playerSpawns);
-            
+
             // todo: pass a battle start to the controller
-            var battleData = new BattleData()
-            {
-                PlayerTeamInstances = data.PlayerTeamPrefabs,
-                EnemyTeamInstances = enemyInstances,
-                Hooks = new List<Hook>(new[] { new DebuggingHook() }),
-                Decider = data.EnemyOrderDecider,
-            };
-            
+            var battleData = new BattleData(data.PlayerTeamPrefabs, enemyInstances, data.Hooks, data.EnemyOrderDecider);
+
             _controller.BeginBattle(battleData);
             _cleanupDisposable = _controller.OnBattleEnd.Subscribe(_ => RestoreOriginalScene());
         }
-        
-        private string _originalSceneName;
-        private IDisposable _cleanupDisposable;
 
         private void RestoreOriginalScene()
         {
@@ -86,7 +85,7 @@ namespace Application.Gameplay.Combat
             SceneManager.LoadScene(_originalSceneName);
         }
 
-        private List<GameObject> SpawnEntities(List<GameObject> entities)
+        private List<GameObject> SpawnEntities(IEnumerable<GameObject> entities)
         {
             List<GameObject> result = new List<GameObject>();
 
@@ -99,15 +98,15 @@ namespace Application.Gameplay.Combat
             return result;
         }
 
-        private void DistributeSpawns(List<GameObject> entities, MonoBehaviour[] spawns)
+        private void DistributeSpawns(IEnumerable<GameObject> entities, Transform[] spawns)
         {
             if (spawns.Length <= 0)
             {
-                throw new Exception("No arena spawns defined! Please add some for the players and enemies");
+                Debug.LogError("No arena spawns defined! Please add some for the players and enemies");
             }
-            
+
             int currentSpawn = Random.Range(0, spawns.Length);
-            
+
             foreach (GameObject entity in entities)
             {
                 entity.transform.position = spawns[currentSpawn].transform.position;

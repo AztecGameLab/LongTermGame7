@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Core;
     using Deciders;
+    using Hooks;
     using UnityEngine;
 
     /// <summary>
@@ -16,19 +17,16 @@
         [SerializeField]
         private EnemyOrderDecider enemyOrderDecider;
 
+        [SerializeReference]
+        private List<Hook> hooks;
+
         /// <inheritdoc/>
         protected override void HandleCollisionEnter(GameObject obj)
         {
             List<GameObject> enemyTeamInstances = enemyTeam;
-            List<GameObject> playerTeamInstances = FindObjectOfType<PlayerPartyView>().PartyMemberInstances;
+            IReadOnlyCollection<GameObject> playerTeamInstances = FindObjectOfType<PlayerPartyView>().PartyMemberInstances;
 
-            var battleData = new OverworldBattleStartData
-            {
-                EnemyTeamInstances = enemyTeamInstances,
-                PlayerTeamInstances = playerTeamInstances,
-                EnemyOrderDecider = enemyOrderDecider,
-            };
-
+            var battleData = new OverworldBattleStartData(playerTeamInstances, enemyTeamInstances, hooks, enemyOrderDecider);
             Services.EventBus.Invoke(battleData, $"Overworld Combat Trigger: {gameObject.name}");
         }
     }

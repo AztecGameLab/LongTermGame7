@@ -39,9 +39,9 @@
             _selectedActionSet = Round.PickMonster.SelectedMonster.GetComponent<ActionSet>();
             _actionPointTracker = Round.PickMonster.SelectedMonster.GetComponent<ActionPointTracker>();
 
-            if (_actionPointTracker.remainingActionPoints <= 0)
+            if (_actionPointTracker.RemainingActionPoints <= 0)
             {
-                _actionPointTracker.remainingActionPoints = _actionPointTracker.maxActionPoints;
+                _actionPointTracker.Refill();
                 Round.TransitionTo(Round.EnemyMoveMonsters);
             }
 
@@ -62,7 +62,7 @@
 
             if (_actionPointTracker != null)
             {
-                ImGui.Text($"Action Points: {_actionPointTracker.remainingActionPoints}/{_actionPointTracker.maxActionPoints}");
+                ImGui.Text($"Action Points: {_actionPointTracker.RemainingActionPoints}/{_actionPointTracker.MaxActionPoints}");
             }
 
             if (ImGui.Button("Next Action"))

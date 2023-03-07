@@ -1,9 +1,7 @@
 ﻿namespace Application.Gameplay.Combat
 {
     using System;
-    using System.Collections.Generic;
     using Core;
-    using Hooks;
 
     /// <summary>
     /// Listens for the beginning of overworld battles, and prepares the world state
@@ -37,14 +35,7 @@
 
         private void HandleBattleStart(OverworldBattleStartData data)
         {
-            var battleData = new BattleData
-            {
-                EnemyTeamInstances = data.EnemyTeamInstances,
-                PlayerTeamInstances = data.PlayerTeamInstances,
-                Hooks = new List<Hook>(new[] { new DebuggingHook() }),
-                Decider = data.EnemyOrderDecider,
-            };
-
+            var battleData = new BattleData(data.PlayerTeamInstances, data.EnemyTeamInstances, data.Hooks, data.EnemyOrderDecider);
             _controller.BeginBattle(battleData);
         }
     }
