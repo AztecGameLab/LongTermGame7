@@ -1,4 +1,4 @@
-namespace Application.Core.Serialization.Surrogates
+﻿namespace Application.Core.Serialization.Surrogates
 {
     using System.Runtime.Serialization;
     using UnityEngine;
@@ -9,7 +9,7 @@ namespace Application.Core.Serialization.Surrogates
     public class Vector3SerializationSurrogate : ISerializationSurrogate
     {
         /// <inheritdoc/>
-        public void GetObjectData(object obj, SerializationInfo info, StreamingContext context) 
+        public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
         {
             Vector3 v3 = (Vector3)obj;
 
@@ -22,7 +22,7 @@ namespace Application.Core.Serialization.Surrogates
         }
 
         /// <inheritdoc/>
-        public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector) 
+        public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
         {
             Vector3 v3 = (Vector3)obj;
 

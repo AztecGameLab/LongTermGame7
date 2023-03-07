@@ -1,8 +1,7 @@
-﻿using Application.Gameplay.Combat;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
     using System;
+    using Gameplay.Combat;
     using ImGuiNET;
 
     /// <summary>

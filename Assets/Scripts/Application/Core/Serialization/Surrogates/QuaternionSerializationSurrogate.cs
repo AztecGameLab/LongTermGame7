@@ -1,4 +1,4 @@
-namespace Application.Core.Serialization.Surrogates
+﻿namespace Application.Core.Serialization.Surrogates
 {
     using System.Runtime.Serialization;
     using UnityEngine;

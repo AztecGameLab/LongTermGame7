@@ -1,7 +1,6 @@
 ﻿namespace Application.Gameplay.Combat.States.Round
 {
     using System;
-    using Core;
     using ImGuiNET;
     using UniRx;
 
@@ -26,7 +25,6 @@
         {
             base.OnEnter();
             _disposable = Round.PickActions.SelectedAction.Run().Subscribe(_ => OnActionEnd());
-            Services.EventBus.Invoke(new RoundStateEnterEvent<PlayActionAnimation> { State = this }, "Play Action Animation State");
         }
 
         /// <inheritdoc/>
@@ -34,7 +32,6 @@
         {
             base.OnExit();
             _disposable?.Dispose();
-            Services.EventBus.Invoke(new RoundStateExitEvent<PlayActionAnimation> { State = this }, "Play Action Animation State");
         }
 
         /// <inheritdoc/>

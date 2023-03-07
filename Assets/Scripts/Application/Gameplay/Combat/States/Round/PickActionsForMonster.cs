@@ -1,7 +1,6 @@
 ﻿namespace Application.Gameplay.Combat.States.Round
 {
     using System;
-    using Core;
     using ImGuiNET;
 
     /// <summary>
@@ -44,15 +43,6 @@
                 _actionPointTracker.Refill();
                 Round.TransitionTo(Round.EnemyMoveMonsters);
             }
-
-            Services.EventBus.Invoke(new RoundStateEnterEvent<PickActionsForMonster> { State = this }, "Pick Actions For Monster State");
-        }
-
-        /// <inheritdoc/>
-        public override void OnExit()
-        {
-            base.OnExit();
-            Services.EventBus.Invoke(new RoundStateExitEvent<PickActionsForMonster> { State = this }, "Pick Actions For Monster State");
         }
 
         /// <inheritdoc/>

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using Cinemachine;
-    using Core;
     using ImGuiNET;
     using UnityEngine;
 
@@ -56,7 +55,6 @@
         public override void OnEnter()
         {
             base.OnEnter();
-            Services.EventBus.Invoke(new RoundStateEnterEvent<PickMonster> { State = this }, "Pick Monster State");
             pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
 
             SelectedMonster = _availableMonsters.Count > 0 ? _availableMonsters[_selectedMonsterIndex] : null;
@@ -70,7 +68,6 @@
         public override void OnExit()
         {
             base.OnExit();
-            Services.EventBus.Invoke(new RoundStateExitEvent<PickMonster> { State = this }, "Pick Monster State");
             pickMonsterCamera.Priority = 0;
         }
 

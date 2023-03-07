@@ -1,10 +1,9 @@
-﻿using Application.Gameplay.Combat.Hooks;
-
-namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat
 {
     using System.Collections.Generic;
     using Core;
     using Deciders;
+    using Hooks;
     using UnityEngine;
 
     /// <summary>

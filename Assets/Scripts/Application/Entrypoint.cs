@@ -1,4 +1,4 @@
-namespace Application
+﻿namespace Application
 {
     using Core;
     using Core.Events;

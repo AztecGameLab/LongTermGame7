@@ -38,7 +38,6 @@
         public override void OnEnter()
         {
             base.OnEnter();
-            Services.EventBus.Invoke(new RoundStateEnterEvent<EnemyMoveMonsters> { State = this }, "Enemy Move Monsters State");
             enemyVirtualCamera.Priority = EnemyCameraActivePriority;
 
             _disposable = Round.Controller.EnemyOrderDecider.Run(Round.Controller).Subscribe(_ => OnDeciderFinish());
@@ -50,7 +49,6 @@
         public override void OnExit()
         {
             base.OnExit();
-            Services.EventBus.Invoke(new RoundStateExitEvent<EnemyMoveMonsters> { State = this }, "Enemy Move Monsters State");
             enemyVirtualCamera.Priority = 0;
 
             _disposable.Dispose();

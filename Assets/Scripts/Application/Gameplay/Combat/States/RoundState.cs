@@ -1,6 +1,4 @@
-﻿using Application.Gameplay.Combat.States.Round;
-
-namespace Application.Gameplay.Combat.States
+﻿namespace Application.Gameplay.Combat.States
 {
     using System;
     using Core;

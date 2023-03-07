@@ -1,4 +1,4 @@
-namespace Application.Core
+﻿namespace Application.Core
 {
     using System;
     using System.Collections.Generic;

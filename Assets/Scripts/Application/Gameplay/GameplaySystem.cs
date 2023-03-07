@@ -5,6 +5,7 @@
     using Core;
     using Landmarks;
     using Regions;
+    using UniRx;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -27,7 +28,7 @@
         [SerializeField]
         private ArenaBattleSetup arenaBattleSetup;
 
-        private DisposableBag _disposables;
+        private CompositeDisposable _disposables;
 
         /// <summary>
         /// Sets up the gameplay settings.
@@ -36,14 +37,12 @@
         {
             var battleController = Object.FindObjectOfType<BattleController>();
 
-            _disposables = new DisposableBag(new IDisposable[]
-            {
+            _disposables = new CompositeDisposable(
                 _landmarkViewer.Init(),
                 _levelDesignUtil.Init(),
                 _levelLoader.Init(),
                 overworldBattleSetup.Init(battleController),
-                arenaBattleSetup.Init(battleController),
-            });
+                arenaBattleSetup.Init(battleController));
 
             RegionDebugger.Init();
         }

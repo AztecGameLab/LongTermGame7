@@ -1,10 +1,10 @@
-using FMOD.Studio;
-using FMODUnity;
-using System;
-using UnityEngine;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
+    using System;
+    using FMOD.Studio;
+    using FMODUnity;
+    using UnityEngine;
+
     /// <summary>
     /// Used to test the functionality of the music player.
     /// </summary>

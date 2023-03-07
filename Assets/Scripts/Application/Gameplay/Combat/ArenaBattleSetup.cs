@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Core;
-    using Hooks;
     using UniRx;
     using UnityEngine;
     using UnityEngine.SceneManagement;

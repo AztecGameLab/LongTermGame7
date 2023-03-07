@@ -1,5 +1,6 @@
 ﻿namespace Application.Core.Serialization
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
@@ -37,10 +38,7 @@
         /// <summary>
         /// Gets the list of surrogates used for serializing data.
         /// </summary>
-        /// <value>
-        /// The list of surrogates used for serializing data.
-        /// </value>
-        public Collection<SurrogateData> SurrogateList { get; }
+        private Collection<SurrogateData> SurrogateList { get; }
 
         /// <summary>
         /// Returns the save path of a certain save file name.
@@ -226,6 +224,12 @@
             }
 
             ImGui.End();
+        }
+
+        private struct SurrogateData
+        {
+            public ISerializationSurrogate Surrogate;
+            public Type Type;
         }
     }
 }

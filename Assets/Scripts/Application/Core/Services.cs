@@ -1,9 +1,7 @@
-using Application.Core.Serialization;
-using Application.Gameplay.Regions;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
-    using Gameplay;
+    using Gameplay.Regions;
+    using Serialization;
     using UnityEngine;
 
     /// <summary>
@@ -14,19 +12,16 @@ namespace Application.Core
         /// <summary>
         /// Gets or sets the global EventBus.
         /// </summary>
-        /// <value>
-        /// The global EventBus.
-        /// </value>
         public static EventBus EventBus { get; set; }
 
+        /// <summary>
+        /// Gets or sets the global serializer.
+        /// </summary>
         public static Serializer Serializer { get; set; }
 
         /// <summary>
         /// Gets or sets the global RegionTracker.
         /// </summary>
-        /// <value>
-        /// The global RegionTracker.
-        /// </value>
         public static RegionTracker RegionTracker { get; set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

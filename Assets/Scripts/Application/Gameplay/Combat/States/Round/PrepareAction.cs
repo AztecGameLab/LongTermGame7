@@ -1,7 +1,6 @@
 ﻿namespace Application.Gameplay.Combat.States.Round
 {
     using System;
-    using Core;
     using ImGuiNET;
 
     /// <summary>
@@ -23,7 +22,6 @@
         {
             base.OnEnter();
             Round.PickActions.SelectedAction.PrepEnter();
-            Services.EventBus.Invoke(new RoundStateEnterEvent<PrepareAction> { State = this }, "Prepare Action State");
         }
 
         /// <inheritdoc/>
@@ -44,7 +42,6 @@
         {
             base.OnExit();
             Round.PickActions.SelectedAction.PrepExit();
-            Services.EventBus.Invoke(new RoundStateExitEvent<PrepareAction> { State = this }, "Prepare Action State");
         }
 
         /// <inheritdoc/>
