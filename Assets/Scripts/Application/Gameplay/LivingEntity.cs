@@ -15,6 +15,9 @@
         [SerializeField]
         private FloatReactiveProperty health;
 
+        [SerializeField]
+        private FloatReactiveProperty maxHealth;
+
         /// <summary>
         /// Gets an observable for each time this entity is damaged.
         /// </summary>
@@ -29,6 +32,25 @@
         /// Gets an observable for each time this entity's health changes.
         /// </summary>
         public IObservable<float> OnHealthChange => health;
+
+        /// <summary>
+        /// Gets an observable for each time this entity's maximum health changes.
+        /// </summary>
+        public IObservable<float> OnMaxHealthChange => maxHealth;
+
+        /// <summary>
+        /// How much health this entity has remaining.
+        /// </summary>
+        public float Health => health.Value;
+
+        /// <summary>
+        /// The maximum amount of health this entity might have.
+        /// </summary>
+        public float MaxHealth
+        {
+            get => maxHealth.Value;
+            set => maxHealth.Value = value;
+        }
 
         /// <summary>
         /// Remove this entity's health.
