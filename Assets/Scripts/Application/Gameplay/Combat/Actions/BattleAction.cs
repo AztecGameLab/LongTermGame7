@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using UniRx;
     using UnityEngine;
 
@@ -12,6 +13,8 @@
     [Serializable]
     public abstract class BattleAction
     {
+        private List<IDisposable> _disposeOnExit = new List<IDisposable>();
+
         /// <summary>
         /// Gets the name of this move.
         /// </summary>
@@ -60,6 +63,12 @@
         /// </summary>
         public virtual void PrepExit()
         {
+            foreach (IDisposable disposable in _disposeOnExit)
+            {
+                disposable.Dispose();
+            }
+
+            _disposeOnExit.Clear();
         }
 
         /// <summary>
@@ -83,5 +92,15 @@
         /// </summary>
         /// <returns>Unity coroutine information.</returns>
         protected abstract IEnumerator Execute();
+
+        /// <summary>
+        /// Registers a disposable to match the lifetime of the state.
+        /// Hence, when this state exits, this disposable will be disposed.
+        /// </summary>
+        /// <param name="disposable">The disposable to track.</param>
+        protected void DisposeOnExit(IDisposable disposable)
+        {
+            _disposeOnExit.Add(disposable);
+        }
     }
 }

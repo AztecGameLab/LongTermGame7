@@ -6,7 +6,6 @@
     using ImGuiNET;
     using UnityEngine;
     using UnityEngine.AI;
-    using Object = UnityEngine.Object;
 
     /// <summary>
     /// The action where an entity moves around, in a grounded manner, on the battlefield.
@@ -18,20 +17,11 @@
         private float actionPointsPerUnit = 0.25f;
 
         [SerializeField]
-        private MeshRenderer targetPrefab;
-
-        [SerializeField]
-        private Material goodMaterial;
-
-        [SerializeField]
-        private Material badMaterial;
-
-        [SerializeField]
         private float moveSpeed = 1;
 
         private Vector3 _targetPosition;
         private float _distance;
-        private MeshRenderer _targetInstance;
+        private GameObject _targetInstance;
         private NavMeshPath _path;
         private AimSystem _aimSystem = new AimSystem();
         private ActionPointTracker _actionPointTracker;
@@ -48,7 +38,7 @@
         public override void PrepEnter()
         {
             base.PrepEnter();
-            _targetInstance = Object.Instantiate(targetPrefab);
+            DisposeOnExit(Services.IndicatorFactory.GetCube(out _targetInstance));
             _path ??= new NavMeshPath();
             _aimSystem.Initialize(Camera.main);
             _actionPointTracker = User.GetComponent<ActionPointTracker>();
@@ -67,20 +57,9 @@
 
                 if (_actionPointTracker.CanAfford(PointCost))
                 {
-                    _targetInstance.material = goodMaterial;
                     IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
-                    return;
                 }
             }
-
-            _targetInstance.material = badMaterial;
-        }
-
-        /// <inheritdoc/>
-        public override void PrepExit()
-        {
-            base.PrepExit();
-            Object.Destroy(_targetInstance);
         }
 
         /// <inheritdoc/>

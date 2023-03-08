@@ -1,5 +1,6 @@
 ﻿namespace Application.Core
 {
+    using Gameplay.Combat;
     using Gameplay.Regions;
     using Serialization;
     using UnityEngine;
@@ -23,6 +24,11 @@
         /// Gets or sets the global RegionTracker.
         /// </summary>
         public static RegionTracker RegionTracker { get; set; }
+
+        /// <summary>
+        /// Gets or sets the global indicator factory.
+        /// </summary>
+        public static IndicatorFactory IndicatorFactory { get; set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
