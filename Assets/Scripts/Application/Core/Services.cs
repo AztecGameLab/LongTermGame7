@@ -1,4 +1,5 @@
-﻿using Application.Gameplay.Regions;
+using Application.Core.Serialization;
+using Application.Gameplay.Regions;
 
 namespace Application.Core
 {
@@ -18,6 +19,8 @@ namespace Application.Core
         /// </value>
         public static EventBus EventBus { get; set; }
 
+        public static Serializer Serializer { get; set; }
+
         /// <summary>
         /// Gets or sets the global RegionTracker.
         /// </summary>
@@ -31,6 +34,7 @@ namespace Application.Core
         {
             // Resets static data, so fast play mode works without carried-over data..
             EventBus = null;
+            Serializer = null;
             RegionTracker = null;
         }
     }

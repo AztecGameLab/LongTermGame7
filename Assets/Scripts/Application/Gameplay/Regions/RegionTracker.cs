@@ -1,7 +1,7 @@
-﻿namespace Application.Gameplay
-{
-    using UnityEngine;
+﻿using UnityEngine;
 
+namespace Application.Gameplay.Regions
+{
     /// <summary>
     /// Data to be made available.
     /// </summary>
