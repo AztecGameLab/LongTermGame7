@@ -33,7 +33,7 @@
         /// </summary>
         /// <param name="cost">The cost we are evaluating against.</param>
         /// <returns>True if we have enough points to spend, false if we do not.</returns>
-        public bool CanUse(int cost)
+        public bool CanAfford(int cost)
         {
             return RemainingActionPoints - cost >= 0;
         }
@@ -45,7 +45,7 @@
         /// <returns>True if we successfully payed the desired amount, false if the payment didn't go through.</returns>
         public bool TrySpend(int amount)
         {
-            bool success = CanUse(amount);
+            bool success = CanAfford(amount);
 
             if (success)
             {

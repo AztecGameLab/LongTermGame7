@@ -18,16 +18,23 @@
         private float actionPointsPerUnit = 0.25f;
 
         [SerializeField]
-        private GameObject targetPrefab;
+        private MeshRenderer targetPrefab;
+
+        [SerializeField]
+        private Material goodMaterial;
+
+        [SerializeField]
+        private Material badMaterial;
 
         [SerializeField]
         private float moveSpeed = 1;
 
-        private Camera _camera;
         private Vector3 _targetPosition;
         private float _distance;
-        private GameObject _targetInstance;
+        private MeshRenderer _targetInstance;
         private NavMeshPath _path;
+        private AimSystem _aimSystem = new AimSystem();
+        private ActionPointTracker _actionPointTracker;
 
         /// <inheritdoc/>
         public override string Name => "Move";
@@ -41,34 +48,32 @@
         public override void PrepEnter()
         {
             base.PrepEnter();
-            _camera = Camera.main;
             _targetInstance = Object.Instantiate(targetPrefab);
             _path ??= new NavMeshPath();
+            _aimSystem.Initialize(Camera.main);
+            _actionPointTracker = User.GetComponent<ActionPointTracker>();
         }
 
         /// <inheritdoc/>
         public override void PrepTick()
         {
             base.PrepTick();
-            Ray clickRay = _camera.ScreenPointToRay(Input.mousePosition);
-            Vector3 position = User.transform.position;
+            _targetPosition = _aimSystem.Update().point;
+            _targetInstance.transform.position = _targetPosition;
 
-            if (Physics.Raycast(clickRay, out var hitInfo) && NavMesh.CalculatePath(position, hitInfo.point, NavMesh.AllAreas, _path))
+            if (NavMesh.CalculatePath(User.transform.position, _targetPosition, NavMesh.AllAreas, _path))
             {
-                _targetPosition = hitInfo.point;
                 _distance = NavMeshPathUtil.CalculateDistance(_path);
 
-                if (User.TryGetComponent(out ActionPointTracker tracker) &&
-                    PointCost > tracker.RemainingActionPoints)
+                if (_actionPointTracker.CanAfford(PointCost))
                 {
-                    _distance = Mathf.Min(tracker.RemainingActionPoints * (1 / actionPointsPerUnit), _distance);
-                    _targetPosition = NavMeshPathUtil.GetPositionAtDistance(_path, _distance);
+                    _targetInstance.material = goodMaterial;
+                    IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
+                    return;
                 }
-
-                _targetInstance.transform.position = _targetPosition;
             }
 
-            IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
+            _targetInstance.material = badMaterial;
         }
 
         /// <inheritdoc/>
