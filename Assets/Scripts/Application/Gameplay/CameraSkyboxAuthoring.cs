@@ -1,17 +1,25 @@
-﻿using System;
-using UnityEngine;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
+    using UnityEngine;
+
+    /// <summary>
+    /// Allows level designer's to define skybox information in levels.
+    /// </summary>
     public class CameraSkyboxAuthoring : MonoBehaviour
     {
-        public CameraClearFlags flags;
-        public Color color;
-        
-        private void Awake()
+        [SerializeField]
+        private CameraClearFlags flags;
+
+        [SerializeField]
+        private Color color;
+
+        private void Start()
         {
-            Camera.main.clearFlags = flags;
-            Camera.main.backgroundColor = color;
+            foreach (Camera targetCamera in FindObjectsOfType<Camera>())
+            {
+                targetCamera.clearFlags = flags;
+                targetCamera.backgroundColor = color;
+            }
         }
     }
 }
