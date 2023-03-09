@@ -684,7 +684,7 @@ PrefabInstance:
     - target: {fileID: 7060901476056951582, guid: 138f46c145d7f614ca2233183e26df53, type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1578980128}
     - target: {fileID: 7060901476056951582, guid: 138f46c145d7f614ca2233183e26df53, type: 3}
       propertyPath: m_Priority
       value: 0
@@ -1075,7 +1075,7 @@ MonoBehaviour:
       enemyVirtualCamera: {fileID: 1938734983}
   battleCamera: {fileID: 1123904553}
   battleTargetGroup: {fileID: 1578980129}
-  battleTargetRadius: 1
+  battleTargetRadius: 3
   battleBars: {fileID: 74016964}
   playerBattleUI: {fileID: 7725595703117054529, guid: e84d225896e66d043b41512220e2f19b, type: 3}
   enemyBattleUI: {fileID: 2943444555431740907, guid: 24eea9f44e8b136438d1537a46c17ecc, type: 3}

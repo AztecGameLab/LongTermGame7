@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using Brains;
+    using UniRx;
     using UnityEngine;
 
     /// <summary>
@@ -24,7 +25,7 @@
 
             if (randomEnemy.TryGetComponent(out MonsterBrain brain))
             {
-                yield return brain.MakeDecision();
+                yield return brain.Run(controller).ToYieldInstruction();
             }
         }
     }

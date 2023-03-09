@@ -16,7 +16,11 @@
 
         private void Awake()
         {
-            Services.IndicatorFactory = new IndicatorFactory(validityPrefab, pathPrefab);
+            var factory = new IndicatorFactory();
+            factory.RegisterIndicator(validityPrefab);
+            factory.RegisterIndicator(pathPrefab);
+
+            Services.IndicatorFactory = factory;
         }
     }
 }

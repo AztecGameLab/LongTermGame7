@@ -17,7 +17,7 @@
         /// </summary>
         /// <param name="controller">The parent controller to use when deciding turn behavior.</param>
         /// <returns>An observable that completes when the enemy turn finishes executing.</returns>
-        public IObservable<Unit> Run(BattleController controller) => ExecuteTurn(controller).ToObservable();
+        public IObservable<Unit> Run(BattleController controller) => Observable.FromCoroutine(() => ExecuteTurn(controller));
 
         /// <summary>
         /// Performs all of the per-turn logic for a set of enemies.

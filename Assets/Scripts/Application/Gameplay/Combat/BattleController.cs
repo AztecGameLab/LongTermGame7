@@ -134,8 +134,6 @@
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
             battleTargetGroup.RemoveAllMembers();
-            battleTargetGroup.AddMemberRange(PlayerTeam, 1, battleTargetRadius);
-            battleTargetGroup.AddMemberRange(EnemyTeam, 1, battleTargetRadius);
 
             Debug.Log("Starting battle!");
 
@@ -164,6 +162,7 @@
                 PlayerTeamMemberBattleUI instance = Instantiate(playerBattleUI, playerTeamInstance.transform);
                 instance.BindTo(playerTeamInstance);
                 _spawnedUIElements.Add(instance.gameObject);
+                battleTargetGroup.AddMember(playerTeamInstance.transform, 1, battleTargetRadius);
             }
 
             EnemyTeam.Clear();
@@ -174,6 +173,7 @@
                 EnemyTeamMemberBattleUI instance = Instantiate(enemyBattleUI, enemyTeamInstance.transform);
                 instance.BindTo(enemyTeamInstance);
                 _spawnedUIElements.Add(instance.gameObject);
+                battleTargetGroup.AddMember(enemyTeamInstance.transform, 1, battleTargetRadius);
             }
 
             BattleStateMachine.SetState(battleIntro);

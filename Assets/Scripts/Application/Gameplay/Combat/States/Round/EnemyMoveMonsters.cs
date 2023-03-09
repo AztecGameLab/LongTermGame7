@@ -51,7 +51,7 @@
             base.OnExit();
             enemyVirtualCamera.Priority = 0;
 
-            _disposable.Dispose();
+            _disposable?.Dispose();
         }
 
         /// <inheritdoc/>
