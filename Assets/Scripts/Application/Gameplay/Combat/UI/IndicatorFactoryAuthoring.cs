@@ -9,11 +9,14 @@
     public class IndicatorFactoryAuthoring : MonoBehaviour
     {
         [SerializeField]
-        private GameObject cubePrefab;
+        private ValidityIndicator validityPrefab;
+
+        [SerializeField]
+        private PathIndicator pathPrefab;
 
         private void Awake()
         {
-            Services.IndicatorFactory = new IndicatorFactory(cubePrefab);
+            Services.IndicatorFactory = new IndicatorFactory(validityPrefab, pathPrefab);
         }
     }
 }

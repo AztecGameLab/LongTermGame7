@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 4034658142672731788}
   - component: {fileID: 4034658142672731785}
   - component: {fileID: 4034658142672731786}
-  m_Layer: 0
-  m_Name: Cube
+  - component: {fileID: 8991233325554659525}
+  m_Layer: 8
+  m_Name: Validity Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4034658142672731789}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &4034658142672731786
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: fe5e61a2c1a6b3e4ab84ffc057ea46ad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,3 +82,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8991233325554659525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4034658142672731789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14c65eccc3ce40998d1e940659b6ebf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 4034658142672731786}
+  validColor: {r: 0, g: 1, b: 0.04705883, a: 1}
+  invalidColor: {r: 1, g: 0.3921569, b: 0.3921569, a: 1}

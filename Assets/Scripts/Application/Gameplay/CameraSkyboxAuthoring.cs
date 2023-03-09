@@ -15,9 +15,11 @@
 
         private void Start()
         {
-            var targetCamera = FindObjectOfType<Camera>();
-            targetCamera.clearFlags = flags;
-            targetCamera.backgroundColor = color;
+            foreach (Camera targetCamera in FindObjectsOfType<Camera>())
+            {
+                targetCamera.clearFlags = flags;
+                targetCamera.backgroundColor = color;
+            }
         }
     }
 }
