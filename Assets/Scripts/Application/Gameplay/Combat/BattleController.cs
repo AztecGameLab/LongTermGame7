@@ -3,13 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using Application.Gameplay.Combat.UI;
     using Cinemachine;
     using Core;
     using Deciders;
     using Hooks;
     using ImGuiNET;
     using States;
+    using UI;
     using UniRx;
     using UnityEngine;
 
@@ -23,6 +23,7 @@
 
         private readonly List<Hook> _hooks = new List<Hook>();
         private readonly Subject<Unit> _battleEndSubject = new Subject<Unit>();
+        private readonly List<GameObject> _spawnedUIElements = new List<GameObject>();
 
         [Header("States")]
 
@@ -59,8 +60,6 @@
 
         [SerializeField]
         private EnemyTeamMemberBattleUI enemyBattleUI;
-
-        private List<GameObject> _spawnedUIElements = new List<GameObject>();
 
         /// <summary>
         /// Gets the battle intro logic.

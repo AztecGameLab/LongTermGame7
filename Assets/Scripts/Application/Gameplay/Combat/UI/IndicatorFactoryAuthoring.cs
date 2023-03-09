@@ -1,6 +1,7 @@
 ﻿namespace Application.Gameplay.Combat
 {
     using Core;
+    using UI;
     using UnityEngine;
 
     /// <summary>
@@ -14,11 +15,15 @@
         [SerializeField]
         private PathIndicator pathPrefab;
 
+        [SerializeField]
+        private RangeIndicator rangeIndicator;
+
         private void Awake()
         {
             var factory = new IndicatorFactory();
             factory.RegisterIndicator(validityPrefab);
             factory.RegisterIndicator(pathPrefab);
+            factory.RegisterIndicator(rangeIndicator);
 
             Services.IndicatorFactory = factory;
         }

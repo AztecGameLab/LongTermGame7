@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="controller">The battle controller to query for battle info.</param>
         /// <returns>An observable for when this logic finishes.</returns>
-        public IObservable<Unit> Run(BattleController controller) => Observable.FromCoroutine(() => MakeDecision(controller));
+        public IObservable<Unit> Run(BattleController controller) => MakeDecision(controller).ToObservable();
 
         /// <summary>
         /// Runs a single unit of decision logic for this enemy.

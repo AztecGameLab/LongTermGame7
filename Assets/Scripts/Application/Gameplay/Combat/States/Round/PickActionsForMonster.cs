@@ -70,6 +70,7 @@
         private void OnSelectAction(BattleAction monsterAction)
         {
             monsterAction.User = Round.PickMonster.SelectedMonster;
+            monsterAction.Controller = Round.Controller;
             Round.TransitionTo(Round.PrepareAction);
         }
     }

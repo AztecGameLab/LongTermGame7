@@ -10,8 +10,6 @@
     [Serializable]
     public class PlayActionAnimation : RoundState, IDebugImGui
     {
-        private IDisposable _disposable;
-
         /// <summary>
         /// Sets up the play action animation state.
         /// </summary>
@@ -24,14 +22,7 @@
         public override void OnEnter()
         {
             base.OnEnter();
-            _disposable = Round.PickActions.SelectedAction.Run().Subscribe(_ => OnActionEnd());
-        }
-
-        /// <inheritdoc/>
-        public override void OnExit()
-        {
-            base.OnExit();
-            //_disposable?.Dispose();
+            Round.PickActions.SelectedAction.Run().Subscribe(_ => OnActionEnd());
         }
 
         /// <inheritdoc/>

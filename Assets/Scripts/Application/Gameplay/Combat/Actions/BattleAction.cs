@@ -18,25 +18,16 @@
         /// <summary>
         /// Gets the name of this move.
         /// </summary>
-        /// <value>
-        /// The name of this move.
-        /// </value>
         public abstract string Name { get; }
 
         /// <summary>
         /// Gets the description of this move.
         /// </summary>
-        /// <value>
-        /// The description of this move.
-        /// </value>
         public abstract string Description { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets whether the player has finished preparing this action.
         /// </summary>
-        /// <value>
-        /// A value indicating whether gets whether the player has finished preparing this action.
-        /// </value>
         public bool IsPrepFinished { get; protected set; }
 
         /// <summary>
@@ -44,10 +35,12 @@
         /// <remarks>All actions depend on this being correctly set for their preparation and execution.
         /// It must be set prior to calling the "Prep" methods, or the "Execute" methods.</remarks>
         /// </summary>
-        /// <value>
-        /// The object currently using this action.
-        /// </value>
         public GameObject User { get; set; }
+
+        /// <summary>
+        /// Gets or sets the battle controller currently executing this action.
+        /// </summary>
+        public BattleController Controller { get; set; }
 
         /// <summary>
         /// Allows this action to set itself up before running preparation logic.
