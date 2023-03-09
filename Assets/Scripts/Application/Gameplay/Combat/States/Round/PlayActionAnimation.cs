@@ -31,7 +31,7 @@
         public override void OnExit()
         {
             base.OnExit();
-            _disposable?.Dispose();
+            //_disposable?.Dispose();
         }
 
         /// <inheritdoc/>
@@ -54,7 +54,10 @@
 
         private void OnActionEnd()
         {
-            Round.TransitionTo(Round.PickActions);
+            if (Round.Controller.IsBattling)
+            {
+                Round.TransitionTo(Round.PickActions);
+            }
         }
     }
 }

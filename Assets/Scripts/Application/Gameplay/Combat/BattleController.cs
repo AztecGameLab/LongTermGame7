@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Application.Gameplay.Combat.UI;
     using Cinemachine;
     using Core;
     using Deciders;
@@ -53,7 +54,13 @@
         [SerializeField]
         private CanvasGroup battleBars;
 
-        private bool _isBattling;
+        [SerializeField]
+        private PlayerTeamMemberBattleUI playerBattleUI;
+
+        [SerializeField]
+        private EnemyTeamMemberBattleUI enemyBattleUI;
+
+        private List<GameObject> _spawnedUIElements = new List<GameObject>();
 
         /// <summary>
         /// Gets the battle intro logic.
@@ -91,6 +98,11 @@
         public EnemyOrderDecider EnemyOrderDecider { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether a battle is currently running.
+        /// </summary>
+        public bool IsBattling { get; private set; }
+
+        /// <summary>
         /// Gets an observable that watches the end of the battle.
         /// </summary>
         public IObservable<Unit> OnBattleEnd => _battleEndSubject;
@@ -114,7 +126,7 @@
         /// <param name="data">The initial state needed to start a battle.</param>
         public void BeginBattle(BattleData data)
         {
-            if (_isBattling)
+            if (IsBattling)
             {
                 return;
             }
@@ -133,7 +145,7 @@
             battleLoss.Initialize();
 
             _hooks.Clear();
-            _isBattling = true;
+            IsBattling = true;
 
             foreach (Hook hook in data.Hooks)
             {
@@ -145,10 +157,24 @@
             EnemyOrderDecider = data.Decider;
 
             PlayerTeam.Clear();
-            AddRange(PlayerTeam, data.PlayerTeamInstances);
+
+            foreach (GameObject playerTeamInstance in data.PlayerTeamInstances)
+            {
+                PlayerTeam.Add(playerTeamInstance);
+                PlayerTeamMemberBattleUI instance = Instantiate(playerBattleUI, playerTeamInstance.transform);
+                instance.BindTo(playerTeamInstance);
+                _spawnedUIElements.Add(instance.gameObject);
+            }
 
             EnemyTeam.Clear();
-            AddRange(EnemyTeam, data.EnemyTeamInstances);
+
+            foreach (GameObject enemyTeamInstance in data.EnemyTeamInstances)
+            {
+                EnemyTeam.Add(enemyTeamInstance);
+                EnemyTeamMemberBattleUI instance = Instantiate(enemyBattleUI, enemyTeamInstance.transform);
+                instance.BindTo(enemyTeamInstance);
+                _spawnedUIElements.Add(instance.gameObject);
+            }
 
             BattleStateMachine.SetState(battleIntro);
         }
@@ -158,7 +184,7 @@
         /// </summary>
         public void EndBattle()
         {
-            _isBattling = false;
+            IsBattling = false;
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
 
@@ -175,6 +201,11 @@
             _hooks.Clear();
             PlayerTeam.Clear();
             EnemyTeam.Clear();
+
+            foreach (GameObject spawnedUIElement in _spawnedUIElements)
+            {
+                Destroy(spawnedUIElement);
+            }
 
             _battleEndSubject.OnNext(Unit.Default);
         }
@@ -201,7 +232,7 @@
 
         private void Update()
         {
-            if (_isBattling)
+            if (IsBattling)
             {
                 BattleStateMachine.Tick();
 

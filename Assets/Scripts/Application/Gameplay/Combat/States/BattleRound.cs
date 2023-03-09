@@ -107,6 +107,14 @@
         {
             base.OnEnter();
 
+            foreach (GameObject playerTeamMember in Controller.PlayerTeam)
+            {
+                if (playerTeamMember.TryGetComponent(out ActionPointTracker tracker))
+                {
+                    tracker.Refill();
+                }
+            }
+
             foreach (RoundState roundState in _states)
             {
                 roundState.OnRoundBegin();

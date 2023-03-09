@@ -40,7 +40,6 @@
 
             if (_actionPointTracker.RemainingActionPoints <= 0)
             {
-                _actionPointTracker.Refill();
                 Round.TransitionTo(Round.EnemyMoveMonsters);
             }
         }
