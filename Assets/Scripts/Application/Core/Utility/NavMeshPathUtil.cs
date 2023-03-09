@@ -1,8 +1,7 @@
-﻿using Application.Gameplay.Combat;
-using System.Collections;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
+    using System.Collections;
+    using Gameplay.Combat;
     using UnityEngine;
     using UnityEngine.AI;
 
@@ -106,7 +105,13 @@ namespace Application.Core
             }
         }
 
-        public static IEnumerator PathFindTo(this Transform user, Vector3 targetPosition, float moveSpeed = 5, float stopDistance = 1, float maxDistance = -1, IPooledObject<PathIndicator> indicator = null)
+        public static IEnumerator PathFindTo(
+            this Transform user,
+            Vector3 targetPosition,
+            float moveSpeed = 5,
+            float stopDistance = 1,
+            float maxDistance = -1,
+            IPooledObject<PathIndicator> indicator = null)
         {
             if (user == null)
             {
@@ -127,7 +132,7 @@ namespace Application.Core
             NavMeshPath inProgressPath = new NavMeshPath();
             NavMesh.CalculatePath(user.transform.position, targetPosition, NavMesh.AllAreas, path);
 
-            float totalDistance = NavMeshPathUtil.CalculateDistance(path);
+            float totalDistance = CalculateDistance(path);
             float distance = Mathf.Min(totalDistance, maxDistance) - stopDistance;
 
             while (elapsedDistance < distance)
