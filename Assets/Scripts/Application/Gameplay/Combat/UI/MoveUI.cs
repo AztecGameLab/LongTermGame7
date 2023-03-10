@@ -4,7 +4,7 @@
     using UnityEngine;
 
     /// <inheritdoc/>
-    public class MoveView : View<BattleAction>
+    public class MoveUI : View<BattleAction>
     {
         [SerializeReference]
         private BattleAction autoBind;

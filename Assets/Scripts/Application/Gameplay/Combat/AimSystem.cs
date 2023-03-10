@@ -10,36 +10,50 @@
         private const int BufferSize = 50;
         private const int MaxGroundAngle = 45;
 
-        private readonly bool _groundSnap;
-        private readonly int _layerMask;
 
         // If we are single-threaded, we could statically reuse the buffer.
         // Might be a premature optimization though, so leave it like this for now.
         private readonly RaycastHit[] _resultBuffer;
 
         private Camera _camera;
+        private int _layerMask;
+        private bool _groundSnap;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AimSystem"/> class.
         /// </summary>
         /// <param name="layerMask">The layers that should be included when aiming.</param>
         /// <param name="groundSnap">Should the aim snap to the group, or be able to target walls. </param>
-        public AimSystem(
-            int layerMask = ~0,
-            bool groundSnap = true)
+        public AimSystem()
         {
-            _groundSnap = groundSnap;
             _resultBuffer = new RaycastHit[BufferSize];
-            _layerMask = layerMask;
         }
 
         /// <summary>
         /// Sets up this instance with a camera to raycast from.
         /// </summary>
         /// <param name="camera">The camera to be used for ray-casting.</param>
-        public void Initialize(Camera camera)
+        public void Initialize(Camera camera = null, int layerMask = -1, bool groundSnap = true)
         {
-            _camera = camera;
+            if (camera == null)
+            {
+                _camera = Camera.main;
+            }
+            else
+            {
+                _camera = camera;
+            }
+
+            if (layerMask == -1)
+            {
+                _layerMask = ~LayerMask.GetMask("Ignore Raycast");
+            }
+            else
+            {
+                _layerMask = layerMask;
+            }
+
+            _groundSnap = groundSnap;
         }
 
         /// <summary>
