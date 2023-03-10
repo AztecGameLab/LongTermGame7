@@ -43,6 +43,12 @@
         public float CurrentHealth { get; set; }
 
         /// <summary>
+        /// Gets or sets the maximum action points of this member.
+        /// </summary>
+        [JsonProperty]
+        public int MaxActionPoints { get; set; }
+
+        /// <summary>
         /// Gets or sets the addressable asset path to a world view for this member.
         /// </summary>
         [JsonProperty]

@@ -1,8 +1,9 @@
-﻿using Cinemachine;
+﻿using System;
 
 namespace Application.Gameplay
 {
     using System.Collections.Generic;
+    using Cinemachine;
     using Combat.UI;
     using Core;
     using UniRx;
@@ -19,8 +20,7 @@ namespace Application.Gameplay
         private readonly List<TeamMemberWorldView> _worldViewList =
             new List<TeamMemberWorldView>();
 
-        [SerializeField]
-        private float followSpacing = 2;
+        public GroupFollowTarget MonsterFollowPlayer { get; set; } = new GroupFollowTarget();
 
         [SerializeField]
         private CinemachineVirtualCamera playerCamera;
@@ -40,14 +40,15 @@ namespace Application.Gameplay
             IReadOnlyReactiveCollection<TeamMemberData> selectedMembers = Services.PlayerTeamData.SelectedMembers;
 
             // Spawn all initial members.
-            for (int i = 0; i < selectedMembers.Count; i++)
+            foreach (var member in selectedMembers)
             {
-                SpawnWorldView(selectedMembers[i]);
-                _memberViewLookup[selectedMembers[i]].transform.position += Vector3.left * (followSpacing * (i + 1));
+                SpawnWorldView(member);
             }
 
             SpawnedPlayer = Services.PlayerTeamData.Player.CreateWorldView();
             playerCamera.Follow = SpawnedPlayer.transform;
+
+            MonsterFollowPlayer.Target = SpawnedPlayer.transform;
 
             // Update spawned members when the list data changes.
             selectedMembers.ObserveAdd()
@@ -61,17 +62,10 @@ namespace Application.Gameplay
                 .AddTo(this);
         }
 
-        // private void Update()
-        // {
-        //     if (followTarget != null)
-        //     {
-        //         for (int i = 0; i < _worldViewList.Count; i++)
-        //         {
-        //             _worldViewList[i].transform.position =
-        //                 followTarget.position + (Vector3.left * (followSpacing * (i + 1)));
-        //         }
-        //     }
-        // }
+        private void Update()
+        {
+            MonsterFollowPlayer.Tick();
+        }
 
         private void SpawnWorldView(TeamMemberData member)
         {
@@ -79,11 +73,14 @@ namespace Application.Gameplay
 
             _worldViewList.Add(instance);
             _memberViewLookup.Add(member, instance);
+            MonsterFollowPlayer.GroupMembers.Add(instance.transform);
         }
 
         private void DestroyWorldView(TeamMemberData member)
         {
             _worldViewList.Remove(_memberViewLookup[member]);
+            var instance = _memberViewLookup[member].gameObject;
+            MonsterFollowPlayer.GroupMembers.Remove(instance.transform);
             Destroy(_memberViewLookup[member].gameObject);
             _memberViewLookup.Remove(member);
         }

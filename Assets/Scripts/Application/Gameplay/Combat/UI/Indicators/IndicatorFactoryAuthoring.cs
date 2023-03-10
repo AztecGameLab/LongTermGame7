@@ -20,7 +20,7 @@
 
         private void Awake()
         {
-            var factory = new IndicatorFactory();
+            var factory = new IndicatorFactory(transform);
             factory.RegisterIndicator(validityPrefab);
             factory.RegisterIndicator(pathPrefab);
             factory.RegisterIndicator(rangeIndicator);

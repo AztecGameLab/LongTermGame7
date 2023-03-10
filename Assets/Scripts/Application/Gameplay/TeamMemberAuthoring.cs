@@ -12,19 +12,22 @@
     public class TeamMemberAuthoring : ScriptableObject
     {
         [SerializeField]
-        private string memberName;
+        private string memberName = "Monster Name";
 
         [SerializeField]
-        private string memberDescription;
+        private string memberDescription = "Monster Description";
 
         [SerializeReference]
         private List<BattleAction> actions;
 
         [SerializeField]
-        private float maxHealth;
+        private float maxHealth = 5;
 
         [SerializeField]
         private string worldViewAssetPath;
+
+        [SerializeField]
+        private int maxActionPoints = 5;
 
         /// <summary>
         /// Creates a new team member based off this authoring data.
@@ -38,6 +41,7 @@
                 Description = memberDescription,
                 CurrentHealth = maxHealth,
                 MaxHealth = maxHealth,
+                MaxActionPoints = maxActionPoints,
                 WorldViewAssetPath = worldViewAssetPath,
             };
 

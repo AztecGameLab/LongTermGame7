@@ -12,6 +12,12 @@
     public class IndicatorFactory
     {
         private readonly Dictionary<Type, object> _pools = new Dictionary<Type, object>();
+        private readonly Transform _parent;
+
+        public IndicatorFactory(Transform parent)
+        {
+            _parent = parent;
+        }
 
         /// <summary>
         /// Allows the factory to create prefabs of a certain type.
@@ -57,10 +63,10 @@
             }
         }
 
-        private static ObjectPool<T> CreatePool<T>(T prefab)
+        private ObjectPool<T> CreatePool<T>(T prefab)
             where T : Component
         {
-            return new ObjectPool<T>(() => Object.Instantiate(prefab));
+            return new ObjectPool<T>(() => Object.Instantiate(prefab, _parent));
         }
 
         private struct DisposableHelper<T> : IPooledObject<T>
