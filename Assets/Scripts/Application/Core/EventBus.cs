@@ -7,6 +7,7 @@
     using JetBrains.Annotations;
     using Rtf;
     using UnityEngine;
+    using Utility;
 
     /// <summary>
     /// Routes events throughout the codebase.

@@ -1,54 +1,75 @@
-﻿using Application.Core;
-using Cinemachine;
-using ImGuiNET;
-using System;
-using UnityEngine;
-
-namespace Application.Gameplay.Combat.States.Round
+﻿namespace Application.Gameplay.Combat.States.Round
 {
+    using System;
+    using Cinemachine;
+    using Core;
+    using ImGuiNET;
+    using UniRx;
+    using UnityEngine;
+
+    /// <summary>
+    /// The battle round state where the enemy gets a chance to make their monsters move around.
+    /// </summary>
     [Serializable]
-    public class EnemyMoveMonsters : RoundState
+    public class EnemyMoveMonsters : RoundState, IDebugImGui
     {
-        public float enemyRadius = 3;
-        
+        private const int EnemyCameraActivePriority = 100;
+
+        [SerializeField]
+        private float enemyRadius = 3;
+
+        [SerializeField]
+        private CinemachineTargetGroup enemyTargetGroup;
+
+        [SerializeField]
+        private CinemachineVirtualCamera enemyVirtualCamera;
+
+        private IDisposable _disposable;
+
+        /// <summary>
+        /// Sets up the enemy move monster state.
+        /// </summary>
+        public void Initialize()
+        {
+            // No need to do anything here, for now.
+        }
+
+        /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
-            Services.EventBus.Invoke(new RoundStateEnterEvent<EnemyMoveMonsters>{State = this}, "Enemy Move Monsters State");
+            enemyVirtualCamera.Priority = EnemyCameraActivePriority;
 
-            var group = Round.Controller.TargetGroup;
-            Round.Controller.BattleCamera.Follow = group.transform;
-
-            foreach (GameObject enemy in Round.Controller.EnemyTeam)
-            {
-                group.AddMember(enemy.transform, 1, enemyRadius);
-            }
+            _disposable = Round.Controller.EnemyOrderDecider.Run(Round.Controller).Subscribe(_ => OnDeciderFinish());
+            enemyTargetGroup.RemoveAllMembers();
+            enemyTargetGroup.AddMemberRange(Round.Controller.EnemyTeam, 1, enemyRadius);
         }
 
+        /// <inheritdoc/>
         public override void OnExit()
         {
             base.OnExit();
-            Services.EventBus.Invoke(new RoundStateExitEvent<EnemyMoveMonsters>{State = this}, "Enemy Move Monsters State");
+            enemyVirtualCamera.Priority = 0;
 
-            foreach (GameObject enemy in Round.Controller.EnemyTeam)
+            _disposable?.Dispose();
+        }
+
+        /// <inheritdoc/>
+        public void RenderImGui()
+        {
+            ImGui.Begin("Enemy Turn");
+
+            if (ImGui.Button("Finish enemy turn"))
             {
-                Round.Controller.TargetGroup.RemoveMember(enemy.transform);
+                OnDeciderFinish();
             }
+
+            ImGui.End();
         }
 
         private void OnDeciderFinish()
         {
-            Round.StateMachine.SetState(Round.PickMonster);
-        }
-        
-        protected override void DrawGui()
-        {
-            ImGui.Begin("Enemy Turn");
-            
-            if (ImGui.Button("Finish enemy turn"))
-                OnDeciderFinish();
-            
-            ImGui.End();
+            Round.TransitionTo(Round.PickMonster);
         }
     }
 }

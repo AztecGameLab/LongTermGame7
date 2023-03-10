@@ -1,9 +1,8 @@
-using Application.Gameplay.Regions;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
     using System.Collections.Generic;
+    using Application.Gameplay.Regions;
     using UnityEngine;
     using Random = UnityEngine.Random;
 
