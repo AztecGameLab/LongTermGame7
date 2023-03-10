@@ -1,6 +1,4 @@
-﻿using Application.Gameplay.Combat.UI;
-
-namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat
 {
     using System.Collections.Generic;
     using Core;

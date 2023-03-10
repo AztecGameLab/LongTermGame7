@@ -1,7 +1,7 @@
 ﻿namespace Application.Gameplay.Combat.Brains
 {
     using System.Collections;
-    using Core;
+    using Core.Utility;
     using UnityEngine;
 
     /// <summary>

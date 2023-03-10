@@ -1,5 +1,6 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay
 {
+    using Combat.Actions;
     using Newtonsoft.Json;
     using UniRx;
     using UnityEngine;

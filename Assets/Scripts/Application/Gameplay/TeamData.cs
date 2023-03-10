@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay
 {
     using Newtonsoft.Json;
     using UniRx;

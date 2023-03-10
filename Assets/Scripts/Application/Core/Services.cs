@@ -1,8 +1,7 @@
-﻿using Application.Gameplay.Combat.UI;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
-    using Gameplay.Combat;
+    using Gameplay;
+    using Gameplay.Combat.UI.Indicators;
     using Gameplay.Regions;
     using Serialization;
     using UnityEngine;

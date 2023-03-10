@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat.UI.Indicators
 {
     using System;
     using System.Collections.Generic;
@@ -14,6 +14,10 @@
         private readonly Dictionary<Type, object> _pools = new Dictionary<Type, object>();
         private readonly Transform _parent;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IndicatorFactory"/> class.
+        /// </summary>
+        /// <param name="parent">The transform where pooled objects will be parented to.</param>
         public IndicatorFactory(Transform parent)
         {
             _parent = parent;

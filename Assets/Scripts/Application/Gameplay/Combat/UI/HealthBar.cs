@@ -1,6 +1,7 @@
 ﻿namespace Application.Gameplay.Combat.UI
 {
     using System;
+    using Core;
     using UniRx;
     using UnityEngine;
     using UnityEngine.UI;

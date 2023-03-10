@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;

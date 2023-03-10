@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay.Combat.UI.Indicators
 {
     using UnityEngine;
 

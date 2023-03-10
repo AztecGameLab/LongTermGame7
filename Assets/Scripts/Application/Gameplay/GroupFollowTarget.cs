@@ -1,7 +1,6 @@
 ﻿namespace Application.Gameplay
 {
     using System.Collections.Generic;
-    using UniRx;
     using UnityEngine;
 
     /// <summary>
@@ -9,26 +8,43 @@
     /// </summary>
     public class GroupFollowTarget
     {
-        [SerializeField]
-        private float followSpacing = 2;
+        private const int MaxFollowGroup = 10;
+
+        private readonly float _followSpacing;
+        private readonly Vector3[] _targetPositions = new Vector3[MaxFollowGroup];
+        private readonly List<Transform> _groupMembers = new List<Transform>();
 
         private float _elapsedDistance;
         private Vector3 _previousPosition;
-        private Vector3[] _targetPositions = new Vector3[10];
         private int _headIndex;
-        private ReactiveCollection<Transform> _groupMembers = new ReactiveCollection<Transform>();
 
-        public IList<Transform> GroupMembers => _groupMembers;
-
-        public Transform Target { get; set; }
-
-        public bool Enabled { get; set; } = true;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupFollowTarget"/> class.
+        /// </summary>
+        /// <param name="spacing">The distance between each group member.</param>
         public GroupFollowTarget(float spacing = 3)
         {
-            followSpacing = spacing;
+            _followSpacing = spacing;
         }
 
+        /// <summary>
+        /// Gets a list of the group members following the target.
+        /// </summary>
+        public IList<Transform> GroupMembers => _groupMembers;
+
+        /// <summary>
+        /// Gets or sets the transform that each group member is following.
+        /// </summary>
+        public Transform Target { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the group transforms should be updated.
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// Updates each member of the group to move behind the target.
+        /// </summary>
         public void Tick()
         {
             if (Target == null || GroupMembers.Count <= 0 || !Enabled)
@@ -47,7 +63,7 @@
                     moveDelta);
             }
 
-            if (_elapsedDistance >= followSpacing)
+            if (_elapsedDistance >= _followSpacing)
             {
                 // we want to add a new position
                 _elapsedDistance = 0;

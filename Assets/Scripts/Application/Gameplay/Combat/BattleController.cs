@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using Cinemachine;
     using Core;
+    using Core.Utility;
     using Deciders;
     using Hooks;
     using ImGuiNET;

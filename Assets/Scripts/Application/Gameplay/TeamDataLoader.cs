@@ -1,8 +1,10 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay
 {
     using System.Collections.Generic;
+    using Combat.UI;
     using Core;
     using Core.Serialization;
+    using Core.Utility;
     using ImGuiNET;
     using UnityEngine;
 

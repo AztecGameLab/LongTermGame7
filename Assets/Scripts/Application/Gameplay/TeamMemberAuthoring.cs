@@ -1,6 +1,7 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay
 {
     using System.Collections.Generic;
+    using Combat.Actions;
     using UnityEngine;
 
     /// <summary>

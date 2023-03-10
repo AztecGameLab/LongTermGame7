@@ -1,8 +1,8 @@
-﻿using UniRx;
-
-namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay.Combat.UI
 {
-    using System.Collections.Generic;
+    using Actions;
+    using Core;
+    using UniRx;
     using UnityEngine;
 
     /// <summary>

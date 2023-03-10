@@ -2,7 +2,7 @@
 {
     using System;
     using Combat;
-    using Core;
+    using Core.Utility;
     using Landmarks;
     using Regions;
     using UniRx;

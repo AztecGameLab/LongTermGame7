@@ -11,6 +11,7 @@
     using Newtonsoft.Json;
     using Surrogates;
     using UnityEngine;
+    using Utility;
     using Debug = UnityEngine.Debug;
 
     /// <summary>

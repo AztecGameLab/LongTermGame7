@@ -1,7 +1,6 @@
-﻿namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat.UI.Indicators
 {
     using Core;
-    using UI;
     using UnityEngine;
 
     /// <summary>

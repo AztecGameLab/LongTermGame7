@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Core;
     using UniRx;
     using UniRx.Triggers;
     using UnityEngine;

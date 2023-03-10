@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay.Combat
+﻿namespace Application.Core
 {
     using System;
 
