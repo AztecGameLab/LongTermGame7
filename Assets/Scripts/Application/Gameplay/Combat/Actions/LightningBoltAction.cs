@@ -103,7 +103,7 @@ namespace Application.Gameplay.Combat.Actions
 
             // Play the lightning particle
             var instance = Addressables.InstantiateAsync(lightningAssetPath).WaitForCompletion().GetComponent<ParticleSystem>();
-            instance.transform.position = _targetPosition + new Vector3(0, 3, 0);
+            instance.transform.position = _targetEnemy.transform.position + new Vector3(0, 3, 0);
             instance.Play();
 
             // Do the damage
