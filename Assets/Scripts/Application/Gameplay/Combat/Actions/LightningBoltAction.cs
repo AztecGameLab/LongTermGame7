@@ -1,14 +1,11 @@
-﻿using Application.Gameplay.Combat.UI;
-
-namespace Application.Gameplay.Combat.Actions
+﻿namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;
     using Core;
     using ImGuiNET;
+    using UI;
     using UnityEngine;
-    using UnityEngine.AI;
-    using Object = UnityEngine.Object;
 
     /// <summary>
     /// The action where an entity moves around, in a grounded manner, on the battlefield.
@@ -45,10 +42,17 @@ namespace Application.Gameplay.Combat.Actions
         public override void PrepEnter()
         {
             base.PrepEnter();
+
+            // Setting up range indicator
             _rangeIndicator = Services.IndicatorFactory.Borrow<RangeIndicator>();
             _rangeIndicator.Instance.Range = maxRange;
+            DisposeOnExit(_rangeIndicator);
+
+             // Setting up validity indicator
             _validityIndicator = Services.IndicatorFactory.Borrow<ValidityIndicator>();
             _validityIndicator.Instance.IsValid = false;
+            DisposeOnExit(_validityIndicator);
+
             _aimSystem.Initialize(Camera.main);
             _actionPointTracker = User.GetComponent<ActionPointTracker>();
         }
@@ -57,37 +61,16 @@ namespace Application.Gameplay.Combat.Actions
         public override void PrepTick()
         {
             base.PrepTick();
-            Vector3 userPos = User.transform.position;
             _targetPosition = _aimSystem.Update().point;
+            Vector3 userPos = User.transform.position;
+            GameObject closestEnemy = Controller.EnemyTeam.GetClosest(_targetPosition, out float _);
+
             _rangeIndicator.Instance.transform.position = userPos;
-
-            // Find the enemy closest to the aim location
-            float closestDistance = float.MaxValue;
-            GameObject closestEnemy = User; // Set to user temporarily
-            foreach (GameObject enemy in Controller.EnemyTeam)
-            {
-                float thisDistance = Vector3.Distance(enemy.transform.position, _targetPosition);
-                if (thisDistance < closestDistance)
-                {
-                    closestDistance = thisDistance;
-                    closestEnemy = enemy;
-                }
-            }
-
-            // Move the validity indicator to the closest enemy
-            if (closestDistance <= float.MaxValue)
-            {
-                _validityIndicator.Instance.gameObject.SetActive(true);
-                _validityIndicator.Instance.transform.position = closestEnemy.transform.position;
-            }
-            else
-            {
-                // Hide if no enemies
-                _validityIndicator.Instance.gameObject.SetActive(false);
-            }
+            _validityIndicator.Instance.transform.position = closestEnemy.transform.position;
 
             // Check if the target is in range and if we can afford the action
             float distance = Vector3.Distance(closestEnemy.transform.position, userPos);
+
             if (distance <= maxRange && _actionPointTracker.CanAfford(actionPointCost))
             {
                 _validityIndicator.Instance.IsValid = true;
@@ -122,9 +105,6 @@ namespace Application.Gameplay.Combat.Actions
             // Do the damage
             _targetEnemy.TryGetComponent(out LivingEntity health);
             health.Damage(damage);
-
-            _rangeIndicator.Dispose();
-            _validityIndicator.Dispose();
 
             yield return null;
         }
