@@ -21,7 +21,7 @@
         private void Update()
         {
             var localScale = scaleTarget.localScale;
-            var targetScale = new Vector3(Range, localScale.y, Range);
+            var targetScale = new Vector3(Range * 2, localScale.y, Range * 2);
             localScale = Vector3.Lerp(localScale, targetScale, animationSpeed * Time.deltaTime);
             scaleTarget.localScale = localScale;
         }
