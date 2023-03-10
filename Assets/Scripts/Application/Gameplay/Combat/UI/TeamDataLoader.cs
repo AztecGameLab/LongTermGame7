@@ -12,7 +12,7 @@
     /// In a real scenario, we'd probably want to do this in the main menu before
     /// starting up gameplay.
     /// </summary>
-    public class TeamSelectionTester : MonoBehaviour, IDebugImGui
+    public class TeamDataLoader : MonoBehaviour, IDebugImGui
     {
         private const string SaveName = "player_team.json";
 
@@ -22,7 +22,6 @@
         [SerializeField]
         private List<TeamMemberAuthoring> testingTeam;
 
-        private bool _selectorOpen;
         private TeamData _teamData;
 
         /// <inheritdoc/>
@@ -30,9 +29,9 @@
         {
             ImGui.Begin("Team Selection");
 
-            if (ImGui.Checkbox("Open Team Selector", ref _selectorOpen))
+            if (ImGui.Button("Open Team Selector"))
             {
-                selectionUI.gameObject.SetActive(_selectorOpen);
+                Services.EventBus.Invoke(new OpenTeamSelectorCommand(), "ImGui Team Selection Button");
             }
 
             if (ImGui.Button("Save"))
@@ -59,6 +58,14 @@
 
             selectionUI.BindTo(_teamData);
             selectionUI.gameObject.SetActive(false);
+
+            Services.PlayerTeamData = _teamData;
+            Services.EventBus.AddListener<OpenTeamSelectorCommand>(_ => OpenTeamSelector(), "Team Data Loader").AddTo(this);
+        }
+
+        private void OpenTeamSelector()
+        {
+            selectionUI.gameObject.SetActive(true);
         }
     }
 }
