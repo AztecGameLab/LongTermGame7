@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Newtonsoft.Json;
     using UniRx;
     using UnityEngine;
 
@@ -11,6 +12,7 @@
     /// Examples include moving, attacking, healing, and so on.
     /// </summary>
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class BattleAction
     {
         private List<IDisposable> _disposeOnExit = new List<IDisposable>();

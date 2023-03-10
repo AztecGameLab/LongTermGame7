@@ -1,23 +1,28 @@
-﻿using System;
-using TMPro;
-using UniRx;
-using UniRx.Triggers;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
-namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay.Combat.UI
 {
+    using TMPro;
+    using UnityEngine;
+
+    /// <summary>
+    /// A user-interface for viewing information about a team member.
+    /// </summary>
     public class TeamMemberUI : View<TeamMemberData>
     {
-        [SerializeField] private TMP_Text name;
-        [SerializeField] private TMP_Text description;
-        [SerializeField] private MoveListUI moveListUI;
+        [SerializeField]
+        private TMP_Text memberName;
 
+        [SerializeField]
+        private TMP_Text memberDescription;
+
+        [SerializeField]
+        private MoveListUI moveListUI;
+
+        /// <inheritdoc/>
         public override void BindTo(TeamMemberData target)
         {
-            name.text = target.name;
-            description.text = target.description;
-            moveListUI.BindTo(target.actions);
+            memberName.text = target.Name;
+            memberDescription.text = target.Description;
+            moveListUI.BindTo(target.Actions);
         }
     }
 }

@@ -1,50 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using UniRx;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay.Combat.UI
 {
-    [Serializable]
-    public class TeamData
-    {
-        public ReactiveCollection<TeamMemberData> unlockedMembers = new ReactiveCollection<TeamMemberData>();
-        public ReactiveCollection<TeamMemberData> selectedMembers = new ReactiveCollection<TeamMemberData>();
-    }
+    using System.Collections.Generic;
+    using UniRx;
+    using UnityEngine;
 
-    public class TeamMemberData
-    {
-        public string name;
-        public string description;
-        
-        public List<BattleAction> actions;
-        
-        public float maxHealth;
-        public float currentHealth;
-    }
-
+    /// <summary>
+    /// A user-interface for managing your current team to take into combat.
+    /// </summary>
     public class TeamSelectionUI : View<TeamData>
     {
-        [SerializeField] private TeamMemberListUI unlockedMembers;
-        [SerializeField] private TeamMemberListUI selectedMembers;
-        
+        [SerializeField]
+        private TeamMemberListUI unlockedMembers;
+
+        [SerializeField]
+        private TeamMemberListUI selectedMembers;
+
+        /// <inheritdoc/>
         public override void BindTo(TeamData target)
         {
-            unlockedMembers.BindTo(target.unlockedMembers);
-            selectedMembers.BindTo(target.selectedMembers);
+            unlockedMembers.BindTo(target.UnlockedMembers);
+            selectedMembers.BindTo(target.SelectedMembers);
 
             unlockedMembers.ObserveMemberClicked()
-                .Subscribe(member => Move(member, target.unlockedMembers, target.selectedMembers))
+                .Subscribe(member => Move(member, target.UnlockedMembers, target.SelectedMembers))
                 .AddTo(this);
-            
+
             selectedMembers.ObserveMemberClicked()
-                .Subscribe(member => Move(member, target.selectedMembers, target.unlockedMembers))
+                .Subscribe(member => Move(member, target.SelectedMembers, target.UnlockedMembers))
                 .AddTo(this);
         }
 
-        private void Move<T>(T item, ICollection<T> from, ICollection<T> to)
+        private static void Move<T>(T item, ICollection<T> from, ICollection<T> to)
         {
             from.Remove(item);
             to.Add(item);

@@ -25,7 +25,8 @@
             }
         }
 
-        private void Start()
+        /// <inheritdoc/>
+        protected override void Start()
         {
             BindTo(autoBind);
         }

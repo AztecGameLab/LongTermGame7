@@ -1,27 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using UniRx;
-using UniRx.Triggers;
-using UnityEngine;
-
-namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay.Combat.UI
 {
+    using System;
+    using System.Collections.Generic;
+    using UniRx;
+    using UniRx.Triggers;
+    using UnityEngine;
+
+    /// <summary>
+    /// A user-interface for displaying a collection of team members.
+    /// </summary>
     public class TeamMemberListUI : View<IReadOnlyReactiveCollection<TeamMemberData>>
     {
-        [SerializeField] private TeamMemberUI teamMemberUI;
-        [SerializeField] private Transform listTarget;
+        private readonly Subject<TeamMemberData> _memberClicked
+            = new Subject<TeamMemberData>();
 
+        private readonly Dictionary<TeamMemberData, TeamMemberUI> _boundDataLookup
+            = new Dictionary<TeamMemberData, TeamMemberUI>();
+
+        [SerializeField]
+        private TeamMemberUI teamMemberUI;
+
+        [SerializeField]
+        private Transform listTarget;
+
+        /// <summary>
+        /// An observable that emits every time a displayed member is clicked on.
+        /// </summary>
+        /// <returns>The aforementioned observable.</returns>
         public IObservable<TeamMemberData> ObserveMemberClicked() => _memberClicked;
 
-        private Subject<TeamMemberData> _memberClicked = new Subject<TeamMemberData>();
-        private Dictionary<TeamMemberData, TeamMemberUI> _boundDataLookup = new Dictionary<TeamMemberData, TeamMemberUI>();
-
-        public IReadOnlyReactiveCollection<TeamMemberData> Members;
-
+        /// <inheritdoc/>
         public override void BindTo(IReadOnlyReactiveCollection<TeamMemberData> members)
         {
-            Members = members;
-            
             // Initially load members.
             foreach (var member in members)
             {
@@ -36,10 +46,10 @@ namespace Application.Gameplay.Combat.UI
         private void CreateMember(TeamMemberData memberData)
         {
             var instance = Instantiate(teamMemberUI, listTarget);
-            instance.name = memberData.name;
+            instance.name = memberData.Name;
             instance.BindTo(memberData);
             instance.OnPointerClickAsObservable().Subscribe(_ => _memberClicked.OnNext(memberData)).AddTo(this);
-            
+
             _boundDataLookup.Add(memberData, instance);
         }
 

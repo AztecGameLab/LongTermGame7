@@ -1,8 +1,6 @@
-﻿using UnityEngine.EventSystems;
-
-namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay.Combat.UI
 {
-    using UnityEngine;
+    using UnityEngine.EventSystems;
 
     /// <summary>
     /// A MonoBehaviour that is designed to display some data.

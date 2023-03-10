@@ -25,14 +25,14 @@ MonoBehaviour:
       type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         name: Chuck Some Dirt
-        description: Throw a week ball of dirt at enemies.
+        description: throw a week ball of dirt at enemies
         actionPointCost: 3
     00000001:
       type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         name: Earth Wall Block
         description: Place a wall of earth down that can be sent towards enemies
-          if hit.
+          if hit
         actionPointCost: 2
     00000002:
       type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}

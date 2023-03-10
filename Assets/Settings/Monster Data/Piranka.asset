@@ -26,17 +26,17 @@ MonoBehaviour:
       data:
         name: Whirlpool
         description: Summon whirlpool around creature that pushes nearby monsters
-          away.
+          away
         actionPointCost: 3
     00000001:
       type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         name: Lightning Bolt
-        description: Summon lightning bolt strike on a monster from the sky.
+        description: Summon lightning bolt strike on a monster from the sky
         actionPointCost: 4
     00000002:
       type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         name: Dash
-        description: You dash forward, not stepping on anything in the stage.
+        description: You dash forward, not stepping on anything in the stage
         actionPointCost: 2
