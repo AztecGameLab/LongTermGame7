@@ -17,16 +17,7 @@ public class ConsoleImGui : MonoBehaviour
     private void DrawImGui()
     {
         ImGui.Begin("Console");
-
-        ImGui.BeginGroup();
-        ImGui.Text("Hi!");
-        
-        ImGui.EndGroup();
-
-        ImGui.BeginGroup();
-        ImGui.Text("Bye!");
-        ImGui.EndGroup();
-
+        ImGui.Text("");
         ImGui.End();
     }
 }
