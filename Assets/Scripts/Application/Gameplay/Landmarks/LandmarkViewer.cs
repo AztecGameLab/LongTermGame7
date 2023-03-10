@@ -2,6 +2,7 @@
 {
     using System;
     using Core;
+    using Core.Utility;
     using ImGuiNET;
     using UnityEngine;
     using Object = UnityEngine.Object;
@@ -18,9 +19,11 @@
         /// <summary>
         /// Set up the landmark viewing window.
         /// </summary>
-        public void Init()
+        /// <returns>This instance.</returns>
+        public LandmarkViewer Init()
         {
             _disposable = ImGuiUtil.Register(DrawLandmarkView);
+            return this;
         }
 
         /// <inheritdoc/>

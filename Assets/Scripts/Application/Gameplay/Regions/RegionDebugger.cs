@@ -1,6 +1,7 @@
-﻿namespace Application.Gameplay
+﻿namespace Application.Gameplay.Regions
 {
     using Core;
+    using Core.Utility;
     using ImGuiNET;
 
     /// <summary>
