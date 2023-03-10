@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Actions
+﻿using UnityEngine.AddressableAssets;
+
+namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;
@@ -24,7 +26,7 @@
         private float damage = 5f;
 
         [SerializeField]
-        private ParticleSystem lightning;
+        private string lightningAssetPath;
 
         private Vector3 _targetPosition;
         private GameObject _targetEnemy;
@@ -100,8 +102,9 @@
             }
 
             // Play the lightning particle
-            lightning.transform.position = _targetPosition + new Vector3(0, 3, 0);
-            lightning.Play();
+            var instance = Addressables.InstantiateAsync(lightningAssetPath).WaitForCompletion().GetComponent<ParticleSystem>();
+            instance.transform.position = _targetPosition + new Vector3(0, 3, 0);
+            instance.Play();
 
             // Do the damage
             _targetEnemy.TryGetComponent(out LivingEntity health);
