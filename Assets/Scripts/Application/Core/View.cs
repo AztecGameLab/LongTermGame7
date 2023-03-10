@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿using UnityEngine.EventSystems;
+
+namespace Application.Gameplay.Combat.UI
 {
     using UnityEngine;
 
@@ -6,7 +8,7 @@
     /// A MonoBehaviour that is designed to display some data.
     /// </summary>
     /// <typeparam name="T">The type of data to display.</typeparam>
-    public abstract class View<T> : MonoBehaviour
+    public abstract class View<T> : UIBehaviour
     {
         /// <summary>
         /// Associates this view with this data.

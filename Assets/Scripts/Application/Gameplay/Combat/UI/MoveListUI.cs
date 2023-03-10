@@ -8,9 +8,9 @@ namespace Application.Gameplay.Combat.UI
         [SerializeField] private Transform listTarget;
         [SerializeField] private MoveUI moveUI;
         
-        public override void BindTo(IEnumerable<BattleAction> actions)
+        public override void BindTo(IEnumerable<BattleAction> target)
         {
-            foreach (BattleAction action in actions)
+            foreach (BattleAction action in target)
             {
                 var instance = Instantiate(moveUI, listTarget);
                 instance.BindTo(action);

@@ -147,6 +147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 912992830694115920}
   - component: {fileID: 912992830694115921}
+  - component: {fileID: 3823531387842885323}
   m_Layer: 5
   m_Name: Move List UI
   m_TagString: Untagged
@@ -189,3 +190,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listTarget: {fileID: 912992829635883551}
   moveUI: {fileID: 9048738792229159005, guid: c11cdb2dee271e441b8e245f1c394fad, type: 3}
+--- !u!225 &3823531387842885323
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912992830694115923}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
