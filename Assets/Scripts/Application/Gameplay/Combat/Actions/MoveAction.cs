@@ -3,7 +3,9 @@
     using System;
     using System.Collections;
     using Core;
+    using Core.Utility;
     using ImGuiNET;
+    using UI.Indicators;
     using UnityEngine;
     using UnityEngine.AI;
 
@@ -17,7 +19,7 @@
         private float actionPointsPerUnit = 0.25f;
 
         [SerializeField]
-        private float moveSpeed = 1;
+        private float moveSpeed = 7;
 
         private Vector3 _targetPosition;
         private float _distance;
@@ -40,7 +42,7 @@
             base.PrepEnter();
             _pathIndicator = Services.IndicatorFactory.Borrow<PathIndicator>();
             _path ??= new NavMeshPath();
-            _aimSystem.Initialize(Camera.main);
+            _aimSystem.Initialize();
             _actionPointTracker = User.GetComponent<ActionPointTracker>();
         }
 
@@ -70,6 +72,8 @@
         /// <inheritdoc/>
         public void RenderImGui()
         {
+            var data = _aimSystem.Update();
+            ImGui.Text($"{LayerMask.LayerToName(data.collider.gameObject.layer)}");
             ImGui.Text($"Position: {_targetPosition}");
             ImGui.Text($"Distance: {_distance}");
             ImGui.Text($"Action Point Cost: {_distance:0} * {actionPointsPerUnit} = {(int)Mathf.Ceil(_distance * actionPointsPerUnit)}");

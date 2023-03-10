@@ -48,31 +48,25 @@
         {
             _originalSceneName = SceneManager.GetActiveScene().name;
 
-            // todo: save original scene state better (actual serialization stuff)
-            foreach (GameObject gameObject in data.PlayerTeamPrefabs)
-            {
-                Object.DontDestroyOnLoad(gameObject);
-            }
-
             string subArenaSceneName = subArenaLookup.GetSceneName(Services.RegionTracker.CurrentRegion);
             SceneManager.LoadScene(subArenaSceneName);
             await Task.Delay(100);
 
-            foreach (GameObject gameObject in data.PlayerTeamPrefabs)
+            List<GameObject> playerTeamInstances = new List<GameObject>();
+
+            foreach (TeamMemberData memberData in data.PlayerTeamData)
             {
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+                playerTeamInstances.Add(memberData.CreateWorldView().gameObject);
             }
 
             Transform[] playerSpawns = Object.FindObjectsOfType<SubArenaPlayerSpawn>().Select(spawn => spawn.transform).ToArray();
             Transform[] enemySpawns = Object.FindObjectsOfType<SubArenaEnemySpawn>().Select(spawn => spawn.transform).ToArray();
 
-            // todo: instantiate prefabs into spawn positions
-            IReadOnlyCollection<GameObject> enemyInstances = SpawnEntities(data.EnemyTeamPrefabs);
-            DistributeSpawns(enemyInstances, enemySpawns);
-            DistributeSpawns(data.PlayerTeamPrefabs, playerSpawns);
+            IReadOnlyCollection<GameObject> enemyTeamInstances = SpawnEntities(data.EnemyTeamPrefabs);
+            DistributeSpawns(enemyTeamInstances, enemySpawns);
+            DistributeSpawns(playerTeamInstances, playerSpawns);
 
-            // todo: pass a battle start to the controller
-            var battleData = new BattleData(data.PlayerTeamPrefabs, enemyInstances, data.Hooks, data.EnemyOrderDecider);
+            var battleData = new BattleData(playerTeamInstances, enemyTeamInstances, data.Hooks, data.EnemyOrderDecider);
 
             _controller.BeginBattle(battleData);
             _cleanupDisposable = _controller.OnBattleEnd.Subscribe(_ => RestoreOriginalScene());

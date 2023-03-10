@@ -13,7 +13,7 @@
         /// <summary>
         /// The prefabs used to spawn the player team.
         /// </summary>
-        public readonly IReadOnlyCollection<GameObject> PlayerTeamPrefabs;
+        public readonly IReadOnlyCollection<TeamMemberData> PlayerTeamData;
 
         /// <summary>
         /// The prefabs used to spawn the enemy team.
@@ -33,17 +33,17 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ArenaBattleStartData"/> struct.
         /// </summary>
-        /// <param name="playerTeamPrefabs">The prefabs to spawn for the players.</param>
+        /// <param name="playerTeamData">The prefabs to spawn for the players.</param>
         /// <param name="enemyTeamPrefabs">The prefabs to spawn for the enemies.</param>
         /// <param name="hooks">The hooks to be added into the battle.</param>
         /// <param name="enemyOrderDecider">The decider in charge of executing enemy turns.</param>
         public ArenaBattleStartData(
-            IReadOnlyCollection<GameObject> playerTeamPrefabs,
+            IReadOnlyCollection<TeamMemberData> playerTeamData,
             IReadOnlyCollection<GameObject> enemyTeamPrefabs,
             IReadOnlyCollection<Hook> hooks,
             EnemyOrderDecider enemyOrderDecider)
         {
-            PlayerTeamPrefabs = playerTeamPrefabs;
+            PlayerTeamData = playerTeamData;
             EnemyTeamPrefabs = enemyTeamPrefabs;
             Hooks = hooks;
             EnemyOrderDecider = enemyOrderDecider;

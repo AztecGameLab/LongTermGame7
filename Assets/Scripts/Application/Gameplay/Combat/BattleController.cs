@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using Cinemachine;
     using Core;
+    using Core.Utility;
     using Deciders;
     using Hooks;
     using ImGuiNET;
@@ -130,6 +131,13 @@
                 return;
             }
 
+            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+
+            if (worldLoader)
+            {
+                worldLoader.MonsterFollowPlayer.Enabled = false;
+            }
+
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
             battleTargetGroup.RemoveAllMembers();
@@ -186,6 +194,13 @@
             IsBattling = false;
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
+
+            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+
+            if (worldLoader)
+            {
+                worldLoader.MonsterFollowPlayer.Enabled = true;
+            }
 
             // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
             Debug.Log("Ending battle!");

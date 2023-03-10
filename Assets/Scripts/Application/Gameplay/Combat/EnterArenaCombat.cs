@@ -24,8 +24,12 @@
         protected override void HandleCollisionEnter(GameObject obj)
         {
             // List<GameObject> enemyTeamPrefabs = new List<GameObject>(); // todo: properly get random enemies, or whatever
-            IReadOnlyCollection<GameObject> playerTeamPrefabs = FindObjectOfType<PlayerPartyView>().PartyMemberInstances;
-            var battleData = new ArenaBattleStartData(playerTeamPrefabs, enemyTeamPrefabs, hooks, enemyOrderDecider);
+            List<TeamMemberData> playerTeamData = new List<TeamMemberData>(Services.PlayerTeamData.SelectedMembers)
+            {
+                Services.PlayerTeamData.Player,
+            };
+
+            var battleData = new ArenaBattleStartData(playerTeamData, enemyTeamPrefabs, hooks, enemyOrderDecider);
             Services.EventBus.Invoke(battleData, $"Arena Combat Trigger: {gameObject.name}");
         }
     }
