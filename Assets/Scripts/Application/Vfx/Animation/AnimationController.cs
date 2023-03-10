@@ -9,6 +9,7 @@
     public class AnimationController : MonoBehaviour
     {
         private const float MinSpeed = 0.1f;
+        private const float MovementThreshold = 0.1f;
 
         [SerializeField]
         private MeshRenderer player;
@@ -21,18 +22,6 @@
 
         private Vector3 _previousPosition;
         private MovementDirection _currentDirection = MovementDirection.Down;
-
-        private static bool InputHeld(params KeyCode[] keys)
-        {
-            bool result = false;
-
-            foreach (KeyCode keyCode in keys)
-            {
-                result |= Input.GetKey(keyCode);
-            }
-
-            return result;
-        }
 
         private void OnValidate()
         {
@@ -58,29 +47,33 @@
             _previousPosition = transform.position;
         }
 
-        // todo: we want to avoid checking Input.GetKey eventually, so we can steal input from the player for menus
         private MovementDirection GetMovementDirection()
         {
-            if (InputHeld(KeyCode.DownArrow, KeyCode.S))
+            Vector3 movementDirection = transform.position - _previousPosition;
+
+            Data down = new Data { Value = -movementDirection.z, Direction = MovementDirection.Down };
+            Data up = new Data { Value = movementDirection.z, Direction = MovementDirection.Up };
+            Data left = new Data { Value = -movementDirection.x, Direction = MovementDirection.Left };
+            Data right = new Data { Value = movementDirection.x, Direction = MovementDirection.Right };
+
+            Data[] data = { down, up, left, right };
+            Data max = down;
+
+            foreach (Data d in data)
             {
-                return MovementDirection.Down;
+                if (d.Value > max.Value)
+                {
+                    max = d;
+                }
             }
-            else if (InputHeld(KeyCode.LeftArrow, KeyCode.A))
-            {
-                return MovementDirection.Left;
-            }
-            else if (InputHeld(KeyCode.RightArrow, KeyCode.D))
-            {
-                return MovementDirection.Right;
-            }
-            else if (InputHeld(KeyCode.UpArrow, KeyCode.W))
-            {
-                return MovementDirection.Up;
-            }
-            else
-            {
-                return _currentDirection;
-            }
+
+            return max.Value < MovementThreshold * Time.deltaTime ? _currentDirection : max.Direction;
+        }
+
+        private struct Data
+        {
+            public float Value;
+            public MovementDirection Direction;
         }
     }
 }

@@ -1,12 +1,15 @@
-﻿using Application.Core;
-using Application.Core.Events;
-using Application.Core.Rtf;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-namespace Application
+﻿namespace Application
 {
+    using System.Threading.Tasks;
+    using Core;
+    using Core.Events;
+    using Core.Rtf;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
+    /// <summary>
+    /// The part of the entrypoint that ensures it remains loaded.
+    /// </summary>
     public partial class Entrypoint
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -21,7 +24,7 @@ namespace Application
             if (!Initialized)
             {
                 Debug.LogWarning("Entrypoint must be initialized before anything else!");
-                UnityEngine.Application.Quit();
+                Application.Quit();
 #if UNITY_EDITOR
                 Debug.Log($"{"[EDITOR ONLY]".Bold()} Loading Entrypoint...");
                 string originalScene = SceneManager.GetActiveScene().name;

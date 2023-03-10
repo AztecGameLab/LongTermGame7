@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Vfx
+﻿namespace Application.Vfx
 {
     using System.Collections;
     using UnityEngine;
