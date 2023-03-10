@@ -1,7 +1,7 @@
-﻿namespace Application.Core
+﻿namespace Application.Core.Utility
 {
     using System.Collections;
-    using Gameplay.Combat;
+    using Gameplay.Combat.UI.Indicators;
     using UnityEngine;
     using UnityEngine.AI;
 

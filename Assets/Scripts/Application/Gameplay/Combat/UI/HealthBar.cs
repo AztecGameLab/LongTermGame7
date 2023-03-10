@@ -1,6 +1,7 @@
 ﻿namespace Application.Gameplay.Combat.UI
 {
     using System;
+    using Core;
     using UniRx;
     using UnityEngine;
     using UnityEngine.UI;
@@ -31,6 +32,8 @@
         /// <inheritdoc/>
         public override void BindTo(LivingEntity target)
         {
+            base.BindTo(target);
+
             if (target != null)
             {
                 _targetDisposable?.Dispose();

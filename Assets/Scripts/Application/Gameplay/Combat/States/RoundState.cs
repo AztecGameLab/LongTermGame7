@@ -2,6 +2,7 @@
 {
     using System;
     using Core;
+    using Core.Utility;
 
     /// <summary>
     /// A state of the round in a battle.

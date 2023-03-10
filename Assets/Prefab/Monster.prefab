@@ -90,6 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6513975570622534436}
+  - component: {fileID: 484888108}
+  - component: {fileID: 484888109}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -112,3 +114,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &484888108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6513975570622534437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782ddc738bb34053947987680db52cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    value: 5
+  maxHealth:
+    value: 5
+--- !u!114 &484888109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6513975570622534437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2e2ecd09f94f928d138c7984f8281d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeRange: 3
+  attackDamage: 2
+  moveDistance: 10

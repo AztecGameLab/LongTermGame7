@@ -61,7 +61,8 @@
 
             foreach (Data d in data)
             {
-                if (d.Value > max.Value)
+                // todo: this is still so janky, find better solution
+                if (d.Value - max.Value > 0.01)
                 {
                     max = d;
                 }

@@ -1,6 +1,7 @@
 ﻿namespace Application.Core
 {
-    using Gameplay.Combat;
+    using Gameplay;
+    using Gameplay.Combat.UI.Indicators;
     using Gameplay.Regions;
     using Serialization;
     using UnityEngine;
@@ -29,6 +30,11 @@
         /// Gets or sets the global indicator factory.
         /// </summary>
         public static IndicatorFactory IndicatorFactory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the global player team data.
+        /// </summary>
+        public static TeamData PlayerTeamData { get; set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
