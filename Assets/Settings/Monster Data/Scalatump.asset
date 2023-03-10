@@ -18,7 +18,9 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
+  - id: 3
   maxHealth: 5
+  worldViewAssetPath: wv-scalatump
   references:
     version: 1
     00000000:
@@ -41,3 +43,8 @@ MonoBehaviour:
         name: Rock Platform/ Stairs
         description: You summon stairs and walk up them
         actionPointCost: 4
+    00000003:
+      type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointsPerUnit: 0.25
+        moveSpeed: 7

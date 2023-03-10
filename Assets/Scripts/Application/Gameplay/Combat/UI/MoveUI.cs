@@ -4,7 +4,7 @@
     using UnityEngine;
 
     /// <inheritdoc/>
-    public class MoveUI : View<BattleAction>
+    public class MoveUI : UIView<BattleAction>
     {
         [SerializeReference]
         private BattleAction autoBind;
@@ -18,6 +18,8 @@
         /// <inheritdoc/>
         public override void BindTo(BattleAction target)
         {
+            base.BindTo(target);
+
             if (target != null)
             {
                 nameDisplay.text = target.Name;

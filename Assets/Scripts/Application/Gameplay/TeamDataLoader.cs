@@ -22,6 +22,9 @@
         [SerializeField]
         private List<TeamMemberAuthoring> testingTeam;
 
+        [SerializeField]
+        private TeamMemberAuthoring testingPlayer;
+
         private TeamData _teamData;
 
         /// <inheritdoc/>
@@ -48,7 +51,7 @@
 
             if (!Serializer.TryLoad(SaveName, out _teamData))
             {
-                _teamData = new TeamData();
+                _teamData = new TeamData { Player = testingPlayer.GenerateData() };
 
                 foreach (TeamMemberAuthoring member in testingTeam)
                 {

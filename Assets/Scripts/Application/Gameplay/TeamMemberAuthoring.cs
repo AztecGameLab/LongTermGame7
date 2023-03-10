@@ -23,6 +23,9 @@
         [SerializeField]
         private float maxHealth;
 
+        [SerializeField]
+        private string worldViewAssetPath;
+
         /// <summary>
         /// Creates a new team member based off this authoring data.
         /// </summary>
@@ -35,6 +38,7 @@
                 Description = memberDescription,
                 CurrentHealth = maxHealth,
                 MaxHealth = maxHealth,
+                WorldViewAssetPath = worldViewAssetPath,
             };
 
             foreach (BattleAction battleAction in actions)

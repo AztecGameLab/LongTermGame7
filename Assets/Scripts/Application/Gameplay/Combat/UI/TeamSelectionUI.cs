@@ -7,7 +7,7 @@
     /// <summary>
     /// A user-interface for managing your current team to take into combat.
     /// </summary>
-    public class TeamSelectionUI : View<TeamData>
+    public class TeamSelectionUI : UIView<TeamData>
     {
         [SerializeField]
         private TeamMemberListUI unlockedMembers;
@@ -18,6 +18,8 @@
         /// <inheritdoc/>
         public override void BindTo(TeamData target)
         {
+            base.BindTo(target);
+
             unlockedMembers.BindTo(target.UnlockedMembers);
             selectedMembers.BindTo(target.SelectedMembers);
 

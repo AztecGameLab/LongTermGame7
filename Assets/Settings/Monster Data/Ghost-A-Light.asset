@@ -18,7 +18,9 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
+  - id: 3
   maxHealth: 5
+  worldViewAssetPath: wv-ghostalight
   references:
     version: 1
     00000000:
@@ -41,3 +43,8 @@ MonoBehaviour:
         description: This charecter is flying, and can only be blocked by others
           creatures with flying
         actionPointCost: 0
+    00000003:
+      type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointsPerUnit: 0.25
+        moveSpeed: 7

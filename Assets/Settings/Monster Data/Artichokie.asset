@@ -18,7 +18,9 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
+  - id: 3
   maxHealth: 5
+  worldViewAssetPath: wv-artichokie
   references:
     version: 1
     00000000:
@@ -40,3 +42,8 @@ MonoBehaviour:
         name: Rock & roll
         description: Dash and send a rock the opposite direction
         actionPointCost: 6
+    00000003:
+      type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointsPerUnit: 0.25
+        moveSpeed: 7

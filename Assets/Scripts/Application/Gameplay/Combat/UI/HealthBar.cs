@@ -31,6 +31,8 @@
         /// <inheritdoc/>
         public override void BindTo(LivingEntity target)
         {
+            base.BindTo(target);
+
             if (target != null)
             {
                 _targetDisposable?.Dispose();
@@ -44,8 +46,7 @@
             }
         }
 
-        /// <inheritdoc/>
-        protected override void Start()
+        private void Start()
         {
             BindTo(autoBind);
         }

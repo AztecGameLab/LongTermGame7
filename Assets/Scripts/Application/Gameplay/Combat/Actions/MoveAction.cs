@@ -17,7 +17,7 @@
         private float actionPointsPerUnit = 0.25f;
 
         [SerializeField]
-        private float moveSpeed = 1;
+        private float moveSpeed = 7;
 
         private Vector3 _targetPosition;
         private float _distance;

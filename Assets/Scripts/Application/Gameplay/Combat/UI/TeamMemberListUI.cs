@@ -9,7 +9,7 @@
     /// <summary>
     /// A user-interface for displaying a collection of team members.
     /// </summary>
-    public class TeamMemberListUI : View<IReadOnlyReactiveCollection<TeamMemberData>>
+    public class TeamMemberListUI : UIView<IReadOnlyReactiveCollection<TeamMemberData>>
     {
         private readonly Subject<TeamMemberData> _memberClicked
             = new Subject<TeamMemberData>();
@@ -32,6 +32,8 @@
         /// <inheritdoc/>
         public override void BindTo(IReadOnlyReactiveCollection<TeamMemberData> members)
         {
+            base.BindTo(members);
+
             // Initially load members.
             foreach (var member in members)
             {

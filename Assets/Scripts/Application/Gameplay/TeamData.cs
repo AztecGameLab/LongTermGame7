@@ -25,5 +25,11 @@
         [JsonProperty]
         public ReactiveCollection<TeamMemberData> SelectedMembers { get; }
             = new ReactiveCollection<TeamMemberData>();
+
+        /// <summary>
+        /// Gets or sets the member data for the player themself.
+        /// </summary>
+        [JsonProperty]
+        public TeamMemberData Player { get; set; }
     }
 }

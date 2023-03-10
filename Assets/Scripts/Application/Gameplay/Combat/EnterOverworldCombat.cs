@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat
+﻿using Application.Gameplay.Combat.UI;
+
+namespace Application.Gameplay.Combat
 {
     using System.Collections.Generic;
     using Core;
@@ -11,6 +13,7 @@
     /// </summary>
     public class EnterOverworldCombat : TriggerEffect
     {
+        // todo: better way of enemy authoring
         [SerializeField]
         private List<GameObject> enemyTeam;
 
@@ -24,7 +27,15 @@
         protected override void HandleCollisionEnter(GameObject obj)
         {
             List<GameObject> enemyTeamInstances = enemyTeam;
-            IReadOnlyCollection<GameObject> playerTeamInstances = FindObjectOfType<PlayerPartyView>().PartyMemberInstances;
+            List<GameObject> playerTeamInstances = new List<GameObject>();
+
+            var loader = FindObjectOfType<PlayerTeamWorldLoader>();
+            playerTeamInstances.Add(loader.SpawnedPlayer.gameObject);
+
+            foreach (var worldView in loader.SpawnedMembers)
+            {
+                playerTeamInstances.Add(worldView.gameObject);
+            }
 
             var battleData = new OverworldBattleStartData(playerTeamInstances, enemyTeamInstances, hooks, enemyOrderDecider);
             Services.EventBus.Invoke(battleData, $"Overworld Combat Trigger: {gameObject.name}");
