@@ -15,7 +15,7 @@ namespace Application.Gameplay
     {
         public void Interact()
         {
-            Destroy(this);
+            Destroy(gameObject);
             Debug.Log(gameObject + " is dead.");
         }
     }
