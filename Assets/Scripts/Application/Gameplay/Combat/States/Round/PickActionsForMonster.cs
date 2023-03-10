@@ -1,6 +1,8 @@
 ﻿namespace Application.Gameplay.Combat.States.Round
 {
     using System;
+    using Actions;
+    using Core;
     using ImGuiNET;
 
     /// <summary>
@@ -40,7 +42,6 @@
 
             if (_actionPointTracker.RemainingActionPoints <= 0)
             {
-                _actionPointTracker.Refill();
                 Round.TransitionTo(Round.EnemyMoveMonsters);
             }
         }
@@ -71,6 +72,7 @@
         private void OnSelectAction(BattleAction monsterAction)
         {
             monsterAction.User = Round.PickMonster.SelectedMonster;
+            monsterAction.Controller = Round.Controller;
             Round.TransitionTo(Round.PrepareAction);
         }
     }

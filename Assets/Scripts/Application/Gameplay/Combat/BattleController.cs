@@ -5,10 +5,12 @@
     using System.Collections.ObjectModel;
     using Cinemachine;
     using Core;
+    using Core.Utility;
     using Deciders;
     using Hooks;
     using ImGuiNET;
     using States;
+    using UI;
     using UniRx;
     using UnityEngine;
 
@@ -22,6 +24,7 @@
 
         private readonly List<Hook> _hooks = new List<Hook>();
         private readonly Subject<Unit> _battleEndSubject = new Subject<Unit>();
+        private readonly List<GameObject> _spawnedUIElements = new List<GameObject>();
 
         [Header("States")]
 
@@ -53,7 +56,11 @@
         [SerializeField]
         private CanvasGroup battleBars;
 
-        private bool _isBattling;
+        [SerializeField]
+        private PlayerTeamMemberBattleUI playerBattleUI;
+
+        [SerializeField]
+        private EnemyTeamMemberBattleUI enemyBattleUI;
 
         /// <summary>
         /// Gets the battle intro logic.
@@ -91,6 +98,11 @@
         public EnemyOrderDecider EnemyOrderDecider { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether a battle is currently running.
+        /// </summary>
+        public bool IsBattling { get; private set; }
+
+        /// <summary>
         /// Gets an observable that watches the end of the battle.
         /// </summary>
         public IObservable<Unit> OnBattleEnd => _battleEndSubject;
@@ -114,16 +126,21 @@
         /// <param name="data">The initial state needed to start a battle.</param>
         public void BeginBattle(BattleData data)
         {
-            if (_isBattling)
+            if (IsBattling)
             {
                 return;
+            }
+
+            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+
+            if (worldLoader)
+            {
+                worldLoader.MonsterFollowPlayer.Enabled = false;
             }
 
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
             battleTargetGroup.RemoveAllMembers();
-            battleTargetGroup.AddMemberRange(PlayerTeam, 1, battleTargetRadius);
-            battleTargetGroup.AddMemberRange(EnemyTeam, 1, battleTargetRadius);
 
             Debug.Log("Starting battle!");
 
@@ -133,7 +150,7 @@
             battleLoss.Initialize();
 
             _hooks.Clear();
-            _isBattling = true;
+            IsBattling = true;
 
             foreach (Hook hook in data.Hooks)
             {
@@ -145,10 +162,26 @@
             EnemyOrderDecider = data.Decider;
 
             PlayerTeam.Clear();
-            AddRange(PlayerTeam, data.PlayerTeamInstances);
+
+            foreach (GameObject playerTeamInstance in data.PlayerTeamInstances)
+            {
+                PlayerTeam.Add(playerTeamInstance);
+                PlayerTeamMemberBattleUI instance = Instantiate(playerBattleUI, playerTeamInstance.transform);
+                instance.BindTo(playerTeamInstance);
+                _spawnedUIElements.Add(instance.gameObject);
+                battleTargetGroup.AddMember(playerTeamInstance.transform, 1, battleTargetRadius);
+            }
 
             EnemyTeam.Clear();
-            AddRange(EnemyTeam, data.EnemyTeamInstances);
+
+            foreach (GameObject enemyTeamInstance in data.EnemyTeamInstances)
+            {
+                EnemyTeam.Add(enemyTeamInstance);
+                EnemyTeamMemberBattleUI instance = Instantiate(enemyBattleUI, enemyTeamInstance.transform);
+                instance.BindTo(enemyTeamInstance);
+                _spawnedUIElements.Add(instance.gameObject);
+                battleTargetGroup.AddMember(enemyTeamInstance.transform, 1, battleTargetRadius);
+            }
 
             BattleStateMachine.SetState(battleIntro);
         }
@@ -158,9 +191,16 @@
         /// </summary>
         public void EndBattle()
         {
-            _isBattling = false;
+            IsBattling = false;
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
+
+            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+
+            if (worldLoader)
+            {
+                worldLoader.MonsterFollowPlayer.Enabled = true;
+            }
 
             // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
             Debug.Log("Ending battle!");
@@ -175,6 +215,11 @@
             _hooks.Clear();
             PlayerTeam.Clear();
             EnemyTeam.Clear();
+
+            foreach (GameObject spawnedUIElement in _spawnedUIElements)
+            {
+                Destroy(spawnedUIElement);
+            }
 
             _battleEndSubject.OnNext(Unit.Default);
         }
@@ -201,7 +246,7 @@
 
         private void Update()
         {
-            if (_isBattling)
+            if (IsBattling)
             {
                 BattleStateMachine.Tick();
 

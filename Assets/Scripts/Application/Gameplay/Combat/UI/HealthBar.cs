@@ -1,6 +1,7 @@
 ﻿namespace Application.Gameplay.Combat.UI
 {
     using System;
+    using Core;
     using UniRx;
     using UnityEngine;
     using UnityEngine.UI;
@@ -17,7 +18,13 @@
         private Slider healthSlider;
 
         [SerializeField]
+        private Image healthImageFill;
+
+        [SerializeField]
         private float animationSpeed;
+
+        [SerializeField]
+        private Gradient healthGradient;
 
         private float _currentHealthPercent;
         private IDisposable _targetDisposable;
@@ -25,6 +32,8 @@
         /// <inheritdoc/>
         public override void BindTo(LivingEntity target)
         {
+            base.BindTo(target);
+
             if (target != null)
             {
                 _targetDisposable?.Dispose();
@@ -47,6 +56,7 @@
         {
             float t = animationSpeed * Time.deltaTime;
             healthSlider.value = Mathf.Lerp(healthSlider.value, _currentHealthPercent, t);
+            healthImageFill.color = healthGradient.Evaluate(healthSlider.value);
         }
 
         private void RecalculateHealthPercent(LivingEntity target)
