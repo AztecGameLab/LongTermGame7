@@ -1,4 +1,8 @@
-﻿namespace Application.Gameplay.Combat.States.Round
+﻿using Application.Gameplay.Combat.UI;
+using UniRx;
+using UnityEngine;
+
+namespace Application.Gameplay.Combat.States.Round
 {
     using System;
     using Actions;
@@ -11,9 +15,13 @@
     [Serializable]
     public class PickActionsForMonster : RoundState, IDebugImGui
     {
+        [SerializeField]
+        private MoveSelectionUI selectionUI;
+        
         private ActionSet _selectedActionSet;
         private ActionPointTracker _actionPointTracker;
         private int _currentActionIndex;
+        private IDisposable _disposable;
 
         /// <summary>
         /// Gets the currently selected action.
@@ -39,11 +47,22 @@
 
             _selectedActionSet = Round.PickMonster.SelectedMonster.GetComponent<ActionSet>();
             _actionPointTracker = Round.PickMonster.SelectedMonster.GetComponent<ActionPointTracker>();
+            
+            selectionUI.gameObject.SetActive(true);
+            selectionUI.BindTo(_selectedActionSet.Actions);
+            _disposable = selectionUI.ObserveActionSubmitted().Subscribe(OnSelectAction);
 
             if (_actionPointTracker.RemainingActionPoints <= 0)
             {
                 Round.TransitionTo(Round.EnemyMoveMonsters);
             }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            selectionUI.gameObject.SetActive(false);
+            _disposable?.Dispose();
         }
 
         /// <inheritdoc/>
