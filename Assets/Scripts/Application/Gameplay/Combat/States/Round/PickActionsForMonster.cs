@@ -26,11 +26,9 @@ namespace Application.Gameplay.Combat.States.Round
         /// <summary>
         /// Gets the currently selected action.
         /// </summary>
-        /// <value>
-        /// The currently selected action.
-        /// </value>
-        public BattleAction SelectedAction =>
-            _selectedActionSet.Actions[_currentActionIndex % _selectedActionSet.Actions.Count];
+        // public BattleAction SelectedAction =>
+        //     _selectedActionSet.Actions[_currentActionIndex % _selectedActionSet.Actions.Count];
+        public BattleAction SelectedAction { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PickActionsForMonster"/> class.
@@ -51,6 +49,7 @@ namespace Application.Gameplay.Combat.States.Round
             selectionUI.gameObject.SetActive(true);
             selectionUI.BindTo(_selectedActionSet.Actions);
             _disposable = selectionUI.ObserveActionSubmitted().Subscribe(OnSelectAction);
+            SelectedAction = _selectedActionSet.Actions[0];
 
             if (_actionPointTracker.RemainingActionPoints <= 0)
             {
@@ -90,6 +89,7 @@ namespace Application.Gameplay.Combat.States.Round
 
         private void OnSelectAction(BattleAction monsterAction)
         {
+            SelectedAction = monsterAction;
             monsterAction.User = Round.PickMonster.SelectedMonster;
             monsterAction.Controller = Round.Controller;
             Round.TransitionTo(Round.PrepareAction);
