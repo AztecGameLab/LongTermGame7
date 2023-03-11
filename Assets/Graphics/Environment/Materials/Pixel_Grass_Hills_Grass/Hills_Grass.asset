@@ -138,17 +138,18 @@ MonoBehaviour:
   HasThumbnail: 0
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Pixel_Grass\" label=\"\" >\n  <presetinput
     identifier=\"$outputsize\" uid=\"847235199\" type=\"8\" value=\"10,10\" />\n 
-    <presetinput identifier=\"Warp_Intensity\" uid=\"1603491688\" type=\"0\" value=\"1\"
-    />\n  <presetinput identifier=\"luminosity\" uid=\"1604009816\" type=\"0\" value=\"0.578\"
-    />\n  <presetinput identifier=\"saturation\" uid=\"1603446609\" type=\"0\" value=\"0.439\"
-    />\n  <presetinput identifier=\"hue\" uid=\"1603446297\" type=\"0\" value=\"0.393\"
-    />\n  <presetinput identifier=\"Grassiness\" uid=\"1603742724\" type=\"0\" value=\"0.548\"
-    />\n  <presetinput identifier=\"Mask\" uid=\"1609159965\" type=\"0\" value=\"1\"
-    />\n  <presetinput identifier=\"Hue\" uid=\"1609161066\" type=\"0\" value=\"0.476\"
-    />\n  <presetinput identifier=\"Saturation\" uid=\"1609161029\" type=\"0\" value=\"0.536\"
-    />\n  <presetinput identifier=\"scale\" uid=\"1609156901\" type=\"0\" value=\"0.68\"
-    />\n  <presetinput identifier=\"Lightness\" uid=\"1609371021\" type=\"0\" value=\"0.356\"
-    />\n </sbspreset>\n"
+    <presetinput identifier=\"$randomseed\" uid=\"1695407661\" type=\"4\" value=\"4228\"
+    />\n  <presetinput identifier=\"Warp_Intensity\" uid=\"1603491688\" type=\"0\"
+    value=\"1\" />\n  <presetinput identifier=\"luminosity\" uid=\"1604009816\" type=\"0\"
+    value=\"0.563\" />\n  <presetinput identifier=\"saturation\" uid=\"1603446609\"
+    type=\"0\" value=\"0.357\" />\n  <presetinput identifier=\"hue\" uid=\"1603446297\"
+    type=\"0\" value=\"0.424\" />\n  <presetinput identifier=\"Grassiness\" uid=\"1603742724\"
+    type=\"0\" value=\"0.41\" />\n  <presetinput identifier=\"Mask\" uid=\"1609159965\"
+    type=\"0\" value=\"1\" />\n  <presetinput identifier=\"Hue\" uid=\"1609161066\"
+    type=\"0\" value=\"0.476\" />\n  <presetinput identifier=\"Saturation\" uid=\"1609161029\"
+    type=\"0\" value=\"0.536\" />\n  <presetinput identifier=\"scale\" uid=\"1609156901\"
+    type=\"0\" value=\"0.68\" />\n  <presetinput identifier=\"Lightness\" uid=\"1609371021\"
+    type=\"0\" value=\"0.356\" />\n </sbspreset>\n"
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
@@ -200,7 +201,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 4
           WidgetType: 0
-        Data: 0
+        Data: 4228
         NumericalDescription:
           DefaultValue: 0
           MinValue: 0
@@ -264,7 +265,7 @@ MonoBehaviour:
             of the input image
           Type: 0
           WidgetType: 1
-        Data: 0.578
+        Data: 0.563
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -285,7 +286,7 @@ MonoBehaviour:
             of the input image's color
           Type: 0
           WidgetType: 1
-        Data: 0.439
+        Data: 0.357
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -306,7 +307,7 @@ MonoBehaviour:
             image
           Type: 0
           WidgetType: 1
-        Data: 0.393
+        Data: 0.424
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -326,7 +327,7 @@ MonoBehaviour:
           GuiDescription: Density of grass
           Type: 0
           WidgetType: 1
-        Data: 0.548
+        Data: 0.41
         NumericalDescription:
           DefaultValue: 0.09
           MinValue: 0
