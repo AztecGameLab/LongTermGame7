@@ -1,92 +1,134 @@
-﻿using Application.Core;
-using ImGuiNET;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Application.Gameplay.Combat.States.Round
+﻿namespace Application.Gameplay.Combat.States.Round
 {
-    public class PickMonster : RoundState
+    using System;
+    using System.Collections.Generic;
+    using Cinemachine;
+    using Core;
+    using ImGuiNET;
+    using UnityEngine;
+
+    /// <summary>
+    /// The battle round state where you select which monster you want to use in combat.
+    /// </summary>
+    [Serializable]
+    public class PickMonster : RoundState, IDebugImGui
     {
-        private readonly List<GameObject> _availableMonsters = new List<GameObject>();
-        
-        private GameObject SelectedMonster => _availableMonsters.Count > _selectedMonsterIndex 
-            ? _availableMonsters[_selectedMonsterIndex] 
-            : null;
-        
+        private const int PickMonsterCameraActivePriority = 50;
+
+        private List<GameObject> _availableMonsters;
+
+        [SerializeField]
+        private CinemachineVirtualCamera pickMonsterCamera;
+
         private int _selectedMonsterIndex;
-        
+
+        /// <summary>
+        /// Gets the currently selected monster.
+        /// </summary>
+        /// <value>
+        /// The currently selected monster.
+        /// </value>
+        public GameObject SelectedMonster { get; private set; }
+
+        /// <summary>
+        /// Sets up the pick monster state.
+        /// </summary>
+        public void Initialize()
+        {
+            RegisterImGuiDebug(this);
+            _availableMonsters = new List<GameObject>();
+        }
+
+        /// <inheritdoc/>
         public override void OnRoundBegin()
         {
             _availableMonsters.AddRange(Round.Controller.PlayerTeam);
             _selectedMonsterIndex = 0;
         }
 
+        /// <inheritdoc/>
         public override void OnRoundEnd()
         {
             _availableMonsters.Clear();
         }
 
+        /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
-            Services.EventBus.Invoke(new RoundStateEnterEvent<PickMonster>{State = this}, "Pick Monster State");
+            pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
 
-            if (SelectedMonster != null)
-                Round.Controller.BattleCamera.Follow = SelectedMonster.transform;
-            
-            else Round.Controller.BattleCamera.Follow = Round.Controller.PlayerTeam[0].transform;
+            SelectedMonster = _availableMonsters.Count > 0 ? _availableMonsters[_selectedMonsterIndex] : null;
+
+            pickMonsterCamera.Follow = SelectedMonster != null
+                ? SelectedMonster.transform
+                : Round.Controller.PlayerTeam[0].transform;
         }
 
+        /// <inheritdoc/>
         public override void OnExit()
         {
             base.OnExit();
-            Services.EventBus.Invoke(new RoundStateExitEvent<PickMonster>{State = this}, "Pick Monster State");
+            pickMonsterCamera.Priority = 0;
         }
 
-        private void OnSelectMonster(GameObject monster)
-        {
-            _availableMonsters.Remove(monster);
-            _selectedMonsterIndex = 0;
-            
-            Round.SelectedMonster = monster;
-            Round.StateMachine.SetState(Round.PickActions);
-            Round.Controller.BattleCamera.Follow = monster.transform;
-        }
-        
-        protected override void DrawGui()
+        /// <inheritdoc/>
+        public void RenderImGui()
         {
             ImGui.Begin("Pick Monster");
 
             if (_availableMonsters.Count <= 0)
             {
                 ImGui.Text("No monsters left to move! You must end the round.");
-                
+
                 if (ImGui.Button("Next Round"))
-                    Round.Controller.BattleStateMachine.SetState(Round.Controller.BattleRound);
+                {
+                    Round.NextRound();
+                }
             }
 
             ImGui.Text("Available Monsters:");
-            
+
             foreach (GameObject availableMonster in _availableMonsters)
             {
                 ImGui.Text($"\t{availableMonster.name}");
             }
-            
+
             ImGui.Text($"Currently selected: {(SelectedMonster == null ? "None" : SelectedMonster.name)}");
 
             if (SelectedMonster != null && ImGui.Button($"Select {SelectedMonster.name}"))
-                OnSelectMonster(SelectedMonster);
-
-            if (ImGui.Button("Next Monster"))
             {
-                if (_availableMonsters.Count > 0)
-                {
-                    _selectedMonsterIndex = (_selectedMonsterIndex + 1) % _availableMonsters.Count;
-                    Round.Controller.BattleCamera.Follow = SelectedMonster.transform;
-                }
+                OnSelectMonster(SelectedMonster);
             }
-            
+
+            if (ImGui.Button("Next Monster") && _availableMonsters.Count > 0)
+            {
+                SelectNextMonster();
+            }
+
             ImGui.End();
+        }
+
+        private void SelectNextMonster()
+        {
+            if (_availableMonsters.Count <= 0)
+            {
+                Debug.LogError("Cannot select next monster - there are none available ones left!");
+                return;
+            }
+
+            _selectedMonsterIndex = (_selectedMonsterIndex + 1) % _availableMonsters.Count;
+            SelectedMonster = _availableMonsters[_selectedMonsterIndex];
+            pickMonsterCamera.Follow = SelectedMonster.transform;
+        }
+
+        private void OnSelectMonster(GameObject monster)
+        {
+            _availableMonsters.Remove(monster);
+            _selectedMonsterIndex = 0;
+
+            Round.TransitionTo(Round.PickActions);
+            pickMonsterCamera.Follow = monster.transform;
         }
     }
 }

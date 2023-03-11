@@ -2,6 +2,7 @@
 {
     using ImGuiNET;
     using UnityEngine;
+    using Utility;
 
     /// <summary>
     /// Displays the ImGui demo window.

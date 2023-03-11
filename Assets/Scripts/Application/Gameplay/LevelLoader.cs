@@ -1,4 +1,4 @@
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
     using System.Threading.Tasks;
@@ -24,6 +24,7 @@ namespace Application.Gameplay
         /// <summary>
         /// Sets up the Level Loader.
         /// </summary>
+        /// <returns>This instance.</returns>
         public LevelLoader Init()
         {
             _disposable = Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");

@@ -1,8 +1,8 @@
-﻿using Application.Core;
-using UnityEngine;
-
-namespace Application.Gameplay.Regions
+﻿namespace Application.Gameplay.Regions
 {
+    using Core;
+    using UnityEngine;
+
     /// <summary>
     /// Script that should run when a scene loads to set GameData values.
     /// </summary>

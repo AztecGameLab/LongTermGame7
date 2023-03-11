@@ -1,44 +1,55 @@
-﻿using Application.Core;
-using ImGuiNET;
-using System;
-using UniRx;
-
-namespace Application.Gameplay.Combat.States.Round
+﻿namespace Application.Gameplay.Combat.States.Round
 {
-    public class PlayActionAnimation : RoundState
+    using System;
+    using Core;
+    using ImGuiNET;
+    using UniRx;
+
+    /// <summary>
+    /// The battle round state where an animation for an action is playing.
+    /// </summary>
+    [Serializable]
+    public class PlayActionAnimation : RoundState, IDebugImGui
     {
-        private IDisposable _disposable;
-        
+        /// <summary>
+        /// Sets up the play action animation state.
+        /// </summary>
+        public void Initialize()
+        {
+            RegisterImGuiDebug(this);
+        }
+
+        /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
-            _disposable = Round.SelectedAction.Run().Subscribe(_ => OnActionEnd());
-            Services.EventBus.Invoke(new RoundStateEnterEvent<PlayActionAnimation>{State = this}, "Play Action Animation State");
+            Round.PickActions.SelectedAction.Run().Subscribe(_ => OnActionEnd());
         }
 
-        public override void OnExit()
+        /// <inheritdoc/>
+        public void RenderImGui()
         {
-            base.OnExit();
-            _disposable?.Dispose();
-            Services.EventBus.Invoke(new RoundStateExitEvent<PlayActionAnimation>{State = this}, "Play Action Animation State");
+            ImGui.Begin("Playing Action");
+
+            if (Round.PickActions.SelectedAction is IDebugImGui debugImGui)
+            {
+                debugImGui.RenderImGui();
+            }
+
+            if (ImGui.Button("Finish Action"))
+            {
+                OnActionEnd();
+            }
+
+            ImGui.End();
         }
 
         private void OnActionEnd()
         {
-            Round.StateMachine.SetState(Round.PickActions);
-        }
-        
-        protected override void DrawGui()
-        {
-            ImGui.Begin("Playing Action");
-
-            if (Round.SelectedAction is IDebugImGui debugImGui)
-                debugImGui.RenderImGui();
-            
-            if (ImGui.Button("Finish Action"))
-                OnActionEnd();
-            
-            ImGui.End();
+            if (Round.Controller.IsBattling)
+            {
+                Round.TransitionTo(Round.PickActions);
+            }
         }
     }
 }

@@ -1,25 +1,22 @@
-﻿using Application.Core;
-using System;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using Yarn.Unity;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
+    using Core;
+    using UnityEngine;
+    using UnityEngine.InputSystem;
+    using Yarn.Unity;
+
+    /// <summary>
+    /// A trigger effect that runs some yarn dialogue when activated.
+    /// </summary>
     [RequireComponent(typeof(Trigger))]
     public class StartDialogueTrigger : TriggerEffect
     {
-        [SerializeField] private string nodeId;
-        
-        private Trigger _trigger;
+        [SerializeField]
+        private string nodeId;
+
         private DialogueRunner _dialogueRunner;
 
-        private void Awake()
-        {
-            _trigger = GetComponent<Trigger>();
-            _dialogueRunner = FindObjectOfType<DialogueRunner>();
-        }
-        
+        /// <inheritdoc/>
         protected override void HandleCollisionEnter(GameObject obj)
         {
             _dialogueRunner.StartDialogue(nodeId);
@@ -28,9 +25,14 @@ namespace Application.Gameplay
             FindObjectOfType<PlayerInput>().enabled = false;
         }
 
-        private void HandleDialogueComplete()
+        private static void HandleDialogueComplete()
         {
             FindObjectOfType<PlayerInput>().enabled = true;
+        }
+
+        private void Awake()
+        {
+            _dialogueRunner = FindObjectOfType<DialogueRunner>();
         }
     }
 }

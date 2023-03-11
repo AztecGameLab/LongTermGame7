@@ -1,13 +1,28 @@
-﻿using System;
-using UnityEngine;
-
-namespace Application.Core.Serialization
+﻿namespace Application.Core.Serialization
 {
+    using System;
+    using JetBrains.Annotations;
+    using UnityEngine;
+
+    /// <summary>
+    /// Represents some MonoBehavior that is automatically saved and loaded while in a scene.
+    /// </summary>
     public abstract class SerializedBehavior : MonoBehaviour, ISerializable
     {
-        [SerializeField, HideInInspector] 
+        [SerializeField]
+        [HideInInspector]
+        [UsedImplicitly]
         private string id = Guid.NewGuid().ToString();
-        
+
+        /// <inheritdoc/>
+        public abstract string Id { get; }
+
+        /// <inheritdoc/>
+        public abstract void ReadData(object data);
+
+        /// <inheritdoc/>
+        public abstract object WriteData();
+
         private void Awake()
         {
             Services.Serializer.ApplySavedDataTo(this);
@@ -22,9 +37,5 @@ namespace Application.Core.Serialization
         {
             Services.Serializer.UpdateSavedDataFrom(this);
         }
-
-        public abstract string GetID();
-        public abstract void ReadData(object data);
-        public abstract object WriteData();
     }
 }
