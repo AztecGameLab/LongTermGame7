@@ -137,9 +137,10 @@ MonoBehaviour:
   HasThumbnail: 0
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Pixel_Shrubbery\" label=\"\" >\n 
     <presetinput identifier=\"$outputsize\" uid=\"4048806541\" type=\"8\" value=\"10,10\"
+    />\n  <presetinput identifier=\"$randomseed\" uid=\"2787243231\" type=\"4\" value=\"4561\"
     />\n  <presetinput identifier=\"Warp_Intensity\" uid=\"2629795226\" type=\"0\"
-    value=\"1\" />\n  <presetinput identifier=\"Leafiness\" uid=\"2629502710\" type=\"0\"
-    value=\"0.398\" />\n </sbspreset>\n"
+    value=\"1\" />\n  <presetinput identifier=\"Fruits_Density\" uid=\"2630221807\"
+    type=\"0\" value=\"1\" />\n </sbspreset>\n"
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
@@ -181,7 +182,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 4
           WidgetType: 0
-        Data: 0
+        Data: 4561
         NumericalDescription:
           DefaultValue: 0
           MinValue: 0
@@ -327,7 +328,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 0
           WidgetType: 1
-        Data: 0
+        Data: 1
         NumericalDescription:
           DefaultValue: 0
           MinValue: 0
