@@ -135,13 +135,13 @@ MonoBehaviour:
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Pixel_Rock\" label=\"\" >\n  <presetinput
     identifier=\"$outputsize\" uid=\"2727491459\" type=\"8\" value=\"10,10\" />\n 
     <presetinput identifier=\"$randomseed\" uid=\"4125106641\" type=\"4\" value=\"3070\"
-    />\n  <presetinput identifier=\"luminosity\" uid=\"3480666276\" type=\"0\" value=\"0.553\"
+    />\n  <presetinput identifier=\"luminosity\" uid=\"3480666276\" type=\"0\" value=\"0.511\"
     />\n  <presetinput identifier=\"Normal\" uid=\"3480676221\" type=\"0\" value=\"0.24\"
-    />\n  <presetinput identifier=\"saturation\" uid=\"3481229485\" type=\"0\" value=\"0.403\"
+    />\n  <presetinput identifier=\"saturation\" uid=\"3481229485\" type=\"0\" value=\"0.445\"
     />\n  <presetinput identifier=\"hue\" uid=\"3481229797\" type=\"0\" value=\"0.489\"
     />\n  <presetinput identifier=\"Warp_Intensity\" uid=\"3481184404\" type=\"0\"
     value=\"0.745\" />\n  <presetinput identifier=\"Colorblend\" uid=\"3474038801\"
-    type=\"0\" value=\"0.818\" />\n  <presetinput identifier=\"height_blend\" uid=\"3473966181\"
+    type=\"0\" value=\"0.921\" />\n  <presetinput identifier=\"height_blend\" uid=\"3473966181\"
     type=\"0\" value=\"0.86\" />\n </sbspreset>\n"
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
             of the input image
           Type: 0
           WidgetType: 1
-        Data: 0.553
+        Data: 0.511
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
             of the input image's color
           Type: 0
           WidgetType: 1
-        Data: 0.403
+        Data: 0.445
         NumericalDescription:
           DefaultValue: 0.5
           MinValue: 0
@@ -316,7 +316,7 @@ MonoBehaviour:
 '
           Type: 0
           WidgetType: 1
-        Data: 0.818
+        Data: 0.921
         NumericalDescription:
           DefaultValue: 0.11
           MinValue: 0
