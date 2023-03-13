@@ -16,6 +16,7 @@ MonoBehaviour:
   memberDescription: Its you!
   actions:
   - id: 0
+  - id: 1
   maxHealth: 5
   worldViewAssetPath: wv-player
   maxActionPoints: 5
@@ -24,5 +25,20 @@ MonoBehaviour:
     00000000:
       type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
+        <IsPrepFinished>k__BackingField: 0
+        <User>k__BackingField: {fileID: 0}
+        <Controller>k__BackingField: {fileID: 0}
         actionPointsPerUnit: 0.25
         moveSpeed: 7
+        _targetPosition: {x: 0, y: 0, z: 0}
+        _distance: 4.9321637
+        _actionPointTracker: {fileID: 0}
+    00000001:
+      type: {class: Testing, ns: Application.Core, asm: Application}
+      data:
+        <IsPrepFinished>k__BackingField: 1
+        <User>k__BackingField: {fileID: 0}
+        <Controller>k__BackingField: {fileID: 0}
+        StairPrefab: {fileID: 5136128631618698541, guid: 5ee9bba5bfbd83e4b841474bf39569f3, type: 3}
+        _indicator: {fileID: 0}
+        _target: {x: 7.125118, y: 2.4999995, z: 12.708475}
