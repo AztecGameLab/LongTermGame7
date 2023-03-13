@@ -1,12 +1,11 @@
-﻿using Application.Gameplay.Combat.UI;
-using UniRx;
-
-namespace Application.Gameplay.Combat.States
+﻿namespace Application.Gameplay.Combat.States
 {
     using System;
     using Core;
     using ImGuiNET;
     using Round;
+    using UI;
+    using UniRx;
     using UnityEngine;
 
     /// <summary>
@@ -89,7 +88,6 @@ namespace Application.Gameplay.Combat.States
             PickMonster.Initialize();
             PlayActionAnimation.Initialize();
             PrepareAction.Initialize();
-            PickActions.Initialize();
 
             _states = new RoundState[]
             {
@@ -114,10 +112,9 @@ namespace Application.Gameplay.Combat.States
             {
                 roundState.OnRoundEnd();
             }
-            
+
             StateMachine.SetState(null);
             RoundNumber.Value++;
-            
             foreach (GameObject playerTeamMember in Controller.PlayerTeam)
             {
                 if (playerTeamMember.TryGetComponent(out ActionPointTracker tracker))
@@ -125,12 +122,12 @@ namespace Application.Gameplay.Combat.States
                     tracker.Refill();
                 }
             }
-            
+
             foreach (RoundState roundState in _states)
             {
                 roundState.OnRoundBegin();
             }
-            
+
             StateMachine.SetState(pickMonster);
         }
 

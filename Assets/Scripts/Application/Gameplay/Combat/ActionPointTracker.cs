@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat
 {
+    using System;
     using UniRx;
     using UnityEngine;
 
@@ -39,7 +38,7 @@ namespace Application.Gameplay.Combat
         /// <summary>
         /// Gets an observable that changes each time the maximum points change.
         /// </summary>
-        /// <returns>Gets an observable that changes each time the maximum points change.</returns>
+        /// <returns>An observable that changes each time the maximum points change.</returns>
         public IObservable<int> ObserveMaxActionPoints() => maxActionPoints;
 
         /// <summary>

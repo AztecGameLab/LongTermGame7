@@ -1,15 +1,13 @@
-﻿using Application.Core;
-using Application.Gameplay.Combat.Actions;
-using System;
-using System.Collections.Generic;
-using UniRx;
-using UniRx.Triggers;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
-namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay.Combat.UI
 {
+    using System;
+    using System.Collections.Generic;
+    using Actions;
+    using Core;
+    using UniRx;
+    using UniRx.Triggers;
+    using UnityEngine;
+
     /// <summary>
     /// Displays a list of moves that can be selected.
     /// </summary>
@@ -27,27 +25,11 @@ namespace Application.Gameplay.Combat.UI
         private ObjectPool<MoveUI> _moveUiPool;
         private CompositeDisposable _disposables;
 
+        /// <summary>
+        /// Gets an observable that changes each time the user submits a new action.
+        /// </summary>
+        /// <returns>An observable that changes each time the user submits a new action.</returns>
         public IObservable<BattleAction> ObserveActionSubmitted() => _actionSubmitted;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            _moveUiPool = new ObjectPool<MoveUI>(() => Instantiate(moveUI, layoutParent));
-            _moveUiPool.ActionOnGet += moveUi =>
-            {
-                moveUi.gameObject.SetActive(true);
-            };
-            _moveUiPool.ActionOnRelease += moveUi =>
-            {
-                moveUi.gameObject.SetActive(false);
-            };
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            _disposables.Dispose();
-        }
 
         /// <inheritdoc/>
         public override void BindTo(IReadOnlyReactiveCollection<BattleAction> actions)
@@ -74,6 +56,28 @@ namespace Application.Gameplay.Combat.UI
                 _disposables.Add(instance.OnPointerClickAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)));
                 _disposables.Add(instance.OnSubmitAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)));
             }
+        }
+
+        /// <inheritdoc/>
+        protected override void Awake()
+        {
+            base.Awake();
+            _moveUiPool = new ObjectPool<MoveUI>(() => Instantiate(moveUI, layoutParent));
+            _moveUiPool.ActionOnGet += moveUi =>
+            {
+                moveUi.gameObject.SetActive(true);
+            };
+            _moveUiPool.ActionOnRelease += moveUi =>
+            {
+                moveUi.gameObject.SetActive(false);
+            };
+        }
+
+        /// <inheritdoc/>
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _disposables.Dispose();
         }
     }
 }

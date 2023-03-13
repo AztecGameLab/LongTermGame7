@@ -1,18 +1,22 @@
-﻿using Application.Core;
-using System;
-using UniRx;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Gameplay.Combat.UI
 {
+    using System;
+    using Core;
+    using UniRx;
+    using UnityEngine;
+    using UnityEngine.UI;
+
+    /// <summary>
+    /// A UI that displays the current remaining action points.
+    /// </summary>
     public class ActionPointTrackerUI : UIView<ActionPointTracker>
     {
         [SerializeField]
         private Slider actionPointSlider;
 
         private IDisposable _disposable;
-        
+
+        /// <inheritdoc/>
         public override void BindTo(ActionPointTracker target)
         {
             base.BindTo(target);

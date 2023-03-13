@@ -1,97 +1,60 @@
-﻿using Application.Gameplay.Combat.UI;
-using UniRx;
-using UnityEngine;
-
-namespace Application.Gameplay.Combat.States.Round
+﻿namespace Application.Gameplay.Combat.States.Round
 {
     using System;
     using Actions;
-    using Core;
-    using ImGuiNET;
+    using UI;
+    using UniRx;
+    using UnityEngine;
 
     /// <summary>
     /// The combat round state where the player is choosing what move a monster should perform.
     /// </summary>
     [Serializable]
-    public class PickActionsForMonster : RoundState, IDebugImGui
+    public class PickActionsForMonster : RoundState
     {
         [SerializeField]
         private MoveSelectionUI selectionUI;
 
         [SerializeField]
         private ActionPointTrackerUI trackerUI;
-        
-        private ActionSet _selectedActionSet;
-        private ActionPointTracker _actionPointTracker;
-        private int _currentActionIndex;
+
         private IDisposable _disposable;
 
         /// <summary>
         /// Gets the currently selected action.
         /// </summary>
         // public BattleAction SelectedAction =>
-        //     _selectedActionSet.Actions[_currentActionIndex % _selectedActionSet.Actions.Count];
         public BattleAction SelectedAction { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PickActionsForMonster"/> class.
-        /// </summary>
-        public void Initialize()
-        {
-            RegisterImGuiDebug(this);
-        }
 
         /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
 
-            _selectedActionSet = Round.PickMonster.SelectedMonster.GetComponent<ActionSet>();
-            _actionPointTracker = Round.PickMonster.SelectedMonster.GetComponent<ActionPointTracker>();
-            
-            trackerUI.gameObject.SetActive(true);
-            trackerUI.BindTo(_actionPointTracker);
-            
-            selectionUI.gameObject.SetActive(true);
-            selectionUI.BindTo(_selectedActionSet.Actions);
-            _disposable = selectionUI.ObserveActionSubmitted().Subscribe(OnSelectAction);
-            SelectedAction = _selectedActionSet.Actions[0];
+            var selectedActionSet = Round.PickMonster.SelectedMonster.GetComponent<ActionSet>();
+            var actionPointTracker = Round.PickMonster.SelectedMonster.GetComponent<ActionPointTracker>();
 
-            if (_actionPointTracker.RemainingActionPoints <= 0)
+            trackerUI.gameObject.SetActive(true);
+            trackerUI.BindTo(actionPointTracker);
+
+            selectionUI.gameObject.SetActive(true);
+            selectionUI.BindTo(selectedActionSet.Actions);
+            _disposable = selectionUI.ObserveActionSubmitted().Subscribe(OnSelectAction);
+            SelectedAction = selectedActionSet.Actions[0];
+
+            if (actionPointTracker.RemainingActionPoints <= 0)
             {
                 trackerUI.gameObject.SetActive(false);
                 Round.TransitionTo(Round.EnemyMoveMonsters);
             }
         }
 
+        /// <inheritdoc/>
         public override void OnExit()
         {
             base.OnExit();
             selectionUI.gameObject.SetActive(false);
             _disposable?.Dispose();
-        }
-
-        /// <inheritdoc/>
-        public void RenderImGui()
-        {
-            ImGui.Begin("Decide Monster Actions");
-
-            if (_actionPointTracker != null)
-            {
-                ImGui.Text($"Action Points: {_actionPointTracker.RemainingActionPoints}/{_actionPointTracker.MaxActionPoints}");
-            }
-
-            if (ImGui.Button("Next Action"))
-            {
-                _currentActionIndex++;
-            }
-
-            if (ImGui.Button($"Choose Action {SelectedAction.Name}"))
-            {
-                OnSelectAction(SelectedAction);
-            }
-
-            ImGui.End();
         }
 
         private void OnSelectAction(BattleAction monsterAction)
