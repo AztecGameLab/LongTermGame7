@@ -31,6 +31,7 @@
         {
             base.OnEnter();
 
+            Debug.Log("Entered");
             var selectedActionSet = Round.PickMonster.SelectedMonster.GetComponent<ActionSet>();
             var actionPointTracker = Round.PickMonster.SelectedMonster.GetComponent<ActionPointTracker>();
 
@@ -44,7 +45,6 @@
 
             if (actionPointTracker.RemainingActionPoints <= 0)
             {
-                trackerUI.gameObject.SetActive(false);
                 Round.TransitionTo(Round.EnemyMoveMonsters);
             }
         }
@@ -53,7 +53,9 @@
         public override void OnExit()
         {
             base.OnExit();
+            Debug.Log("Exited");
             selectionUI.gameObject.SetActive(false);
+            trackerUI.gameObject.SetActive(false);
             _disposable?.Dispose();
         }
 

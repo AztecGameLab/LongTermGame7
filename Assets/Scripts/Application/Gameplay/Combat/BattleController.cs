@@ -102,6 +102,8 @@
         /// </summary>
         public bool IsBattling { get; private set; }
 
+        public IState CurrentState => BattleStateMachine.CurrentState;
+
         /// <summary>
         /// Gets an observable that watches the end of the battle.
         /// </summary>
@@ -249,12 +251,12 @@
         {
             if (IsBattling)
             {
-                BattleStateMachine.Tick();
-
                 foreach (Hook hook in _hooks)
                 {
                     hook.OnBattleUpdate();
                 }
+
+                BattleStateMachine.Tick();
             }
         }
 
