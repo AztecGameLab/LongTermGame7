@@ -70,6 +70,17 @@
         }
 
         /// <inheritdoc/>
+        public override void PrepExit()
+        {
+            base.PrepExit();
+
+            if (!IsPrepFinished)
+            {
+                _pathIndicator.Dispose();
+            }
+        }
+
+        /// <inheritdoc/>
         public void RenderImGui()
         {
             var data = _aimSystem.Update();
