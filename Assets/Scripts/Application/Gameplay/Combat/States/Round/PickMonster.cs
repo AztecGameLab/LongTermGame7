@@ -64,13 +64,21 @@ namespace Application.Gameplay.Combat.States.Round
         public override void OnEnter()
         {
             base.OnEnter();
+            
+            if (_availableMonsters.Count <= 0)
+            {
+                Debug.LogError("Cannot select next monster - there are none available ones left!");
+                Round.NextRound();
+                return;
+            }
+            
+            SelectedMonster = _availableMonsters.Count > 0 ? _availableMonsters[_selectedMonsterIndex] : null;
             pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
             pickMonsterUI.gameObject.SetActive(true);
+            pickMonsterUI.SelectedMonster.Value = SelectedMonster;
             _disposable = new CompositeDisposable();
             _disposable.Add(pickMonsterUI.ObserveMonsterSubmitted().Subscribe(OnSelectMonster));
             _disposable.Add(pickMonsterUI.SelectedMonster.Subscribe(SelectNextMonster));
-
-            SelectedMonster = _availableMonsters.Count > 0 ? _availableMonsters[_selectedMonsterIndex] : null;
 
             pickMonsterCamera.Follow = SelectedMonster != null
                 ? SelectedMonster.transform
@@ -82,14 +90,14 @@ namespace Application.Gameplay.Combat.States.Round
         {
             base.OnExit();
             pickMonsterCamera.Priority = 0;
-            pickMonsterUI.gameObject.SetActive(true);
+            pickMonsterUI.gameObject.SetActive(false);
             _disposable?.Dispose();
         }
 
         public override void OnTick()
         {
             base.OnTick();
-            pickMonsterUI.Tick(pickMonsterCamera.transform.position, Round.Controller.PlayerTeam);
+            pickMonsterUI.Tick(pickMonsterCamera.transform.position, _availableMonsters);
         }
 
         /// <inheritdoc/>

@@ -1,4 +1,6 @@
-﻿namespace Application.Core
+﻿using TMPro;
+
+namespace Application.Core
 {
     using System;
     using UniRx;
@@ -19,6 +21,11 @@
             return source.Scan(
                 new WithPreviousData<TSource>(),
                 (acc, current) => new WithPreviousData<TSource>(acc.Current, current));
+        }
+
+        public static IDisposable SubscribeToText(this IObservable<string> source, TMP_Text text)
+        {
+            return source.SubscribeWithState(text, (s, t) => t.text = s);
         }
     }
 }

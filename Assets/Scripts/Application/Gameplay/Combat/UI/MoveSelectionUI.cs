@@ -71,8 +71,8 @@ namespace Application.Gameplay.Combat.UI
                 instance.BindTo(action);
 
                 _boundMoves.Add(instance);
-                var d = instance.OnSubmitAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action));
-                _disposables.Add(d);
+                _disposables.Add(instance.OnPointerClickAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)));
+                _disposables.Add(instance.OnSubmitAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)));
             }
         }
     }

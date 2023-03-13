@@ -17,6 +17,9 @@ namespace Application.Gameplay.Combat.States.Round
     {
         [SerializeField]
         private MoveSelectionUI selectionUI;
+
+        [SerializeField]
+        private ActionPointTrackerUI trackerUI;
         
         private ActionSet _selectedActionSet;
         private ActionPointTracker _actionPointTracker;
@@ -46,6 +49,9 @@ namespace Application.Gameplay.Combat.States.Round
             _selectedActionSet = Round.PickMonster.SelectedMonster.GetComponent<ActionSet>();
             _actionPointTracker = Round.PickMonster.SelectedMonster.GetComponent<ActionPointTracker>();
             
+            trackerUI.gameObject.SetActive(true);
+            trackerUI.BindTo(_actionPointTracker);
+            
             selectionUI.gameObject.SetActive(true);
             selectionUI.BindTo(_selectedActionSet.Actions);
             _disposable = selectionUI.ObserveActionSubmitted().Subscribe(OnSelectAction);
@@ -53,6 +59,7 @@ namespace Application.Gameplay.Combat.States.Round
 
             if (_actionPointTracker.RemainingActionPoints <= 0)
             {
+                trackerUI.gameObject.SetActive(false);
                 Round.TransitionTo(Round.EnemyMoveMonsters);
             }
         }

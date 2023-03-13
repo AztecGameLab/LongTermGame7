@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UniRx;
 using UnityEngine;
 
@@ -11,11 +12,27 @@ namespace Application.Gameplay.Combat.UI
     {
         private readonly Subject<GameObject> _monsterSubmitted = new Subject<GameObject>();
 
+        [SerializeField]
+        private TMP_Text selectedMonsterText;
+        
         private CompositeDisposable _disposable;
         
         public IObservable<GameObject> ObserveMonsterSubmitted() => _monsterSubmitted;
 
-        public ReactiveProperty<GameObject> SelectedMonster { get; } = new ReactiveProperty<GameObject>();
+        public ReactiveProperty<GameObject> SelectedMonster { get; private set; }
+
+        private void Awake()
+        {
+            SelectedMonster = new ReactiveProperty<GameObject>();
+            
+            SelectedMonster
+                .Subscribe(monster =>
+                {
+                    string monsterName = monster != null ? monster.name : "None";
+                    selectedMonsterText.text = $"Selected {monsterName}";
+                })
+                .AddTo(this);
+        }
 
         public void Tick(Vector3 sourcePosition, IEnumerable<GameObject> available)
         {
@@ -29,9 +46,9 @@ namespace Application.Gameplay.Combat.UI
             if (Input.GetKeyDown(KeyCode.Return))
                 _monsterSubmitted.OnNext(SelectedMonster.Value);
 
-            if (direction != Vector3.zero)
+            if (direction != Vector3.zero && SelectedMonster.Value != null)
             {
-                 var closest = FindClosestInDirection(sourcePosition, direction, available);
+                 var closest = FindClosestInDirection(SelectedMonster.Value.transform.position, direction, available);
 
                 if (closest != null)
                 {

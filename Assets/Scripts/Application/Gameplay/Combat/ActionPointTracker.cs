@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat
+﻿using System;
+
+namespace Application.Gameplay.Combat
 {
     using UniRx;
     using UnityEngine;
@@ -27,6 +29,18 @@
         /// Gets the available action points that can be spent.
         /// </summary>
         public int RemainingActionPoints => remainingActionPoints.Value;
+
+        /// <summary>
+        /// Gets an observable that changes each time the remaining points change.
+        /// </summary>
+        /// <returns>An observable that changes each time the remaining points change.</returns>
+        public IObservable<int> ObserveRemainingActionPoints() => remainingActionPoints;
+
+        /// <summary>
+        /// Gets an observable that changes each time the maximum points change.
+        /// </summary>
+        /// <returns>Gets an observable that changes each time the maximum points change.</returns>
+        public IObservable<int> ObserveMaxActionPoints() => maxActionPoints;
 
         /// <summary>
         /// Check if this monster can spend a certain amount of action points.

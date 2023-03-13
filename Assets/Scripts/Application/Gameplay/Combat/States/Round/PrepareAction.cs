@@ -1,4 +1,7 @@
-﻿namespace Application.Gameplay.Combat.States.Round
+﻿using Application.Gameplay.Combat.UI;
+using UnityEngine;
+
+namespace Application.Gameplay.Combat.States.Round
 {
     using System;
     using Core;
