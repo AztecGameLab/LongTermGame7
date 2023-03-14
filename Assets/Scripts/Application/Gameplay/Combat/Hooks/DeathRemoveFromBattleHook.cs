@@ -36,7 +36,7 @@
             {
                 if (gameObject.TryGetComponent(out LivingEntity entity))
                 {
-                    _disposable.Add(entity.OnDeath.Debug().Subscribe(_ => objects.Remove(gameObject)));
+                    _disposable.Add(entity.OnDeath.Subscribe(_ => objects.Remove(gameObject)));
                 }
             }
         }

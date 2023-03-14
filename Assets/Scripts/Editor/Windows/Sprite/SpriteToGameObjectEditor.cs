@@ -10,6 +10,7 @@
     public class SpriteToGameObjectEditor : EditorWindow
     {
         private const float CustomWidth = 12f;
+        private const float MaxScale = 100f;
 
         private readonly string[] _faceOptions = { "Two Sided", "One Sided" };
 
@@ -47,7 +48,7 @@
             EditorGUILayout.Space(CustomWidth);
 
             // allow for change of scale of instantiated GameObject
-            _scale = EditorGUILayout.Slider("Scale", _scale, 0f, 100f);
+            _scale = EditorGUILayout.Slider("Scale", _scale, 0f, MaxScale);
             EditorGUILayout.Space(CustomWidth);
 
             // allow for change of rotation of instantiated GameObject
@@ -101,8 +102,9 @@
                     Mathf.Infinity))
             {
                 // place the object were the scene camera is looking at
+                float y = 0.5f * _scale;
                 currentGameObject.transform.position = hit.point;
-                currentGameObject.transform.localPosition += new Vector3(0f, 0.5f * _scale, 0f);
+                currentGameObject.transform.localPosition += new Vector3(0f, y, 0f);
             }
 
             // adjust scale and rotation by given values

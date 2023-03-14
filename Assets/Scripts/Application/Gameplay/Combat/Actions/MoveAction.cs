@@ -83,8 +83,6 @@
         /// <inheritdoc/>
         public void RenderImGui()
         {
-            var data = _aimSystem.Update();
-            ImGui.Text($"{LayerMask.LayerToName(data.collider.gameObject.layer)}");
             ImGui.Text($"Position: {_targetPosition}");
             ImGui.Text($"Distance: {_distance}");
             ImGui.Text($"Action Point Cost: {_distance:0} * {actionPointsPerUnit} = {(int)Mathf.Ceil(_distance * actionPointsPerUnit)}");
