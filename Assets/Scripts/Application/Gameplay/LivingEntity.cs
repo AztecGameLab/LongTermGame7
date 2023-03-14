@@ -29,6 +29,13 @@
         public IObservable<float> OnHeal => _onHeal;
 
         /// <summary>
+        /// Gets an observable for each time this entity's health drops below zero.
+        /// </summary>
+        public IObservable<Unit> OnDeath => OnHealthChange
+            .Where(currentHealth => currentHealth <= 0)
+            .Select(_ => Unit.Default);
+
+        /// <summary>
         /// Gets an observable for each time this entity's health changes.
         /// </summary>
         public IObservable<float> OnHealthChange => health;
