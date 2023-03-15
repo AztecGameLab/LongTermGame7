@@ -1,8 +1,9 @@
-﻿using Application.Core;
-using ImGuiNET;
-
-namespace Application.Gameplay.Regions
+﻿namespace Application.Gameplay.Regions
 {
+    using Core;
+    using Core.Utility;
+    using ImGuiNET;
+
     /// <summary>
     /// Displays debugging information about regions.
     /// </summary>
