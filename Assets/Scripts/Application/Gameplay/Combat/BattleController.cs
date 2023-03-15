@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using Cinemachine;
     using Core;
+    using Core.Utility;
     using Deciders;
     using Hooks;
     using ImGuiNET;
@@ -101,6 +102,8 @@
         /// </summary>
         public bool IsBattling { get; private set; }
 
+        public IState CurrentState => BattleStateMachine.CurrentState;
+
         /// <summary>
         /// Gets an observable that watches the end of the battle.
         /// </summary>
@@ -130,6 +133,13 @@
                 return;
             }
 
+            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+
+            if (worldLoader)
+            {
+                worldLoader.MonsterFollowPlayer.Enabled = false;
+            }
+
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
             battleTargetGroup.RemoveAllMembers();
@@ -141,15 +151,7 @@
             battleVictory.Initialize();
             battleLoss.Initialize();
 
-            _hooks.Clear();
             IsBattling = true;
-
-            foreach (Hook hook in data.Hooks)
-            {
-                _hooks.Add(hook);
-                hook.Controller = this;
-                hook.OnBattleStart();
-            }
 
             EnemyOrderDecider = data.Decider;
 
@@ -175,6 +177,15 @@
                 battleTargetGroup.AddMember(enemyTeamInstance.transform, 1, battleTargetRadius);
             }
 
+            _hooks.Clear();
+
+            foreach (Hook hook in data.Hooks)
+            {
+                _hooks.Add(hook);
+                hook.Controller = this;
+                hook.OnBattleStart();
+            }
+
             BattleStateMachine.SetState(battleIntro);
         }
 
@@ -186,6 +197,13 @@
             IsBattling = false;
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
+
+            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+
+            if (worldLoader)
+            {
+                worldLoader.MonsterFollowPlayer.Enabled = true;
+            }
 
             // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
             Debug.Log("Ending battle!");
@@ -233,12 +251,12 @@
         {
             if (IsBattling)
             {
-                BattleStateMachine.Tick();
-
                 foreach (Hook hook in _hooks)
                 {
                     hook.OnBattleUpdate();
                 }
+
+                BattleStateMachine.Tick();
             }
         }
 

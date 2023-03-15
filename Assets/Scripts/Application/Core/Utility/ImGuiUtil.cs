@@ -1,7 +1,6 @@
-﻿namespace Application.Core
+﻿namespace Application.Core.Utility
 {
     using System;
-    using Gameplay.Combat;
     using ImGuiNET;
 
     /// <summary>

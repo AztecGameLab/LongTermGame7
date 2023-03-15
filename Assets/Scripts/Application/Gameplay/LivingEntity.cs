@@ -29,6 +29,13 @@
         public IObservable<float> OnHeal => _onHeal;
 
         /// <summary>
+        /// Gets an observable for each time this entity's health drops below zero.
+        /// </summary>
+        public IObservable<Unit> OnDeath => OnHealthChange
+            .Where(currentHealth => currentHealth <= 0)
+            .Select(_ => Unit.Default);
+
+        /// <summary>
         /// Gets an observable for each time this entity's health changes.
         /// </summary>
         public IObservable<float> OnHealthChange => health;
@@ -39,17 +46,28 @@
         public IObservable<float> OnMaxHealthChange => maxHealth;
 
         /// <summary>
-        /// How much health this entity has remaining.
+        /// Gets how much health this entity has remaining.
         /// </summary>
         public float Health => health.Value;
 
         /// <summary>
-        /// The maximum amount of health this entity might have.
+        /// Gets or sets the maximum amount of health this entity might have.
         /// </summary>
         public float MaxHealth
         {
             get => maxHealth.Value;
             set => maxHealth.Value = value;
+        }
+
+        /// <summary>
+        /// Sets up the initial values for this entity.
+        /// </summary>
+        /// <param name="targetHealth">How much health to have.</param>
+        /// <param name="targetHealthMax">How much max health to have.</param>
+        public void Initialize(float targetHealth, float targetHealthMax)
+        {
+            health.Value = targetHealth;
+            maxHealth.Value = targetHealthMax;
         }
 
         /// <summary>

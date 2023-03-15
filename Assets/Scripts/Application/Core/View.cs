@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿namespace Application.Core
 {
     using UnityEngine;
 
@@ -9,9 +9,17 @@
     public abstract class View<T> : MonoBehaviour
     {
         /// <summary>
+        /// Gets the object that this view is currently bound to.
+        /// </summary>
+        public T CurrentTarget { get; private set; }
+
+        /// <summary>
         /// Associates this view with this data.
         /// </summary>
         /// <param name="target">The data to display.</param>
-        public abstract void BindTo(T target);
+        public virtual void BindTo(T target)
+        {
+            CurrentTarget = target;
+        }
     }
 }

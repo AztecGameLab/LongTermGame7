@@ -1,11 +1,12 @@
 ﻿namespace Application.Gameplay.Combat.UI
 {
+    using Core;
     using UnityEngine;
 
     /// <summary>
     /// A view for player GameObjects during battle.
     /// </summary>
-    public class PlayerTeamMemberBattleUI : View<GameObject>
+    public class PlayerTeamMemberBattleUI : UIView<GameObject>
     {
         [SerializeField]
         private HealthBar healthBar;
@@ -13,6 +14,8 @@
         /// <inheritdoc/>
         public override void BindTo(GameObject target)
         {
+            base.BindTo(target);
+
             if (target == null)
             {
                 return;

@@ -8,8 +8,10 @@
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using ImGuiNET;
+    using Newtonsoft.Json;
     using Surrogates;
     using UnityEngine;
+    using Utility;
     using Debug = UnityEngine.Debug;
 
     /// <summary>
@@ -17,6 +19,15 @@
     /// </summary>
     public class Serializer
     {
+        /// <summary>
+        /// The settings that this serializer uses during serialization.
+        /// </summary>
+        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            Formatting = Formatting.Indented,
+        };
+
         private Dictionary<string, object> _savedData;
 
         /// <summary>
@@ -49,7 +60,7 @@
         {
             string path = $"{Application.persistentDataPath}/Saves";
             Directory.CreateDirectory(path);
-            return $"{path}/{fileName}.dat";
+            return $"{path}/{fileName}";
         }
 
         /// <summary>
@@ -61,6 +72,40 @@
         {
             string savePath = GetPath(fileName);
             return File.Exists(savePath);
+        }
+
+        /// <summary>
+        /// Attempts to deserialize some data from a file.
+        /// </summary>
+        /// <param name="fileName">The name of the file to read from.</param>
+        /// <param name="result">The result of the deserialization.</param>
+        /// <typeparam name="T">The type of result we are expecting.</typeparam>
+        /// <returns>True if we successfully loaded the data, false if something went wrong.</returns>
+        public static bool TryLoad<T>(string fileName, out T result)
+        {
+            if (IsValid(fileName))
+            {
+                string path = GetPath(fileName);
+                string data = File.ReadAllText(path);
+                result = JsonConvert.DeserializeObject<T>(data, Settings);
+                return true;
+            }
+
+            result = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Serializes some object data to the disk.
+        /// </summary>
+        /// <param name="fileName">The name of the file to write the data to.</param>
+        /// <param name="target">The object to serialize into the file.</param>
+        /// <typeparam name="T">The type of data we are serializing.</typeparam>
+        public static void Save<T>(string fileName, T target)
+        {
+            string path = GetPath(fileName);
+            string data = JsonConvert.SerializeObject(target, Settings);
+            File.WriteAllText(path, data);
         }
 
         /// <summary>

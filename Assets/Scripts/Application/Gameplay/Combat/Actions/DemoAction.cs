@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections;
+    using Core;
     using ImGuiNET;
+    using Newtonsoft.Json;
     using UnityEngine;
 
     /// <summary>
@@ -10,15 +12,19 @@
     /// Simply showcases some common ways to define action behavior.
     /// </summary>
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class DemoAction : BattleAction, IDebugImGui
     {
         [SerializeField]
+        [JsonProperty]
         private string name = "Demo Action Name";
 
         [SerializeField]
+        [JsonProperty]
         private string description = "Demo Action Description";
 
         [SerializeField]
+        [JsonProperty]
         private int actionPointCost = 1;
 
         /// <inheritdoc/>

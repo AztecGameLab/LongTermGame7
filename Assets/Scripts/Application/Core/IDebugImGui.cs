@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay.Combat
+﻿namespace Application.Core
 {
     /// <summary>
     /// An object that can draw some debugging ImGui information.

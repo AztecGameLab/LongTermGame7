@@ -1,4 +1,4 @@
-﻿namespace Application.Core
+﻿namespace Application.Core.Utility
 {
     using System.Collections.Generic;
     using UnityEngine;

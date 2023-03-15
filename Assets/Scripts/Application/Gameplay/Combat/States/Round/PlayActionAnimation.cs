@@ -1,6 +1,7 @@
 ﻿namespace Application.Gameplay.Combat.States.Round
 {
     using System;
+    using Core;
     using ImGuiNET;
     using UniRx;
 
@@ -45,7 +46,7 @@
 
         private void OnActionEnd()
         {
-            if (Round.Controller.IsBattling)
+            if (Round.Controller.CurrentState == Round)
             {
                 Round.TransitionTo(Round.PickActions);
             }
