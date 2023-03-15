@@ -16,6 +16,7 @@ MonoBehaviour:
   memberDescription: Its you!
   actions:
   - id: 0
+  - id: 1
   maxHealth: 5
   worldViewAssetPath: wv-player
   maxActionPoints: 5
@@ -26,3 +27,12 @@ MonoBehaviour:
       data:
         actionPointsPerUnit: 0.25
         moveSpeed: 7
+    00000001:
+      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        name: Test Projectile
+        description: Shoot a test projectile
+        actionPointCost: 1
+        damage: 1
+        projectileVelocity: 1
+        projectilePrefab: {fileID: 3843952811245424113, guid: 51d1265a41e699b42b199b394a06e768, type: 3}

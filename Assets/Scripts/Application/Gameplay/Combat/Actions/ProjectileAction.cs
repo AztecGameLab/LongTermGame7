@@ -25,7 +25,7 @@ namespace Application.Gameplay.Combat.Actions
         private int damage;
 
         [SerializeField]
-        private float _projectileVelocity;
+        private float projectileVelocity;
 
         [SerializeField]
         private GameObject projectilePrefab;
@@ -45,7 +45,7 @@ namespace Application.Gameplay.Combat.Actions
         public override void PrepEnter()
         {
             base.PrepEnter();
-            _aimSystem.Initialize();
+            _aimSystem.Initialize(null, 0, true);
             _actionPointTracker = User.GetComponent<ActionPointTracker>();
         }
 
@@ -74,9 +74,10 @@ namespace Application.Gameplay.Combat.Actions
             }
 
             // Use AimSystem to find and set target
-            
+
             // Instantiate a projectile prefab
-            
+            GameObject projectile = GameObject.Instantiate(projectilePrefab, User.transform.position, User.transform.rotation);
+            projectile.GetComponent<ProjectileMove>().Init(_targetPosition, projectileVelocity);
             // Move prefab to target
 
             // Delete prefab
@@ -93,8 +94,9 @@ namespace Application.Gameplay.Combat.Actions
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Collider collider = _aimSystem.Update().collider;
-                Debug.Log("Collider: " + collider.name + " hit!");
+                RaycastHit hit = _aimSystem.Update();
+
+                Debug.Log("Collider: " + hit.transform.name + " hit!");
             }
         }
     }
