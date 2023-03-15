@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -36,9 +34,4 @@ public class ObjectActionEvent : MonoBehaviour
             Debug.Log("Player out of range " + gameObject.tag);
         }
     }
-}
-
-public interface IInteractable
-{
-    void Interact();
 }

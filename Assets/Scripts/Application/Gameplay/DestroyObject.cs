@@ -11,7 +11,7 @@ namespace Application.Gameplay
     using UnityEngine.SceneManagement;
     using Object = UnityEngine.Object;
 
-    public class DestroyObject : MonoBehaviour, IInteractable
+    public class DestroyObject : MonoBehaviour
     {
         public void Interact()
         {

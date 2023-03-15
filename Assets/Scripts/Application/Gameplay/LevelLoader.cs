@@ -1,4 +1,4 @@
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
     using System.Threading.Tasks;
@@ -24,9 +24,11 @@ namespace Application.Gameplay
         /// <summary>
         /// Sets up the Level Loader.
         /// </summary>
-        public void Init()
+        /// <returns>This instance.</returns>
+        public LevelLoader Init()
         {
             _disposable = Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
+            return this;
         }
 
         private static async void HandleSceneChange(LevelChangeEvent data)
@@ -43,7 +45,6 @@ namespace Application.Gameplay
                 if (entrance.EntranceID == data.TargetID)
                 {
                     targetEntrance = entrance;
-                    break;
                 }
 
                 if (entrance.DefaultEntrance)
@@ -62,7 +63,7 @@ namespace Application.Gameplay
                 Debug.LogWarning($"The entrance \"{data.TargetID}\" could not be found, falling back to \"{allEntrances[0].EntranceID}\"");
                 targetEntrance = allEntrances[0];
             }
-            else if (targetEntrance == null)
+            else
             {
                 Debug.LogError("No entrances have been found!");
             }
