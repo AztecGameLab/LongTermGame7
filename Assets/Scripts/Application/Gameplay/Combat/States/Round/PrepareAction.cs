@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.States.Round
+﻿using UnityEngine;
+
+namespace Application.Gameplay.Combat.States.Round
 {
     using System;
     using Core;
@@ -31,6 +33,11 @@
             base.OnTick();
 
             Round.PickActions.SelectedAction.PrepTick();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Round.TransitionTo(Round.PickActions);
+            }
 
             if (Round.PickActions.SelectedAction.IsPrepFinished)
             {
