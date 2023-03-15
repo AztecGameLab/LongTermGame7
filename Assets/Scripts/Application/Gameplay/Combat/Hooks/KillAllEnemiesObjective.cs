@@ -44,7 +44,7 @@
 
             if (_remainingHealth <= 0)
             {
-                Controller.EndBattle();
+                Controller.TransitionTo(Controller.Victory);
             }
         }
     }
