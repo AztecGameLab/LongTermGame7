@@ -34,15 +34,16 @@ MonoBehaviour:
     00000001:
       type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
-        name: Lightning Bolt
-        description: Summon lightning bolt strike on a monster from the sky
-        actionPointCost: 4
-    00000002:
-      type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
         name: Dash
         description: You dash forward, not stepping on anything in the stage
         actionPointCost: 2
+    00000002:
+      type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointCost: 4
+        maxRange: 5
+        damage: 5
+        lightningAssetPath: particle-lightning
     00000003:
       type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
