@@ -41,9 +41,14 @@
 
         private IEnumerator VictoryCoroutine()
         {
-            yield return victoryUI.victoryText.TweenCanvasGroupAlpha(1, 1);
-            yield return new WaitUntil(() => Input.anyKeyDown);
-            yield return victoryUI.victoryText.TweenCanvasGroupAlpha(0, 1);
+            yield return victoryUI.victoryText.TweenCanvasGroupAlpha(1, 1).Yield();
+
+            while (!Input.anyKey)
+            {
+                yield return null;
+            }
+
+            yield return victoryUI.victoryText.TweenCanvasGroupAlpha(0, 1).Yield();
         }
     }
 }
