@@ -1,17 +1,42 @@
 ﻿namespace Application.Gameplay
 {
+    using System;
     using System.Collections;
+    using Dialogue;
     using UnityEngine;
     using UnityEngine.UI;
     using Yarn.Unity;
 
+    using Object = UnityEngine.Object;
+
     /// <summary>
     /// Provides yarn commands to fading the screen.
     /// </summary>
-    public class FadeIntoBlack : MonoBehaviour
+    [Serializable]
+    public class FadeIntoBlack : IYarnCommandHandler
     {
         [SerializeField]
-        private Image blackOutSquare;
+        private Image blackOutSquarePrefab;
+
+        private MonoBehaviour _runner;
+        private Image _blackOutSquare;
+
+        /// <inheritdoc/>
+        public void RegisterCommands(DialogueRunner runner)
+        {
+            _runner = runner;
+            _blackOutSquare = Object.Instantiate(blackOutSquarePrefab, runner.transform);
+
+            runner.AddCommandHandler<float>("cam-fade-out", StartFadeOut);
+            runner.AddCommandHandler<float>("cam-fade-in", StartFadeIn);
+        }
+
+        /// <inheritdoc/>
+        public void UnregisterCommands(DialogueRunner runner)
+        {
+            runner.RemoveCommandHandler("cam-fade-out");
+            runner.RemoveCommandHandler("cam-fade-in");
+        }
 
         /// <summary>
         /// Causes screen to fade into black. When yarn spinner uses "false, fade out of black.
@@ -22,16 +47,16 @@
         // [YarnCommand("fade_camera")]
         public IEnumerator FadeBlackOutSquare(bool fadeToBlack = true, float fadeSpeed = 1)
         {
-            Color objectColor = blackOutSquare.color;
+            Color objectColor = _blackOutSquare.color;
             float fadeAmount;
 
             if (fadeToBlack)
             {
-                while (blackOutSquare.color.a < 1)
+                while (_blackOutSquare.color.a < 1)
                 {
                     fadeAmount = objectColor.a + (1.0f / fadeSpeed * Time.deltaTime);
                     objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                    blackOutSquare.color = objectColor;
+                    _blackOutSquare.color = objectColor;
                     yield return null;
                 }
             }
@@ -39,11 +64,11 @@
             // If we are fading OUT of black
             else
             {
-                while (blackOutSquare.color.a > 0)
+                while (_blackOutSquare.color.a > 0)
                 {
                     fadeAmount = objectColor.a - (1.0f / fadeSpeed * Time.deltaTime);
                     objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                    blackOutSquare.color = objectColor;
+                    _blackOutSquare.color = objectColor;
                     yield return null;
                 }
             }
@@ -51,26 +76,12 @@
 
         private Coroutine StartFadeOut(float fadeSpeed = 1)
         {
-            return StartCoroutine(FadeBlackOutSquare(true, fadeSpeed));
+            return _runner.StartCoroutine(FadeBlackOutSquare(true, fadeSpeed));
         }
 
         private Coroutine StartFadeIn(float fadeSpeed = 1)
         {
-            return StartCoroutine(FadeBlackOutSquare(false, fadeSpeed));
-        }
-
-        private void Awake()
-        {
-            var dialogueRunner = FindObjectOfType<DialogueRunner>();
-            dialogueRunner.AddCommandHandler<float>("cam-fade-out", StartFadeOut);
-            dialogueRunner.AddCommandHandler<float>("cam-fade-in", StartFadeIn);
-        }
-
-        private void OnDestroy()
-        {
-            var dialogueRunner = FindObjectOfType<DialogueRunner>();
-            dialogueRunner.RemoveCommandHandler("cam-fade-out");
-            dialogueRunner.RemoveCommandHandler("cam-fade-in");
+            return _runner.StartCoroutine(FadeBlackOutSquare(false, fadeSpeed));
         }
     }
 }

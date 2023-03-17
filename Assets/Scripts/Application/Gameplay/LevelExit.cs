@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using System;
+
+namespace Application.Gameplay
 {
     using System.Collections;
     using Core;
@@ -20,9 +22,25 @@
         [SerializeField]
         private bool ignoreFirst = true;
 
+        /// <summary>
+        /// Gets or sets the ID of an entrance portal you are aiming for.
+        /// </summary>
+        public string TargetID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the scene that this exit will take you to.
+        /// </summary>
+        public string TargetScene { get; set; }
+
+        private void Awake()
+        {
+            TargetID = targetID;
+            TargetScene = nextScene;
+        }
+
         private IEnumerator Start()
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSecondsRealtime(0.5f);
             ignoreFirst = false;
         }
 
@@ -37,7 +55,7 @@
             if (other.CompareTag("Player"))
             {
                 Services.EventBus.Invoke(
-                    new LevelChangeEvent { TargetID = targetID, NextScene = nextScene }, "LevelExit");
+                    new LevelChangeEvent { TargetID = TargetID, NextScene = TargetScene }, "LevelExit");
             }
         }
     }

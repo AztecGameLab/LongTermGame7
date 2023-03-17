@@ -1,18 +1,28 @@
 ﻿namespace Application.Gameplay
 {
+    using System;
+    using System.Collections;
     using Cinemachine;
+    using Dialogue;
+    using ElRaccoone.Tweens.Core;
+    using UniRx;
     using UnityEngine;
     using Yarn.Unity;
+    using Object = UnityEngine.Object;
 
     /// <summary>
     /// Yarn camera commands.
     /// </summary>
-    public class DialogCamera : MonoBehaviour
+    [Serializable]
+    public class YarnCameraCommands : IYarnCommandHandler
     {
         private const int ActivePriority = 10;
 
         [SerializeField]
-        private CinemachineVirtualCamera dialogueCamera;
+        private CinemachineVirtualCamera dialogueCameraPrefab;
+
+        [SerializeField]
+        private EaseType easeType;
 
         private CinemachineVirtualCamera _cam;
         private CinemachineFramingTransposer _camFramingTransposer;
@@ -22,6 +32,7 @@
         private bool _isRotating;
         private float _rotationDuration = 1.0f;
         private float _rotationTime;
+        private Vector3 _originalOffset;
 
         private Quaternion _originalRotation;
         private Vector3 _startMovement;
@@ -29,6 +40,58 @@
         private bool _isMoving;
         private float _movementDuration = 1.0f;
         private float _movementTime;
+
+        /// <inheritdoc/>
+        public void RegisterCommands(DialogueRunner runner)
+        {
+            _cam = Object.Instantiate(dialogueCameraPrefab, runner.transform);
+            Observable.EveryFixedUpdate().Subscribe(_ => FixedUpdate()).AddTo(runner);
+
+            // Note: I commented out the rotation-based yarn commands for now, since it looks a bit weird with
+            // our fixed perspective. However, in case we end up needing them, they are left in the file.
+            _originalRotation = _cam.transform.rotation;
+
+            runner.AddCommandHandler<float, float, float, float>("cam-offset", RunOffsetHandler);
+            // runner.AddCommandHandler<float, float, float, float>("cam-offset-rel", MoveRel);
+            runner.AddCommandHandler<GameObject, float>("cam-follow", RunFollowHandler);
+            runner.AddCommandHandler<float>("cam-refocus", RunRefocusHandler);
+
+            // dialogueRunner.AddCommandHandler<float, float, float, float>("cam-swivel-abs", SwivelAbs);
+            // dialogueRunner.AddCommandHandler<float, float, float, float>("cam-swivel-rel", SwivelRel);
+            // dialogueRunner.AddCommandHandler<GameObject>("cam-lookAt", LookAt);
+            // dialogueRunner.AddCommandHandler("cam-reset-rotation", ResetRotation);
+
+            runner.onNodeStart.AddListener(ActivateDialogueCamera);
+            runner.onNodeComplete.AddListener(DeactivateDialogueCamera);
+
+            _camTrans = _cam.transform;
+            _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
+        }
+
+        private Coroutine RunOffsetHandler(float arg1, float arg2, float arg3, float arg4 = 1) => 
+            _cam.StartCoroutine(MoveAbs(arg1, arg2, arg3, arg4));
+
+        private Coroutine RunRefocusHandler(float time = 1) =>
+            _cam.StartCoroutine(ResetPosition(time));
+
+        private Coroutine RunFollowHandler(GameObject arg, float time = 1) =>
+            _cam.StartCoroutine(Follow(arg, time));
+
+        /// <inheritdoc/>
+        public void UnregisterCommands(DialogueRunner runner)
+        {
+            runner.RemoveCommandHandler("cam-offset");
+            // runner.RemoveCommandHandler("cam-offset-rel");
+            runner.RemoveCommandHandler("cam-follow");
+            runner.RemoveCommandHandler("cam-refocus");
+            // dialogueRunner.RemoveCommandHandler("cam-swivel-abs");
+            // dialogueRunner.RemoveCommandHandler("cam-swivel-rel");
+            // dialogueRunner.RemoveCommandHandler("cam-lookAt");
+            // dialogueRunner.RemoveCommandHandler("cam-reset-rotation");
+
+            runner.onNodeStart.RemoveListener(ActivateDialogueCamera);
+            runner.onNodeComplete.RemoveListener(DeactivateDialogueCamera);
+        }
 
         /// <summary>
         /// Ensure that the duration is positive, warn if it is not.
@@ -40,7 +103,7 @@
             if (input < 0)
             {
                 Debug.LogWarning("DialogCamera: A negative duration was provided from Yarn!");
-                return System.Math.Abs(input);
+                return Math.Abs(input);
             }
 
             return input;
@@ -67,16 +130,18 @@
         /// Make the camera Follow the target game object. You must be using a camera with Aim that supports this.
         /// </summary>
         /// <param name="target">The name of the game object to follow.</param>
-        private void Follow(GameObject target)
+        private IEnumerator Follow(GameObject target, float time = 1)
         {
             if (target == null)
             {
                 Debug.LogWarning("Unable to find Follow target from yarn!");
-                return;
+                yield break;
             }
 
             UpdateEndState();
             _cam.Follow = target.transform;
+            _cam.PreviousStateIsValid = false;
+            yield return ResetPosition(time);
         }
 
         /// <summary>
@@ -166,16 +231,18 @@
         /// <param name="y">y.</param>
         /// <param name="z">z.</param>
         /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 0 - instant.</param>
-        private void MoveAbs(float x, float y, float z, float timeScalar = 0)
+        private IEnumerator MoveAbs(float x, float y, float z, float timeScalar = 0)
         {
             timeScalar = MakePositive(timeScalar);
             UpdateEndState();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
 
             Vector3 newMovement = new Vector3(x, y, z);
-            _endMovement = newMovement;
+            _endMovement += newMovement;
             _movementDuration = timeScalar;
             _isMoving = true;
+
+            yield return new WaitForSeconds(timeScalar);
         }
 
         private void ResetRotation()
@@ -183,6 +250,16 @@
             _cam.LookAt = null;
             _cam.transform.rotation = _originalRotation;
             _cam.DestroyCinemachineComponent<CinemachineComposer>();
+        }
+
+        private IEnumerator ResetPosition(float time = 1)
+        {
+            UpdateEndState();
+            _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
+            _endMovement = _originalOffset;
+            _movementDuration = time;
+            _isMoving = true;
+            yield return new WaitForSeconds(time);
         }
 
         /// <summary>
@@ -202,54 +279,19 @@
             }
         }
 
-        private void Awake()
-        {
-            _originalRotation = dialogueCamera.transform.rotation;
-
-            var dialogueRunner = FindObjectOfType<DialogueRunner>();
-            dialogueRunner.AddCommandHandler<float, float, float, float>("cam-offset-abs", MoveAbs);
-            dialogueRunner.AddCommandHandler<float, float, float, float>("cam-offset-rel", MoveRel);
-            dialogueRunner.AddCommandHandler<float, float, float, float>("cam-swivel-abs", SwivelAbs);
-            dialogueRunner.AddCommandHandler<float, float, float, float>("cam-swivel-rel", SwivelRel);
-            dialogueRunner.AddCommandHandler<GameObject>("cam-follow", Follow);
-            dialogueRunner.AddCommandHandler<GameObject>("cam-lookAt", LookAt);
-            dialogueRunner.AddCommandHandler("cam-reset-rotation", ResetRotation);
-
-            dialogueRunner.onNodeStart.AddListener(ActivateDialogueCamera);
-            dialogueRunner.onNodeComplete.AddListener(DeactivateDialogueCamera);
-
-            _cam = dialogueCamera;
-            _camTrans = _cam.transform;
-            _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
-        }
-
-        private void OnDestroy()
-        {
-            var dialogueRunner = FindObjectOfType<DialogueRunner>();
-
-            if (dialogueRunner != null)
-            {
-                dialogueRunner.RemoveCommandHandler("cam-offset-abs");
-                dialogueRunner.RemoveCommandHandler("cam-offset-rel");
-                dialogueRunner.RemoveCommandHandler("cam-swivel-abs");
-                dialogueRunner.RemoveCommandHandler("cam-swivel-rel");
-                dialogueRunner.RemoveCommandHandler("cam-follow");
-                dialogueRunner.RemoveCommandHandler("cam-lookAt");
-                dialogueRunner.RemoveCommandHandler("cam-reset-rotation");
-
-                dialogueRunner.onNodeStart.RemoveListener(ActivateDialogueCamera);
-                dialogueRunner.onNodeComplete.RemoveListener(DeactivateDialogueCamera);
-            }
-        }
-
         private void ActivateDialogueCamera(string node)
         {
-            dialogueCamera.Priority = ActivePriority;
+            _originalOffset = _camFramingTransposer.m_TrackedObjectOffset;
+
+            _cam.Priority = ActivePriority;
+            _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
+            _cam.PreviousStateIsValid = false;
         }
 
         private void DeactivateDialogueCamera(string node)
         {
-            dialogueCamera.Priority = 0;
+            _cam.Priority = 0;
+            _camFramingTransposer.m_TrackedObjectOffset = _originalOffset;
         }
 
         private void FixedUpdate()
@@ -288,7 +330,8 @@
                 }
                 else
                 {
-                    _camFramingTransposer.m_TrackedObjectOffset = Vector3.Slerp(_startMovement, _endMovement, _movementTime / _movementDuration);
+                    float t = Easer.Apply(easeType, _movementTime / _movementDuration);
+                    _camFramingTransposer.m_TrackedObjectOffset = Vector3.Lerp(_startMovement, _endMovement, t);
 
                     // Apply the time scalar to adjust how far to progress the Slerp.
                     _movementTime += Time.deltaTime;

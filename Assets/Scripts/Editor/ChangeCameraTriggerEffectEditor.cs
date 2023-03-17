@@ -23,10 +23,10 @@
                 serializedObject.Update();
                 var cameraTrigger = (ChangeCameraTrigger)target;
 
-                var prefab = Resources.Load<CinemachineVirtualCamera>("Tracking Camera");
+                var prefab = UnityEngine.AddressableAssets.Addressables.InstantiateAsync("cam-tracking")
+                    .WaitForCompletion().GetComponent<CinemachineVirtualCamera>();
                 var newCamera = Instantiate(prefab, cameraTrigger.transform, true);
                 newCamera.Priority = 0;
-                newCamera.Follow = FindObjectOfType<PlayerMovement>().transform;
                 Selection.activeObject = newCamera;
 
                 Undo.RegisterCreatedObjectUndo(newCamera.gameObject, "Create Trigger Camera");
