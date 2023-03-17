@@ -66,12 +66,6 @@
                         $"The entrance \"{data.TargetID}\" could not be found, falling back to \"{defaultEntrance.EntranceID}\"");
                     targetEntrance = defaultEntrance;
                 }
-                // else if (targetEntrance == null && allEntrances.Length > 0)
-                // {
-                //     Debug.LogWarning(
-                //         $"The entrance \"{data.TargetID}\" could not be found, falling back to \"{allEntrances[0].EntranceID}\"");
-                //     targetEntrance = allEntrances[0];
-                // }
 
                 if (targetEntrance != null)
                 {
@@ -83,9 +77,9 @@
                         spawnedMember.transform.position = spawnPosition;
                     }
                 }
-
-                playerSpawner.MonsterFollowPlayer.Target = playerSpawner.SpawnedPlayer.transform;
             }
+
+            playerSpawner.MonsterFollowPlayer.Target = playerSpawner.SpawnedPlayer.transform;
         }
     }
 }

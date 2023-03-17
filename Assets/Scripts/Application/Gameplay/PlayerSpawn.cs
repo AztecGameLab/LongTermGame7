@@ -50,10 +50,9 @@
             }
 
             SpawnedPlayer = Services.PlayerTeamData.Player.CreateWorldView();
+            SpawnedPlayer.transform.position = transform.position;
             CinemachineVirtualCamera playerCamera = Instantiate(playerCameraPrefab, transform);
             playerCamera.Follow = SpawnedPlayer.transform;
-
-            // MonsterFollowPlayer.Target = SpawnedPlayer.transform;
 
             // Update spawned members when the list data changes.
             selectedMembers.ObserveAdd()
@@ -70,6 +69,7 @@
         private void SpawnWorldView(TeamMemberData member)
         {
             var instance = member.CreateWorldView();
+            instance.transform.position = transform.position;
 
             _worldViewList.Add(instance);
             _memberViewLookup.Add(member, instance);
