@@ -77,17 +77,12 @@
             where T : Component
         {
             public IndicatorFactory Parent;
-            private bool _disposed;
 
             public T Instance { get; set; }
 
             public void Dispose()
             {
-                if (!_disposed)
-                {
-                    Parent.Release(Instance);
-                    _disposed = true;
-                }
+                Parent.Release(Instance);
             }
         }
     }

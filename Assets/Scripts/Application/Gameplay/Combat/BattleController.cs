@@ -102,8 +102,6 @@
         /// </summary>
         public bool IsBattling { get; private set; }
 
-        public IState CurrentState => BattleStateMachine.CurrentState;
-
         /// <summary>
         /// Gets an observable that watches the end of the battle.
         /// </summary>
@@ -151,7 +149,15 @@
             battleVictory.Initialize();
             battleLoss.Initialize();
 
+            _hooks.Clear();
             IsBattling = true;
+
+            foreach (Hook hook in data.Hooks)
+            {
+                _hooks.Add(hook);
+                hook.Controller = this;
+                hook.OnBattleStart();
+            }
 
             EnemyOrderDecider = data.Decider;
 
@@ -175,15 +181,6 @@
                 instance.BindTo(enemyTeamInstance);
                 _spawnedUIElements.Add(instance.gameObject);
                 battleTargetGroup.AddMember(enemyTeamInstance.transform, 1, battleTargetRadius);
-            }
-
-            _hooks.Clear();
-
-            foreach (Hook hook in data.Hooks)
-            {
-                _hooks.Add(hook);
-                hook.Controller = this;
-                hook.OnBattleStart();
             }
 
             BattleStateMachine.SetState(battleIntro);
@@ -251,12 +248,12 @@
         {
             if (IsBattling)
             {
+                BattleStateMachine.Tick();
+
                 foreach (Hook hook in _hooks)
                 {
                     hook.OnBattleUpdate();
                 }
-
-                BattleStateMachine.Tick();
             }
         }
 

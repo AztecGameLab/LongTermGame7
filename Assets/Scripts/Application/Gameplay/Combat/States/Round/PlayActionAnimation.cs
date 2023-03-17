@@ -46,7 +46,7 @@
 
         private void OnActionEnd()
         {
-            if (Round.Controller.CurrentState == Round)
+            if (Round.Controller.IsBattling)
             {
                 Round.TransitionTo(Round.PickActions);
             }

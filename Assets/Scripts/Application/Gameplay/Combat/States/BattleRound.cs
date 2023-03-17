@@ -4,8 +4,6 @@
     using Core;
     using ImGuiNET;
     using Round;
-    using UI;
-    using UniRx;
     using UnityEngine;
 
     /// <summary>
@@ -30,9 +28,6 @@
 
         [SerializeField]
         private EnemyMoveMonsters enemyMoveMonsters;
-
-        [SerializeField]
-        private RoundUI roundUI;
 
         private RoundState[] _states;
 
@@ -61,11 +56,6 @@
         /// </summary>
         public EnemyMoveMonsters EnemyMoveMonsters => enemyMoveMonsters;
 
-        /// <summary>
-        /// Gets the number of rounds that have passed in this combat.
-        /// </summary>
-        public IntReactiveProperty RoundNumber { get; } = new IntReactiveProperty();
-
         private StateMachine StateMachine { get; set; }
 
         /// <summary>
@@ -88,6 +78,7 @@
             PickMonster.Initialize();
             PlayActionAnimation.Initialize();
             PrepareAction.Initialize();
+            PickActions.Initialize();
 
             _states = new RoundState[]
             {
@@ -100,7 +91,6 @@
             }
 
             RegisterDebugImGui(this);
-            roundUI.BindTo(this);
         }
 
         /// <summary>
@@ -108,36 +98,14 @@
         /// </summary>
         public void NextRound()
         {
-            foreach (RoundState roundState in _states)
-            {
-                roundState.OnRoundEnd();
-            }
-
-            StateMachine.SetState(null);
-            RoundNumber.Value++;
-            foreach (GameObject playerTeamMember in Controller.PlayerTeam)
-            {
-                if (playerTeamMember.TryGetComponent(out ActionPointTracker tracker))
-                {
-                    tracker.Refill();
-                }
-            }
-
-            foreach (RoundState roundState in _states)
-            {
-                roundState.OnRoundBegin();
-            }
-
-            StateMachine.SetState(pickMonster);
+            OnExit();
+            OnEnter();
         }
 
         /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
-
-            RoundNumber.Value = 1;
-            roundUI.gameObject.SetActive(true);
 
             foreach (GameObject playerTeamMember in Controller.PlayerTeam)
             {
@@ -165,7 +133,6 @@
         public override void OnExit()
         {
             base.OnExit();
-            roundUI.gameObject.SetActive(false);
 
             foreach (RoundState roundState in _states)
             {

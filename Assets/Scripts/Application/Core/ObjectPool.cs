@@ -34,20 +34,29 @@
         }
 
         /// <summary>
-        /// Gets or sets an action that is called when the instance is being taken from the pool.
+        /// Gets or sets called when the instance is being taken from the pool.
         /// </summary>
+        /// <value>
+        /// Called when the instance is being taken from the pool.
+        /// </value>
         [PublicAPI]
         public event Action<T> ActionOnGet;
 
         /// <summary>
-        /// Gets or sets an action that is called when the instance is being returned to the pool. This could be used to clean up or disable the instance.
+        /// Gets or sets called when the instance is being returned to the pool. This could be used to clean up or disable the instance.
         /// </summary>
+        /// <value>
+        /// Called when the instance is being returned to the pool. This could be used to clean up or disable the instance.
+        /// </value>
         [PublicAPI]
         public event Action<T> ActionOnRelease;
 
         /// <summary>
-        /// Gets or sets an action called when the element can not be returned to the pool due to it being equal to the maxSize.
+        /// Gets or sets called when the element can not be returned to the pool due to it being equal to the maxSize.
         /// </summary>
+        /// <value>
+        /// Called when the element can not be returned to the pool due to it being equal to the maxSize.
+        /// </value>
         [PublicAPI]
         public event Action<T> ActionOnDestroy;
 

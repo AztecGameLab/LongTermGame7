@@ -29,13 +29,6 @@
         public IObservable<float> OnHeal => _onHeal;
 
         /// <summary>
-        /// Gets an observable for each time this entity's health drops below zero.
-        /// </summary>
-        public IObservable<Unit> OnDeath => OnHealthChange
-            .Where(currentHealth => currentHealth <= 0)
-            .Select(_ => Unit.Default);
-
-        /// <summary>
         /// Gets an observable for each time this entity's health changes.
         /// </summary>
         public IObservable<float> OnHealthChange => health;
@@ -76,9 +69,8 @@
         /// <param name="amount">How much health to remove.</param>
         public void Damage(float amount)
         {
-            float newHealth = Mathf.Max(0, health.Value - amount);
-            health.Value = newHealth;
-            _onDamage.OnNext(newHealth);
+            health.Value -= amount;
+            _onDamage.OnNext(amount);
         }
 
         /// <summary>
@@ -87,9 +79,8 @@
         /// <param name="amount">How much health should be restored.</param>
         public void Heal(float amount)
         {
-            float newHealth = Mathf.Min(maxHealth.Value, health.Value + amount);
-            health.Value = newHealth;
-            _onHeal.OnNext(newHealth);
+            health.Value += amount;
+            _onHeal.OnNext(amount);
         }
     }
 }

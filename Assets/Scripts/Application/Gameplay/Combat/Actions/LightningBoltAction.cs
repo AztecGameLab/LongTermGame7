@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Actions
+﻿using UnityEngine.AddressableAssets;
+
+namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;
@@ -7,7 +9,6 @@
     using ImGuiNET;
     using UI.Indicators;
     using UnityEngine;
-    using UnityEngine.AddressableAssets;
 
     /// <summary>
     /// The action where an entity moves around, in a grounded manner, on the battlefield.
