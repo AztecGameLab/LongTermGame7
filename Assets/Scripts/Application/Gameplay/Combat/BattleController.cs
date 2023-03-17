@@ -133,7 +133,7 @@
                 return;
             }
 
-            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+            var worldLoader = FindObjectOfType<PlayerSpawn>();
 
             if (worldLoader)
             {
@@ -198,7 +198,7 @@
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
 
-            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+            var worldLoader = FindObjectOfType<PlayerSpawn>();
 
             if (worldLoader)
             {

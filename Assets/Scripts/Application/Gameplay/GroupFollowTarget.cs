@@ -17,6 +17,7 @@
         private float _elapsedDistance;
         private Vector3 _previousPosition;
         private int _headIndex;
+        private Transform _target;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GroupFollowTarget"/> class.
@@ -35,7 +36,20 @@
         /// <summary>
         /// Gets or sets the transform that each group member is following.
         /// </summary>
-        public Transform Target { get; set; }
+        public Transform Target
+        {
+            get => _target;
+            set
+            {
+                _target = value;
+                _previousPosition = _target.position;
+
+                for (int i = 0; i < _targetPositions.Length; i++)
+                {
+                    _targetPositions[i] = _previousPosition;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the group transforms should be updated.
