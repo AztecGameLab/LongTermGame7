@@ -45,7 +45,7 @@ namespace Application.Gameplay.Combat.Actions
         public override void PrepEnter()
         {
             base.PrepEnter();
-            _aimSystem.Initialize(null, 0, true);
+            _aimSystem.Initialize();
             _actionPointTracker = User.GetComponent<ActionPointTracker>();
         }
 
@@ -54,6 +54,7 @@ namespace Application.Gameplay.Combat.Actions
         {
             base.PrepTick();
             _targetPosition = _aimSystem.Update().point;
+            Debug.Log("Position is " + _targetPosition);
             OnClickTarget();
         }
 
@@ -94,9 +95,8 @@ namespace Application.Gameplay.Combat.Actions
         {
             if (Input.GetMouseButtonDown(0))
             {
-                RaycastHit hit = _aimSystem.Update();
-
-                Debug.Log("Collider: " + hit.transform.name + " hit!");
+                Debug.Log("CLICKED");
+                IsPrepFinished |= true;
             }
         }
     }
