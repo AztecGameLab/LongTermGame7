@@ -19,7 +19,10 @@
     /// </summary>
     public class Serializer
     {
-        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        /// <summary>
+        /// The settings that this serializer uses during serialization.
+        /// </summary>
+        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             Formatting = Formatting.Indented,
