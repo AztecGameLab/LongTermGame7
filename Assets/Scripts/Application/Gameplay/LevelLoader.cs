@@ -1,4 +1,7 @@
-﻿namespace Application.Gameplay
+﻿using Application.Core.Utility;
+using UniRx;
+
+namespace Application.Gameplay
 {
     using System;
     using System.Threading.Tasks;
@@ -34,8 +37,9 @@
         private static async void HandleSceneChange(LevelChangeEvent data)
         {
             // todo: screen transitions
-            SceneManager.LoadScene(data.NextScene);
-            await Task.Delay(100);
+            // SceneManager.LoadScene(data.NextScene);
+            // await Task.Delay(1);
+            await LevelLoadingUtil.LoadFully(data.NextScene).ToTask();
 
             var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();
             playerSpawner.Spawn();
