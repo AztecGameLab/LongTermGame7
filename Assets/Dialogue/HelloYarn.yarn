@@ -5,6 +5,14 @@ Hello, yarn!
 Do you see this?
 <<image-hide>>
 Now its gone!
+
+Time for some camera effects.
+Go up 5 units.
+<<cam-offset-rel 0 5 0 1>>
+Go to origin.
+<<cam-offset-abs 0 0 0 1>>
+Go to player.
+<<cam-follow Player>>
 // Follow the tree
 // <<cam-follow Tree>>
 
