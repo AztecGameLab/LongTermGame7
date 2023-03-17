@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CartoonWater
+  m_Shader: {fileID: -6465566751694194690, guid: 24833ef859fafb544acff15a42b01d2c, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _FlowTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_02215d2acf2e4285a3876c172ed88a98: 7.09
+    - Vector1_350cee67a51a4de38166035fe17694ce: 1.4
+    - Vector1_3f7500433c874e1b8a5452fc4fc5676c: 0.1
+    - Vector1_d9f3d96e4a2c42909b506bdae7c01259: 5
+    - Vector1_e28d5ee2193f4110b4e78001c2ca8636: 0.05
+    - _Chopiness: 0.01
+    - _FlowSpeed: 0.1
+    - _FlowStrength: 0
+    - _FoamDistance: 1.5
+    - _Size: 2
+    m_Colors:
+    - Color_7c1912138ee24ce4a1e6d2ce4b50acb6: {r: 0.43517268, g: 0.4371562, b: 0.6037736, a: 0}
+    - Color_ff28abbc5e914295bd5e22d3d88b1577: {r: 0.48870796, g: 0.581484, b: 0.766, a: 0}
+    - Vector2_ce4f185552e64349b74512487979a9a1: {r: 0.1, g: 0.1, b: 1, a: 1}
+    - _DarkFoamColor: {r: 0, g: 0, b: 0, a: 0}
+    - _LightFoamColor: {r: 0.63784266, g: 0.7481021, b: 0.7735849, a: 0}
+    - _WaterColor: {r: 0.18397996, g: 0.53574634, b: 0.6415094, a: 0}
+  m_BuildTextureStacks: []

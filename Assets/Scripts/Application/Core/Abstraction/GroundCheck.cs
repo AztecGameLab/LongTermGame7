@@ -3,6 +3,7 @@
     using System;
     using UnityEngine;
     using UnityEngine.Assertions;
+    using Utility;
 
     /// <summary>
     /// Stores and updated information about "ground" surfaces, usually below an object.

@@ -1,4 +1,4 @@
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
     using System.Threading.Tasks;
@@ -24,53 +24,62 @@ namespace Application.Gameplay
         /// <summary>
         /// Sets up the Level Loader.
         /// </summary>
-        public void Init()
+        /// <returns>This instance.</returns>
+        public LevelLoader Init()
         {
             _disposable = Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
+            return this;
         }
 
         private static async void HandleSceneChange(LevelChangeEvent data)
         {
+            // todo: screen transitions
             SceneManager.LoadScene(data.NextScene);
-            await Task.Delay(1);
+            await Task.Delay(100);
+
+            var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();
+            playerSpawner.Spawn();
 
             LevelEntrance[] allEntrances = Object.FindObjectsOfType<LevelEntrance>();
-            LevelEntrance targetEntrance = null;
-            LevelEntrance defaultEntrance = null;
 
-            foreach (LevelEntrance entrance in allEntrances)
+            if (allEntrances.Length > 0)
             {
-                if (entrance.EntranceID == data.TargetID)
+                LevelEntrance targetEntrance = null;
+                LevelEntrance defaultEntrance = null;
+
+                foreach (LevelEntrance entrance in allEntrances)
                 {
-                    targetEntrance = entrance;
+                    if (entrance.EntranceID == data.TargetID)
+                    {
+                        targetEntrance = entrance;
+                    }
+
+                    if (entrance.DefaultEntrance)
+                    {
+                        defaultEntrance = entrance;
+                    }
                 }
 
-                if (entrance.DefaultEntrance)
+                if (targetEntrance == null && defaultEntrance != null)
                 {
-                    defaultEntrance = entrance;
+                    Debug.LogWarning(
+                        $"The entrance \"{data.TargetID}\" could not be found, falling back to \"{defaultEntrance.EntranceID}\"");
+                    targetEntrance = defaultEntrance;
+                }
+
+                if (targetEntrance != null)
+                {
+                    Vector3 spawnPosition = targetEntrance.transform.position;
+                    playerSpawner.SpawnedPlayer.transform.position = spawnPosition;
+
+                    foreach (TeamMemberWorldView spawnedMember in playerSpawner.SpawnedMembers)
+                    {
+                        spawnedMember.transform.position = spawnPosition;
+                    }
                 }
             }
 
-            if (targetEntrance == null && defaultEntrance != null)
-            {
-                Debug.LogWarning($"The entrance \"{data.TargetID}\" could not be found, falling back to \"{defaultEntrance.EntranceID}\"");
-                targetEntrance = defaultEntrance;
-            }
-            else if (targetEntrance == null && allEntrances.Length > 0)
-            {
-                Debug.LogWarning($"The entrance \"{data.TargetID}\" could not be found, falling back to \"{allEntrances[0].EntranceID}\"");
-                targetEntrance = allEntrances[0];
-            }
-            else
-            {
-                Debug.LogError("No entrances have been found!");
-            }
-
-            if (targetEntrance != null)
-            {
-                PlayerMovement playerInfo = Object.FindObjectOfType<PlayerMovement>();
-                playerInfo.transform.position = targetEntrance.transform.position;
-            }
+            playerSpawner.MonsterFollowPlayer.Target = playerSpawner.SpawnedPlayer.transform;
         }
     }
 }

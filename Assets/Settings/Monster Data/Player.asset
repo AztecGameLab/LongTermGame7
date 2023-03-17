@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332a3c975c72477da90ff14a3d7a81c0, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: 
+  memberName: Player
+  memberDescription: It's you!
+  actions:
+  - id: 0
+  - id: 1
+  maxHealth: 1
+  worldViewAssetPath: wv-player
+  maxActionPoints: 5
+  references:
+    version: 1
+    00000000:
+      type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointsPerUnit: 0.25
+        moveSpeed: 7
+    00000001:
+      type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointCost: 1
+        maxRange: 15
+        damage: 20
+        lightningAssetPath: particle-lightning
