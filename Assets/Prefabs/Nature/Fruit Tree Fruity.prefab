@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2693258165134099856}
+  - component: {fileID: 202089680136711362}
   m_Layer: 0
   m_Name: Fruit Tree Fruity
   m_TagString: Untagged
@@ -31,6 +32,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &202089680136711362
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3678928599450805074}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.12759495, y: 2.350053, z: -0.070393205}
+  m_Size: 4.8807883
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7663908490725663926}
+    - renderer: {fileID: 708553454651531163}
+    - renderer: {fileID: 5332955243298794309}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7663908490725663926}
+    - renderer: {fileID: 708553454651531163}
+    - renderer: {fileID: 5332955243298794309}
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7663908490725663926}
+    - renderer: {fileID: 708553454651531163}
+    - renderer: {fileID: 5332955243298794309}
+  m_Enabled: 1
 --- !u!1001 &3040996888172225474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91,5 +125,20 @@ PrefabInstance:
 --- !u!4 &3294792092801270825 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d2dd67e1188cbfc43aeee6c2ac9eff75, type: 3}
+  m_PrefabInstance: {fileID: 3040996888172225474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7663908490725663926 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4641072271075526516, guid: d2dd67e1188cbfc43aeee6c2ac9eff75, type: 3}
+  m_PrefabInstance: {fileID: 3040996888172225474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &708553454651531163 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -6636472886570533799, guid: d2dd67e1188cbfc43aeee6c2ac9eff75, type: 3}
+  m_PrefabInstance: {fileID: 3040996888172225474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5332955243298794309 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6931528039976355975, guid: d2dd67e1188cbfc43aeee6c2ac9eff75, type: 3}
   m_PrefabInstance: {fileID: 3040996888172225474}
   m_PrefabAsset: {fileID: 0}
