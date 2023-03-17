@@ -17,7 +17,7 @@ MonoBehaviour:
   actions:
   - id: 0
   - id: 1
-  maxHealth: 5
+  maxHealth: 1
   worldViewAssetPath: wv-player
   maxActionPoints: 5
   references:
@@ -30,7 +30,7 @@ MonoBehaviour:
     00000001:
       type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
-        actionPointCost: 4
-        maxRange: 5
-        damage: 5
+        actionPointCost: 1
+        maxRange: 15
+        damage: 20
         lightningAssetPath: particle-lightning

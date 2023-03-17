@@ -41,9 +41,9 @@
 
         private IEnumerator VictoryCoroutine()
         {
-            yield return defeatUI.defeatText.TweenCanvasGroupAlpha(1, 1);
-            yield return new WaitUntil(() => Input.anyKeyDown);
-            yield return defeatUI.defeatText.TweenCanvasGroupAlpha(0, 1);
+            yield return defeatUI.defeatText.TweenCanvasGroupAlpha(1, 1).Yield();
+            yield return new WaitUntil(() => Input.anyKey);
+            yield return defeatUI.defeatText.TweenCanvasGroupAlpha(0, 1).Yield();
         }
     }
 }
