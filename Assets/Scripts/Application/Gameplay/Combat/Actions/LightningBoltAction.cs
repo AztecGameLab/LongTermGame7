@@ -5,6 +5,7 @@
     using Core;
     using Core.Utility;
     using ImGuiNET;
+    using Newtonsoft.Json;
     using UI.Indicators;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -13,18 +14,23 @@
     /// The action where an entity moves around, in a grounded manner, on the battlefield.
     /// </summary>
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class LightningBoltAction : BattleAction, IDebugImGui
     {
         [SerializeField]
+        [JsonProperty]
         private int actionPointCost = 4;
 
         [SerializeField]
+        [JsonProperty]
         private float maxRange = 5f;
 
         [SerializeField]
+        [JsonProperty]
         private float damage = 5f;
 
         [SerializeField]
+        [JsonProperty]
         private string lightningAssetPath;
 
         private Vector3 _targetPosition;

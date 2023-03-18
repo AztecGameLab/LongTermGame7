@@ -168,8 +168,7 @@
                         surrogateData.Surrogate);
                 }
 
-                var binaryFormatter = new BinaryFormatter { SurrogateSelector = surrogateSelector };
-                _savedData = (Dictionary<string, object>)binaryFormatter.Deserialize(fileStream);
+                _savedData = new Dictionary<string, object>();
             }
 
             fileStream.Dispose();
