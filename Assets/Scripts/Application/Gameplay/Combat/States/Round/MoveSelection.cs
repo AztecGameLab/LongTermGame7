@@ -18,8 +18,6 @@
         [SerializeField]
         private ActionPointTrackerUI trackerUI;
 
-        private IDisposable _disposable;
-
         /// <summary>
         /// Gets the currently selected action.
         /// </summary>
@@ -39,7 +37,8 @@
 
             selectionUI.gameObject.SetActive(true);
             selectionUI.BindTo(selectedActionSet.Actions);
-            _disposable = selectionUI.ObserveActionSubmitted().Subscribe(OnSelectAction);
+            DisposeOnExit(selectionUI.ObserveActionSubmitted().Subscribe(OnSelectAction));
+            DisposeOnExit(selectionUI.ObserveTurnPassed().Subscribe(_ => Round.TransitionTo(Round.EnemyMoveMonsters)));
             SelectedAction = selectedActionSet.Actions[0];
 
             if (actionPointTracker.RemainingActionPoints <= 0)
@@ -54,7 +53,6 @@
             base.OnExit();
             selectionUI.gameObject.SetActive(false);
             trackerUI.gameObject.SetActive(false);
-            _disposable?.Dispose();
         }
 
         private void OnSelectAction(BattleAction monsterAction)
