@@ -17,7 +17,7 @@
     {
         private const int PickMonsterCameraActivePriority = 50;
 
-        private List<GameObject> _availableMonsters;
+        private HashSet<GameObject> _usedMonsters;
 
         [SerializeField]
         private CinemachineVirtualCamera pickMonsterCamera;
@@ -33,12 +33,14 @@
         /// </summary>
         public ReactiveProperty<GameObject> SelectedMonster { get; private set; } = new ReactiveProperty<GameObject>();
 
+        private IList<GameObject> PlayerTeam => Round.Controller.PlayerTeam;
+
         /// <summary>
         /// Sets up the pick monster state.
         /// </summary>
         public void Initialize()
         {
-            _availableMonsters = new List<GameObject>();
+            _usedMonsters = new HashSet<GameObject>();
             SelectedMonster = new ReactiveProperty<GameObject>();
             SelectedMonster.Subscribe(HandleSelectedMonsterChange);
         }
@@ -46,14 +48,8 @@
         /// <inheritdoc/>
         public override void OnRoundBegin()
         {
-            _availableMonsters.AddRange(Round.Controller.PlayerTeam);
+            _usedMonsters.Clear();
             _selectedMonsterIndex = 0;
-        }
-
-        /// <inheritdoc/>
-        public override void OnRoundEnd()
-        {
-            _availableMonsters.Clear();
         }
 
         /// <inheritdoc/>
@@ -61,14 +57,14 @@
         {
             base.OnEnter();
 
-            if (_availableMonsters.Count <= 0)
+            if (_usedMonsters.Count >= PlayerTeam.Count)
             {
-                Debug.LogError("Cannot select next monster - there are none available ones left!");
+                Debug.Log("Cannot select next monster - there are none available ones left!");
                 Round.NextRound();
                 return;
             }
 
-            SelectedMonster.Value = _availableMonsters.Count > 0 ? _availableMonsters[_selectedMonsterIndex] : null;
+            SelectedMonster.Value = PlayerTeam[_selectedMonsterIndex];
             pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
             pickMonsterUI.gameObject.SetActive(true);
             pickMonsterUI.Initialize(SelectedMonster);
@@ -98,12 +94,12 @@
             if (InputTools.TryGetInputDirectionDown(out Vector2 direction) && SelectedMonster.Value != null)
             {
                 var ray = new Ray(SelectedMonster.Value.transform.position, new Vector3(direction.x, 0, direction.y));
-                var closest = _availableMonsters.GetClosestInDirection(ray, obj => obj != SelectedMonster.Value);
+                var closest = PlayerTeam.GetClosestInDirection(ray, obj => obj != SelectedMonster.Value && !_usedMonsters.Contains(obj));
 
                 if (closest != null)
                 {
                     SelectedMonster.Value = closest;
-                    _selectedMonsterIndex = _availableMonsters.IndexOf(closest);
+                    _selectedMonsterIndex = PlayerTeam.IndexOf(closest);
                 }
             }
         }
@@ -118,14 +114,28 @@
 
         private void SelectNextMonster()
         {
-            _selectedMonsterIndex = (_selectedMonsterIndex + 1) % _availableMonsters.Count;
-            SelectedMonster.Value = _availableMonsters[_selectedMonsterIndex];
+            IncrementCurrentIndex();
+            SelectedMonster.Value = PlayerTeam[_selectedMonsterIndex];
+        }
+
+        private void IncrementCurrentIndex()
+        {
+            for (int i = 1; i < PlayerTeam.Count; i++)
+            {
+                int wrappedIndex = (_selectedMonsterIndex + i) % PlayerTeam.Count;
+
+                if (!_usedMonsters.Contains(PlayerTeam[wrappedIndex]))
+                {
+                    _selectedMonsterIndex = wrappedIndex;
+                    return;
+                }
+            }
         }
 
         private void SubmitCurrentMonster()
         {
-            _availableMonsters.Remove(SelectedMonster.Value);
-            _selectedMonsterIndex = 0;
+            _usedMonsters.Add(SelectedMonster.Value);
+            IncrementCurrentIndex();
 
             Round.TransitionTo(Round.PickActions);
         }
