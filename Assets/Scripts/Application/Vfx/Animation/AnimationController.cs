@@ -9,7 +9,7 @@
     public class AnimationController : MonoBehaviour
     {
         private const float MinSpeed = 0.1f;
-        private const float MovementThreshold = 0.1f;
+        private const float MovementThreshold = 0.01f;
 
         [SerializeField]
         private MeshRenderer player;
@@ -62,7 +62,7 @@
             foreach (Data d in data)
             {
                 // todo: this is still so janky, find better solution
-                if (d.Value - max.Value > 0.01)
+                if (d.Value - max.Value > MovementThreshold)
                 {
                     max = d;
                 }

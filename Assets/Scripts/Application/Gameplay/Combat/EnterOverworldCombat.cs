@@ -27,7 +27,7 @@
             List<GameObject> enemyTeamInstances = enemyTeam;
             List<GameObject> playerTeamInstances = new List<GameObject>();
 
-            var loader = FindObjectOfType<PlayerTeamWorldLoader>();
+            var loader = FindObjectOfType<PlayerSpawn>();
             playerTeamInstances.Add(loader.SpawnedPlayer.gameObject);
 
             foreach (var worldView in loader.SpawnedMembers)

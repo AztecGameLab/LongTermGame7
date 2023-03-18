@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 238514339}
   - component: {fileID: 238514341}
   - component: {fileID: 238514340}
-  m_Layer: 2
+  m_Layer: 9
   m_Name: ShadowEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 1664969834}
   - component: {fileID: 1664969833}
   - component: {fileID: 1664969832}
-  m_Layer: 2
+  m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,6 +197,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player World View
       objectReference: {fileID: 0}
+    - target: {fileID: 7074553816821888916, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7074553816821888916, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -249,6 +257,10 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 10.1
       objectReference: {fileID: 0}
+    - target: {fileID: 7074553817556300335, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
 --- !u!1 &5399309328918950859 stripped
@@ -279,6 +291,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-4659608116779641576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399309328918950859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad0311c271145feadb31761a00ea7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactRange: 3
+  interactKey: 101
+  offset: {x: 0, y: 0.5, z: 0}
+  movement: {fileID: 0}
 --- !u!114 &1480437382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,3 +382,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f57dfb049afd624a83a4d75d35024a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1324401650081549832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399309328918950859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad0311c271145feadb31761a00ea7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactRange: 3
+  interactKey: 101
+  offset: {x: 0, y: 0.5, z: 0}
+  movement: {fileID: 1480437382}

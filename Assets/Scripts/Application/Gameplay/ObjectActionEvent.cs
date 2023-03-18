@@ -1,37 +1,49 @@
-using UnityEngine;
-using UnityEngine.Events;
-
-public class ObjectActionEvent : MonoBehaviour
+﻿namespace Application.Gameplay
 {
-    [SerializeField] private bool interactable;
-    [SerializeField] public KeyCode interactKey;
-    [SerializeField] public UnityEvent interactAction;
+    using UnityEngine;
+    using UnityEngine.Events;
 
-    /*
-     * After we interact with an NPC/object 'interactable' canbe set to false so the player is not able to interact with them again.
+    /// <summary>
+    /// An object that can perform an action.
+    /// </summary>
+    public class ObjectActionEvent : MonoBehaviour
+    {
+        [SerializeField]
+        private bool interactable;
+
+        [SerializeField]
+        private KeyCode interactKey;
+
+        [SerializeField]
+        private UnityEvent interactAction;
+
+        /*
+     * After we interact with an NPC/object 'interactable' can be set to false so the player is not able to interact with them again.
      */
-    private void Update()
-    {
-        if (Input.GetKeyDown(interactKey) && interactable)
+        private void Update()
         {
-            interactAction.Invoke();
+            if (Input.GetKeyDown(interactKey) && interactable)
+            {
+                interactAction.Invoke();
+            }
         }
-    }
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            interactable = true;
-            Debug.Log("Player in range of " + gameObject.tag);
-        }
-    }
 
-    private void OnTriggerExit(Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        private void OnTriggerEnter(Collider collision)
         {
-            interactable = false;
-            Debug.Log("Player out of range " + gameObject.tag);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                interactable = true;
+                Debug.Log("Player in range of " + gameObject.tag);
+            }
+        }
+
+        private void OnTriggerExit(Collider collision)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                interactable = false;
+                Debug.Log("Player out of range " + gameObject.tag);
+            }
         }
     }
 }
