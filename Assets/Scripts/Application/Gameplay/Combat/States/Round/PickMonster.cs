@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using Cinemachine;
+    using Core;
+    using Core.Utility;
     using UI;
     using UniRx;
     using UnityEngine;
@@ -29,10 +31,7 @@
         /// <summary>
         /// Gets the currently selected monster.
         /// </summary>
-        /// <value>
-        /// The currently selected monster.
-        /// </value>
-        public GameObject SelectedMonster { get; private set; }
+        public ReactiveProperty<GameObject> SelectedMonster { get; private set; } = new ReactiveProperty<GameObject>();
 
         /// <summary>
         /// Sets up the pick monster state.
@@ -40,6 +39,8 @@
         public void Initialize()
         {
             _availableMonsters = new List<GameObject>();
+            SelectedMonster = new ReactiveProperty<GameObject>();
+            SelectedMonster.Subscribe(HandleSelectedMonsterChange);
         }
 
         /// <inheritdoc/>
@@ -67,16 +68,16 @@
                 return;
             }
 
-            SelectedMonster = _availableMonsters.Count > 0 ? _availableMonsters[_selectedMonsterIndex] : null;
+            SelectedMonster.Value = _availableMonsters.Count > 0 ? _availableMonsters[_selectedMonsterIndex] : null;
             pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
             pickMonsterUI.gameObject.SetActive(true);
-            pickMonsterUI.SelectedMonster.Value = SelectedMonster;
+            pickMonsterUI.Initialize(SelectedMonster);
             _disposable = new CompositeDisposable();
-            _disposable.Add(pickMonsterUI.ObserveMonsterSubmitted().Subscribe(OnSelectMonster));
-            _disposable.Add(pickMonsterUI.SelectedMonster.Subscribe(SelectNextMonster));
+            pickMonsterUI.ObserveMonsterSubmitted().Subscribe(_ => SubmitCurrentMonster()).AddTo(_disposable);
+            pickMonsterUI.ObserveSelectNextMonster().Subscribe(_ => SelectNextMonster()).AddTo(_disposable);
 
-            pickMonsterCamera.Follow = SelectedMonster != null
-                ? SelectedMonster.transform
+            pickMonsterCamera.Follow = SelectedMonster.Value != null
+                ? SelectedMonster.Value.transform
                 : Round.Controller.PlayerTeam[0].transform;
         }
 
@@ -93,29 +94,40 @@
         public override void OnTick()
         {
             base.OnTick();
-            pickMonsterUI.Tick(_availableMonsters);
-        }
 
-        private void SelectNextMonster(GameObject monster)
-        {
-            if (_availableMonsters.Count <= 0 || monster == null)
+            if (InputTools.TryGetInputDirectionDown(out Vector2 direction) && SelectedMonster.Value != null)
             {
-                Debug.LogError("Cannot select next monster - there are none available ones left!");
-                return;
-            }
+                var ray = new Ray(SelectedMonster.Value.transform.position, new Vector3(direction.x, 0, direction.y));
+                var closest = _availableMonsters.GetClosestInDirection(ray, obj => obj != SelectedMonster.Value);
 
-            _selectedMonsterIndex = (_selectedMonsterIndex + 1) % _availableMonsters.Count;
-            SelectedMonster = monster;
-            pickMonsterCamera.Follow = SelectedMonster.transform;
+                if (closest != null)
+                {
+                    SelectedMonster.Value = closest;
+                    _selectedMonsterIndex = _availableMonsters.IndexOf(closest);
+                }
+            }
         }
 
-        private void OnSelectMonster(GameObject monster)
+        private void HandleSelectedMonsterChange(GameObject target)
         {
-            _availableMonsters.Remove(monster);
+            if (target != null)
+            {
+                pickMonsterCamera.Follow = target.transform;
+            }
+        }
+
+        private void SelectNextMonster()
+        {
+            _selectedMonsterIndex = (_selectedMonsterIndex + 1) % _availableMonsters.Count;
+            SelectedMonster.Value = _availableMonsters[_selectedMonsterIndex];
+        }
+
+        private void SubmitCurrentMonster()
+        {
+            _availableMonsters.Remove(SelectedMonster.Value);
             _selectedMonsterIndex = 0;
 
             Round.TransitionTo(Round.PickActions);
-            pickMonsterCamera.Follow = monster.transform;
         }
     }
 }

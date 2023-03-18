@@ -10,7 +10,7 @@
     /// The combat round state where the player is choosing what move a monster should perform.
     /// </summary>
     [Serializable]
-    public class PickActionsForMonster : RoundState
+    public class MoveSelection : RoundState
     {
         [SerializeField]
         private MoveSelectionUI selectionUI;
@@ -31,9 +31,8 @@
         {
             base.OnEnter();
 
-            Debug.Log("Entered");
-            var selectedActionSet = Round.PickMonster.SelectedMonster.GetComponent<ActionSet>();
-            var actionPointTracker = Round.PickMonster.SelectedMonster.GetComponent<ActionPointTracker>();
+            var selectedActionSet = Round.PickMonster.SelectedMonster.Value.GetComponent<ActionSet>();
+            var actionPointTracker = Round.PickMonster.SelectedMonster.Value.GetComponent<ActionPointTracker>();
 
             trackerUI.gameObject.SetActive(true);
             trackerUI.BindTo(actionPointTracker);
@@ -53,7 +52,6 @@
         public override void OnExit()
         {
             base.OnExit();
-            Debug.Log("Exited");
             selectionUI.gameObject.SetActive(false);
             trackerUI.gameObject.SetActive(false);
             _disposable?.Dispose();
@@ -62,7 +60,7 @@
         private void OnSelectAction(BattleAction monsterAction)
         {
             SelectedAction = monsterAction;
-            monsterAction.User = Round.PickMonster.SelectedMonster;
+            monsterAction.User = Round.PickMonster.SelectedMonster.Value;
             monsterAction.Controller = Round.Controller;
             Round.TransitionTo(Round.PrepareAction);
         }

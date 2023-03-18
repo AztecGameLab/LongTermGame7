@@ -1,11 +1,10 @@
 ﻿namespace Application.Gameplay.Combat.UI
 {
     using System;
-    using System.Collections.Generic;
-    using Core;
     using TMPro;
     using UniRx;
     using UnityEngine;
+    using UnityEngine.UI;
 
     /// <summary>
     /// A user-interface for displaying selected monster information,
@@ -13,101 +12,52 @@
     /// </summary>
     public class PickMonsterUI : MonoBehaviour
     {
-        private const int SelectionAngle = 90;
-
-        private readonly Subject<GameObject> _monsterSubmitted = new Subject<GameObject>();
+        private readonly Subject<Unit> _monsterSubmitted = new Subject<Unit>();
 
         [SerializeField]
         private TMP_Text selectedMonsterText;
 
-        private CompositeDisposable _disposable;
+        [SerializeField]
+        private Button nextMonsterButton;
 
-        /// <summary>
-        /// Gets the monster that is currently selected.
-        /// </summary>
-        public ReactiveProperty<GameObject> SelectedMonster { get; private set; }
+        [SerializeField]
+        private Button submitMonsterButton;
+
+        private CompositeDisposable _disposable;
 
         /// <summary>
         /// Gets an observable that changes each time the user selects a monster via the UI.
         /// </summary>
-        /// <returns>An observable that changes each time the user selects a monster via the UI.</returns>
-        public IObservable<GameObject> ObserveMonsterSubmitted() => _monsterSubmitted;
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveMonsterSubmitted() => _monsterSubmitted;
 
         /// <summary>
-        /// Updates the UI based on the available monsters that can be selected.
+        /// Gets an observable that changes each time the user cycles to a new monster via the UI.
         /// </summary>
-        /// <param name="available">The monsters that can be selected.</param>
-        public void Tick(IEnumerable<GameObject> available)
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveSelectNextMonster() => nextMonsterButton.OnClickAsObservable();
+
+        /// <summary>
+        /// Sets up the UI to display monster selection information.
+        /// </summary>
+        /// <param name="selectedMonster">The currently selected monster.</param>
+        public void Initialize(IReadOnlyReactiveProperty<GameObject> selectedMonster)
         {
-            var direction = Vector3.zero;
+            _disposable?.Dispose();
+            _disposable = new CompositeDisposable();
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                direction = Vector3.forward;
-            }
+            submitMonsterButton.OnClickAsObservable()
+                .Merge(Observable.EveryGameObjectUpdate().Where(_ => Input.GetKeyDown(KeyCode.Return)).Select(_ => Unit.Default))
+                .Subscribe(_ => _monsterSubmitted.OnNext(Unit.Default))
+                .AddTo(_disposable);
 
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                direction = Vector3.back;
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                direction = Vector3.left;
-            }
-
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                direction = Vector3.right;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                _monsterSubmitted.OnNext(SelectedMonster.Value);
-            }
-
-            if (direction != Vector3.zero && SelectedMonster.Value != null)
-            {
-                var closest = FindClosestInDirection(SelectedMonster.Value.transform.position, direction, available);
-
-                if (closest != null)
-                {
-                    SelectedMonster.Value = closest;
-                }
-            }
+            selectedMonster.Subscribe(UpdateTextDisplay).AddTo(_disposable);
         }
 
-        private void Awake()
+        private void UpdateTextDisplay(GameObject monster)
         {
-            SelectedMonster = new ReactiveProperty<GameObject>();
-
-            SelectedMonster
-                .Subscribe(monster =>
-                {
-                    string monsterName = monster != null ? monster.name : "None";
-                    selectedMonsterText.text = $"Selected {monsterName}";
-                })
-                .AddTo(this);
-        }
-
-        private GameObject FindClosestInDirection(Vector3 origin, Vector3 direction, IEnumerable<GameObject> objects)
-        {
-            GameObject result = null;
-            float best = float.PositiveInfinity;
-
-            foreach (GameObject obj in objects)
-            {
-                var position = obj.transform.position;
-                var dirToTarget = position - origin;
-
-                if (obj != SelectedMonster.Value && Vector3.Angle(direction, dirToTarget) <= SelectionAngle && dirToTarget.sqrMagnitude < best)
-                {
-                    best = dirToTarget.sqrMagnitude;
-                    result = obj;
-                }
-            }
-
-            return result;
+            string monsterName = monster != null ? monster.name : "None";
+            selectedMonsterText.text = $"Selected {monsterName}";
         }
     }
 }
