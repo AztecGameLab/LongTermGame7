@@ -14,7 +14,7 @@
     /// The action where an entity moves around, in a grounded manner, on the battlefield.
     /// </summary>
     [Serializable]
-    [JsonObject]
+    [JsonObject(MemberSerialization.OptIn)]
     public class MoveAction : BattleAction, IDebugImGui
     {
         [SerializeField]
