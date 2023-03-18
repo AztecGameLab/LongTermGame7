@@ -37,8 +37,6 @@ namespace Application.Gameplay
         private static async void HandleSceneChange(LevelChangeEvent data)
         {
             // todo: screen transitions
-            // SceneManager.LoadScene(data.NextScene);
-            // await Task.Delay(1);
             await LevelLoadingUtil.LoadFully(data.NextScene).ToTask();
 
             var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();

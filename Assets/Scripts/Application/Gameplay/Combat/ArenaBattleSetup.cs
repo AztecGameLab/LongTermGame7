@@ -75,7 +75,7 @@
         private void RestoreOriginalScene()
         {
             _cleanupDisposable.Dispose();
-            SceneManager.LoadScene(_originalSceneName);
+            Services.EventBus.Invoke(new LevelChangeEvent { NextScene = _originalSceneName }, "Arena Battle Restoration");
         }
 
         private List<GameObject> SpawnEntities(IEnumerable<GameObject> entities)
