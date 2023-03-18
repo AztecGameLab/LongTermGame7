@@ -1,10 +1,11 @@
 ﻿namespace Application.Gameplay
 {
     using System;
-    using System.Threading.Tasks;
+    using System.Linq;
     using Core;
+    using Core.Utility;
+    using UniRx;
     using UnityEngine;
-    using UnityEngine.SceneManagement;
     using Object = UnityEngine.Object;
 
     /// <summary>
@@ -34,48 +35,22 @@
         private static async void HandleSceneChange(LevelChangeEvent data)
         {
             // todo: screen transitions
-            SceneManager.LoadScene(data.NextScene);
-            await Task.Delay(100);
+            await LevelLoadingUtil.LoadFully(data.NextScene).ToTask();
 
             var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();
             playerSpawner.Spawn();
 
-            LevelEntrance[] allEntrances = Object.FindObjectsOfType<LevelEntrance>();
+            LevelEntrance entrance = Object.FindObjectsOfType<LevelEntrance>()
+                .FirstOrDefault(entrance => entrance.EntranceID == data.TargetID);
 
-            if (allEntrances.Length > 0)
+            if (entrance != default)
             {
-                LevelEntrance targetEntrance = null;
-                LevelEntrance defaultEntrance = null;
+                Vector3 spawnPosition = entrance.transform.position;
+                playerSpawner.SpawnedPlayer.transform.position = spawnPosition;
 
-                foreach (LevelEntrance entrance in allEntrances)
+                foreach (TeamMemberWorldView spawnedMember in playerSpawner.SpawnedMembers)
                 {
-                    if (entrance.EntranceID == data.TargetID)
-                    {
-                        targetEntrance = entrance;
-                    }
-
-                    if (entrance.DefaultEntrance)
-                    {
-                        defaultEntrance = entrance;
-                    }
-                }
-
-                if (targetEntrance == null && defaultEntrance != null)
-                {
-                    Debug.LogWarning(
-                        $"The entrance \"{data.TargetID}\" could not be found, falling back to \"{defaultEntrance.EntranceID}\"");
-                    targetEntrance = defaultEntrance;
-                }
-
-                if (targetEntrance != null)
-                {
-                    Vector3 spawnPosition = targetEntrance.transform.position;
-                    playerSpawner.SpawnedPlayer.transform.position = spawnPosition;
-
-                    foreach (TeamMemberWorldView spawnedMember in playerSpawner.SpawnedMembers)
-                    {
-                        spawnedMember.transform.position = spawnPosition;
-                    }
+                    spawnedMember.transform.position = spawnPosition;
                 }
             }
 

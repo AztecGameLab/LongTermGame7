@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-
-namespace Application.Gameplay.Combat.States.Round
+﻿namespace Application.Gameplay.Combat.States.Round
 {
     using System;
     using Core;
     using ImGuiNET;
+    using UnityEngine;
 
     /// <summary>
     /// The battle round state where you give the final additional data to the action before it is performed.
