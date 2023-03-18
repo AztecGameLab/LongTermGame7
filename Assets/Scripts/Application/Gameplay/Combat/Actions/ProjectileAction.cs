@@ -77,8 +77,9 @@ namespace Application.Gameplay.Combat.Actions
             // Use AimSystem to find and set target
 
             // Instantiate a projectile prefab
-            GameObject projectile = GameObject.Instantiate(projectilePrefab, User.transform.position, User.transform.rotation);
-            projectile.GetComponent<ProjectileMove>().Init(_targetPosition, projectileVelocity);
+            Vector3 spawnPos = new Vector3(User.transform.position.x, User.transform.position.y + 1, User.transform.position.z);
+            GameObject projectile = GameObject.Instantiate(projectilePrefab, spawnPos, User.transform.rotation, User.transform);
+            projectile.GetComponent<ProjectileMove>().Init(_targetPosition, spawnPos, projectileVelocity);
             // Move prefab to target
 
             // Delete prefab

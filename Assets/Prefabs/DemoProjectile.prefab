@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3320785319791010950}
   - component: {fileID: 532139235091748488}
-  - component: {fileID: 2180165590187002839}
+  - component: {fileID: 5983282152550250763}
   m_Layer: 0
   m_Name: DemoProjectile
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3843952811245424113}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.44, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -72,18 +72,18 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4862366831759667435, guid: 002d0eeb5d6e44a41bfa39bb70005089, type: 3}
+  m_Sprite: {fileID: -1557885009416977773, guid: d90baa182f46d094480ea17a4c996ba9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.84}
+  m_Size: {x: 20, y: 20}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2180165590187002839
+--- !u!114 &5983282152550250763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

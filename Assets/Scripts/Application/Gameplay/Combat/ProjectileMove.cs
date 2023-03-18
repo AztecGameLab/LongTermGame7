@@ -7,19 +7,24 @@ namespace Application.Gameplay.Combat
     public class ProjectileMove : MonoBehaviour
     {
         private Vector3 _targetPosition;
+        private Vector3 _spawnPos;
         private float _projectileSpeed;
+        private bool _isInitialized = false;
 
-        public void Init(Vector3 targetPosition, float speed)
+        public void Init(Vector3 targetPosition, Vector3 spawnPos, float speed)
         {
             _targetPosition = targetPosition;
+            _spawnPos = spawnPos;
             _projectileSpeed = speed;
+            _isInitialized = true;
         }
+
         private void Update()
         {
-            if (_targetPosition != null && _projectileSpeed != null)
+            if (_isInitialized)
             {
                 float step = _projectileSpeed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, _targetPosition, step);
+                transform.position = Vector3.MoveTowards(_spawnPos, _targetPosition, step);
             }
         }
     }
