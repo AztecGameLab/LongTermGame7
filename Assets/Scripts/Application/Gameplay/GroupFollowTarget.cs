@@ -74,7 +74,7 @@
                 GroupMembers[i].position = Vector3.MoveTowards(
                     GroupMembers[i].position,
                     _targetPositions[(_headIndex + i) % GroupMembers.Count],
-                    moveDelta);
+                    moveDelta * 0.9f);
             }
 
             if (_elapsedDistance >= _followSpacing)

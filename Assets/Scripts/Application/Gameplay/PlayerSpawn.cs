@@ -23,7 +23,7 @@
         /// <summary>
         /// Gets the logic that makes the selected team follow behind the player.
         /// </summary>
-        public GroupFollowTarget MonsterFollowPlayer { get; } = new GroupFollowTarget();
+        public GroupFollowTarget MonsterFollowPlayer { get; } = new GroupFollowTarget(3);
 
         /// <summary>
         /// Gets a list of every spawned player team member in the scene.
