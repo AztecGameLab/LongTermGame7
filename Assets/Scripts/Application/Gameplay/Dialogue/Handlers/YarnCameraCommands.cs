@@ -52,14 +52,8 @@
             _originalRotation = _cam.transform.rotation;
 
             runner.AddCommandHandler<float, float, float, float>("cam-offset", RunOffsetHandler);
-            // runner.AddCommandHandler<float, float, float, float>("cam-offset-rel", MoveRel);
             runner.AddCommandHandler<GameObject, float>("cam-follow", RunFollowHandler);
             runner.AddCommandHandler<float>("cam-refocus", RunRefocusHandler);
-
-            // dialogueRunner.AddCommandHandler<float, float, float, float>("cam-swivel-abs", SwivelAbs);
-            // dialogueRunner.AddCommandHandler<float, float, float, float>("cam-swivel-rel", SwivelRel);
-            // dialogueRunner.AddCommandHandler<GameObject>("cam-lookAt", LookAt);
-            // dialogueRunner.AddCommandHandler("cam-reset-rotation", ResetRotation);
 
             runner.onNodeStart.AddListener(ActivateDialogueCamera);
             runner.onNodeComplete.AddListener(DeactivateDialogueCamera);
@@ -68,26 +62,12 @@
             _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
         }
 
-        private Coroutine RunOffsetHandler(float arg1, float arg2, float arg3, float arg4 = 1) => 
-            _cam.StartCoroutine(MoveAbs(arg1, arg2, arg3, arg4));
-
-        private Coroutine RunRefocusHandler(float time = 1) =>
-            _cam.StartCoroutine(ResetPosition(time));
-
-        private Coroutine RunFollowHandler(GameObject arg, float time = 1) =>
-            _cam.StartCoroutine(Follow(arg, time));
-
         /// <inheritdoc/>
         public void UnregisterCommands(DialogueRunner runner)
         {
             runner.RemoveCommandHandler("cam-offset");
-            // runner.RemoveCommandHandler("cam-offset-rel");
             runner.RemoveCommandHandler("cam-follow");
             runner.RemoveCommandHandler("cam-refocus");
-            // dialogueRunner.RemoveCommandHandler("cam-swivel-abs");
-            // dialogueRunner.RemoveCommandHandler("cam-swivel-rel");
-            // dialogueRunner.RemoveCommandHandler("cam-lookAt");
-            // dialogueRunner.RemoveCommandHandler("cam-reset-rotation");
 
             runner.onNodeStart.RemoveListener(ActivateDialogueCamera);
             runner.onNodeComplete.RemoveListener(DeactivateDialogueCamera);
@@ -108,6 +88,15 @@
 
             return input;
         }
+
+        private Coroutine RunOffsetHandler(float arg1, float arg2, float arg3, float arg4 = 1) =>
+            _cam.StartCoroutine(MoveAbs(arg1, arg2, arg3, arg4));
+
+        private Coroutine RunRefocusHandler(float time = 1) =>
+            _cam.StartCoroutine(ResetPosition(time));
+
+        private Coroutine RunFollowHandler(GameObject arg, float time = 1) =>
+            _cam.StartCoroutine(Follow(arg, time));
 
         /// <summary>
         /// Make the camera Look At the target game object. You must be using a camera with Aim that supports this.
@@ -130,6 +119,7 @@
         /// Make the camera Follow the target game object. You must be using a camera with Aim that supports this.
         /// </summary>
         /// <param name="target">The name of the game object to follow.</param>
+        /// <param name="time">How long the camera should take to move.</param>
         private IEnumerator Follow(GameObject target, float time = 1)
         {
             if (target == null)

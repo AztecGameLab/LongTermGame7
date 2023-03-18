@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System.Collections;
     using Core;

@@ -1,11 +1,10 @@
-﻿using TriInspector;
-
-namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat
 {
     using System.Collections.Generic;
     using Core;
     using Deciders;
     using Hooks;
+    using TriInspector;
     using UnityEngine;
 
     /// <summary>
