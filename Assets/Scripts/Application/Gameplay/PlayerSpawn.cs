@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using System;
+
+namespace Application.Gameplay
 {
     using System.Collections.Generic;
     using Cinemachine;
