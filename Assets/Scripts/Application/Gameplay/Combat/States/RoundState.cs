@@ -3,6 +3,7 @@
     using System;
     using Core;
     using Core.Utility;
+    using UniRx;
 
     /// <summary>
     /// A state of the round in a battle.
@@ -11,8 +12,8 @@
     [Serializable]
     public abstract class RoundState : IState
     {
-        private IDisposable _debugImGuiDisposable;
         private IDebugImGui _debugImGui;
+        private CompositeDisposable _disposables = new CompositeDisposable();
 
         /// <summary>
         /// Gets or sets the current round this state is taking place in.
@@ -30,7 +31,7 @@
         {
             if (_debugImGui != null)
             {
-                _debugImGuiDisposable = ImGuiUtil.Register(_debugImGui);
+                DisposeOnExit(ImGuiUtil.Register(_debugImGui));
             }
         }
 
@@ -40,7 +41,8 @@
         /// </summary>
         public virtual void OnExit()
         {
-            _debugImGuiDisposable?.Dispose();
+            _disposables?.Dispose();
+            _disposables = new CompositeDisposable();
         }
 
         /// <summary>
@@ -65,6 +67,15 @@
         /// </summary>
         public virtual void OnRoundEnd()
         {
+        }
+
+        /// <summary>
+        /// Register a disposable to be cleaned up when this state exits.
+        /// </summary>
+        /// <param name="disposable">The disposable to remove on state exit.</param>
+        protected void DisposeOnExit(IDisposable disposable)
+        {
+            _disposables.Add(disposable);
         }
 
         /// <summary>

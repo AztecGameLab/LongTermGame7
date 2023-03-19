@@ -38,23 +38,25 @@
             await LevelLoadingUtil.LoadFully(data.NextScene).ToTask();
 
             var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();
-            playerSpawner.Spawn();
-
-            LevelEntrance entrance = Object.FindObjectsOfType<LevelEntrance>()
-                .FirstOrDefault(entrance => entrance.EntranceID == data.TargetID);
-
-            if (entrance != default)
+            if (playerSpawner != null)
             {
-                Vector3 spawnPosition = entrance.transform.position;
-                playerSpawner.SpawnedPlayer.transform.position = spawnPosition;
+                playerSpawner.Spawn();
+                LevelEntrance entrance = Object.FindObjectsOfType<LevelEntrance>()
+                    .FirstOrDefault(entrance => entrance.EntranceID == data.TargetID);
 
-                foreach (TeamMemberWorldView spawnedMember in playerSpawner.SpawnedMembers)
+                if (entrance != default)
                 {
-                    spawnedMember.transform.position = spawnPosition;
-                }
-            }
+                    Vector3 spawnPosition = entrance.transform.position;
+                    playerSpawner.SpawnedPlayer.transform.position = spawnPosition;
 
-            playerSpawner.MonsterFollowPlayer.Target = playerSpawner.SpawnedPlayer.transform;
+                    foreach (TeamMemberWorldView spawnedMember in playerSpawner.SpawnedMembers)
+                    {
+                        spawnedMember.transform.position = spawnPosition;
+                    }
+                }
+
+                playerSpawner.MonsterFollowPlayer.Target = playerSpawner.SpawnedPlayer.transform;
+            }
         }
     }
 }
