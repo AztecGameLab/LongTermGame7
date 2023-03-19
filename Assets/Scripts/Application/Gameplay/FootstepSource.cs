@@ -43,7 +43,6 @@ namespace Application.Gameplay
                 // Compare elapsedDistance to our step distance to see if we walked far enough
                 if (_elapsedDistance >= stepDistance)
                 {
-                    Services.EventBus.Invoke(new StepEvent(), "Demo Step");
                     RuntimeManager.PlayOneShot(footstepSfx);
 
                     // If we did, fire the event and reset elapsedDistance to 0
