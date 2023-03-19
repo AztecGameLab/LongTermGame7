@@ -139,6 +139,8 @@
             {
                 worldLoader.MonsterFollowPlayer.Enabled = false;
             }
+            
+            gameObject.SetActive(true);
 
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
@@ -225,6 +227,7 @@
             }
 
             _battleEndSubject.OnNext(Unit.Default);
+            gameObject.SetActive(false);
         }
 
         private static void AddRange<T>(Collection<T> destination, IEnumerable<T> source)

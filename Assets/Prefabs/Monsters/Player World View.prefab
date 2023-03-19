@@ -291,6 +291,43 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-4659608116779641576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399309328918950859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad0311c271145feadb31761a00ea7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactRange: 3
+  interactKey: 101
+  offset: {x: 0, y: 0.5, z: 0}
+  movement: {fileID: 0}
+--- !u!114 &-831923832386012699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399309328918950859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed857d24098a2d4386021c604afa5a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepDistance: 1.5
+  showDebug: 0
+  footstepSfx:
+    Guid:
+      Data1: -1735210115
+      Data2: 1153200602
+      Data3: -1585235816
+      Data4: 829438423
+    Path: event:/Footstep
 --- !u!114 &1480437382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +360,7 @@ MonoBehaviour:
   gravityDirection: {x: 0, y: -1, z: 0}
   slopeLimitDegrees: 45
   showDebug: 0
-  groundDistance: 0.1
+  groundDistance: 0.25
 --- !u!114 &1480437384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,3 +403,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f57dfb049afd624a83a4d75d35024a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1324401650081549832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399309328918950859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad0311c271145feadb31761a00ea7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactRange: 3
+  interactKey: 101
+  offset: {x: 0, y: 0.5, z: 0}
+  movement: {fileID: 1480437382}

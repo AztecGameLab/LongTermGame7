@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using UniRx;
-    using UniRx.Diagnostics;
     using UnityEngine;
 
     /// <summary>

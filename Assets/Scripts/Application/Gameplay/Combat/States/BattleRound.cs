@@ -20,7 +20,7 @@
         private PickMonster pickMonster;
 
         [SerializeField]
-        private PickActionsForMonster pickActions;
+        private MoveSelection pickActions;
 
         [SerializeField]
         private PrepareAction prepareAction;
@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets the state for picking actions for a monster.
         /// </summary>
-        public PickActionsForMonster PickActions => pickActions;
+        public MoveSelection PickActions => pickActions;
 
         /// <summary>
         /// Gets the state for preparing an action.

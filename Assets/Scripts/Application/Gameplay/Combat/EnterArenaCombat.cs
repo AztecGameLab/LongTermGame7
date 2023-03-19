@@ -4,6 +4,7 @@
     using Core;
     using Deciders;
     using Hooks;
+    using TriInspector;
     using UnityEngine;
 
     /// <summary>
@@ -14,11 +15,16 @@
         [SerializeField]
         private List<GameObject> enemyTeamPrefabs;
 
+        [Required]
         [SerializeField]
         private EnemyOrderDecider enemyOrderDecider;
 
         [SerializeReference]
         private List<Hook> hooks;
+
+        [Scene]
+        [SerializeField]
+        private string arenaSceneName;
 
         /// <inheritdoc/>
         protected override void HandleCollisionEnter(GameObject obj)
@@ -29,7 +35,7 @@
                 Services.PlayerTeamData.Player,
             };
 
-            var battleData = new ArenaBattleStartData(playerTeamData, enemyTeamPrefabs, hooks, enemyOrderDecider);
+            var battleData = new ArenaBattleStartData(playerTeamData, enemyTeamPrefabs, hooks, arenaSceneName, enemyOrderDecider);
             Services.EventBus.Invoke(battleData, $"Arena Combat Trigger: {gameObject.name}");
         }
     }

@@ -7,6 +7,9 @@
     /// </summary>
     public class DefeatUI : MonoBehaviour
     {
+        /// <summary>
+        /// The canvas group for the entire defeat UI.
+        /// </summary>
         public CanvasGroup defeatText;
     }
 }

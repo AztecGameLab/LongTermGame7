@@ -1,5 +1,6 @@
 ﻿namespace Application.Core.Utility
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -98,6 +99,46 @@
                 distance = -1;
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Searches the enumerable for the closest object in a direction.
+        /// </summary>
+        /// <param name="objects">The objects to search.</param>
+        /// <param name="ray">The origin and direction to search.</param>
+        /// <param name="selector">A selector for only finding certain objects.</param>
+        /// <returns>The nearest object in a direction.</returns>
+        public static GameObject GetClosestInDirection(this IEnumerable<GameObject> objects, Ray ray, Predicate<GameObject> selector)
+        {
+            const float selectionAngle = 90;
+
+            GameObject result = null;
+            float best = float.PositiveInfinity;
+
+            foreach (GameObject obj in objects)
+            {
+                var position = obj.transform.position;
+                var dirToTarget = position - ray.origin;
+
+                if (selector(obj) && Vector3.Angle(ray.direction, dirToTarget) <= selectionAngle && dirToTarget.sqrMagnitude < best)
+                {
+                    best = dirToTarget.sqrMagnitude;
+                    result = obj;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Searches the enumerable for the closest object in a direction.
+        /// </summary>
+        /// <param name="objects">The objects to search.</param>
+        /// <param name="ray">The origin and direction to search.</param>
+        /// <returns>The nearest object in a direction.</returns>
+        public static GameObject GetClosestInDirection(this IEnumerable<GameObject> objects, Ray ray)
+        {
+            return GetClosestInDirection(objects, ray, o => true);
         }
     }
 }
