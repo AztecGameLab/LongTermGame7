@@ -7,7 +7,14 @@
     /// </summary>
     public static class ProjectileMotion
     {
-        /// <summary>
+        public static Vector3 GetExplosionVelocity(Vector3 source, Vector3 target, float strength, float yBoost = 0)
+        {
+            var sourceToTarget = target - source;
+            var upwardBoost = Vector3.up * yBoost;
+            return (sourceToTarget.normalized * strength) + upwardBoost;
+        }
+
+            /// <summary>
         /// Calculates the velocity needed to launch a projectile between two points, over a set time.
         /// </summary>
         /// <param name="from">The starting point.</param>

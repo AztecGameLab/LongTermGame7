@@ -17,6 +17,14 @@
     {
         [SerializeField]
         [JsonProperty]
+        private string actionName = "Projectile";
+
+        [SerializeField]
+        [JsonProperty]
+        private string actionDescription = "Launches a projectile";
+
+        [SerializeField]
+        [JsonProperty]
         private AssetReferenceGameObject projectileAsset;
 
         [SerializeField]
@@ -28,10 +36,10 @@
         private Vector3 _targetPosition;
 
         /// <inheritdoc/>
-        public override string Name => "Projectile";
+        public override string Name => actionName;
 
         /// <inheritdoc/>
-        public override string Description => "Launches a projectile";
+        public override string Description => actionDescription;
 
         /// <inheritdoc/>
         public override void PrepEnter()
@@ -63,11 +71,11 @@
         protected override IEnumerator Execute()
         {
             Vector3 origin = User.transform.position + Vector3.up;
-            var projectileInstance = projectileAsset.InstantiateAsync(origin, Quaternion.identity).WaitForCompletion();
+            var launchVelocity = ProjectileMotion.GetLaunchVelocity(origin, _targetPosition, projectileTime);
+            var projectileInstance = projectileAsset.InstantiateAsync(origin, Quaternion.LookRotation(launchVelocity)).WaitForCompletion();
 
             if (projectileInstance.TryGetComponent(out Rigidbody rigidbody))
             {
-                var launchVelocity = ProjectileMotion.GetLaunchVelocity(origin, _targetPosition, projectileTime);
                 rigidbody.velocity = launchVelocity;
                 yield return new WaitForSeconds(projectileTime);
             }

@@ -25,11 +25,16 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
-        name: Chuck Some Dirt
-        description: throw a week ball of dirt at enemies
-        actionPointCost: 3
+        actionName: Chuck Some Dirt
+        actionDescription: Throw a weak ball of dirt at enemies.
+        projectileAsset:
+          m_AssetGUID: 396c4d562d71a5f468c0de6ed12f83ba
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        projectileTime: 1
     00000001:
       type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
