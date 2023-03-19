@@ -9,7 +9,7 @@
     {
         public static Vector3 GetExplosionVelocity(Vector3 source, Vector3 target, float strength, float yBoost = 0)
         {
-            var sourceToTarget = target - source;
+            var sourceToTarget = new Vector3(target.x, 0, target.z) - new Vector3(source.x, 0, source.z);
             var upwardBoost = Vector3.up * yBoost;
             return (sourceToTarget.normalized * strength) + upwardBoost;
         }

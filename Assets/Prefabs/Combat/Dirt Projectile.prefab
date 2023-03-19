@@ -4871,6 +4871,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b65800aaa4c18b948b2c7416ea96165b, type: 2}
+    - target: {fileID: 6524711572208267176, guid: 9f6e80d503eafda4d8bba3c093d6123d, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f6e80d503eafda4d8bba3c093d6123d, type: 3}
 --- !u!1 &5305812944337922485 stripped
@@ -4912,8 +4916,8 @@ MonoBehaviour:
     m_Bits: 2551
   explosionRadius: 3
   explosionDamage: 2
-  explosionKnockback: 15
-  explosionUpBoost: 0
+  explosionKnockback: 3
+  explosionUpBoost: 3
 --- !u!114 &1797340105109341964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4926,6 +4930,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0416cf0344a14a0b8263ba7979c375df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layersToHit:
+    serializedVersion: 2
+    m_Bits: 2547
 --- !u!114 &6700824181463685866
 MonoBehaviour:
   m_ObjectHideFlags: 0

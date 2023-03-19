@@ -9,40 +9,12 @@
     /// </summary>
     public class KillAllEnemiesObjective : Hook
     {
-        private float _remainingHealth;
-        private CompositeDisposable _disposable;
-
         /// <inheritdoc/>
-        public override void OnBattleStart()
+        public override void OnBattleUpdate()
         {
-            base.OnBattleStart();
-            _disposable = new CompositeDisposable();
+            base.OnBattleUpdate();
 
-            foreach (var enemy in Controller.EnemyTeam)
-            {
-                if (enemy.TryGetComponent(out LivingEntity health))
-                {
-                    var disposable = health.OnHealthChange
-                        .WithPrevious()
-                        .Subscribe(data => HandleEnemyHealthChange(data.Delta()));
-
-                    _disposable.Add(disposable);
-                }
-            }
-        }
-
-        /// <inheritdoc/>
-        public override void OnBattleEnd()
-        {
-            base.OnBattleEnd();
-            _disposable.Dispose();
-        }
-
-        private void HandleEnemyHealthChange(float delta)
-        {
-            _remainingHealth += delta;
-
-            if (_remainingHealth <= 0)
+            if (Controller.EnemyTeam.Count <= 0 && Controller.CurrentState != Controller.Victory)
             {
                 Controller.TransitionTo(Controller.Victory);
             }

@@ -50,7 +50,7 @@
                 if (targetCollider.TryGetComponent(out IPhysicsComponent physics))
                 {
                     var explosionVelocity = ProjectileMotion.GetExplosionVelocity(source, target, explosionKnockback, explosionUpBoost);
-                    physics.Velocity = explosionVelocity * falloff;
+                    physics.Velocity = explosionVelocity;
                 }
             }
         }

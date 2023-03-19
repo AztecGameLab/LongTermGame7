@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat
+﻿using System.Threading.Tasks;
+
+namespace Application.Gameplay.Combat
 {
     using System;
     using System.Collections.Generic;
@@ -46,6 +48,7 @@
             _originalSceneName = SceneManager.GetActiveScene().name;
 
             await LevelLoadingUtil.LoadFully(data.ArenaSceneName).ToTask();
+            await Task.Delay(100);
 
             List<GameObject> playerTeamInstances = new List<GameObject>();
 

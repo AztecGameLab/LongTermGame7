@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using UnityEngine;
 
@@ -10,9 +8,15 @@ namespace Application.Gameplay
     [RequireComponent(typeof(LivingEntity))]
     public class KillOnCollision : MonoBehaviour
     {
-        private void OnCollisionEnter()
+        [SerializeField]
+        private LayerMask layersToHit;
+
+        private void OnTriggerEnter(Collider col)
         {
-            GetComponent<LivingEntity>().Kill();
+            if ((1 << col.gameObject.layer & layersToHit) != 0)
+            {
+                GetComponent<LivingEntity>().Kill();
+            }
         }
     }
 }
