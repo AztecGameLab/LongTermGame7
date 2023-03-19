@@ -17,6 +17,7 @@ MonoBehaviour:
   actions:
   - id: 0
   - id: 1
+  - id: 2
   maxHealth: 1
   worldViewAssetPath: wv-player
   maxActionPoints: 5
@@ -34,3 +35,12 @@ MonoBehaviour:
         maxRange: 15
         damage: 20
         lightningAssetPath: particle-lightning
+    00000002:
+      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        projectileAsset:
+          m_AssetGUID: 9f6e80d503eafda4d8bba3c093d6123d
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        projectileTime: 15
