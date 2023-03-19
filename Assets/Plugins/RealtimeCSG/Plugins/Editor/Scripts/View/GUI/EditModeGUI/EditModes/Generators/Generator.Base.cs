@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using InternalRealtimeCSG;
+using JetBrains.Annotations;
 using RealtimeCSG.Foundation;
 using RealtimeCSG.Legacy;
 using RealtimeCSG.Components;
@@ -78,6 +79,8 @@ namespace RealtimeCSG
 		[NonSerialized] protected bool			isFinished			= false;
 		[NonSerialized] protected bool			mouseIsDragging		= false;		
 		[NonSerialized] protected bool			ignoreOrbit			= false;
+        
+        [UsedImplicitly]
 		[NonSerialized] ViewTool				previousViewTool	= ViewTool.Pan;
 
 		[NonSerialized] Quaternion				originalGridRotation;

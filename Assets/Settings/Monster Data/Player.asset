@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   memberName: Player
-  memberDescription: Its you!
+  memberDescription: It's you!
   actions:
   - id: 0
   - id: 1
-  maxHealth: 5
+  - id: 2
+  maxHealth: 1
   worldViewAssetPath: wv-player
   maxActionPoints: 5
   references:
@@ -25,20 +26,21 @@ MonoBehaviour:
     00000000:
       type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
-        <IsPrepFinished>k__BackingField: 0
-        <User>k__BackingField: {fileID: 0}
-        <Controller>k__BackingField: {fileID: 0}
         actionPointsPerUnit: 0.25
         moveSpeed: 7
-        _targetPosition: {x: 0, y: 0, z: 0}
-        _distance: 4.9321637
-        _actionPointTracker: {fileID: 0}
     00000001:
-      type: {class: Testing, ns: Application.Core, asm: Application}
+      type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
-        <IsPrepFinished>k__BackingField: 1
-        <User>k__BackingField: {fileID: 0}
-        <Controller>k__BackingField: {fileID: 0}
-        StairPrefab: {fileID: 5136128631618698541, guid: 5ee9bba5bfbd83e4b841474bf39569f3, type: 3}
-        _indicator: {fileID: 0}
-        _target: {x: 7.125118, y: 2.4999995, z: 12.708475}
+        actionPointCost: 1
+        maxRange: 15
+        damage: 20
+        lightningAssetPath: particle-lightning
+    00000002:
+      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        projectileAsset:
+          m_AssetGUID: 9f6e80d503eafda4d8bba3c093d6123d
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        projectileTime: 1

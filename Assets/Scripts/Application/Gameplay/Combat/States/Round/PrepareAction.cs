@@ -3,6 +3,7 @@
     using System;
     using Core;
     using ImGuiNET;
+    using UnityEngine;
 
     /// <summary>
     /// The battle round state where you give the final additional data to the action before it is performed.
@@ -31,6 +32,11 @@
             base.OnTick();
 
             Round.PickActions.SelectedAction.PrepTick();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Round.TransitionTo(Round.PickActions);
+            }
 
             if (Round.PickActions.SelectedAction.IsPrepFinished)
             {

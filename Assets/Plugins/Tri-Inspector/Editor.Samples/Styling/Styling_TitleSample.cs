@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using TriInspector;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ public class Styling_TitleSample : ScriptableObject
     {
     }
 
+    [UsedImplicitly]
     private string _myTitleField = "Serialized Title";
 
     private string MyTitleProperty => DateTime.Now.ToLongTimeString();

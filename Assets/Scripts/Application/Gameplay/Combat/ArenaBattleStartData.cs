@@ -31,22 +31,30 @@
         public readonly EnemyOrderDecider EnemyOrderDecider;
 
         /// <summary>
+        /// The name of the scene to be loaded for this arena.
+        /// </summary>
+        public readonly string ArenaSceneName;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ArenaBattleStartData"/> struct.
         /// </summary>
         /// <param name="playerTeamData">The prefabs to spawn for the players.</param>
         /// <param name="enemyTeamPrefabs">The prefabs to spawn for the enemies.</param>
         /// <param name="hooks">The hooks to be added into the battle.</param>
+        /// <param name="sceneName">The name of the scene to be loaded for this arena battle.</param>
         /// <param name="enemyOrderDecider">The decider in charge of executing enemy turns.</param>
         public ArenaBattleStartData(
             IReadOnlyCollection<TeamMemberData> playerTeamData,
             IReadOnlyCollection<GameObject> enemyTeamPrefabs,
             IReadOnlyCollection<Hook> hooks,
+            string sceneName,
             EnemyOrderDecider enemyOrderDecider)
         {
             PlayerTeamData = playerTeamData;
             EnemyTeamPrefabs = enemyTeamPrefabs;
             Hooks = hooks;
             EnemyOrderDecider = enemyOrderDecider;
+            ArenaSceneName = sceneName;
         }
     }
 }

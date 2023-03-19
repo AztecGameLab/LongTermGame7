@@ -32,6 +32,11 @@
         private bool _didReverse;
 
         /// <summary>
+        /// Gets the direction that the player is currently facing.
+        /// </summary>
+        public Vector3 FacingDirection { get; private set; }
+
+        /// <summary>
         /// Automatically called from PlayerInput component.
         /// </summary>
         /// <param name="value">The input value.</param>
@@ -40,6 +45,11 @@
             if (value != null)
             {
                 _playerInput = value.Get<Vector2>();
+
+                if (_playerInput != Vector2.zero)
+                {
+                    FacingDirection = new Vector3(_playerInput.x, 0, _playerInput.y);
+                }
             }
         }
 

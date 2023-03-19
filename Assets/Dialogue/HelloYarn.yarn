@@ -1,31 +1,38 @@
 ﻿title: Start
 ---
-Follow the tree
-<<cam-follow Tree>>
+Multi-dialogue time.
+-> Option 1
+    Wassup! Nested choice:
+    -> subchoice1
+    -> subchoice2
+    -> You Really Want This Option
+-> Option 2
+-> You Don't Want This Option
 
-Follow the player
-<<cam-follow Player>>
+Hello, yarn!
+<<image-show test>>
+Do you see this?
+<<image-hide>>
+Now its gone!
 
-Swivel the cam relatively by 30 -40 50 instantly
-<<cam-swivel-rel 30 -40 50>>
+Time for some camera effects.
+Go up 5 units.
+<<cam-offset 0 5 0>>
+Go left 5 units.
+<<cam-offset 0 0 -5>>
+Go to player.
+<<cam-refocus>>
 
-Set the camera to 0, 0, 0 over 1 second
-<<cam-swivel-abs 0 0 0 1>>
+Using image-show for a scuffed screen transition.
+<<image-show black>>
+<<image-hide>>
+Now white
+<<image-show white>>
+<<image-hide>>
+how was that?
+===
 
-Move the cam offset over 2 seconds
-<<cam-offset-abs 10 21.9 30 2>>
-
-Look at the player
-<<cam-lookAt Player>>
-
-Resetting rotation
-<<cam-reset-rotation>>
-
-Return to the player with relative offset 1 sec
-<<cam-offset-rel -10 -20 -30 1>>
-
-Anyway, time to get writing!
-
-<<cam-fade-out>>
-<<cam-fade-in>>
+title: MyCustomSTuff
+---
+My text
 ===
