@@ -1,7 +1,6 @@
 ﻿namespace Application
 {
     using Core;
-    using Core.Events;
     using Core.Serialization;
     using Gameplay;
     using Gameplay.Regions;
@@ -45,12 +44,8 @@
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
             Debug.Log($"Loaded settings: {settings.name}");
 
-            // todo: unify level loading to clear confusion
-            Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
-
             gameplaySystem.Init();
 
-            // todo: is this important?
             if (!Application.isEditor)
             {
                 SceneManager.LoadScene(1);
