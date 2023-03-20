@@ -64,6 +64,7 @@
             }
 
             _disposeOnExit.Clear();
+            IsPrepFinished = false;
         }
 
         /// <summary>

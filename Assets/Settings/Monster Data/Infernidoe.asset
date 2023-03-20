@@ -14,9 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   memberName: Infernidoe
   memberDescription: Monster Description
-  actions: []
+  actions:
+  - id: 0
   maxHealth: 5
   worldViewAssetPath: wv-infernidoe
   maxActionPoints: 5
   references:
     version: 1
+    00000000:
+      type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointsPerUnit: 0.25
+        moveSpeed: 7
