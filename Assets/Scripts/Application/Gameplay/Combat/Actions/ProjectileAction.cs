@@ -47,6 +47,7 @@
             base.PrepEnter();
             _aimSystem.Initialize(groundSnap: false);
             _indicator = Services.IndicatorFactory.Borrow<ValidityIndicator>();
+            DisposeOnExit(_indicator);
         }
 
         /// <inheritdoc/>
@@ -58,13 +59,6 @@
             _targetPosition = aimInfo.point;
 
             IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
-        }
-
-        /// <inheritdoc/>
-        public override void PrepExit()
-        {
-            base.PrepExit();
-            _indicator.Dispose();
         }
 
         /// <inheritdoc/>

@@ -1,11 +1,10 @@
-﻿using Application.Core.Utility;
-
-namespace Application.Gameplay.Combat.Actions
+﻿namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using Core;
+    using Core.Utility;
     using ElRaccoone.Tweens;
     using ElRaccoone.Tweens.Core;
     using Newtonsoft.Json;
@@ -61,7 +60,8 @@ namespace Application.Gameplay.Combat.Actions
         [JsonProperty]
         private EaseType moveEasing = EaseType.Linear;
 
-        private IPooledObject<PathIndicator> _indicator;
+        private IPooledObject<ArrowIndicator> _arrowIndicator;
+        private IPooledObject<SliceIndicator> _sliceIndicator;
         private AimSystem _aimSystem = new AimSystem();
         private Vector3 _targetPosition;
 
@@ -78,9 +78,10 @@ namespace Application.Gameplay.Combat.Actions
             _aimSystem.Initialize();
 
             // Replace this with whatever custom indicator you need.
-            _indicator = Services.IndicatorFactory.Borrow<PathIndicator>();
-            _indicator.Instance.IsValid = true;
-            DisposeOnExit(_indicator);
+            _arrowIndicator = Services.IndicatorFactory.Borrow<ArrowIndicator>();
+            _sliceIndicator = Services.IndicatorFactory.Borrow<SliceIndicator>();
+            DisposeOnExit(_arrowIndicator);
+            DisposeOnExit(_sliceIndicator);
         }
 
         /// <inheritdoc/>
@@ -88,8 +89,11 @@ namespace Application.Gameplay.Combat.Actions
         {
             base.PrepTick();
             var aimData = _aimSystem.Update();
-            _targetPosition = Vector3.ClampMagnitude(aimData.point - User.transform.position, distance) + User.transform.position;
-            _indicator.Instance.RenderPath(new[] { User.transform.position, _targetPosition });
+            var origin = User.transform.position;
+            var direction = (aimData.point - origin).normalized;
+            _targetPosition = Vector3.ClampMagnitude(aimData.point - origin, distance) + origin;
+            _arrowIndicator.Instance.UpdateView(origin, _targetPosition);
+            _sliceIndicator.Instance.UpdateView(origin, -direction, range, spread);
 
             // By default, lock in by left-clicking. You may want a different method.
             IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
@@ -100,7 +104,8 @@ namespace Application.Gameplay.Combat.Actions
         {
             yield return new WaitForSeconds(0.1f);
             dashEffect.InstantiateAsync(User.transform.position, Quaternion.identity).WaitForCompletion();
-            var direction = (_targetPosition - User.transform.position).normalized;
+            var direction = _targetPosition - User.transform.position;
+            direction.y = 0;
 
             foreach (Collider collider in GetAllInSlice(User.transform.position, -direction, spread, range, damageMask))
             {
@@ -122,6 +127,7 @@ namespace Application.Gameplay.Combat.Actions
             foreach (Collider collider in colliders)
             {
                 var v = collider.transform.position - origin;
+                v.y = 0;
 
                 if (Vector3.Angle(direction, v) <= s)
                 {
