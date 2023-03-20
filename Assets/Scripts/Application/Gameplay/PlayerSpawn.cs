@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System.Collections.Generic;
     using Cinemachine;
@@ -25,7 +23,7 @@ namespace Application.Gameplay
         /// <summary>
         /// Gets the logic that makes the selected team follow behind the player.
         /// </summary>
-        public GroupFollowTarget MonsterFollowPlayer { get; } = new GroupFollowTarget(3);
+        public GroupFollowTarget MonsterFollowPlayer { get; } = new GroupFollowTarget();
 
         /// <summary>
         /// Gets a list of every spawned player team member in the scene.

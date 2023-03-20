@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace Application.Vfx.Animation
+﻿namespace Application.Vfx.Animation
 {
+    using UnityEngine;
+
     /// <summary>
     /// Keep track of the current velocity of an object, based on its positions.
     /// </summary>
