@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using Application.Core.Utility;
+
+namespace Application.Gameplay
 {
     using Combat;
     using Core.Abstraction;
@@ -42,12 +44,12 @@
                 Vector3 target = targetCollider.transform.position;
                 var falloff = 1 - Mathf.Clamp01(Vector3.Distance(source, target) / explosionRadius);
 
-                if (targetCollider.TryGetComponent(out LivingEntity entity))
+                if (targetCollider.TryGetComponentParents(out LivingEntity entity))
                 {
                     entity.Damage(explosionDamage * falloff);
                 }
 
-                if (targetCollider.TryGetComponent(out IPhysicsComponent physics))
+                if (targetCollider.TryGetComponentParents(out IPhysicsComponent physics))
                 {
                     var explosionVelocity = ProjectileMotion.GetExplosionVelocity(source, target, explosionKnockback, explosionUpBoost);
                     physics.Velocity = explosionVelocity;
