@@ -1,4 +1,4 @@
-﻿namespace Application.Core
+﻿namespace Application.Audio
 {
     using System;
     using FMOD.Studio;

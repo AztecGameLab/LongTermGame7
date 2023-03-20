@@ -1,12 +1,14 @@
-﻿using Application.Core.Utility;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using Combat;
     using Core.Abstraction;
+    using Core.Utility;
     using UniRx;
     using UnityEngine;
 
+    /// <summary>
+    /// Knocks back and damages all nearby entities when killed.
+    /// </summary>
     [RequireComponent(typeof(LivingEntity))]
     public class ExplodeOnDeath : MonoBehaviour
     {

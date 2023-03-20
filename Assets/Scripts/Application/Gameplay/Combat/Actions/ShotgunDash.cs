@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using Core;
     using Core.Utility;
     using ElRaccoone.Tweens;
@@ -12,8 +11,6 @@
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
-    // todo: arrow indicator and spread indicator
-
     /// <summary>
     /// Copy and paste this file to quickly get started with a new BattleAction.
     /// </summary>
@@ -21,6 +18,8 @@
     [JsonObject(MemberSerialization.OptIn)]
     public class ShotgunDash : BattleAction
     {
+        private readonly Collider[] _resultBuffer = new Collider[25];
+
         [SerializeField]
         [JsonProperty]
         private string name = "Burst Dash";
@@ -92,6 +91,7 @@
             var origin = User.transform.position;
             var direction = (aimData.point - origin).normalized;
             _targetPosition = Vector3.ClampMagnitude(aimData.point - origin, distance) + origin;
+
             _arrowIndicator.Instance.UpdateView(origin, _targetPosition);
             _sliceIndicator.Instance.UpdateView(origin, -direction, range, spread);
 
@@ -103,13 +103,18 @@
         protected override IEnumerator Execute()
         {
             yield return new WaitForSeconds(0.1f);
-            dashEffect.InstantiateAsync(User.transform.position, Quaternion.identity).WaitForCompletion();
-            var direction = _targetPosition - User.transform.position;
+            var origin = User.transform.position;
+            var direction = _targetPosition - origin;
             direction.y = 0;
 
-            foreach (Collider collider in GetAllInSlice(User.transform.position, -direction, spread, range, damageMask))
+            // Visual effects for dashing.
+            dashEffect.InstantiateAsync(origin, Quaternion.identity);
+
+            int hits = Scanner.GetAllInSlice(origin, -direction, spread, range, damageMask, _resultBuffer);
+
+            for (int i = 0; i < hits; i++)
             {
-                if (collider.TryGetComponentParents(out LivingEntity entity))
+                if (_resultBuffer[i].TryGetComponentParents(out LivingEntity entity))
                 {
                     entity.Damage(damage);
                 }
@@ -117,25 +122,6 @@
 
             yield return User.transform.TweenPosition(_targetPosition, moveDuration).SetEase(moveEasing).Await();
             yield return new WaitForSeconds(1f);
-        }
-
-        private List<Collider> GetAllInSlice(Vector3 origin, Vector3 direction, float s, float radius, LayerMask mask)
-        {
-            Collider[] colliders = Physics.OverlapSphere(origin, radius, mask.value);
-            List<Collider> results = new List<Collider>();
-
-            foreach (Collider collider in colliders)
-            {
-                var v = collider.transform.position - origin;
-                v.y = 0;
-
-                if (Vector3.Angle(direction, v) <= s)
-                {
-                    results.Add(collider);
-                }
-            }
-
-            return results;
         }
     }
 }

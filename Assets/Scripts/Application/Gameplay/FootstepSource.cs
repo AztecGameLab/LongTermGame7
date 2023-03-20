@@ -1,10 +1,7 @@
-﻿using FMODUnity;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
-    using Core;
     using Core.Abstraction;
-    using Core.Events;
+    using FMODUnity;
     using UnityEngine;
 
     /// <summary>

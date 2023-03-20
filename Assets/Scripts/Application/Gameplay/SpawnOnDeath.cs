@@ -1,8 +1,11 @@
-﻿using UniRx;
-using UnityEngine;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
+    using UniRx;
+    using UnityEngine;
+
+    /// <summary>
+    /// Instantiates an object when this entity dies.
+    /// </summary>
     [RequireComponent(typeof(LivingEntity))]
     public class SpawnOnDeath : MonoBehaviour
     {

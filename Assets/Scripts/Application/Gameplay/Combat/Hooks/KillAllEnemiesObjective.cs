@@ -1,8 +1,5 @@
 ﻿namespace Application.Gameplay.Combat.Hooks
 {
-    using Core;
-    using UniRx;
-
     /// <summary>
     /// A hook that listens for all enemies to be killed, and then awards the player
     /// a victory.

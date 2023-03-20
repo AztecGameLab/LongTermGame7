@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-
-namespace Application.Gameplay.Combat
+﻿namespace Application.Gameplay.Combat
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Core;
     using Core.Utility;
     using UniRx;
