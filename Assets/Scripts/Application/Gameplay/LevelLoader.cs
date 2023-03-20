@@ -38,23 +38,22 @@
             await LevelLoadingUtil.LoadFully(data.NextScene).ToTask();
 
             var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();
+
+            // Try to spawn the player, if set up correctly.
             if (playerSpawner != null)
             {
                 playerSpawner.Spawn();
-                LevelEntrance entrance = Object.FindObjectsOfType<LevelEntrance>()
-                    .FirstOrDefault(entrance => entrance.EntranceID == data.TargetID);
+                var spawnPosition = data.SpawningStrategy.GetSpawnPosition();
 
-                if (entrance != default)
+                // Now update all party member transforms to the correct spawn position.
+                playerSpawner.SpawnedPlayer.transform.position = spawnPosition;
+
+                foreach (TeamMemberWorldView spawnedMember in playerSpawner.SpawnedMembers)
                 {
-                    Vector3 spawnPosition = entrance.transform.position;
-                    playerSpawner.SpawnedPlayer.transform.position = spawnPosition;
-
-                    foreach (TeamMemberWorldView spawnedMember in playerSpawner.SpawnedMembers)
-                    {
-                        spawnedMember.transform.position = spawnPosition;
-                    }
+                    spawnedMember.transform.position = spawnPosition;
                 }
 
+                // We need to initialize this logic last, after all positions are fully set to avoid problems.
                 playerSpawner.MonsterFollowPlayer.Target = playerSpawner.SpawnedPlayer.transform;
             }
         }

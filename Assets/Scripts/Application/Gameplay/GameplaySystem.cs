@@ -7,7 +7,6 @@
     using Regions;
     using UniRx;
     using UnityEngine;
-    using Object = UnityEngine.Object;
 
     /// <summary>
     /// The system settings for gameplay.
@@ -33,6 +32,8 @@
 
         private CompositeDisposable _disposables;
 
+        private GameplayLauncher _launcher = new GameplayLauncher();
+
         /// <summary>
         /// Sets up the gameplay settings.
         /// </summary>
@@ -44,6 +45,9 @@
                 _levelLoader.Init(),
                 overworldBattleSetup.Init(battleController),
                 arenaBattleSetup.Init(battleController));
+
+            _launcher.Initialize();
+            _launcher.AddTo(_disposables);
 
             RegionDebugger.Init();
         }
