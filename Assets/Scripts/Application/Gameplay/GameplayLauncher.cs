@@ -21,6 +21,9 @@
         [Scene]
         private string firstSceneName;
 
+        [SerializeField]
+        private TeamDataLoader dataLoader;
+
         private IDisposable _disposable;
 
         /// <summary>
@@ -54,6 +57,8 @@
 
         private void HandleStartGame(StartGameCommand command)
         {
+            dataLoader.Init();
+
             var spawnStrategy = Services.Serializer.TryLookup(PositionId, out Vector3 scenePosition)
                 ? new PositionSpawningStrategy(scenePosition) as ISpawningStrategy
                 : new OriginSpawningStrategy();

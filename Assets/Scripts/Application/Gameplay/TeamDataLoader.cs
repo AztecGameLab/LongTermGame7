@@ -46,7 +46,7 @@
             ImGui.End();
         }
 
-        private void Start()
+        public void Init()
         {
             ImGuiUtil.Register(this);
 

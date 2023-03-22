@@ -30,6 +30,12 @@ namespace Application.Core.Serialization
         {
             Settings = JsonConvert.DefaultSettings?.Invoke();
 
+            if (Settings != null)
+            {
+                Settings.Formatting = Formatting.Indented;
+                Settings.TypeNameHandling = TypeNameHandling.Auto;
+            }
+
             _savedData = new Dictionary<string, object>();
             ImGuiUtil.Register(DrawDebugUI);
         }
