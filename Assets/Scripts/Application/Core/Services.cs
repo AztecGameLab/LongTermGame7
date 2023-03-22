@@ -1,4 +1,6 @@
-﻿namespace Application.Core
+﻿using Application.Gameplay.Combat;
+
+namespace Application.Core
 {
     using Gameplay;
     using Gameplay.Combat.UI.Indicators;
@@ -26,6 +28,8 @@
         /// </summary>
         public static RegionTracker RegionTracker { get; set; }
 
+        public static RespawnTracker RespawnTracker { get; set; }
+
         /// <summary>
         /// Gets or sets the global indicator factory.
         /// </summary>
@@ -45,6 +49,7 @@
             RegionTracker = null;
             IndicatorFactory = null;
             PlayerTeamData = null;
+            RegionTracker = null;
         }
     }
 }
