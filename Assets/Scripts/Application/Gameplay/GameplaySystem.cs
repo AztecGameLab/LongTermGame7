@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using UnityEngine.Serialization;
+
+namespace Application.Gameplay
 {
     using System;
     using Combat;
@@ -32,7 +34,8 @@
 
         private CompositeDisposable _disposables;
 
-        private GameplayLauncher _launcher = new GameplayLauncher();
+        [SerializeField]
+        private GameplayLauncher launcher = new GameplayLauncher();
 
         /// <summary>
         /// Sets up the gameplay settings.
@@ -46,8 +49,8 @@
                 overworldBattleSetup.Init(battleController),
                 arenaBattleSetup.Init(battleController));
 
-            _launcher.Initialize();
-            _launcher.AddTo(_disposables);
+            launcher.Initialize();
+            launcher.AddTo(_disposables);
 
             RegionDebugger.Init();
         }

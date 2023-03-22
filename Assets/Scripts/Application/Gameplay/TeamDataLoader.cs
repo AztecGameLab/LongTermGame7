@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using Combat.UI;
     using Core;
-    using Core.Serialization;
     using Core.Utility;
     using ImGuiNET;
     using UnityEngine;
@@ -16,7 +15,7 @@
     /// </summary>
     public class TeamDataLoader : MonoBehaviour, IDebugImGui
     {
-        private const string SaveName = "player_team.json";
+        private const string TeamDataID = "player_team";
 
         [SerializeField]
         private TeamSelectionUI selectionUI;
@@ -41,7 +40,7 @@
 
             if (ImGui.Button("Save"))
             {
-                Serializer.Save(SaveName, _teamData);
+                Services.Serializer.Store(TeamDataID, _teamData);
             }
 
             ImGui.End();
@@ -51,7 +50,7 @@
         {
             ImGuiUtil.Register(this);
 
-            if (!Serializer.TryLoad(SaveName, out _teamData))
+            if (!Services.Serializer.TryLookup(TeamDataID, out _teamData))
             {
                 _teamData = new TeamData { Player = testingPlayer.GenerateData() };
 

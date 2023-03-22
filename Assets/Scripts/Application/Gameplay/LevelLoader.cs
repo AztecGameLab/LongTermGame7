@@ -56,6 +56,19 @@
                 // We need to initialize this logic last, after all positions are fully set to avoid problems.
                 playerSpawner.MonsterFollowPlayer.Target = playerSpawner.SpawnedPlayer.transform;
             }
+            else
+            {
+                var legacyPlayer = Object.FindObjectOfType<PlayerMovement>();
+
+                try
+                {
+                    legacyPlayer.transform.position = data.SpawningStrategy.GetSpawnPosition();
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
         }
     }
 }

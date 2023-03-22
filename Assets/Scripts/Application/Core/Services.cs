@@ -43,6 +43,8 @@
             EventBus = null;
             Serializer = null;
             RegionTracker = null;
+            IndicatorFactory = null;
+            PlayerTeamData = null;
         }
     }
 }

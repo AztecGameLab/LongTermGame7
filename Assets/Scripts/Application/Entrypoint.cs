@@ -26,8 +26,6 @@
 
         private void OnDestroy()
         {
-            Services.Serializer.WriteToDisk("TestingSave");
-
             gameplaySystem.Dispose();
         }
 
@@ -39,7 +37,6 @@
             Services.EventBus = new EventBus();
             Services.RegionTracker = new RegionTracker();
             Services.Serializer = new Serializer();
-            Services.Serializer.ReadFromDisk("TestingSave");
 
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
             Debug.Log($"Loaded settings: {settings.name}");
