@@ -8,6 +8,20 @@
     public static class ProjectileMotion
     {
         /// <summary>
+        /// Calculates the launch velocity of an explosion.
+        /// </summary>
+        /// <param name="source">The origin of the explosion.</param>
+        /// <param name="target">The position of the object being affected by the explosion.</param>
+        /// <param name="strength">The knockback intensity of the explosion.</param>
+        /// <param name="upwardBoost">The extra upward force the explosion imparts.</param>
+        /// <returns>The velocity that should be applied by this explosion.</returns>
+        public static Vector3 GetExplosionVelocity(Vector3 source, Vector3 target, float strength, float upwardBoost = 0)
+        {
+            var sourceToTarget = new Vector3(target.x, 0, target.z) - new Vector3(source.x, 0, source.z);
+            return (sourceToTarget.normalized * strength) + (Vector3.up * upwardBoost);
+        }
+
+            /// <summary>
         /// Calculates the velocity needed to launch a projectile between two points, over a set time.
         /// </summary>
         /// <param name="from">The starting point.</param>

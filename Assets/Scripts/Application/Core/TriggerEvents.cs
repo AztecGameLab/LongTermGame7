@@ -129,7 +129,7 @@
         {
             foreach (Rigidbody previousRigidbody in _previousRigidbodies)
             {
-                if (!_currentRigidbodies.Contains(previousRigidbody))
+                if (!_currentRigidbodies.Contains(previousRigidbody) && previousRigidbody != null)
                 {
                     // this has been removed
                     CollisionExit?.Invoke(previousRigidbody.gameObject);
@@ -167,7 +167,7 @@
         {
             foreach (Collider previousCollider in _previousColliders)
             {
-                if (!_currentColliders.Contains(previousCollider))
+                if (!_currentColliders.Contains(previousCollider) && previousCollider != null)
                 {
                     // this has been removed
                     CollisionExit?.Invoke(previousCollider.gameObject);

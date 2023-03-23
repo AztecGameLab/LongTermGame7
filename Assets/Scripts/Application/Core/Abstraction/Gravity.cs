@@ -1,33 +1,28 @@
-﻿using System;
-using UnityEngine;
-
-namespace poetools.Abstraction
+﻿namespace Application.Core.Abstraction
 {
+    using UnityEngine;
+
+    /// <summary>
+    /// Applies gravity to a physics component.
+    /// </summary>
     public class Gravity : MonoBehaviour
     {
-        public Vector3 downDirection = Vector3.down;
-        public float amount = -Physics.gravity.y;
-        [SerializeField]private float idleGravity;
-        
-        private Rigidbody _physicsComponent;
+        [SerializeField]
+        private Vector3 downDirection = Vector3.down;
+
+        [SerializeField]
+        private float amount = -Physics.gravity.y;
+
+        private IPhysicsComponent _physicsComponent;
 
         private void Awake()
         {
-            _physicsComponent = GetComponent<Rigidbody>();
-            // debug = DebugWhiteboard.Instance.AddLabel(() =>
-                // $"velocity: {_physicsComponent.Velocity}\ngrounded: {_physicsComponent.IsGrounded}");
+            _physicsComponent = GetComponent<IPhysicsComponent>();
         }
-
-        // private IDisposable debug;
-
-        // private void OnDestroy()
-        // {
-            // debug.Dispose();
-        // }
 
         private void FixedUpdate()
         {
-            _physicsComponent.velocity = _physicsComponent.velocity + downDirection * (amount * Time.deltaTime);
+            _physicsComponent.Velocity += downDirection * (amount * Time.deltaTime);
         }
     }
 }

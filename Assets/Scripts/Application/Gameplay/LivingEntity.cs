@@ -91,5 +91,13 @@
             health.Value = newHealth;
             _onHeal.OnNext(newHealth);
         }
+
+        /// <summary>
+        /// Deals enough damage to kill this entity.
+        /// </summary>
+        public void Kill()
+        {
+            health.Value = 0;
+        }
     }
 }

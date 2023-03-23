@@ -1,38 +1,43 @@
-using System;
-using UnityEngine;
-
-public class OverwritingAudioTrigger : MonoBehaviour
+﻿namespace Application.Audio
 {
-    public ReverbData data;
-    public OverwritingAudioController controller;
-    public bool isGlobal;
+    using UnityEngine;
 
-    private void Start()
+    /// <summary>
+    /// An audio trigger where only one source can be played at a time.
+    /// </summary>
+    public class OverwritingAudioTrigger : MonoBehaviour
     {
-        if (isGlobal)
-        {
-            controller.AddData(data);
-        }
-    }
+        [SerializeField]
+        private OverwritingAudioData data;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isGlobal)
-        {
-            return;
-        }
+        [SerializeField]
+        private OverwritingAudioController controller;
 
-        Debug.Log("Collision enter");
-        controller.AddData(data);     // adds reverb data from the trigger when entered
-    }
+        [SerializeField]
+        private bool isGlobal;
 
-    private void OnTriggerExit(Collider other) {
-        if (isGlobal)
+        private void Start()
         {
-            return;
+            if (isGlobal)
+            {
+                controller.AddData(data);
+            }
         }
 
-        Debug.Log("Collision exit");
-        controller.RemoveData(data);  // removes reverb data from the trigger when exited
+        private void OnTriggerEnter()
+        {
+            if (isGlobal)
+            {
+                controller.AddData(data);
+            }
+        }
+
+        private void OnTriggerExit()
+        {
+            if (!isGlobal)
+            {
+                controller.RemoveData(data);
+            }
+        }
     }
 }

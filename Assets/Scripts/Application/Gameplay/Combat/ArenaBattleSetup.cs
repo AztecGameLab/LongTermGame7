@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Core;
     using Core.Utility;
     using UniRx;
@@ -46,6 +47,7 @@
             _originalSceneName = SceneManager.GetActiveScene().name;
 
             await LevelLoadingUtil.LoadFully(data.ArenaSceneName).ToTask();
+            await Task.Delay(100);
 
             List<GameObject> playerTeamInstances = new List<GameObject>();
 
