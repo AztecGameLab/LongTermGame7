@@ -1,4 +1,6 @@
-﻿namespace Application.Audio
+﻿using System;
+
+namespace Application.Audio
 {
     using UnityEngine;
 
@@ -22,6 +24,11 @@
             {
                 controller.AddData(data);
             }
+        }
+
+        private void OnDestroy()
+        {
+            controller.RemoveData(data);
         }
 
         private void OnTriggerEnter()

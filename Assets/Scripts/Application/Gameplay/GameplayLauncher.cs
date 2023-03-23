@@ -1,7 +1,7 @@
 ﻿namespace Application.Gameplay
 {
     using System;
-    using Application.Core.Utility;
+    using Core.Utility;
     using Core;
     using ImGuiNET;
     using TriInspector;
@@ -24,7 +24,11 @@
         [SerializeField]
         private TeamDataLoader dataLoader;
 
+        [SerializeField]
+        private GameObject gameplaySystemPrefab;
+
         private IDisposable _disposable;
+        private GameObject _gameplaySystemInstance;
 
         /// <summary>
         /// Sets up the gameplay launcher.
@@ -58,6 +62,24 @@
         private void HandleStartGame(StartGameCommand command)
         {
             dataLoader.Init();
+
+            if (_gameplaySystemInstance != null)
+            {
+                UnityEngine.Object.Destroy(_gameplaySystemInstance);
+            }
+
+            _gameplaySystemInstance = UnityEngine.Object.Instantiate(gameplaySystemPrefab);
+
+            if (command.InitialScene != string.Empty)
+            {
+                ISpawningStrategy spawningStrategy = new OriginSpawningStrategy();
+                string s = command.InitialScene;
+
+                var m = new LevelChangeEvent { NextScene = s, SpawningStrategy = spawningStrategy };
+
+                Services.EventBus.Invoke(m, "Gameplay Launcher");
+                return;
+            }
 
             var spawnStrategy = Services.Serializer.TryLookup(PositionId, out Vector3 scenePosition)
                 ? new PositionSpawningStrategy(scenePosition) as ISpawningStrategy

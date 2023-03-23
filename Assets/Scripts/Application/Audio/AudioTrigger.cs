@@ -1,4 +1,6 @@
-﻿namespace Application.Audio
+﻿using System;
+
+namespace Application.Audio
 {
     using Core;
     using FMOD.Studio;
@@ -28,6 +30,12 @@
         protected override void HandleCollisionExit(GameObject obj)
         {
             base.HandleCollisionExit(obj);
+            _instance.stop(STOP_MODE.ALLOWFADEOUT);
+            _instance.release();
+        }
+
+        private void OnDestroy()
+        {
             _instance.stop(STOP_MODE.ALLOWFADEOUT);
             _instance.release();
         }

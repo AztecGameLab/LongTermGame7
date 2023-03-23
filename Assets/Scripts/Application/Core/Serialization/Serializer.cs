@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Application.Gameplay;
+using Newtonsoft.Json.Linq;
 
 namespace Application.Core.Serialization
 {
@@ -279,6 +280,7 @@ namespace Application.Core.Serialization
             if (ImGui.Button("Read"))
             {
                 ReadFromDisk("debug-save.json");
+                Services.EventBus.Invoke(new StartGameCommand(), "Serializer IMGUI");
             }
 
             ImGui.End();
