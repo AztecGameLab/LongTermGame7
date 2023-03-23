@@ -1,6 +1,4 @@
-﻿using UnityEngine.Serialization;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
     using Combat;
@@ -14,12 +12,11 @@ namespace Application.Gameplay
     /// The system settings for gameplay.
     /// </summary>
     [Serializable]
-    public class GameplaySystem : IDisposable
+    public class GameplaySystem : MonoBehaviour
     {
         [SerializeField]
         private BattleController battleController;
 
-        private LevelLoader _levelLoader = new LevelLoader();
 
         // ImGui debugging utilities
         private LandmarkViewer _landmarkViewer = new LandmarkViewer();
@@ -34,29 +31,18 @@ namespace Application.Gameplay
 
         private CompositeDisposable _disposables;
 
-        [SerializeField]
-        private GameplayLauncher launcher = new GameplayLauncher();
-
-        /// <summary>
-        /// Sets up the gameplay settings.
-        /// </summary>
-        public void Init()
+        private void Awake()
         {
             _disposables = new CompositeDisposable(
                 _landmarkViewer.Init(),
                 _levelDesignUtil.Init(),
-                _levelLoader.Init(),
                 overworldBattleSetup.Init(battleController),
                 arenaBattleSetup.Init(battleController));
-
-            launcher.Initialize();
-            launcher.AddTo(_disposables);
 
             RegionDebugger.Init();
         }
 
-        /// <inheritdoc/>
-        public void Dispose()
+        private void OnDestroy()
         {
             _disposables.Dispose();
         }

@@ -1,11 +1,9 @@
 ﻿namespace Application.Gameplay
 {
     using System;
-    using System.Linq;
     using Core;
     using Core.Utility;
     using UniRx;
-    using UnityEngine;
     using Object = UnityEngine.Object;
 
     /// <summary>
@@ -26,7 +24,7 @@
         /// Sets up the Level Loader.
         /// </summary>
         /// <returns>This instance.</returns>
-        public LevelLoader Init()
+        public LevelLoader Initialize()
         {
             _disposable = Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
             return this;

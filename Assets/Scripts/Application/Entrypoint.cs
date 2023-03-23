@@ -14,19 +14,16 @@
     /// </summary>
     public partial class Entrypoint : MonoBehaviour
     {
+        private LevelLoader _levelLoader = new LevelLoader();
+
         [SerializeField]
-        private GameplaySystem gameplaySystem = new GameplaySystem();
+        private GameplayLauncher launcher = new GameplayLauncher();
 
         private static bool Initialized { get; set; }
 
         private void Awake()
         {
             Initialize();
-        }
-
-        private void OnDestroy()
-        {
-            gameplaySystem.Dispose();
         }
 
         private void Initialize()
@@ -41,7 +38,8 @@
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
             Debug.Log($"Loaded settings: {settings.name}");
 
-            gameplaySystem.Init();
+            launcher.Initialize();
+            _levelLoader.Initialize();
 
             if (!Application.isEditor)
             {

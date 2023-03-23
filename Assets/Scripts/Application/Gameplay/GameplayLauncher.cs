@@ -22,9 +22,6 @@
         private string firstSceneName;
 
         [SerializeField]
-        private TeamDataLoader dataLoader;
-
-        [SerializeField]
         private GameObject gameplaySystemPrefab;
 
         private IDisposable _disposable;
@@ -61,14 +58,13 @@
 
         private void HandleStartGame(StartGameCommand command)
         {
-            dataLoader.Init();
-
             if (_gameplaySystemInstance != null)
             {
                 UnityEngine.Object.Destroy(_gameplaySystemInstance);
             }
 
             _gameplaySystemInstance = UnityEngine.Object.Instantiate(gameplaySystemPrefab);
+            UnityEngine.Object.DontDestroyOnLoad(_gameplaySystemInstance);
 
             if (command.InitialScene != string.Empty)
             {

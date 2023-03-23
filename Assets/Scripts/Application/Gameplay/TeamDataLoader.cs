@@ -26,8 +26,6 @@
         [SerializeField]
         private TeamMemberAuthoring testingPlayer;
 
-        private TeamData _teamData;
-
         /// <inheritdoc/>
         public void RenderImGui()
         {
@@ -40,30 +38,34 @@
 
             if (ImGui.Button("Save"))
             {
-                Services.Serializer.Store(TeamDataID, _teamData);
+                Services.Serializer.Store(TeamDataID, Services.PlayerTeamData);
             }
 
             ImGui.End();
         }
 
-        public void Init()
+        private void Awake()
         {
             ImGuiUtil.Register(this);
 
-            if (!Services.Serializer.TryLookup(TeamDataID, out _teamData))
+            if (!Services.Serializer.Exists(TeamDataID))
             {
-                _teamData = new TeamData { Player = testingPlayer.GenerateData() };
+                Services.PlayerTeamData = new TeamData { Player = testingPlayer.GenerateData() };
 
                 foreach (TeamMemberAuthoring member in testingTeam)
                 {
-                    _teamData.UnlockedMembers.Add(member.GenerateData());
+                    Services.PlayerTeamData.UnlockedMembers.Add(member.GenerateData());
                 }
             }
+            else
+            {
+                Services.Serializer.Lookup(TeamDataID, out TeamData data);
+                Services.PlayerTeamData = data;
+            }
 
-            selectionUI.BindTo(_teamData);
+            selectionUI.BindTo(Services.PlayerTeamData);
             selectionUI.gameObject.SetActive(false);
 
-            Services.PlayerTeamData = _teamData;
             Services.EventBus.AddListener<OpenTeamSelectorCommand>(_ => OpenTeamSelector(), "Team Data Loader").AddTo(this);
         }
 
