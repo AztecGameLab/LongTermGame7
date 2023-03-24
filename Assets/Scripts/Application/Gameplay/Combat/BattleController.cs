@@ -103,6 +103,11 @@
         public bool IsBattling { get; private set; }
 
         /// <summary>
+        /// Gets the current state that this battle controller is in.
+        /// </summary>
+        public IState CurrentState => BattleStateMachine.CurrentState;
+
+        /// <summary>
         /// Gets an observable that watches the end of the battle.
         /// </summary>
         public IObservable<Unit> OnBattleEnd => _battleEndSubject;
@@ -131,12 +136,14 @@
                 return;
             }
 
-            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+            var worldLoader = FindObjectOfType<PlayerSpawn>();
 
             if (worldLoader)
             {
                 worldLoader.MonsterFollowPlayer.Enabled = false;
             }
+
+            gameObject.SetActive(true);
 
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
@@ -149,15 +156,7 @@
             battleVictory.Initialize();
             battleLoss.Initialize();
 
-            _hooks.Clear();
             IsBattling = true;
-
-            foreach (Hook hook in data.Hooks)
-            {
-                _hooks.Add(hook);
-                hook.Controller = this;
-                hook.OnBattleStart();
-            }
 
             EnemyOrderDecider = data.Decider;
 
@@ -183,6 +182,15 @@
                 battleTargetGroup.AddMember(enemyTeamInstance.transform, 1, battleTargetRadius);
             }
 
+            _hooks.Clear();
+
+            foreach (Hook hook in data.Hooks)
+            {
+                _hooks.Add(hook);
+                hook.Controller = this;
+                hook.OnBattleStart();
+            }
+
             BattleStateMachine.SetState(battleIntro);
         }
 
@@ -195,7 +203,7 @@
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
 
-            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+            var worldLoader = FindObjectOfType<PlayerSpawn>();
 
             if (worldLoader)
             {
@@ -222,14 +230,7 @@
             }
 
             _battleEndSubject.OnNext(Unit.Default);
-        }
-
-        private static void AddRange<T>(Collection<T> destination, IEnumerable<T> source)
-        {
-            foreach (T data in source)
-            {
-                destination.Add(data);
-            }
+            gameObject.SetActive(false);
         }
 
         private void Awake()
@@ -248,12 +249,12 @@
         {
             if (IsBattling)
             {
-                BattleStateMachine.Tick();
-
                 foreach (Hook hook in _hooks)
                 {
                     hook.OnBattleUpdate();
                 }
+
+                BattleStateMachine.Tick();
             }
         }
 

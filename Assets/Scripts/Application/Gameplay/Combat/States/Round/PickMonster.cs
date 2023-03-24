@@ -4,64 +4,76 @@
     using System.Collections.Generic;
     using Cinemachine;
     using Core;
-    using ImGuiNET;
+    using Core.Utility;
+    using UI;
+    using UniRx;
     using UnityEngine;
 
     /// <summary>
     /// The battle round state where you select which monster you want to use in combat.
     /// </summary>
     [Serializable]
-    public class PickMonster : RoundState, IDebugImGui
+    public class PickMonster : RoundState
     {
         private const int PickMonsterCameraActivePriority = 50;
 
-        private List<GameObject> _availableMonsters;
+        private HashSet<GameObject> _usedMonsters;
 
         [SerializeField]
         private CinemachineVirtualCamera pickMonsterCamera;
 
+        [SerializeField]
+        private PickMonsterUI pickMonsterUI;
+
         private int _selectedMonsterIndex;
+        private CompositeDisposable _disposable;
 
         /// <summary>
         /// Gets the currently selected monster.
         /// </summary>
-        /// <value>
-        /// The currently selected monster.
-        /// </value>
-        public GameObject SelectedMonster { get; private set; }
+        public ReactiveProperty<GameObject> SelectedMonster { get; private set; } = new ReactiveProperty<GameObject>();
+
+        private IList<GameObject> PlayerTeam => Round.Controller.PlayerTeam;
 
         /// <summary>
         /// Sets up the pick monster state.
         /// </summary>
         public void Initialize()
         {
-            RegisterImGuiDebug(this);
-            _availableMonsters = new List<GameObject>();
+            _usedMonsters = new HashSet<GameObject>();
+            SelectedMonster = new ReactiveProperty<GameObject>();
+            SelectedMonster.Subscribe(HandleSelectedMonsterChange);
         }
 
         /// <inheritdoc/>
         public override void OnRoundBegin()
         {
-            _availableMonsters.AddRange(Round.Controller.PlayerTeam);
+            _usedMonsters.Clear();
             _selectedMonsterIndex = 0;
-        }
-
-        /// <inheritdoc/>
-        public override void OnRoundEnd()
-        {
-            _availableMonsters.Clear();
         }
 
         /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
+
+            if (_usedMonsters.Count >= PlayerTeam.Count)
+            {
+                Debug.Log("Cannot select next monster - there are none available ones left!");
+                Round.NextRound();
+                return;
+            }
+
+            SelectedMonster.Value = PlayerTeam[_selectedMonsterIndex];
             pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
+            pickMonsterUI.gameObject.SetActive(true);
+            pickMonsterUI.Initialize(SelectedMonster);
+            _disposable = new CompositeDisposable();
+            pickMonsterUI.ObserveMonsterSubmitted().Subscribe(_ => SubmitCurrentMonster()).AddTo(_disposable);
+            pickMonsterUI.ObserveSelectNextMonster().Subscribe(_ => SelectNextMonster()).AddTo(_disposable);
 
-            SelectedMonster = _availableMonsters.Count > 0 ? _availableMonsters[_selectedMonsterIndex] : null;
-
-            pickMonsterCamera.Follow = SelectedMonster != null
-                ? SelectedMonster.transform
+            pickMonsterCamera.Follow = SelectedMonster.Value != null
+                ? SelectedMonster.Value.transform
                 : Round.Controller.PlayerTeam[0].transform;
         }
 
@@ -70,65 +82,62 @@
         {
             base.OnExit();
             pickMonsterCamera.Priority = 0;
+            pickMonsterUI.gameObject.SetActive(false);
+            _disposable?.Dispose();
         }
 
         /// <inheritdoc/>
-        public void RenderImGui()
+        public override void OnTick()
         {
-            ImGui.Begin("Pick Monster");
+            base.OnTick();
 
-            if (_availableMonsters.Count <= 0)
+            if (InputTools.TryGetInputDirectionDown(out Vector2 direction) && SelectedMonster.Value != null)
             {
-                ImGui.Text("No monsters left to move! You must end the round.");
+                var ray = new Ray(SelectedMonster.Value.transform.position, new Vector3(direction.x, 0, direction.y));
+                var closest = PlayerTeam.GetClosestInDirection(ray, obj => obj != SelectedMonster.Value && !_usedMonsters.Contains(obj));
 
-                if (ImGui.Button("Next Round"))
+                if (closest != null)
                 {
-                    Round.NextRound();
+                    SelectedMonster.Value = closest;
+                    _selectedMonsterIndex = PlayerTeam.IndexOf(closest);
                 }
             }
+        }
 
-            ImGui.Text("Available Monsters:");
-
-            foreach (GameObject availableMonster in _availableMonsters)
+        private void HandleSelectedMonsterChange(GameObject target)
+        {
+            if (target != null)
             {
-                ImGui.Text($"\t{availableMonster.name}");
+                pickMonsterCamera.Follow = target.transform;
             }
-
-            ImGui.Text($"Currently selected: {(SelectedMonster == null ? "None" : SelectedMonster.name)}");
-
-            if (SelectedMonster != null && ImGui.Button($"Select {SelectedMonster.name}"))
-            {
-                OnSelectMonster(SelectedMonster);
-            }
-
-            if (ImGui.Button("Next Monster") && _availableMonsters.Count > 0)
-            {
-                SelectNextMonster();
-            }
-
-            ImGui.End();
         }
 
         private void SelectNextMonster()
         {
-            if (_availableMonsters.Count <= 0)
-            {
-                Debug.LogError("Cannot select next monster - there are none available ones left!");
-                return;
-            }
-
-            _selectedMonsterIndex = (_selectedMonsterIndex + 1) % _availableMonsters.Count;
-            SelectedMonster = _availableMonsters[_selectedMonsterIndex];
-            pickMonsterCamera.Follow = SelectedMonster.transform;
+            IncrementCurrentIndex();
+            SelectedMonster.Value = PlayerTeam[_selectedMonsterIndex];
         }
 
-        private void OnSelectMonster(GameObject monster)
+        private void IncrementCurrentIndex()
         {
-            _availableMonsters.Remove(monster);
-            _selectedMonsterIndex = 0;
+            for (int i = 1; i < PlayerTeam.Count; i++)
+            {
+                int wrappedIndex = (_selectedMonsterIndex + i) % PlayerTeam.Count;
+
+                if (!_usedMonsters.Contains(PlayerTeam[wrappedIndex]))
+                {
+                    _selectedMonsterIndex = wrappedIndex;
+                    return;
+                }
+            }
+        }
+
+        private void SubmitCurrentMonster()
+        {
+            _usedMonsters.Add(SelectedMonster.Value);
+            IncrementCurrentIndex();
 
             Round.TransitionTo(Round.PickActions);
-            pickMonsterCamera.Follow = monster.transform;
         }
     }
 }

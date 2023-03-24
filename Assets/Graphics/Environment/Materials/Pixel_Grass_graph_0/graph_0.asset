@@ -43,7 +43,7 @@ MonoBehaviour:
       Index: 0
       Type: 8
       Channel: baseColor
-    OutputTexture: {fileID: 2800000, guid: b2d792ddd53f2394d811c0cc051fd066, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -59,7 +59,7 @@ MonoBehaviour:
       Index: 1
       Type: 8
       Channel: normal
-    OutputTexture: {fileID: 2800000, guid: e9da5727a3f7379458a3f00e9b8d267b, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -91,7 +91,7 @@ MonoBehaviour:
       Index: 3
       Type: 8
       Channel: metallic
-    OutputTexture: {fileID: 2800000, guid: b466f756fe180fa4fb02aab28931adeb, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -107,7 +107,7 @@ MonoBehaviour:
       Index: 4
       Type: 8
       Channel: height
-    OutputTexture: {fileID: 2800000, guid: e584aaf2d7e36a74eb823cf36e7f4f44, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -153,10 +153,9 @@ MonoBehaviour:
   GenerateAllMipmaps: 1
   OutputMaterial: {fileID: 2100000, guid: b70f78c19da77e443b82ba5b18673c93, type: 2}
   DefaultPreset: " <sbspreset pkgurl=\"pkg://Pixel_Grass\" label=\"\" >\n  <presetinput
-    identifier=\"$outputsize\" uid=\"847235199\" type=\"8\" value=\"10,10\" />\n
-    </sbspreset>\n"
+    identifier=\"$outputsize\" uid=\"847235199\" type=\"8\" value=\"10,10\" />\n</sbspreset>\n"
   MaterialShader: Universal Render Pipeline/Lit
-  RenderTextures: 0
+  RenderTextures: 1
   OutputRemaped: 0
   references:
     version: 1
