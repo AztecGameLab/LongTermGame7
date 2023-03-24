@@ -1,4 +1,6 @@
-﻿namespace Application
+﻿using Application.Gameplay.Combat;
+
+namespace Application
 {
     using Core;
     using Core.Serialization;
@@ -6,6 +8,8 @@
     using Gameplay.Regions;
     using UnityEngine;
     using UnityEngine.SceneManagement;
+
+    // todo: more cleanup needed, I don't even like hard-coding the services in here anymore.
 
     /// <summary>
     /// This class should be the first one that is loaded in the game.
@@ -18,6 +22,9 @@
 
         [SerializeField]
         private GameplayLauncher launcher = new GameplayLauncher();
+
+        [SerializeField]
+        private RespawnTracker respawnTracker;
 
         private static bool Initialized { get; set; }
 
@@ -34,6 +41,8 @@
             Services.EventBus = new EventBus();
             Services.RegionTracker = new RegionTracker();
             Services.Serializer = new Serializer();
+            Services.RespawnTracker = respawnTracker;
+            respawnTracker.Init();
 
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
             Debug.Log($"Loaded settings: {settings.name}");

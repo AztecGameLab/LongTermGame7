@@ -197,7 +197,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1028751777}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1028751776
 GameObject:
@@ -228,8 +228,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1112954809}
   - {fileID: 44436678}
+  - {fileID: 1112954809}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -248,6 +248,13 @@ MonoBehaviour:
   launcher:
     firstSceneName: Assets/Levels/Forest/ForestEntry.unity
     gameplaySystemPrefab: {fileID: 6173434894590649065, guid: 59511661150f1a146a8254b85ac79e2d, type: 3}
+  respawnTracker:
+    respawnLookup:
+      dictionary:
+      - key: test-combatframework
+        value:
+          SceneName: CombatFramework
+          RespawnPointId: test-combatframework
 --- !u!114 &1028751779
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Hooks
+﻿using UniRx;
+
+namespace Application.Gameplay.Combat.Hooks
 {
     using System;
 
@@ -14,11 +16,14 @@
         /// </summary>
         public BattleController Controller { get; set; }
 
+        protected CompositeDisposable AutoDispose { get; private set; }
+
         /// <summary>
         /// Called once when the battle begins.
         /// </summary>
         public virtual void OnBattleStart()
         {
+            AutoDispose = new CompositeDisposable();
         }
 
         /// <summary>
@@ -33,6 +38,7 @@
         /// </summary>
         public virtual void OnBattleEnd()
         {
+            AutoDispose?.Dispose();
         }
     }
 }

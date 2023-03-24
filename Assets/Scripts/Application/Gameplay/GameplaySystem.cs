@@ -8,6 +8,8 @@
     using UniRx;
     using UnityEngine;
 
+    // todo: again (like entrypoint), I don't like the hard-coded nature of this setup. try moving more into the inspectore
+
     /// <summary>
     /// The system settings for gameplay.
     /// </summary>
@@ -16,7 +18,6 @@
     {
         [SerializeField]
         private BattleController battleController;
-
 
         // ImGui debugging utilities
         private LandmarkViewer _landmarkViewer = new LandmarkViewer();

@@ -69,14 +69,6 @@ namespace Application.Gameplay.Combat
         }
     }
 
-    public class RespawnPoint : MonoBehaviour
-    {
-        [SerializeField]
-        private string id;
-
-        public string Id => id;
-    }
-
     public class YarnRespawnCommands : IYarnCommandHandler
     {
         /// <inheritdoc/>

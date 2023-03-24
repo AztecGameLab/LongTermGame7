@@ -213,12 +213,13 @@
             // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
             Debug.Log("Ending battle!");
 
+            BattleStateMachine.SetState(null);
+
             foreach (var hook in _hooks)
             {
                 hook.OnBattleEnd();
             }
 
-            BattleStateMachine.SetState(null);
 
             _hooks.Clear();
             PlayerTeam.Clear();
