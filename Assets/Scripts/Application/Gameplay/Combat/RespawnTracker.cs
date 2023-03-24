@@ -9,6 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace Application.Gameplay.Combat
 {
+    //todo: this system needs a lot of cleaning
     [Serializable]
     public class RespawnTracker
     {
