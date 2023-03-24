@@ -102,6 +102,9 @@
         /// </summary>
         public bool IsBattling { get; private set; }
 
+        /// <summary>
+        /// Gets the current state that this battle controller is in.
+        /// </summary>
         public IState CurrentState => BattleStateMachine.CurrentState;
 
         /// <summary>
@@ -139,6 +142,8 @@
             {
                 worldLoader.MonsterFollowPlayer.Enabled = false;
             }
+
+            gameObject.SetActive(true);
 
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
@@ -225,14 +230,7 @@
             }
 
             _battleEndSubject.OnNext(Unit.Default);
-        }
-
-        private static void AddRange<T>(Collection<T> destination, IEnumerable<T> source)
-        {
-            foreach (T data in source)
-            {
-                destination.Add(data);
-            }
+            gameObject.SetActive(false);
         }
 
         private void Awake()

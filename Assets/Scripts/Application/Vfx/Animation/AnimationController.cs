@@ -56,15 +56,14 @@
             Data left = new Data { Value = -movementDirection.x, Direction = MovementDirection.Left };
             Data right = new Data { Value = movementDirection.x, Direction = MovementDirection.Right };
 
-            Data[] data = { down, up, left, right };
+            Data[] movementData = { down, up, left, right };
             Data max = down;
 
-            foreach (Data d in data)
+            foreach (Data data in movementData)
             {
-                // todo: this is still so janky, find better solution
-                if (d.Value - max.Value > MovementThreshold)
+                if (data.Value - max.Value > MovementThreshold)
                 {
-                    max = d;
+                    max = data;
                 }
             }
 

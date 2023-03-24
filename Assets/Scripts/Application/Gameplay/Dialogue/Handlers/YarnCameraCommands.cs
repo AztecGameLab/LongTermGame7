@@ -45,6 +45,7 @@
         public void RegisterCommands(DialogueRunner runner)
         {
             _cam = Object.Instantiate(dialogueCameraPrefab, runner.transform);
+            _cam.gameObject.SetActive(false);
             Observable.EveryFixedUpdate().Subscribe(_ => FixedUpdate()).AddTo(runner);
 
             // Note: I commented out the rotation-based yarn commands for now, since it looks a bit weird with
@@ -273,6 +274,7 @@
         {
             _originalOffset = _camFramingTransposer.m_TrackedObjectOffset;
 
+            _cam.gameObject.SetActive(true);
             _cam.Priority = ActivePriority;
             _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
             _cam.PreviousStateIsValid = false;
@@ -280,6 +282,7 @@
 
         private void DeactivateDialogueCamera(string node)
         {
+            _cam.gameObject.SetActive(false);
             _cam.Priority = 0;
             _camFramingTransposer.m_TrackedObjectOffset = _originalOffset;
         }

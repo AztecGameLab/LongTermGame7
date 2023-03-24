@@ -29,5 +29,37 @@
             number = -1;
             return false;
         }
+
+        /// <summary>
+        /// Polls to see if the player has selected an input direction.
+        /// </summary>
+        /// <param name="direction">The resulting direction, if any.</param>
+        /// <returns>True if the player just pressed an input direction.</returns>
+        public static bool TryGetInputDirectionDown(out Vector2 direction)
+        {
+            direction = Vector2.zero;
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                direction = Vector3.forward;
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                direction = Vector3.back;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                direction = Vector3.left;
+            }
+
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                direction = Vector3.right;
+            }
+
+            return direction != Vector2.zero;
+        }
     }
 }
