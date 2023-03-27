@@ -34,8 +34,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   focusDistance:
-    m_OverrideState: 1
-    m_Value: 13.06
+    m_OverrideState: 0
+    m_Value: 0.1
     min: 0.1
   aperture:
     m_OverrideState: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
     max: 32
   focalLength:
     m_OverrideState: 1
-    m_Value: 185
+    m_Value: 115
     min: 1
     max: 300
   bladeCount:
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   m_AdvancedMode: 0
   threshold:
     m_OverrideState: 0
