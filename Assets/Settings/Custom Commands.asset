@@ -15,6 +15,8 @@ MonoBehaviour:
   commandHandlers:
   - id: 0
   - id: 1
+  - id: 2
+  - id: 3
   references:
     version: 1
     00000000:
@@ -39,3 +41,12 @@ MonoBehaviour:
       data:
         dialogueCameraPrefab: {fileID: 2275752361829420294, guid: 71510576ce13daf47bb54dc4dcf2f5d0, type: 3}
         easeType: 21
+    00000002:
+      type: {class: YarnRespawnCommands, ns: Application.Gameplay.Combat, asm: Application}
+    00000003:
+      type: {class: YarnTeamCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+      data:
+        teamMemberIds:
+          dictionary:
+          - key: artichokie
+            value: {fileID: 11400000, guid: 8646431ce0d48884abfdfd4429951a87, type: 2}

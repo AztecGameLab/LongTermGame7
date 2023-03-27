@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using UniRx;
+
+namespace Application.Gameplay
 {
     using System.Collections.Generic;
     using Combat.UI;
@@ -44,9 +46,15 @@
             ImGui.End();
         }
 
+        private static void HandleSerializerWrite()
+        {
+            Services.Serializer.Store(TeamDataID, Services.PlayerTeamData);
+        }
+
         private void Awake()
         {
             ImGuiUtil.Register(this);
+            Services.Serializer.ObserveWrite().Subscribe(_ => HandleSerializerWrite()).AddTo(this);
 
             if (!Services.Serializer.Exists(TeamDataID))
             {
@@ -67,11 +75,6 @@
             selectionUI.gameObject.SetActive(false);
 
             Services.EventBus.AddListener<OpenTeamSelectorCommand>(_ => OpenTeamSelector(), "Team Data Loader").AddTo(this);
-        }
-
-        private void OnDestroy()
-        {
-            Services.Serializer.Store(TeamDataID, Services.PlayerTeamData);
         }
 
         private void OpenTeamSelector()
