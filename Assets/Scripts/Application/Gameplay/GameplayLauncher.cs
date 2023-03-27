@@ -1,10 +1,9 @@
 ﻿namespace Application.Gameplay
 {
     using System;
-    using Core.Utility;
     using Core;
-    using ImGuiNET;
     using TriInspector;
+    using UniRx;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
@@ -12,7 +11,7 @@
     /// Handles commands to start the game.
     /// </summary>
     [Serializable]
-    public class GameplayLauncher : IDisposable, IDebugImGui
+    public class GameplayLauncher : IDisposable
     {
         private const string SceneId = "saved_scene";
         private const string PositionId = "saved_position";
@@ -33,7 +32,7 @@
         public void Initialize()
         {
             _disposable = Services.EventBus.AddListener<StartGameCommand>(HandleStartGame, "Gameplay Launcher");
-            ImGuiUtil.Register(this);
+            Services.Serializer.ObserveWrite().Subscribe(_ => HandleGameplayEnd());
         }
 
         /// <inheritdoc/>
@@ -42,18 +41,10 @@
             _disposable?.Dispose();
         }
 
-        /// <inheritdoc/>
-        public void RenderImGui()
+        private void HandleGameplayEnd()
         {
-            ImGui.Begin("Gameplay Launcher");
-
-            if (ImGui.Button("Save Scene And Position"))
-            {
-                Services.Serializer.Store(SceneId, SceneManager.GetActiveScene().name);
-                Services.Serializer.Store(PositionId, GameObject.FindGameObjectWithTag("Player").transform.position);
-            }
-
-            ImGui.End();
+            Services.Serializer.Store(SceneId, SceneManager.GetActiveScene().name);
+            Services.Serializer.Store(PositionId, GameObject.FindGameObjectWithTag("Player").transform.position);
         }
 
         private void HandleStartGame(StartGameCommand command)

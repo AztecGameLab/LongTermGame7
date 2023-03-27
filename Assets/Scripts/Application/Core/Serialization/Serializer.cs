@@ -1,13 +1,14 @@
-﻿using Application.Gameplay;
-using Newtonsoft.Json.Linq;
-
-namespace Application.Core.Serialization
+﻿namespace Application.Core.Serialization
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using Gameplay;
     using ImGuiNET;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using UniRx;
     using UnityEngine;
     using Utility;
     using Debug = UnityEngine.Debug;
@@ -21,6 +22,9 @@ namespace Application.Core.Serialization
         /// The settings that this serializer uses during serialization.
         /// </summary>
         public readonly JsonSerializerSettings Settings;
+
+        private readonly Subject<Unit> _onWrite = new Subject<Unit>();
+        private readonly Subject<Unit> _onRead = new Subject<Unit>();
 
         private Dictionary<string, object> _savedData;
 
@@ -42,6 +46,18 @@ namespace Application.Core.Serialization
         }
 
         /// <summary>
+        /// An observable that emits each time the disk is written to.
+        /// </summary>
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveWrite() => _onWrite;
+
+        /// <summary>
+        /// An observable that emits each time the disk is read from.
+        /// </summary>
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveRead() => _onRead;
+
+        /// <summary>
         /// Finds a serialized value or creates one if it doesn't exist.
         /// </summary>
         /// <param name="key">The id of the value to search for.</param>
@@ -58,6 +74,13 @@ namespace Application.Core.Serialization
             result = (T)_savedData[key];
         }
 
+        /// <summary>
+        /// Tries to access a serialized value.
+        /// </summary>
+        /// <param name="key">The key of the data to search for.</param>
+        /// <param name="result">The place to store the result of the query.</param>
+        /// <typeparam name="T">The type of data to search for.</typeparam>
+        /// <returns>True if the data was found, false if it was not.</returns>
         public bool TryLookup<T>(string key, out T result)
         {
             if (Exists(key))
@@ -107,6 +130,7 @@ namespace Application.Core.Serialization
         /// <param name="fileName">The name of the save file to write the information into.</param>
         public void WriteToDisk(string fileName)
         {
+            _onWrite.OnNext(Unit.Default);
             Save(fileName, _savedData);
         }
 
@@ -120,6 +144,8 @@ namespace Application.Core.Serialization
             {
                 Debug.Log($"Failed to read \"{fileName}\" from disk when loading.");
             }
+
+            _onRead.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -200,6 +226,18 @@ namespace Application.Core.Serialization
         }
 
         /// <summary>
+        /// Returns the save path of a certain save file name.
+        /// </summary>
+        /// <param name="fileName">The name of the save file to use in the path.</param>
+        /// <returns>The path to the save file named "fileName".</returns>
+        private static string GetPath(string fileName)
+        {
+            string path = $"{Application.persistentDataPath}/Saves";
+            Directory.CreateDirectory(path);
+            return $"{path}/{fileName}";
+        }
+
+        /// <summary>
         /// Determine if a save file exists on the disk.
         /// </summary>
         /// <param name="fileName">The save file name to search for.</param>
@@ -242,18 +280,6 @@ namespace Application.Core.Serialization
             string path = GetPath(fileName);
             string data = JsonConvert.SerializeObject(target, Settings);
             File.WriteAllText(path, data);
-        }
-
-        /// <summary>
-        /// Returns the save path of a certain save file name.
-        /// </summary>
-        /// <param name="fileName">The name of the save file to use in the path.</param>
-        /// <returns>The path to the save file named "fileName".</returns>
-        private static string GetPath(string fileName)
-        {
-            string path = $"{Application.persistentDataPath}/Saves";
-            Directory.CreateDirectory(path);
-            return $"{path}/{fileName}";
         }
 
         private void DrawDebugUI()

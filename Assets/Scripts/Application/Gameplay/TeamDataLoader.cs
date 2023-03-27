@@ -69,6 +69,11 @@
             Services.EventBus.AddListener<OpenTeamSelectorCommand>(_ => OpenTeamSelector(), "Team Data Loader").AddTo(this);
         }
 
+        private void OnDestroy()
+        {
+            Services.Serializer.Store(TeamDataID, Services.PlayerTeamData);
+        }
+
         private void OpenTeamSelector()
         {
             selectionUI.gameObject.SetActive(true);
