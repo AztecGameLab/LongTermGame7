@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Dialogue
+﻿using System;
+
+namespace Application.Gameplay.Dialogue
 {
     using UnityEngine;
     using Yarn.Unity;
@@ -25,6 +27,14 @@
         }
 
         private void OnDestroy()
+        {
+            foreach (IYarnCommandHandler commandHandler in customCommands.CommandHandlers)
+            {
+                commandHandler.UnregisterCommands(_runner);
+            }
+        }
+
+        private void OnApplicationQuit()
         {
             foreach (IYarnCommandHandler commandHandler in customCommands.CommandHandlers)
             {

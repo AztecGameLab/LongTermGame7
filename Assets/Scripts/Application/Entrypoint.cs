@@ -1,12 +1,10 @@
-﻿using Application.Gameplay.Combat;
-using ImGuiNET;
-using ImGuiNET.Unity;
-
-namespace Application
+﻿namespace Application
 {
+    using Audio;
     using Core;
     using Core.Serialization;
     using Gameplay;
+    using Gameplay.Combat;
     using Gameplay.Regions;
     using UnityEngine;
     using UnityEngine.SceneManagement;
@@ -45,6 +43,7 @@ namespace Application
             Services.RegionTracker = new RegionTracker();
             Services.Serializer = new Serializer();
             Services.RespawnTracker = respawnTracker;
+            Services.MusicPlayer = new MusicPlayer();
             respawnTracker.Init();
 
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);

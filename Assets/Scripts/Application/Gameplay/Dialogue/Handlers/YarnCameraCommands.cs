@@ -1,4 +1,8 @@
-﻿namespace Application.Gameplay
+﻿using UnityEditor.VersionControl;
+using UnityEngine.SceneManagement;
+using Task = System.Threading.Tasks.Task;
+
+namespace Application.Gameplay
 {
     using System;
     using System.Collections;
@@ -16,7 +20,7 @@
     [Serializable]
     public class YarnCameraCommands : IYarnCommandHandler
     {
-        private const int ActivePriority = 10;
+        private const int ActivePriority = 15;
 
         [SerializeField]
         private CinemachineVirtualCamera dialogueCameraPrefab;
@@ -44,6 +48,8 @@
         /// <inheritdoc/>
         public void RegisterCommands(DialogueRunner runner)
         {
+            Application.quitting += Cleanup;
+
             _cam = Object.Instantiate(dialogueCameraPrefab, runner.transform);
             _cam.gameObject.SetActive(false);
             Observable.EveryFixedUpdate().Subscribe(_ => FixedUpdate()).AddTo(runner);
@@ -61,6 +67,18 @@
 
             _camTrans = _cam.transform;
             _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
+        }
+
+        private void Cleanup()
+        {
+            SceneManager.activeSceneChanged -= HandleSceneChange;
+            Application.quitting -= Cleanup;
+        }
+
+        private async void HandleSceneChange(Scene arg0, Scene arg1)
+        {
+            await Task.Delay(10);
+            ActivateCam();
         }
 
         /// <inheritdoc/>
@@ -224,6 +242,7 @@
         /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 0 - instant.</param>
         private IEnumerator MoveAbs(float x, float y, float z, float timeScalar = 0)
         {
+            _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
             timeScalar = MakePositive(timeScalar);
             UpdateEndState();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
@@ -245,6 +264,7 @@
 
         private IEnumerator ResetPosition(float time = 1)
         {
+            _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
             UpdateEndState();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
             _endMovement = _originalOffset;
@@ -272,19 +292,37 @@
 
         private void ActivateDialogueCamera(string node)
         {
+            SceneManager.activeSceneChanged += HandleSceneChange;
+            ActivateCam();
+        }
+
+        private void ActivateCam()
+        {
             _originalOffset = _camFramingTransposer.m_TrackedObjectOffset;
 
             _cam.gameObject.SetActive(true);
             _cam.Priority = ActivePriority;
-            _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
+            var player = Object.FindObjectOfType<PlayerMovement>();
+
+            if (player != null)
+            {
+                _cam.Follow = player.transform;
+            }
+
             _cam.PreviousStateIsValid = false;
         }
 
-        private void DeactivateDialogueCamera(string node)
+        private void DeactivateCam()
         {
             _cam.gameObject.SetActive(false);
             _cam.Priority = 0;
             _camFramingTransposer.m_TrackedObjectOffset = _originalOffset;
+        }
+
+        private void DeactivateDialogueCamera(string node)
+        {
+            SceneManager.activeSceneChanged -= HandleSceneChange;
+            DeactivateCam();
         }
 
         private void FixedUpdate()

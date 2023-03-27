@@ -18,6 +18,7 @@ MonoBehaviour:
   - id: 2
   - id: 3
   - id: 4
+  - id: 5
   references:
     version: 1
     00000000:
@@ -68,3 +69,24 @@ MonoBehaviour:
           dictionary:
           - key: test-combat
             scene: Assets/Levels/! TESTING LEVELS !/Combat Framework/CombatFramework.unity
+    00000005:
+      type: {class: YarnMusicCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+      data:
+        musicLookupAuthoring:
+          dictionary:
+          - key: silence
+            value:
+              Guid:
+                Data1: -731324733
+                Data2: 1221087167
+                Data3: 283017650
+                Data4: -1704408852
+              Path: event:/Silence
+          - key: test
+            value:
+              Guid:
+                Data1: -1328677647
+                Data2: 1148799016
+                Data3: 887435147
+                Data4: -1697156310
+              Path: event:/Music/Vilian-Theme

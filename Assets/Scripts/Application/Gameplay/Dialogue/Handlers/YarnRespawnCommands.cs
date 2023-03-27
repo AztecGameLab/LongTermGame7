@@ -12,15 +12,15 @@
         /// <inheritdoc/>
         public void RegisterCommands(DialogueRunner runner)
         {
-            runner.AddCommandHandler<string>("set-respawn-point", HandleRespawnChange);
-            runner.AddCommandHandler("respawn", HandleLoadRespawn);
+            runner.AddCommandHandler<string>("respawn-set", HandleRespawnChange);
+            runner.AddCommandHandler("respawn-load", HandleLoadRespawn);
         }
 
         /// <inheritdoc/>
         public void UnregisterCommands(DialogueRunner runner)
         {
-            runner.RemoveCommandHandler("set-respawn-point");
-            runner.RemoveCommandHandler("respawn");
+            runner.RemoveCommandHandler("respawn-set");
+            runner.RemoveCommandHandler("respawn-load");
         }
 
         private static void HandleRespawnChange(string respawnPointId)
