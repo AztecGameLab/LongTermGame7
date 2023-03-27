@@ -17,6 +17,7 @@ MonoBehaviour:
   - id: 1
   - id: 2
   - id: 3
+  - id: 4
   references:
     version: 1
     00000000:
@@ -50,3 +51,20 @@ MonoBehaviour:
           dictionary:
           - key: artichokie
             value: {fileID: 11400000, guid: 8646431ce0d48884abfdfd4429951a87, type: 2}
+          - key: ghost-a-light
+            value: {fileID: 11400000, guid: 682dfacd3decd484ea99bfbc6d852a58, type: 2}
+          - key: infernidoe
+            value: {fileID: 11400000, guid: 62e7c0c0ff99b424c953536525267f18, type: 2}
+          - key: piranka
+            value: {fileID: 11400000, guid: 797a26a818f3b8c479e408ffb867d24b, type: 2}
+          - key: scalatump
+            value: {fileID: 11400000, guid: 150b0e23e4f021d4d9c6684073d2a6e6, type: 2}
+          - key: ventling
+            value: {fileID: 11400000, guid: 6f7d934186281f34ea2ea229b2ae301c, type: 2}
+    00000004:
+      type: {class: YarnLoadingCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+      data:
+        levelIds:
+          dictionary:
+          - key: test-combat
+            scene: Assets/Levels/! TESTING LEVELS !/Combat Framework/CombatFramework.unity
