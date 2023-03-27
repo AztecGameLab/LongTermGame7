@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using UnityEngine.SceneManagement;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
+    using System;
+    using System.Linq;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     /// <summary>
     /// An event signaling the player's movement between scenes.
@@ -52,7 +51,7 @@ namespace Application.Gameplay
         /// <inheritdoc/>
         public Vector3 GetSpawnPosition()
         {
-            var spawn = Object.FindObjectOfType<PlayerSpawn>();
+            var spawn = UnityEngine.Object.FindObjectOfType<PlayerSpawn>();
             return spawn.transform.position;
         }
     }
@@ -73,7 +72,7 @@ namespace Application.Gameplay
         /// <inheritdoc/>
         public Vector3 GetSpawnPosition()
         {
-            LevelEntrance entrance = Object.FindObjectsOfType<LevelEntrance>()
+            LevelEntrance entrance = UnityEngine.Object.FindObjectsOfType<LevelEntrance>()
                 .FirstOrDefault(entrance => entrance.EntranceID == _targetId);
 
             // If we are traveling between entrances and exits, we want to use that position.

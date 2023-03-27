@@ -1,18 +1,27 @@
-﻿namespace Application.Gameplay
+﻿using UnityEngine.InputSystem;
+
+namespace Application.Gameplay
 {
     using System;
     using Core;
     using Core.Utility;
     using UniRx;
+    using UnityEngine;
+    using Vfx;
     using Object = UnityEngine.Object;
 
     /// <summary>
     /// Responds to LevelChangeEvents and performs the logic needed to load and position the
     /// player in the new scene.
     /// </summary>
+    [Serializable]
     public class LevelLoader : IDisposable
     {
+        [SerializeField]
+        private CanvasGroup fadeImage;
+
         private IDisposable _disposable;
+        private FadeTransition _fadeTransition;
 
         /// <inheritdoc/>
         public void Dispose()
@@ -27,12 +36,20 @@
         public LevelLoader Initialize()
         {
             _disposable = Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
+            _fadeTransition = new FadeTransition(1, 1, fadeImage);
             return this;
         }
 
-        private static async void HandleSceneChange(LevelChangeEvent data)
+        private async void HandleSceneChange(LevelChangeEvent data)
         {
-            // todo: screen transitions
+            var playerInput = Object.FindObjectOfType<PlayerInput>();
+
+            if (playerInput != null)
+            {
+                playerInput.enabled = false;
+            }
+
+            await _fadeTransition.ShowEffect();
             await LevelLoadingUtil.LoadFully(data.NextScene).ToTask();
 
             var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();
@@ -67,6 +84,8 @@
                     // ignored
                 }
             }
+
+            await _fadeTransition.HideEffect();
         }
     }
 }

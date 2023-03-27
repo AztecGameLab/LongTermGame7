@@ -1,4 +1,6 @@
 ﻿using Application.Gameplay.Combat;
+using ImGuiNET;
+using ImGuiNET.Unity;
 
 namespace Application
 {
@@ -18,6 +20,7 @@ namespace Application
     /// </summary>
     public partial class Entrypoint : MonoBehaviour
     {
+        [SerializeField]
         private LevelLoader _levelLoader = new LevelLoader();
 
         [SerializeField]
