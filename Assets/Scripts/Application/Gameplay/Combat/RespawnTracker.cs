@@ -22,7 +22,7 @@ namespace Application.Gameplay.Combat
                 _respawnPointId = respawnPointId;
             }
 
-            public Vector3 GetSpawnPosition()
+            public Vector3 CalculateSpawnPosition()
             {
                 var respawnPoint = Object.FindObjectsOfType<RespawnPoint>().FirstOrDefault(respondPoint => respondPoint.Id == _respawnPointId);
 

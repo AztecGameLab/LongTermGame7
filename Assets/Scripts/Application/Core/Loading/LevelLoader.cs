@@ -1,12 +1,12 @@
-﻿using UnityEngine.InputSystem;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
+    using System.Collections;
     using Core;
     using Core.Utility;
     using UniRx;
     using UnityEngine;
+    using UnityEngine.InputSystem;
     using Vfx;
     using Object = UnityEngine.Object;
 
@@ -35,12 +35,14 @@ namespace Application.Gameplay
         /// <returns>This instance.</returns>
         public LevelLoader Initialize()
         {
-            _disposable = Services.EventBus.AddListener<LevelChangeEvent>(HandleSceneChange, "LevelLoading");
+            _disposable = Services.EventBus.AddListener<LevelChangeEvent>(
+                data => HandleSceneChange(data).ToObservable().Subscribe(), "LevelLoading");
+
             _fadeTransition = new FadeTransition(1, 1, fadeImage);
             return this;
         }
 
-        private async void HandleSceneChange(LevelChangeEvent data)
+        private IEnumerator HandleSceneChange(LevelChangeEvent data)
         {
             var playerInput = Object.FindObjectOfType<PlayerInput>();
 
@@ -49,16 +51,16 @@ namespace Application.Gameplay
                 playerInput.enabled = false;
             }
 
-            await _fadeTransition.ShowEffect();
-            await LevelLoadingUtil.LoadFully(data.NextScene).ToTask();
-
-            var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();
+            yield return _fadeTransition.ShowEffect().ToYieldInstruction();
+            yield return LevelLoadingUtil.LoadFully(data.NextScene).ToYieldInstruction();
 
             // Try to spawn the player, if set up correctly.
+            var playerSpawner = Object.FindObjectOfType<PlayerSpawn>();
+
             if (playerSpawner != null)
             {
                 playerSpawner.Spawn();
-                var spawnPosition = data.SpawningStrategy.GetSpawnPosition();
+                var spawnPosition = data.SpawningStrategy.CalculateSpawnPosition();
 
                 // Now update all party member transforms to the correct spawn position.
                 playerSpawner.SpawnedPlayer.transform.position = spawnPosition;
@@ -73,19 +75,13 @@ namespace Application.Gameplay
             }
             else
             {
-                var legacyPlayer = Object.FindObjectOfType<PlayerMovement>();
-
-                try
-                {
-                    legacyPlayer.transform.position = data.SpawningStrategy.GetSpawnPosition();
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
+                // We are using the legacy player system (e.g. no PlayerSpawn).
+                // In this case, the player is probably positioned manually, and we should let it be.
+                Debug.LogError("LEVEL DESIGNERS: This scene is not using a PlayerSpawn prefab to spawn players." +
+                               "Please add one to the scene ASAP to get rid of this message and ensure everything works.");
             }
 
-            await _fadeTransition.HideEffect();
+            yield return _fadeTransition.HideEffect().ToYieldInstruction();
         }
     }
 }
