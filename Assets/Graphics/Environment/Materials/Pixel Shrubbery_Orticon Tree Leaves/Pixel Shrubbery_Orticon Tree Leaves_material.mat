@@ -8,18 +8,37 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Pixel Shrubbery_Orticon Tree Leaves_material
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 8595fc8211abf114397f09fdabff1f85, type: 3}
   m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _PARALLAXMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_255bc0b6dc2f4928887904ffd60771d1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_56a4ed4029d54b758587cda550a60ea7:
+        m_Texture: {fileID: 2800000, guid: de67d23baf236ce4793fd5fc64feb05f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_6ee057018ea64b479592901994535831:
+        m_Texture: {fileID: 2800000, guid: 2ebf2475cbd83114fb2330ec4b81222e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_758f98ceb215407694cbb0255f21920e:
+        m_Texture: {fileID: 2800000, guid: cdb482f721045c34589a7f0738d4c120, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_8e6264c38812407eb378128906b43635:
+        m_Texture: {fileID: 2800000, guid: 5fc9250716115a645bc380b9906baf7e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 2ebf2475cbd83114fb2330ec4b81222e, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -77,6 +96,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Boolean_c890550f9ca3465a8d96225f8f6870d6: 0
+    - Vector1_018f692442be41f5a6b3f24dea325452: 6.3
+    - Vector1_72b3b2e36301446cbdcfe60e8a1bf041: 1.86
+    - Vector1_aeb6a42ed7d04eb7a8858c5d23d4d03a: 9
+    - Vector1_e32918c3024e464f9d29b8a938e7d4ad: 0.48
+    - Vector1_e86e472a43b041ec96ad07b6ffec2bf9: 1.43
+    - Vector1_e87e60c79f4843568c06a6efde38b333: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,6 +130,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_1310e9857606454aacca6832a1b3d179: {r: 1, g: 1, b: 1, a: 0}
+    - Vector2_cff6daf703b44222a7b134aff3f1633c: {r: 1, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

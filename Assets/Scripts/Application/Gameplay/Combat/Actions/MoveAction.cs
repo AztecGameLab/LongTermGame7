@@ -5,6 +5,7 @@
     using Core;
     using Core.Utility;
     using ImGuiNET;
+    using Newtonsoft.Json;
     using UI.Indicators;
     using UnityEngine;
     using UnityEngine.AI;
@@ -13,12 +14,15 @@
     /// The action where an entity moves around, in a grounded manner, on the battlefield.
     /// </summary>
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class MoveAction : BattleAction, IDebugImGui
     {
         [SerializeField]
+        [JsonProperty]
         private float actionPointsPerUnit = 0.25f;
 
         [SerializeField]
+        [JsonProperty]
         private float moveSpeed = 7;
 
         private Vector3 _targetPosition;

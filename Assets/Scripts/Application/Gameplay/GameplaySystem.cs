@@ -15,6 +15,9 @@
     [Serializable]
     public class GameplaySystem : IDisposable
     {
+        [SerializeField]
+        private BattleController battleController;
+
         private LevelLoader _levelLoader = new LevelLoader();
 
         // ImGui debugging utilities
@@ -35,8 +38,6 @@
         /// </summary>
         public void Init()
         {
-            var battleController = Object.FindObjectOfType<BattleController>();
-
             _disposables = new CompositeDisposable(
                 _landmarkViewer.Init(),
                 _levelDesignUtil.Init(),

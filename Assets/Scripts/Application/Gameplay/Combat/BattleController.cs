@@ -102,6 +102,9 @@
         /// </summary>
         public bool IsBattling { get; private set; }
 
+        /// <summary>
+        /// Gets the current state that this battle controller is in.
+        /// </summary>
         public IState CurrentState => BattleStateMachine.CurrentState;
 
         /// <summary>
@@ -133,12 +136,14 @@
                 return;
             }
 
-            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+            var worldLoader = FindObjectOfType<PlayerSpawn>();
 
             if (worldLoader)
             {
                 worldLoader.MonsterFollowPlayer.Enabled = false;
             }
+
+            gameObject.SetActive(true);
 
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
@@ -198,7 +203,7 @@
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
 
-            var worldLoader = FindObjectOfType<PlayerTeamWorldLoader>();
+            var worldLoader = FindObjectOfType<PlayerSpawn>();
 
             if (worldLoader)
             {
@@ -225,14 +230,7 @@
             }
 
             _battleEndSubject.OnNext(Unit.Default);
-        }
-
-        private static void AddRange<T>(Collection<T> destination, IEnumerable<T> source)
-        {
-            foreach (T data in source)
-            {
-                destination.Add(data);
-            }
+            gameObject.SetActive(false);
         }
 
         private void Awake()
