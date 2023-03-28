@@ -1,6 +1,8 @@
 ﻿namespace Application.Core
 {
+    using Audio;
     using Gameplay;
+    using Gameplay.Combat;
     using Gameplay.Combat.UI.Indicators;
     using Gameplay.Regions;
     using Serialization;
@@ -26,6 +28,10 @@
         /// </summary>
         public static RegionTracker RegionTracker { get; set; }
 
+        public static RespawnTracker RespawnTracker { get; set; }
+
+        public static MusicPlayer MusicPlayer { get; set; }
+
         /// <summary>
         /// Gets or sets the global indicator factory.
         /// </summary>
@@ -42,6 +48,9 @@
             // Resets static data, so fast play mode works without carried-over data..
             EventBus = null;
             Serializer = null;
+            RegionTracker = null;
+            IndicatorFactory = null;
+            PlayerTeamData = null;
             RegionTracker = null;
         }
     }

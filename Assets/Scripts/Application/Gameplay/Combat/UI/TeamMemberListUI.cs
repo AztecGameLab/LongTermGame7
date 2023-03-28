@@ -58,7 +58,11 @@
 
         private void RemoveMember(TeamMemberData memberData)
         {
-            Destroy(_boundDataLookup[memberData].gameObject);
+            if (_boundDataLookup[memberData] != null)
+            {
+                Destroy(_boundDataLookup[memberData].gameObject);
+            }
+
             _boundDataLookup.Remove(memberData);
         }
     }

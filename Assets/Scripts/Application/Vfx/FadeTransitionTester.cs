@@ -27,12 +27,12 @@
         {
             if (GUILayout.Button("Show Fade"))
             {
-                StartCoroutine(_fadeTransition.ShowEffect());
+                _fadeTransition.ShowEffect();
             }
 
             if (GUILayout.Button("Hide Fade"))
             {
-                StartCoroutine(_fadeTransition.HideEffect());
+                _fadeTransition.HideEffect();
             }
         }
     }
