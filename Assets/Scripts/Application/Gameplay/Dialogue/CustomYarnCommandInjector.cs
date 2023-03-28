@@ -31,5 +31,13 @@
                 commandHandler.UnregisterCommands(_runner);
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            foreach (IYarnCommandHandler commandHandler in customCommands.CommandHandlers)
+            {
+                commandHandler.UnregisterCommands(_runner);
+            }
+        }
     }
 }

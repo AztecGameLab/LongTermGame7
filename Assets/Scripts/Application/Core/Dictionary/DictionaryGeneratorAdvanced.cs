@@ -9,11 +9,13 @@
     /// </summary>
     /// <typeparam name="TKey">The key type.</typeparam>
     /// <typeparam name="TValue">The value type.</typeparam>
+    /// <typeparam name="TData">The datatype used to expose these values to the inspector.</typeparam>
     [Serializable]
-    public class DictionaryGenerator<TKey, TValue>
+    public class DictionaryGeneratorAdvanced<TKey, TValue, TData>
+        where TData : SerializedKeyValuePair<TKey, TValue>
     {
         [SerializeField]
-        private List<KeyValuePair> dictionary;
+        private List<TData> dictionary;
 
         /// <summary>
         /// Creates a new dictionary from the inspector-defined values.
@@ -23,26 +25,12 @@
         {
             Dictionary<TKey, TValue> result = new Dictionary<TKey, TValue>();
 
-            foreach (KeyValuePair keyValuePair in dictionary)
+            foreach (TData keyValuePair in dictionary)
             {
                 result.Add(keyValuePair.Key, keyValuePair.Value);
             }
 
             return result;
-        }
-
-        [Serializable]
-        private sealed class KeyValuePair
-        {
-            [SerializeField]
-            private TKey key;
-
-            [SerializeField]
-            private TValue value;
-
-            public TKey Key => key;
-
-            public TValue Value => value;
         }
     }
 }

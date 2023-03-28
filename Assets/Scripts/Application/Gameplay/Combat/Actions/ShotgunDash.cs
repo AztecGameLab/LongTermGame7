@@ -45,7 +45,7 @@
 
         [SerializeField]
         [JsonProperty]
-        private AssetReferenceGameObject dashEffect;
+        private AssetReference dashEffect;
 
         [SerializeField]
         [JsonProperty]

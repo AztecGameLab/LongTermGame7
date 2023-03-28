@@ -11,8 +11,8 @@
         public string NextScene { get; set; }
 
         /// <summary>
-        /// Gets or sets the entrance that the player is aiming for.
+        /// Gets or sets the strategy that should be used to spawn the player.
         /// </summary>
-        public string TargetID { get; set; }
+        public ISpawningStrategy SpawningStrategy { get; set; } = new OriginSpawningStrategy();
     }
 }
