@@ -38,7 +38,7 @@
 
         private IEnumerator Start()
         {
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSeconds(1);
             ignoreFirst = false;
         }
 
@@ -50,10 +50,12 @@
                 return;
             }
 
+            ignoreFirst = false;
+
             if (other.CompareTag("Player"))
             {
                 Services.EventBus.Invoke(
-                    new LevelChangeEvent { TargetID = TargetID, NextScene = TargetScene }, "LevelExit");
+                    new LevelChangeEvent { SpawningStrategy = new EntranceSpawningStrategy(TargetID), NextScene = TargetScene }, "LevelExit");
             }
         }
     }

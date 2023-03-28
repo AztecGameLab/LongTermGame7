@@ -9,6 +9,49 @@ Multi-dialogue time.
 -> Option 2
 -> You Don't Want This Option
 
+Respawn testing
+<<respawn-set test>>
+<<respawn-load>>
+Now you are somewhere else!
+
+Wanna pick a team member?
+<<team-open-selector>>
+You done yet?
+
+Oh no, artichokie ran away.
+<<team-remove artichokie>>
+<<team-open-selector>>
+
+Now its back.
+<<team-add artichokie>>
+<<team-open-selector>>
+
+Lets bounce to some levels.
+<<level-load test-combat>>
+
+New place, huh.
+<<level-load-position test-combat 0 5 0>>
+
+Spawned you up in the air.
+<<level-load-entrance test-combat door>>
+
+Now you just walked in through a door.
+
+Wanna listen to music?
+<<music-play test>>
+
+Now some silence.
+<<music-play silence>>
+
+No more silence.
+<<music-stop silence>>
+
+No more music.
+<<music-stop test>>
+
+Google some stuff
+<<web-open google.com>>
+
 Hello, yarn!
 <<image-show test>>
 Do you see this?
@@ -30,9 +73,4 @@ Now white
 <<image-show white>>
 <<image-hide>>
 how was that?
-===
-
-title: MyCustomSTuff
----
-My text
 ===

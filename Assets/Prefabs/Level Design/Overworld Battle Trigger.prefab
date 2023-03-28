@@ -160,6 +160,7 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
+  - id: 3
   references:
     version: 1
     00000000:
@@ -168,3 +169,5 @@ MonoBehaviour:
       type: {class: KillAllEnemiesObjective, ns: Application.Gameplay.Combat.Hooks, asm: Application}
     00000002:
       type: {class: KeepPlayerAliveObjective, ns: Application.Gameplay.Combat.Hooks, asm: Application}
+    00000003:
+      type: {class: RespawnOnLossHook, ns: Application.Gameplay.Combat.Hooks, asm: Application}

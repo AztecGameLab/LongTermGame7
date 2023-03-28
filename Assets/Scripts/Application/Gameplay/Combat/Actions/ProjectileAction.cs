@@ -25,7 +25,7 @@
 
         [SerializeField]
         [JsonProperty]
-        private AssetReferenceGameObject projectileAsset;
+        private AssetReference projectileAsset;
 
         [SerializeField]
         [JsonProperty]

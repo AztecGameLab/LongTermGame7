@@ -66,7 +66,7 @@
             var battleData = new BattleData(playerTeamInstances, enemyTeamInstances, data.Hooks, data.EnemyOrderDecider);
 
             _controller.BeginBattle(battleData);
-            _cleanupDisposable = _controller.OnBattleEnd.Subscribe(_ => RestoreOriginalScene());
+            _cleanupDisposable = _controller.Victory.ObserveOnExit().Subscribe(_ => RestoreOriginalScene());
         }
 
         private void RestoreOriginalScene()
