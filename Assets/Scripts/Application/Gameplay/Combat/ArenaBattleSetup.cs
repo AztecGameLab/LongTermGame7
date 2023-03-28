@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Core;
+    using Core.Utility;
     using UniRx;
     using UnityEngine;
     using UnityEngine.SceneManagement;
@@ -18,9 +19,6 @@
     [Serializable]
     public class ArenaBattleSetup : IDisposable
     {
-        [SerializeField]
-        private SubArenaLookup subArenaLookup;
-
         private BattleController _controller;
         private string _originalSceneName;
         private IDisposable _cleanupDisposable;
@@ -48,8 +46,7 @@
         {
             _originalSceneName = SceneManager.GetActiveScene().name;
 
-            string subArenaSceneName = subArenaLookup.GetSceneName(Services.RegionTracker.CurrentRegion);
-            SceneManager.LoadScene(subArenaSceneName);
+            await LevelLoadingUtil.LoadFully(data.ArenaSceneName).ToTask();
             await Task.Delay(100);
 
             List<GameObject> playerTeamInstances = new List<GameObject>();
@@ -75,7 +72,7 @@
         private void RestoreOriginalScene()
         {
             _cleanupDisposable.Dispose();
-            SceneManager.LoadScene(_originalSceneName);
+            Services.EventBus.Invoke(new LevelChangeEvent { NextScene = _originalSceneName }, "Arena Battle Restoration");
         }
 
         private List<GameObject> SpawnEntities(IEnumerable<GameObject> entities)
