@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Audio
+﻿namespace Application.Audio
 {
     using UnityEngine;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Gameplay.Dialogue
+﻿namespace Application.Gameplay.Dialogue
 {
     using UnityEngine;
     using Yarn.Unity;

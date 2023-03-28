@@ -220,7 +220,6 @@
                 hook.OnBattleEnd();
             }
 
-
             _hooks.Clear();
             PlayerTeam.Clear();
             EnemyTeam.Clear();

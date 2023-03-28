@@ -1,8 +1,7 @@
-﻿using UniRx;
-
-namespace Application.Gameplay.Combat.Hooks
+﻿namespace Application.Gameplay.Combat.Hooks
 {
     using System;
+    using UniRx;
 
     /// <summary>
     /// A logical event that is monitored during a battle.
@@ -16,6 +15,9 @@ namespace Application.Gameplay.Combat.Hooks
         /// </summary>
         public BattleController Controller { get; set; }
 
+        /// <summary>
+        /// Gets a disposable that will be cleaned up when the battle ends.
+        /// </summary>
         protected CompositeDisposable AutoDispose { get; private set; }
 
         /// <summary>

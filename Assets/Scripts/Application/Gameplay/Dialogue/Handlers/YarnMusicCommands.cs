@@ -52,7 +52,7 @@
             }
             else
             {
-                Debug.LogError($"YARN: Tried to stop music {musicId} that does not exist.");
+                Debug.LogError($"YARN: Tried to stop music {musicId} that does not exist");
             }
         }
     }

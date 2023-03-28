@@ -1,12 +1,11 @@
-﻿using UniRx;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System.Collections.Generic;
     using Combat.UI;
     using Core;
     using Core.Utility;
     using ImGuiNET;
+    using UniRx;
     using UnityEngine;
 
     /// <summary>

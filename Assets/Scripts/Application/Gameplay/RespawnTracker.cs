@@ -35,7 +35,6 @@
             Services.Serializer.Store("respawn", _currentRespawnPoint);
         }
 
-
         /// <summary>
         /// Changes the active respawn point.
         /// </summary>

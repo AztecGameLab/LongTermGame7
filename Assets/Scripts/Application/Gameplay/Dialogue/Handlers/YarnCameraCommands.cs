@@ -1,8 +1,4 @@
-﻿using UnityEditor.VersionControl;
-using UnityEngine.SceneManagement;
-using Task = System.Threading.Tasks.Task;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
     using System.Collections;
@@ -11,8 +7,10 @@ namespace Application.Gameplay
     using ElRaccoone.Tweens.Core;
     using UniRx;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
     using Yarn.Unity;
     using Object = UnityEngine.Object;
+    using Task = System.Threading.Tasks.Task;
 
     /// <summary>
     /// Yarn camera commands.
@@ -69,18 +67,6 @@ namespace Application.Gameplay
             _camFramingTransposer = _cam.GetComponentInChildren<CinemachineFramingTransposer>();
         }
 
-        private void Cleanup()
-        {
-            SceneManager.activeSceneChanged -= HandleSceneChange;
-            Application.quitting -= Cleanup;
-        }
-
-        private async void HandleSceneChange(Scene arg0, Scene arg1)
-        {
-            await Task.Delay(10);
-            ActivateCam();
-        }
-
         /// <inheritdoc/>
         public void UnregisterCommands(DialogueRunner runner)
         {
@@ -106,6 +92,18 @@ namespace Application.Gameplay
             }
 
             return input;
+        }
+
+        private void Cleanup()
+        {
+            SceneManager.activeSceneChanged -= HandleSceneChange;
+            Application.quitting -= Cleanup;
+        }
+
+        private async void HandleSceneChange(Scene arg0, Scene arg1)
+        {
+            await Task.Delay(10);
+            ActivateCam();
         }
 
         private Coroutine RunOffsetHandler(float arg1, float arg2, float arg3, float arg4 = 1) =>
