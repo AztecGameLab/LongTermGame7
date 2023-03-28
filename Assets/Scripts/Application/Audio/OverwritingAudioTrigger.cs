@@ -24,6 +24,11 @@
             }
         }
 
+        private void OnDestroy()
+        {
+            controller.RemoveData(data);
+        }
+
         private void OnTriggerEnter()
         {
             if (isGlobal)

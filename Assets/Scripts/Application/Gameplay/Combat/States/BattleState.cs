@@ -10,6 +10,9 @@
     /// </summary>
     public abstract class BattleState : IState
     {
+        private readonly Subject<Unit> _onEnter = new Subject<Unit>();
+        private readonly Subject<Unit> _onExit = new Subject<Unit>();
+
         private IDebugImGui _debugImGui;
         private IDisposable _debugImGuiDisposable;
         private CompositeDisposable _disposable = new CompositeDisposable();
@@ -19,6 +22,18 @@
         /// </summary>
         public BattleController Controller { get; set; }
 
+        /// <summary>
+        /// Gets an observable for each time this state is entered.
+        /// </summary>
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveOnEnter() => _onEnter;
+
+        /// <summary>
+        /// Gets an observable for each time this state is entered.
+        /// </summary>
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveOnExit() => _onExit;
+
         /// <inheritdoc/>
         public virtual void OnEnter()
         {
@@ -26,11 +41,14 @@
             {
                 _debugImGuiDisposable = ImGuiUtil.Register(_debugImGui);
             }
+
+            _onEnter.OnNext(Unit.Default);
         }
 
         /// <inheritdoc/>
         public virtual void OnExit()
         {
+            _onExit.OnNext(Unit.Default);
             _debugImGuiDisposable?.Dispose();
             _disposable?.Dispose();
             _disposable = new CompositeDisposable();
