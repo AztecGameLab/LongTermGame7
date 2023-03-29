@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.Events;
+    using UnityEngine.SceneManagement;
 
     /// <summary>
     /// Handles OnTrigger events, and passes them to C# events.
@@ -38,6 +39,13 @@
         [SerializeField]
         [Tooltip("An event that is called when a collider exits this trigger.")]
         private UnityEvent<Rigidbody> rigidbodyTriggerExit = new UnityEvent<Rigidbody>();
+
+        [SerializeField]
+        private bool isOneShot;
+
+        [SerializeField]
+        [HideInInspector]
+        private string guid = Guid.NewGuid().ToString();
 
         /// <summary>
         /// An event that is called the first frame when an object enters this trigger.
@@ -93,6 +101,33 @@
         /// </value>
         public IReadOnlyCollection<Collider> CurrentColliders => _currentColliders;
 
+        private string SerializedId => $"trigger_{SceneManager.GetActiveScene().name}_{guid}";
+
+        /// <inheritdoc/>
+        protected override void Awake()
+        {
+            base.Awake();
+
+            if (isOneShot)
+            {
+                Services.Serializer.Lookup(SerializedId, out var isActive, true);
+
+                if (!isActive)
+                {
+                    gameObject.SetActive(false);
+                }
+
+                CollisionEnter += DisableOneShot;
+            }
+        }
+
+        private void DisableOneShot(GameObject obj)
+        {
+            CollisionEnter -= DisableOneShot;
+            gameObject.SetActive(false);
+            Services.Serializer.Store(SerializedId, false);
+        }
+
         private void OnTriggerStay(Collider other)
         {
             if (IsValidCollider(other) && enabled)
@@ -129,7 +164,7 @@
         {
             foreach (Rigidbody previousRigidbody in _previousRigidbodies)
             {
-                if (!_currentRigidbodies.Contains(previousRigidbody))
+                if (!_currentRigidbodies.Contains(previousRigidbody) && previousRigidbody != null)
                 {
                     // this has been removed
                     CollisionExit?.Invoke(previousRigidbody.gameObject);
@@ -167,7 +202,7 @@
         {
             foreach (Collider previousCollider in _previousColliders)
             {
-                if (!_currentColliders.Contains(previousCollider))
+                if (!_currentColliders.Contains(previousCollider) && previousCollider != null)
                 {
                     // this has been removed
                     CollisionExit?.Invoke(previousCollider.gameObject);

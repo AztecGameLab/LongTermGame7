@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: graph_0
   m_EditorClassIdentifier: 
   AssetPath: Assets/Resources/Materials/Pixel Shrubbery.sbsar
-  OutputPath: Assets/Resources/Materials/Pixel Shrubbery_graph_0
+  OutputPath: Assets\Resources\Materials\Pixel Shrubbery_graph_0
   RawData: {fileID: -244192453324840774, guid: 3efee0f269459d14ca1477f30a1808ea, type: 3}
   Name: graph_0
   IsRoot: 1
@@ -42,7 +42,7 @@ MonoBehaviour:
       Index: 0
       Type: 8
       Channel: baseColor
-    OutputTexture: {fileID: 2800000, guid: e25605b2a335e174fa8feb83d4753ff1, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -58,7 +58,7 @@ MonoBehaviour:
       Index: 1
       Type: 8
       Channel: normal
-    OutputTexture: {fileID: 2800000, guid: e9bd27f7ea67cac4c9066da899471f84, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -90,7 +90,7 @@ MonoBehaviour:
       Index: 3
       Type: 8
       Channel: metallic
-    OutputTexture: {fileID: 2800000, guid: e085e534940cf104c963c8ed6ebff854, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -106,7 +106,7 @@ MonoBehaviour:
       Index: 4
       Type: 8
       Channel: height
-    OutputTexture: {fileID: 2800000, guid: 3eb34007eb050e74f9ba77b37b424d84, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -137,18 +137,19 @@ MonoBehaviour:
   HasThumbnail: 0
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Pixel_Shrubbery\" label=\"\" >\n 
     <presetinput identifier=\"$outputsize\" uid=\"4048806541\" type=\"8\" value=\"10,10\"
+    />\n  <presetinput identifier=\"$randomseed\" uid=\"2787243231\" type=\"4\" value=\"4561\"
     />\n  <presetinput identifier=\"Warp_Intensity\" uid=\"2629795226\" type=\"0\"
-    value=\"1\" />\n </sbspreset>\n"
+    value=\"1\" />\n  <presetinput identifier=\"Fruits_Density\" uid=\"2630221807\"
+    type=\"0\" value=\"1\" />\n </sbspreset>\n"
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
   OutputMaterial: {fileID: 2100000, guid: 1345e61adff344044adc30b701afed46, type: 2}
   DefaultPreset: " <sbspreset pkgurl=\"pkg://Pixel_Shrubbery\" label=\"\" >\n  <presetinput
-    identifier=\"$outputsize\" uid=\"4048806541\" type=\"8\" value=\"10,10\" />\n
-    </sbspreset>\n"
+    identifier=\"$outputsize\" uid=\"4048806541\" type=\"8\" value=\"10,10\" />\n</sbspreset>\n"
   MaterialShader: Universal Render Pipeline/Lit
-  RenderTextures: 0
-  OutputRemaped: 0
+  RenderTextures: 1
+  OutputRemaped: 1
   references:
     version: 1
     00000000:
@@ -181,7 +182,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 4
           WidgetType: 0
-        Data: 0
+        Data: 4561
         NumericalDescription:
           DefaultValue: 0
           MinValue: 0
@@ -327,7 +328,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 0
           WidgetType: 1
-        Data: 0
+        Data: 1
         NumericalDescription:
           DefaultValue: 0
           MinValue: 0
