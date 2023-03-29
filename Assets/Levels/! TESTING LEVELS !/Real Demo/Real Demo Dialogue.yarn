@@ -16,17 +16,18 @@ Artichokie 3: There should be a clearing up ahead - maybe we lost her...
 <<music-stop forest-chase>>
 ???: There you are. Tired of running, are we?
 <<image-hide>>
-// todo: walk into center of group
+<<move Biomutalist BiomutalistPrefightPosition>>
 <<music-play villian-theme>>
+???: Now, let's get started.
 ===
 title: ForestDefeat
 position: 106,118
 ---
-// todo: move to the center of the group
+<<move Biomutalist BiomutalistPostfightPosition>>
 ???: Hmm...
 ???: Unfortunately, more than I can carry in one trip. A shame.
 ???: That green one looks especially heavy.
-// todo: move towards artichokie
+<<move Biomutalist Artichokie1>>
 ???: Actually, you look like a good canidate for a certain test I've been meaning to carry out. Stay still, now.
 // todo: serum animation and SFX
 ???: There we go. Doesn't hurt so bad, right?

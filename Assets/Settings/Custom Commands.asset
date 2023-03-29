@@ -19,6 +19,7 @@ MonoBehaviour:
   - id: 3
   - id: 4
   - id: 5
+  - id: 6
   references:
     version: 1
     00000000:
@@ -144,3 +145,5 @@ MonoBehaviour:
                 Data3: 887435147
                 Data4: -1697156310
               Path: event:/Music/Vilian-Theme
+    00000006:
+      type: {class: YarnMovementCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
