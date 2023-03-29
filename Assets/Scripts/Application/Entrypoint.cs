@@ -44,6 +44,7 @@
             Services.Serializer = new Serializer();
             Services.RespawnTracker = respawnTracker;
             Services.MusicPlayer = new MusicPlayer();
+
             respawnTracker.Init();
 
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);

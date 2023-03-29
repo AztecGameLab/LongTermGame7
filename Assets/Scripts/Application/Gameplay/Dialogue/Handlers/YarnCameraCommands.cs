@@ -240,7 +240,7 @@
         /// <param name="timeScalar">Optional: The time to complete the movement in seconds, default is 0 - instant.</param>
         private IEnumerator MoveAbs(float x, float y, float z, float timeScalar = 0)
         {
-            _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
+            // _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
             timeScalar = MakePositive(timeScalar);
             UpdateEndState();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
@@ -262,7 +262,7 @@
 
         private IEnumerator ResetPosition(float time = 1)
         {
-            _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
+            // _cam.Follow = Object.FindObjectOfType<PlayerMovement>().transform;
             UpdateEndState();
             _startMovement = _camFramingTransposer.m_TrackedObjectOffset;
             _endMovement = _originalOffset;

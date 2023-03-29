@@ -1,0 +1,37 @@
+﻿title: ChieftanHouse
+tags:
+position: -91,-60
+---
+It's the Chieftan's house. The door is locked.
+===
+title: ForestChase
+position: 47,147
+---
+<<image-show black>>
+<<cam-follow Biomutalist 0>>
+<<music-play forest-chase>>
+Artichokie 1: We need to get out of here!
+Artichokie 2: If we don't hurry, that crazy human is going to kill us all!
+Artichokie 3: There should be a clearing up ahead - maybe we lost her...
+<<music-stop forest-chase>>
+???: There you are. Tired of running, are we?
+<<image-hide>>
+// todo: walk into center of group
+<<music-play villian-theme>>
+===
+title: ForestDefeat
+position: 106,118
+---
+// todo: move to the center of the group
+???: Hmm...
+???: Unfortunately, more than I can carry in one trip. A shame.
+???: That green one looks especially heavy.
+// todo: move towards artichokie
+???: Actually, you look like a good canidate for a certain test I've been meaning to carry out. Stay still, now.
+// todo: serum animation and SFX
+???: There we go. Doesn't hurt so bad, right?
+???: Once I get your friends to the lab, I'll be back to pick you up. Stay put, will you?
+// todo: fade in title
+<<music-stop villian-theme>>
+<<level-load Village>>
+===
