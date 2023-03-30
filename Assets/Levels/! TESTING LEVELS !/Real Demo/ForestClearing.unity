@@ -466,6 +466,10 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 14.6
       objectReference: {fileID: 0}
+    - target: {fileID: 5627574159997059872, guid: 61e9cf744f1836741926f4675b457414, type: 3}
+      propertyPath: appearDuration
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 5627574159997059873, guid: 61e9cf744f1836741926f4675b457414, type: 3}
       propertyPath: m_Alpha
       value: 0
@@ -2022,6 +2026,7 @@ MonoBehaviour:
   endingDialogue:
     project: {fileID: 7545569452688597077, guid: f43a5f4fd6e15b042a1f4db4543a02bd, type: 3}
     nodeName: ForestDefeat
+  brain: {fileID: 1900455927}
   mutalistMidStage:
     project: {fileID: 7545569452688597077, guid: f43a5f4fd6e15b042a1f4db4543a02bd, type: 3}
     nodeName: MidStage
@@ -2315,6 +2320,10 @@ PrefabInstance:
     - target: {fileID: 4016362639303473387, guid: 61e9cf744f1836741926f4675b457414, type: 3}
       propertyPath: m_fontSize
       value: 14.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627574159997059872, guid: 61e9cf744f1836741926f4675b457414, type: 3}
+      propertyPath: appearDuration
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5627574159997059873, guid: 61e9cf744f1836741926f4675b457414, type: 3}
       propertyPath: m_Alpha
@@ -3368,6 +3377,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8463210735748435754, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
   m_PrefabInstance: {fileID: 1999622052}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1900455927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900455926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c77270c2bd8d4845bdc4e6978f9abc73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightAttackProjectile: {fileID: 3819552091449136834, guid: 6dd9170148f67694cafb5d23b7c3afc0, type: 3}
+  multiAttackProjectile: {fileID: 3819552091449136834, guid: 6dd9170148f67694cafb5d23b7c3afc0, type: 3}
+  beamAttack: {fileID: 3819552091449136834, guid: 6dd9170148f67694cafb5d23b7c3afc0, type: 3}
+  CurrentStage: 0
 --- !u!1001 &1908829667
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3993,6 +4018,10 @@ PrefabInstance:
     - target: {fileID: 4016362639303473387, guid: 61e9cf744f1836741926f4675b457414, type: 3}
       propertyPath: m_fontSize
       value: 13.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627574159997059872, guid: 61e9cf744f1836741926f4675b457414, type: 3}
+      propertyPath: appearDuration
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5627574159997059873, guid: 61e9cf744f1836741926f4675b457414, type: 3}
       propertyPath: m_Alpha

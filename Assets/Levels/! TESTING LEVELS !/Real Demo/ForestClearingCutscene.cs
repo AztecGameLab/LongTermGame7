@@ -12,7 +12,7 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
     using Application.Gameplay.Combat.Hooks;
     using UnityEngine;
     using Yarn.Unity;
-    
+
     public abstract class Popup : MonoBehaviour
     {
         public abstract IEnumerator Show();
@@ -41,6 +41,8 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
         [SerializeField]
         private DialogueReference endingDialogue;
 
+        [SerializeField] private MutalistIntroBrain brain;
+
         [SerializeField] private DialogueReference mutalistMidStage;
         [SerializeField] private DialogueReference mutalistFinalStage;
         [SerializeField] private DialogueReference mutalistVictory;
@@ -51,7 +53,7 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
 
         private IEnumerator Start()
         {
-            yield return Services.DialogueSystem.RunDialogue(dialogue);
+            // yield return Services.DialogueSystem.RunDialogue(dialogue);
             var customHook = new CustomHook
                 {
                     AbilityHint = abilityHint.Show,
@@ -70,11 +72,13 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
 
         private IEnumerator MidStage()
         {
+            brain.CurrentStage = MutalistIntroBrain.Stage.MultiAttack;
             yield return Services.DialogueSystem.RunDialogue(mutalistMidStage);
         }
 
         private IEnumerator FinalStage()
         {
+            brain.CurrentStage = MutalistIntroBrain.Stage.FinisherAttack;
             yield return Services.DialogueSystem.RunDialogue(mutalistFinalStage);
         }
 

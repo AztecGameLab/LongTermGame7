@@ -236,14 +236,14 @@ namespace Application.Gameplay.Combat
                 {
                     battleUi.interactable = false;
                     battleUi.blocksRaycasts = false;
-                    yield return battleUi.TweenCanvasGroupAlpha(0, 1).Yield();
+                    yield return battleUi.TweenCanvasGroupAlpha(0, 0.25f).Yield();
 
                     while (Interrupts.Count > 0)
                     {
                         yield return Interrupts.Dequeue().Invoke();
                     }
 
-                    yield return battleUi.TweenCanvasGroupAlpha(1, 1).Yield();
+                    yield return battleUi.TweenCanvasGroupAlpha(1, 0.25f).Yield();
                     battleUi.interactable = true;
                     battleUi.blocksRaycasts = true;
                 }
