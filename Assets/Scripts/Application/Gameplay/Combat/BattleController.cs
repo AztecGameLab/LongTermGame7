@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat
+﻿using ElRaccoone.Tweens;
+
+namespace Application.Gameplay.Combat
 {
     using System;
     using System.Collections;
@@ -62,6 +64,9 @@
 
         [SerializeField]
         private EnemyTeamMemberBattleUI enemyBattleUI;
+
+        [SerializeField]
+        private CanvasGroup battleUi;
 
         /// <summary>
         /// Gets the battle intro logic.
@@ -227,12 +232,24 @@
                     hook.OnBattleUpdate();
                 }
 
-                BattleStateMachine.Tick();
-
-                while (Interrupts.Count > 0)
+                if (Interrupts.Count > 0)
                 {
-                    yield return Interrupts.Dequeue().Invoke();
+                    battleUi.interactable = false;
+                    battleUi.blocksRaycasts = false;
+                    yield return battleUi.TweenCanvasGroupAlpha(0, 1).Yield();
+
+                    while (Interrupts.Count > 0)
+                    {
+                        yield return Interrupts.Dequeue().Invoke();
+                    }
+
+                    yield return battleUi.TweenCanvasGroupAlpha(1, 1).Yield();
+                    battleUi.interactable = true;
+                    battleUi.blocksRaycasts = true;
                 }
+
+
+                BattleStateMachine.Tick();
 
                 yield return null;
             }

@@ -15,7 +15,7 @@
     [Serializable]
     public class PickMonster : RoundState
     {
-        private const int PickMonsterCameraActivePriority = 50;
+        private const int PickMonsterCameraActivePriority = 20;
 
         private HashSet<GameObject> _usedMonsters;
 

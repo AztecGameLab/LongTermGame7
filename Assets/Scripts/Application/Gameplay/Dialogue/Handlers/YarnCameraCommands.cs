@@ -18,7 +18,7 @@
     [Serializable]
     public class YarnCameraCommands : IYarnCommandHandler
     {
-        private const int ActivePriority = 15;
+        private const int ActivePriority = 30;
 
         [SerializeField]
         private CinemachineVirtualCamera dialogueCameraPrefab;

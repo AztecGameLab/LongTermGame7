@@ -1,4 +1,4 @@
-﻿title: ChieftanHouse
+title: ChieftanHouse
 tags:
 position: -91,-60
 ---
@@ -21,7 +21,7 @@ Artichokie 3: There should be a clearing up ahead - maybe we lost her...
 ???: Now, let's get started.
 ===
 title: ForestDefeat
-position: 106,118
+position: 193,323
 ---
 <<move Biomutalist BiomutalistPostfightPosition>>
 ???: Hmm...
@@ -35,4 +35,21 @@ position: 106,118
 // todo: fade in title
 <<music-stop villian-theme>>
 <<level-load Village>>
+===
+title: MidStage
+position: -250,115
+---
+<<cam-follow Biomutalist>>
+???:...
+===
+title: FinalStage
+position: -192,149
+---
+<<cam-follow Biomutalist>>
+???: You're coming with me whether you like it or not.
+===
+title: BiomutalistVictory
+position: -182,159
+---
+???: What a waste of my time.
 ===

@@ -41,6 +41,10 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
         [SerializeField]
         private DialogueReference endingDialogue;
 
+        [SerializeField] private DialogueReference mutalistMidStage;
+        [SerializeField] private DialogueReference mutalistFinalStage;
+        [SerializeField] private DialogueReference mutalistVictory;
+
         [SerializeField] private Popup selectionHint;
         [SerializeField] private Popup abilityHint;
         [SerializeField] private Popup battleObjectiveHint;
@@ -53,6 +57,9 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
                     AbilityHint = abilityHint.Show,
                     SelectionHint = selectionHint.Show,
                     BattleObjectiveHint = battleObjectiveHint.Show,
+                    MutalistMidStage = MidStage,
+                    MutalistFinalStage = FinalStage,
+                    MutalistVictory = () => Services.DialogueSystem.RunDialogue(mutalistVictory),
                 };
             hooks.Add(customHook);
             var message = new OverworldBattleStartData(friendlies, enemies, hooks, orderDecider);
@@ -61,11 +68,24 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
             yield return Services.DialogueSystem.RunDialogue(endingDialogue);
         }
 
+        private IEnumerator MidStage()
+        {
+            yield return Services.DialogueSystem.RunDialogue(mutalistMidStage);
+        }
+
+        private IEnumerator FinalStage()
+        {
+            yield return Services.DialogueSystem.RunDialogue(mutalistFinalStage);
+        }
+
         private sealed class CustomHook : Hook
         {
             public Func<IEnumerator> SelectionHint;
             public Func<IEnumerator> AbilityHint;
             public Func<IEnumerator> BattleObjectiveHint;
+            public Func<IEnumerator> MutalistMidStage;
+            public Func<IEnumerator> MutalistFinalStage;
+            public Func<IEnumerator> MutalistVictory;
 
             private bool _isCombatFinished;
 
@@ -84,6 +104,18 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
                 Controller.Round.RoundNumber
                     .Where(round => round == 2)
                     .Subscribe(_ => Controller.Interrupts.Enqueue(BattleObjectiveHint));
+
+                Controller.Round.EnemyMoveMonsters.ObserveEntered()
+                    .Where(_ => Controller.Round.RoundNumber.Value == 2)
+                    .Take(1)
+                    .Subscribe(_ => Controller.Interrupts.Enqueue(MutalistMidStage));
+
+                Controller.Round.EnemyMoveMonsters.ObserveEntered()
+                    .Where(_ => Controller.Round.RoundNumber.Value == 3)
+                    .Take(1)
+                    .Subscribe(_ => Controller.Interrupts.Enqueue(MutalistFinalStage));
+
+                Controller.Round.ObserveExited().Subscribe(_ => Controller.Interrupts.Enqueue(MutalistVictory));
             }
 
             public override IEnumerator OnBattleEnd()
