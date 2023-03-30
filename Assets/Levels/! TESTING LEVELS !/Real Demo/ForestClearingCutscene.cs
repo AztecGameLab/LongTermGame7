@@ -1,4 +1,8 @@
-﻿namespace Levels.__TESTING_LEVELS__.Real_Demo
+﻿using System;
+using UniRx;
+using UniRx.Diagnostics;
+
+namespace Levels.__TESTING_LEVELS__.Real_Demo
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -8,6 +12,11 @@
     using Application.Gameplay.Combat.Hooks;
     using UnityEngine;
     using Yarn.Unity;
+    
+    public abstract class Popup : MonoBehaviour
+    {
+        public abstract IEnumerator Show();
+    }
 
     /// <summary>
     /// A cutscene that plays out in the forest clearing level.
@@ -32,29 +41,58 @@
         [SerializeField]
         private DialogueReference endingDialogue;
 
+        [SerializeField] private Popup selectionHint;
+        [SerializeField] private Popup abilityHint;
+        [SerializeField] private Popup battleObjectiveHint;
+
         private IEnumerator Start()
         {
             yield return Services.DialogueSystem.RunDialogue(dialogue);
-            var waitForEnd = new WaitForCombatToEnd();
-            hooks.Add(waitForEnd);
+            var customHook = new CustomHook
+                {
+                    AbilityHint = abilityHint.Show,
+                    SelectionHint = selectionHint.Show,
+                    BattleObjectiveHint = battleObjectiveHint.Show,
+                };
+            hooks.Add(customHook);
             var message = new OverworldBattleStartData(friendlies, enemies, hooks, orderDecider);
             Services.EventBus.Invoke(message, "Forest Cutscene");
-            yield return waitForEnd.Yield();
+            yield return customHook.YieldUntilBattleEnd();
             yield return Services.DialogueSystem.RunDialogue(endingDialogue);
-            print("finished!");
         }
 
-        private class WaitForCombatToEnd : Hook
+        private sealed class CustomHook : Hook
         {
+            public Func<IEnumerator> SelectionHint;
+            public Func<IEnumerator> AbilityHint;
+            public Func<IEnumerator> BattleObjectiveHint;
+
             private bool _isCombatFinished;
 
-            public override void OnBattleEnd()
+            public override IEnumerator OnBattleStart()
             {
-                base.OnBattleEnd();
+                yield return base.OnBattleStart();
+
+                Controller.Round.PickMonster.ObserveEntered()
+                    .Take(1)
+                    .Subscribe(_ => Controller.Interrupts.Enqueue(SelectionHint));
+
+                Controller.Round.PickActions.ObserveEntered()
+                    .Take(1)
+                    .Subscribe(_ => Controller.Interrupts.Enqueue(AbilityHint));
+
+                Controller.Round.RoundNumber
+                    .Where(round => round == 2)
+                    .Subscribe(_ => Controller.Interrupts.Enqueue(BattleObjectiveHint));
+            }
+
+            public override IEnumerator OnBattleEnd()
+            {
+                yield return base.OnBattleEnd();
                 _isCombatFinished = true;
             }
 
-            public IEnumerator Yield()
+            public IEnumerator YieldUntilBattleEnd()
             {
                 while (!_isCombatFinished)
                 {

@@ -12,16 +12,28 @@
     [Serializable]
     public abstract class RoundState : IState
     {
+        private readonly Subject<Unit> _entered = new Subject<Unit>();
+        private readonly Subject<Unit> _exited = new Subject<Unit>();
+
         private IDebugImGui _debugImGui;
         private CompositeDisposable _disposables = new CompositeDisposable();
 
         /// <summary>
         /// Gets or sets the current round this state is taking place in.
         /// </summary>
-        /// <value>
-        /// The current round this state is taking place in.
-        /// </value>
         public BattleRound Round { get; set; }
+
+        /// <summary>
+        /// Gets an observable for each time this state is entered.
+        /// </summary>
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveEntered() => _entered;
+
+        /// <summary>
+        /// Gets an observable for each time this state is exited.
+        /// </summary>
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveExited() => _exited;
 
         /// <summary>
         /// Called the first frame this state is entered.
@@ -33,6 +45,8 @@
             {
                 DisposeOnExit(ImGuiUtil.Register(_debugImGui));
             }
+
+            _entered.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -41,6 +55,8 @@
         /// </summary>
         public virtual void OnExit()
         {
+            _exited.OnNext(Unit.Default);
+
             _disposables?.Dispose();
             _disposables = new CompositeDisposable();
         }

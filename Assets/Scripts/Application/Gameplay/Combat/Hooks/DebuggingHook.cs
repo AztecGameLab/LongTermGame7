@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Hooks
+﻿using System.Collections;
+
+namespace Application.Gameplay.Combat.Hooks
 {
     using UnityEngine;
 
@@ -8,21 +10,17 @@
     public class DebuggingHook : Hook
     {
         /// <inheritdoc/>
-        public override void OnBattleEnd()
+        public override IEnumerator OnBattleEnd()
         {
+            yield return base.OnBattleEnd();
             Debug.Log("Battle End");
         }
 
         /// <inheritdoc/>
-        public override void OnBattleStart()
+        public override IEnumerator OnBattleStart()
         {
+            yield return base.OnBattleStart();
             Debug.Log("Battle Start");
-        }
-
-        /// <inheritdoc/>
-        public override void OnBattleUpdate()
-        {
-            // Method intentionally left empty.
         }
     }
 }
