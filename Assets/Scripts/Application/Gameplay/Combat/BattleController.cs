@@ -49,6 +49,9 @@ namespace Application.Gameplay.Combat
         private CinemachineVirtualCamera battleCamera;
 
         [SerializeField]
+        private CinemachineVirtualCamera[] cameras;
+
+        [SerializeField]
         private CinemachineTargetGroup battleTargetGroup;
 
         [SerializeField]
@@ -58,12 +61,6 @@ namespace Application.Gameplay.Combat
 
         [SerializeField]
         private CanvasGroup battleBars;
-
-        [SerializeField]
-        private PlayerTeamMemberBattleUI playerBattleUI;
-
-        [SerializeField]
-        private EnemyTeamMemberBattleUI enemyBattleUI;
 
         [SerializeField]
         private CanvasGroup battleUi;
@@ -197,9 +194,7 @@ namespace Application.Gameplay.Combat
             foreach (GameObject playerTeamInstance in data.PlayerTeamInstances)
             {
                 PlayerTeam.Add(playerTeamInstance);
-                PlayerTeamMemberBattleUI instance = Instantiate(playerBattleUI, playerTeamInstance.transform);
-                instance.BindTo(playerTeamInstance);
-                _spawnedUIElements.Add(instance.gameObject);
+                playerTeamInstance.GetComponentInChildren<PlayerTeamMemberBattleUI>(true).gameObject.SetActive(true);
                 battleTargetGroup.AddMember(playerTeamInstance.transform, 1, battleTargetRadius);
             }
 
@@ -208,9 +203,7 @@ namespace Application.Gameplay.Combat
             foreach (GameObject enemyTeamInstance in data.EnemyTeamInstances)
             {
                 EnemyTeam.Add(enemyTeamInstance);
-                EnemyTeamMemberBattleUI instance = Instantiate(enemyBattleUI, enemyTeamInstance.transform);
-                instance.BindTo(enemyTeamInstance);
-                _spawnedUIElements.Add(instance.gameObject);
+                enemyTeamInstance.GetComponentInChildren<EnemyTeamMemberBattleUI>(true).gameObject.SetActive(true);
                 battleTargetGroup.AddMember(enemyTeamInstance.transform, 1, battleTargetRadius);
             }
 

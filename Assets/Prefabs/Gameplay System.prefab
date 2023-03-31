@@ -317,11 +317,13 @@ MonoBehaviour:
   battleVictory:
     victoryUI: {fileID: 6173434896459104700}
   battleCamera: {fileID: 3769845142591987595}
+  cameras:
+  - {fileID: 3769845143903166998}
+  - {fileID: 3769845143408905258}
+  - {fileID: 3769845142591987595}
   battleTargetGroup: {fileID: 6173434896081128339}
   battleTargetRadius: 3
   battleBars: {fileID: 6173434895170187382}
-  playerBattleUI: {fileID: 7725595703117054529, guid: e84d225896e66d043b41512220e2f19b, type: 3}
-  enemyBattleUI: {fileID: 2943444555431740907, guid: 24eea9f44e8b136438d1537a46c17ecc, type: 3}
   battleUi: {fileID: 7800711358591807534}
 --- !u!1 &6173434896018391316
 GameObject:

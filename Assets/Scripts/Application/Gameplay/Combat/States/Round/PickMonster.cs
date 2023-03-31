@@ -75,6 +75,8 @@
             pickMonsterCamera.Follow = SelectedMonster.Value != null
                 ? SelectedMonster.Value.transform
                 : Round.Controller.PlayerTeam[0].transform;
+            pickMonsterCamera.transform.position = Round.Controller.PlayerTeam[0].transform.position;
+            pickMonsterCamera.PreviousStateIsValid = false;
         }
 
         /// <inheritdoc/>

@@ -53,7 +53,7 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
 
         private IEnumerator Start()
         {
-            // yield return Services.DialogueSystem.RunDialogue(dialogue);
+            yield return Services.DialogueSystem.RunDialogue(dialogue);
             var customHook = new CustomHook
                 {
                     AbilityHint = abilityHint.Show,
@@ -99,15 +99,15 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
 
                 Controller.Round.PickMonster.ObserveEntered()
                     .Take(1)
-                    .Subscribe(_ => Controller.Interrupts.Enqueue(SelectionHint));
+                    .Subscribe(_ => Controller.StartCoroutine(SelectionHint.Invoke()));
 
                 Controller.Round.PickActions.ObserveEntered()
                     .Take(1)
-                    .Subscribe(_ => Controller.Interrupts.Enqueue(AbilityHint));
+                    .Subscribe(_ => Controller.StartCoroutine(AbilityHint.Invoke()));
 
                 Controller.Round.RoundNumber
                     .Where(round => round == 2)
-                    .Subscribe(_ => Controller.Interrupts.Enqueue(BattleObjectiveHint));
+                    .Subscribe(_ => Controller.StartCoroutine(BattleObjectiveHint.Invoke()));
 
                 Controller.Round.EnemyMoveMonsters.ObserveEntered()
                     .Where(_ => Controller.Round.RoundNumber.Value == 2)
@@ -119,7 +119,9 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
                     .Take(1)
                     .Subscribe(_ => Controller.Interrupts.Enqueue(MutalistFinalStage));
 
-                Controller.Round.ObserveExited().Subscribe(_ => Controller.Interrupts.Enqueue(MutalistVictory));
+                Controller.Round.ObserveExited()
+                    .Take(1)
+                    .Subscribe(_ => Controller.Interrupts.Enqueue(MutalistVictory));
             }
 
             public override IEnumerator OnBattleEnd()

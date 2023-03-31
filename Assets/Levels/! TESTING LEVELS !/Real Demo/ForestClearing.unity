@@ -905,6 +905,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4706975864090522367, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864090522367, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7418695592655779108, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -974,6 +994,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7726092855513369897, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: actions.Array.data[1].apCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726092855513369897, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: actions.Array.data[0].moveSpeed
       value: 7
       objectReference: {fileID: 0}
@@ -991,7 +1015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7726092855513369897, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: actions.Array.data[0].actionPointsPerUnit
-      value: 0.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7726092855513369897, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: actions.Array.data[1].projectileAsset.m_AssetGUID
@@ -1011,11 +1035,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8092224647306589589, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: maxActionPoints.value
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8092224647306589589, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: remainingActionPoints.value
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9199206905260733319, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: health.value
@@ -2013,6 +2037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hooks:
   - id: 0
+  - id: 1
   friendlies:
   - {fileID: 1165681275}
   - {fileID: 1940041535}
@@ -2043,6 +2068,8 @@ MonoBehaviour:
     version: 1
     00000000:
       type: {class: DeathRemoveFromBattleHook, ns: Application.Gameplay.Combat.Hooks, asm: Application}
+    00000001:
+      type: {class: KeepAllMonstersAliveHook, ns: Application.Gameplay.Combat.Hooks, asm: Application}
 --- !u!4 &1335969395
 Transform:
   m_ObjectHideFlags: 0
@@ -2666,6 +2693,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4706975864090522367, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864090522367, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7418695592655779108, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2735,6 +2782,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7726092855513369897, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: actions.Array.data[1].apCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726092855513369897, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: actions.Array.data[0].moveSpeed
       value: 7
       objectReference: {fileID: 0}
@@ -2772,11 +2823,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8092224647306589589, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: maxActionPoints.value
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8092224647306589589, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: remainingActionPoints.value
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9199206905260733319, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: health.value
@@ -3391,7 +3442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightAttackProjectile: {fileID: 3819552091449136834, guid: 6dd9170148f67694cafb5d23b7c3afc0, type: 3}
   multiAttackProjectile: {fileID: 3819552091449136834, guid: 6dd9170148f67694cafb5d23b7c3afc0, type: 3}
-  beamAttack: {fileID: 3819552091449136834, guid: 6dd9170148f67694cafb5d23b7c3afc0, type: 3}
+  beamAttack: {fileID: 4192639640968996847, guid: fadef10cb19b89943aa078737063c970, type: 3}
   CurrentStage: 0
 --- !u!1001 &1908829667
 PrefabInstance:
@@ -3631,6 +3682,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4706975864090522367, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864090522367, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706975864965043989, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7418695592655779108, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3700,6 +3771,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7726092855513369897, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
+      propertyPath: actions.Array.data[1].apCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726092855513369897, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: actions.Array.data[0].moveSpeed
       value: 7
       objectReference: {fileID: 0}
@@ -3737,11 +3812,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8092224647306589589, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: maxActionPoints.value
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8092224647306589589, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: remainingActionPoints.value
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9199206905260733319, guid: b59ba4c159939e545b068c4d653d608f, type: 3}
       propertyPath: health.value
@@ -3760,6 +3835,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3599714045307251873, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3599714045307251873, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3599714045307251873, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3599714046714186059, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3599714046714186059, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795160273176545783, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: health.value
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795160273176545783, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: maxHealth.value
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 8463210735748435754, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
       propertyPath: m_Name
       value: Biomutalist
@@ -3806,6 +3909,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8463210735748435796, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8780779560305983421, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 3.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8780779560473248122, guid: c072af531866b4b4c917d6e3280bc459, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

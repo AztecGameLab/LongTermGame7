@@ -53,8 +53,14 @@ namespace Application.Gameplay
 
             SpawnedPlayer = Services.PlayerTeamData.Player.CreateWorldView();
             SpawnedPlayer.transform.position = transform.position;
+            var brain = Camera.main.GetComponent<CinemachineBrain>();
+            brain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0);
             CinemachineVirtualCamera playerCamera = Instantiate(playerCameraPrefab, transform);
             playerCamera.Follow = SpawnedPlayer.transform;
+            playerCamera.transform.position = SpawnedPlayer.transform.position;
+            playerCamera.PreviousStateIsValid = false;
+            brain.enabled = false;
+            brain.enabled = true;
 
             // Update spawned members when the list data changes.
             selectedMembers.ObserveAdd()

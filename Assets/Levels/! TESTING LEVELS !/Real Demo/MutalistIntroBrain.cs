@@ -55,7 +55,7 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
             }
         }
 
-            // By default, shoots a light purple energy ball
+        // By default, shoots a light purple energy ball
         private IEnumerator LightAttack()
         {
             var target = _controller.PlayerTeam[Random.Range(0, _controller.PlayerTeam.Count)];
@@ -65,16 +65,39 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
             yield return instance.ObserveFinished().ToYieldInstruction();
         }
 
-            // slightly angrier, begins to shoot multiple balls, that track and hit each.
+        // slightly angrier, begins to shoot multiple balls, that track and hit each.
         private IEnumerator MultiAttack()
         {
-            yield return null;
+            List<IObservable<Unit>> _observables = new List<IObservable<Unit>>();
+            List<AttackEmission> otherBullets = new List<AttackEmission>();
+            foreach (GameObject target in _controller.PlayerTeam)
+            {
+                var vectorToTarget = target.transform.position - transform.position;
+                var instance = Instantiate(multiAttackProjectile, transform.position + Vector3.up, Quaternion.LookRotation(vectorToTarget));
+                instance.IgnoreList.Add(gameObject);
+                otherBullets.Add(instance);
+                _observables.Add(instance.ObserveFinished());
+            }
+
+            foreach (AttackEmission VARIABLE in otherBullets)
+            {
+                foreach (AttackEmission b in otherBullets)
+                {
+                    VARIABLE.IgnoreList.Add(b.gameObject);
+                }
+            }
+
+            yield return _observables.WhenAll().ToYieldInstruction();
         }
 
-            // final stage, light laser beam that one shots each in path
+        // final stage, light laser beam that one shots each in path
         private IEnumerator FinisherAttack()
         {
-            yield return null;
+            var target = _controller.PlayerTeam[Random.Range(0, _controller.PlayerTeam.Count)];
+            var vectorToTarget = target.transform.position - transform.position;
+            var instance = Instantiate(beamAttack, transform.position + Vector3.up, Quaternion.LookRotation(vectorToTarget));
+            instance.IgnoreList.Add(gameObject);
+            yield return instance.ObserveFinished().ToYieldInstruction();
         }
     }
 }
