@@ -119,7 +119,7 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
                     .Take(1)
                     .Subscribe(_ => Controller.Interrupts.Enqueue(MutalistFinalStage));
 
-                Controller.Round.ObserveExited()
+                Controller.Loss.ObserveEntered()
                     .Take(1)
                     .Subscribe(_ => Controller.Interrupts.Enqueue(MutalistVictory));
             }

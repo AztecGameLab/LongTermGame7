@@ -57,6 +57,11 @@
         {
             base.OnEnter();
 
+            if (PlayerTeam.Count <= 0)
+            {
+                return;
+            }
+
             if (_usedMonsters.Count >= PlayerTeam.Count)
             {
                 Debug.Log("Cannot select next monster - there are none available ones left!");
@@ -92,6 +97,11 @@
         public override void OnTick()
         {
             base.OnTick();
+
+            if (PlayerTeam.Count <= 0)
+            {
+                return;
+            }
 
             if (InputTools.TryGetInputDirectionDown(out Vector2 direction) && SelectedMonster.Value != null)
             {

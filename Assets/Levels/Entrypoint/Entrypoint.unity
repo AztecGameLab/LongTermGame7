@@ -228,15 +228,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.16438429
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.81128436
+      value: 0.7992211
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.83449256
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_SizeDelta.x
@@ -244,7 +244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 0.000030518
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -276,11 +276,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -488,7 +488,7 @@ MonoBehaviour:
   _levelLoader:
     fadeImage: {fileID: 702779815}
   launcher:
-    firstSceneName: Assets/Levels/Forest/ForestEntry.unity
+    firstSceneName: Assets/Levels/! TESTING LEVELS !/Real Demo/ForestClearing.unity
     gameplaySystemPrefab: {fileID: 6173434894590649065, guid: 59511661150f1a146a8254b85ac79e2d, type: 3}
   respawnTracker:
     respawnLookup:
