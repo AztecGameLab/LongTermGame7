@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Hooks
+﻿using System.Collections;
+
+namespace Application.Gameplay.Combat.Hooks
 {
     using System;
     using UniRx;
@@ -12,18 +14,18 @@
         private IDisposable _disposable;
 
         /// <inheritdoc/>
-        public override void OnBattleStart()
+        public override IEnumerator OnBattleStart()
         {
-            base.OnBattleStart();
+            yield return base.OnBattleStart();
 
             var player = Object.FindObjectOfType<PlayerMovement>().GetComponent<LivingEntity>();
             _disposable = player.OnDeath.Subscribe(_ => Controller.TransitionTo(Controller.Loss));
         }
 
         /// <inheritdoc/>
-        public override void OnBattleEnd()
+        public override IEnumerator OnBattleEnd()
         {
-            base.OnBattleEnd();
+            yield return base.OnBattleEnd();
             _disposable?.Dispose();
         }
     }

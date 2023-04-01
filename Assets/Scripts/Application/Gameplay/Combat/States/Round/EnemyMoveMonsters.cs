@@ -38,7 +38,7 @@
         public override void OnEnter()
         {
             base.OnEnter();
-            enemyVirtualCamera.Priority = EnemyCameraActivePriority;
+            // enemyVirtualCamera.Priority = EnemyCameraActivePriority;
 
             _disposable = Round.Controller.EnemyOrderDecider.Run(Round.Controller).Subscribe(_ => OnDeciderFinish());
             enemyTargetGroup.RemoveAllMembers();

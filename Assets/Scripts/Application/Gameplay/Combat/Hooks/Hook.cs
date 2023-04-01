@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Hooks
+﻿using System.Collections;
+
+namespace Application.Gameplay.Combat.Hooks
 {
     using System;
     using UniRx;
@@ -23,9 +25,10 @@
         /// <summary>
         /// Called once when the battle begins.
         /// </summary>
-        public virtual void OnBattleStart()
+        public virtual IEnumerator OnBattleStart()
         {
             AutoDispose = new CompositeDisposable();
+            yield break;
         }
 
         /// <summary>
@@ -38,9 +41,10 @@
         /// <summary>
         /// Called once when the battle ends.
         /// </summary>
-        public virtual void OnBattleEnd()
+        public virtual IEnumerator OnBattleEnd()
         {
             AutoDispose?.Dispose();
+            yield break;
         }
     }
 }

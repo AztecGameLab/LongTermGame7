@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using TMPro;
     using UnityEngine;
@@ -11,18 +9,10 @@ namespace Application.Gameplay
     /// </summary>
     public class DebugQaInfo : MonoBehaviour
     {
-        private const int BuildNumber = 1;
+        private const int BuildNumber = 2;
 
         [SerializeField]
         private TMP_Text textDisplay;
-
-        private void Awake()
-        {
-            if (!Debug.isDebugBuild)
-            {
-                gameObject.SetActive(false);
-            }
-        }
 
         private void Update()
         {
