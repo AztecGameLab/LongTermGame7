@@ -53,8 +53,8 @@ namespace Application.Gameplay
 
             SpawnedPlayer = Services.PlayerTeamData.Player.CreateWorldView();
             SpawnedPlayer.transform.position = transform.position;
+            SpawnedPlayer.name = "Player";
             var brain = Camera.main.GetComponent<CinemachineBrain>();
-            brain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0);
             CinemachineVirtualCamera playerCamera = Instantiate(playerCameraPrefab, transform);
             playerCamera.Follow = SpawnedPlayer.transform;
             playerCamera.transform.position = SpawnedPlayer.transform.position;

@@ -1,15 +1,14 @@
-﻿using System;
-using UniRx;
-using UniRx.Diagnostics;
-
-namespace Levels.__TESTING_LEVELS__.Real_Demo
+﻿namespace Levels.__TESTING_LEVELS__.Real_Demo
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using Application.Core;
     using Application.Gameplay.Combat;
     using Application.Gameplay.Combat.Deciders;
     using Application.Gameplay.Combat.Hooks;
+    using UniRx;
+    using UniRx.Diagnostics;
     using UnityEngine;
     using Yarn.Unity;
 
@@ -119,7 +118,7 @@ namespace Levels.__TESTING_LEVELS__.Real_Demo
                     .Take(1)
                     .Subscribe(_ => Controller.Interrupts.Enqueue(MutalistFinalStage));
 
-                Controller.Loss.ObserveEntered()
+                Controller.Loss.ObserveExited()
                     .Take(1)
                     .Subscribe(_ => Controller.Interrupts.Enqueue(MutalistVictory));
             }

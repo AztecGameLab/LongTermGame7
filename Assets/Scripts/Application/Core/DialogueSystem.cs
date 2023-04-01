@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using UnityEngine;
+    using UnityEngine.InputSystem;
     using Yarn.Unity;
 
     /// <summary>
@@ -21,12 +22,30 @@
         /// <returns>An IEnumerator that completes when the dialogue is finished.</returns>
         public IEnumerator RunDialogue(DialogueReference reference)
         {
+            if (runner.IsDialogueRunning)
+            {
+                yield break;
+            }
+
+            yield return null;
+            var playerInput = UnityEngine.Object.FindObjectOfType<PlayerInput>();
+
+            if (playerInput)
+            {
+                playerInput.enabled = false;
+            }
+
             runner.SetProject(reference.project);
             runner.StartDialogue(reference.nodeName);
 
             while (runner.IsDialogueRunning)
             {
                 yield return null;
+            }
+
+            if (playerInput)
+            {
+                playerInput.enabled = true;
             }
         }
     }

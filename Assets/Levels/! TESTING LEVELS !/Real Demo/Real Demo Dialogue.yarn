@@ -1,62 +1,110 @@
 title: ChieftanHouse
-tags:
-position: -91,-60
 ---
 It's the Chieftan's house. The door is locked.
 ===
-title: ForestChase
-position: 47,147
+
+title: LockedDoor
 ---
+The door is locked.
+===
+
+title: ChieftainTalk
+---
+// todo: more interesting dialogue here, maybe mult choice stuff
+<<if $found_artichokie>>
+    
+<<else>>
+    Chieftain: Stay safe, young one. If you ever need something, come to my house.
+<<endif>>
+===
+
+title: RockEnthusiast
+---
+Villager: One of my friends stumbled across the most peculiar rock the other day. He took one look at it and burst into a murderous rage. 
+Villager: I'm going out to the forest to see it for myself...
+===
+
+title: SadVentlingLover
+---
+Villager: Have you seen a red Ventling on your travels? I used to feed her in my garden several times a day. 
+Villager: She hasn't been around for several days now, and I fear something terrible has happened!
+===
+
+title: ChieftainFan
+---
+Villager: You would be wise to listen to the Chieftain. He is knowledgable of all things in the forest.
+Villager: Just the other day, he saved my entire cauliflower crop by dusting it with some restorative concoction.
+Villager: He claims that his knowledge is borrowed from the wise ones, but I think he's just being humble.
+===
+
+title: VillageIntro
+---
+<<wait 1>>
+// todo: ... bubble
+Chieftain: ... and before you go, I have word from a gatherer who arrived here not long ago.
+Chieftain: He says he heard the sounds of a struggle and a voice in the distance. When he arrived at what he thought was the source of the noise, he found nothing but blood and boot prints.
+// todo: ... bubble
+Chieftain: I advise you to be cautious when navigating the forest. The world is changing, and outsiders grow more daring as the days pass. Good day.
+(It's about time for you to head home, after a hard day's work.)
+(That last part however...)
+<<music-play village>>
+===
+
+title: FoundArtichokie
+---
+<<move Player PlayerInspectArtichokie>>
+It's an Artichokie, laying face down on the ground. It's skin appears battered and discolored.
+(An Artichokie? What is it doing so far from the forest?)
+(It appears to be breathing, at least.)
+The Artichokie is now face up. It has an exhausted expression on its face.
+Artichokie: Please... save them... they... took...
+The Artichokie closes it's eyes. It has lost consciousness.
+(Too exhausted, even to speak. I'll take it inside to rest.)
 <<image-show black>>
-<<cam-follow Biomutalist 0>>
-<<music-play forest-chase>>
-Artichokie 1: We need to get out of here!
-Artichokie 2: If we don't hurry, that crazy human is going to kill us all!
-Artichokie 3: There should be a clearing up ahead - maybe we lost her...
-<<music-stop forest-chase>>
-???: There you are. Tired of running, are we?
+// todo: hide artichokie
+// todo: door open / close sfx?
+<<wait 1>>
 <<image-hide>>
-<<move Biomutalist BiomutalistPrefightPosition>>
-<<music-play villian-theme>>
-???: Now, let's get started.
+(This may be related to the incident described by the Chieftain.)
+(I'd better update him on the matter.)
+<<set $found_artichokie true>>
 ===
-title: ForestDefeat
-position: 193,323
+
+title: ChieftainArtichokieResponse
 ---
-<<move Biomutalist BiomutalistPostfightPosition>>
-???: Hmm...
-???: Unfortunately, more than I can carry in one trip. A shame.
-???: That green one looks especially heavy.
-<<move Biomutalist Artichokie1>>
-<<image-show cutscene-1-1>>
-???: Actually, you look like a good canidate for a certain test I've been meaning to carry out. Stay still, now.
-<<image-show cutscene-1-2>>
-// todo: serum SFX
-???: There we go. Doesn't hurt so bad, right?
-<<image-show cutscene-1-3>>
-???: Once I get your friends to the lab, I'll be back to pick you up. Stay put, will you?
-<<image-show cutscene-1-4>>
-<<wait 3>>
-<<image-show white>>
-<<music-stop villian-theme>>
-// todo: get music to fade out, fade in title
-<<level-load Village>>
-<<image-hide>>
+Chieftain: Back so soon? Did you forget something?
+// todo: gesture / ... bubble
+Chieftain: A hurt Artichokie? And it told you to save... someone?
+// todo: gesture / ... bubble
+Chieftain: Resting inside your house, at the moment? At least it's still alive...
+Chieftain: Thank you for letting me know. I must speak to the wise ones to discern the dignificance of this event... Please look after this Artichokie until it recovers. 
+Chieftain: Now, if you'll excuse me...
+// todo: move chieftain to house and hide in-game
 ===
-title: MidStage
-position: -250,115
+
+title: ArtichokieTalks
 ---
-<<cam-follow Biomutalist>>
-???:...
-===
-title: FinalStage
-position: -192,149
----
-<<cam-follow Biomutalist>>
-???: You're coming with me whether you like it or not.
-===
-title: BiomutalistVictory
-position: -182,159
----
-???: What a waste of my time.
+Artichokie: Hey, hey! You're back! I thought you weren't gonna help me.
+Artichokie: Anyway, let's go! Come on!
+// todo: surprise or confusion bubble
+Artichokie: Huh? What? You don't know what's been going on?!?
+Artichokie: We've been getting abducted left and right, since a few days ago.
+// todo: artichokie ... bubble
+Artichokie: My family is gone... I have no idea where they took them.
+// todo: artichokie ... bubble
+(Monster abduction? And who would do this? Why?)
+// todo: player ... bubble
+(You inquire about the "weird flesh", but the Artichokie is too agitated to notice.)
+Artichokie: Then they poked me with something... and I've felt sick since.
+Artichokie: And then they took the other monsters there, and told me to stay put...
+Artichokie: ... but I'm not doing that! I'm going to save them! And you're coming with me!
+(It's hard to argue with that. After all, its your job to protect the forest and monsters alike.)
+(You should return to the Chieftain and notify him of your imminent journey.)
+<<move Player PlayerTreeFallPosition>> // todo: set up this move command in-game
+// todo: play tree fall sfx, screen shake
+Crash! The sound of a tree falling in the distance echoes throughout the forest.
+Artichokie: Wh-what was that?! It sounded big...
+Artichokie: What if it's that weird human again? We should go now!!
+(The Chieftain will have to wait.)
+(That sound seemed to originate from the north-east. I should head deeper into the forest and investigate further.)
 ===

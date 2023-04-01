@@ -44,6 +44,9 @@
         private bool isOneShot;
 
         [SerializeField]
+        private bool isSerialized = true;
+
+        [SerializeField]
         [HideInInspector]
         private string guid = Guid.NewGuid().ToString();
 
@@ -110,11 +113,14 @@
 
             if (isOneShot)
             {
-                Services.Serializer.Lookup(SerializedId, out var isActive, true);
-
-                if (!isActive)
+                if (isSerialized)
                 {
-                    gameObject.SetActive(false);
+                    Services.Serializer.Lookup(SerializedId, out var isActive, true);
+
+                    if (!isActive)
+                    {
+                        gameObject.SetActive(false);
+                    }
                 }
 
                 CollisionEnter += DisableOneShot;
@@ -125,7 +131,11 @@
         {
             CollisionEnter -= DisableOneShot;
             gameObject.SetActive(false);
-            Services.Serializer.Store(SerializedId, false);
+
+            if (isSerialized)
+            {
+                Services.Serializer.Store(SerializedId, false);
+            }
         }
 
         private void OnTriggerStay(Collider other)
