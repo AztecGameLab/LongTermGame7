@@ -20,7 +20,10 @@
 
         private static bool CsgFixed { get; set; }
 
-        private void Awake()
+        /// <summary>
+        /// Unity awake logic.
+        /// </summary>
+        protected virtual void Awake()
         {
             if (!CsgFixed)
             {
