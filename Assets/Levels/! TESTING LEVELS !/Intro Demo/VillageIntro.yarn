@@ -20,36 +20,26 @@ title: ChieftainTalk
 
 title: RockEnthusiast
 ---
-<<if visited_count("RockEnthusiast") % 2 == 0>>
-    Villager: One of my friends stumbled across the most peculiar rock the other day. He took one look at it and burst into a murderous rage. 
-<<else>>
-    Villager: I'm going out to the forest to see it for myself...
-<<endif>>
+Villager: One of my friends stumbled across the most peculiar rock the other day. He took one look at it and burst into a murderous rage. 
+Villager: I'm going out to the forest to see it for myself...
 ===
 
 title: SadVentlingLover
 ---
-<<if visited_count("SadVentlingLover") % 2 == 0>>
-    Villager: Have you seen a red Ventling on your travels? I used to feed her in my garden several times a day. 
-<<else>>
-    Villager: She hasn't been around for several days now, and I fear something terrible has happened!
-<<endif>>
+Villager: Have you seen a red Ventling on your travels? I used to feed her in my garden several times a day. 
+Villager: She hasn't been around for several days now, and I fear something terrible has happened!
 ===
 
 title: ChieftainFan
 ---
-<<if visited_count("ChieftainFan") % 3 == 0>>
-    Villager: You would be wise to listen to the Chieftain. He is knowledgable of all things in the forest.
-<<elseif visited_count("ChieftainFan") % 3 == 1>>
-    Villager: Just the other day, he saved my entire cauliflower crop by dusting it with some restorative powder.
-<<else>>
-    Villager: He claims that his knowledge is borrowed from the wise ones, but I think he's just being humble.
-<<endif>>
+Villager: You would be wise to listen to the Chieftain. He is knowledgable of all things in the forest.
+Villager: Just the other day, he saved my entire cauliflower crop by dusting it with some restorative powder.
+Villager: He claims that his knowledge is borrowed from the wise ones, but I think he's just being humble.
 ===
 
 title: VillageIntro
 ---
-<<wait 1>>
+<<wait 3>>
 // todo: ... bubble
 Chieftain: ... and before you go, I have word from a gatherer who arrived here not long ago.
 Chieftain: He says he heard the sounds of a struggle and a voice in the distance. When he arrived at what he thought was the source of the noise, he found nothing but blood and boot prints.

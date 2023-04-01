@@ -276,11 +276,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000030517578
+      value: -34.299988
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030517578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3102136442802467936, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -296,11 +296,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_text
-      value: text
+      value: Test
       objectReference: {fileID: 0}
     - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_fontSize
-      value: 69.3
+      value: 18.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.53333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6806599
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 43.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 18.56
       objectReference: {fileID: 0}
     - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_RaycastTarget
@@ -310,6 +334,22 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: -5673009104795134323, guid: 63549c3c8a324374b9727f51ebb020bb, type: 2}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4287147775
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8765645808204219595, guid: 9a3ad3fab0dc0e144a6357c3afd8d653, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
@@ -488,7 +528,7 @@ MonoBehaviour:
   _levelLoader:
     fadeImage: {fileID: 702779815}
   launcher:
-    firstSceneName: Assets/Levels/! TESTING LEVELS !/Real Demo/ForestClearing.unity
+    firstSceneName: Assets/Levels/! TESTING LEVELS !/Intro Demo/ForestClearing.unity
     gameplaySystemPrefab: {fileID: 6173434894590649065, guid: 59511661150f1a146a8254b85ac79e2d, type: 3}
   respawnTracker:
     respawnLookup:
@@ -719,7 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
