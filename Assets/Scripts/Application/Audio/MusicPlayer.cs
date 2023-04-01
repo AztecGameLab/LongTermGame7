@@ -130,6 +130,23 @@
                 _parent.RemoveMusic(this);
             }
 
+            /// <inheritdoc/>
+            public override bool Equals(object obj)
+            {
+                if (obj is ActiveMusic music)
+                {
+                    return Instance.handle == music.Instance.handle;
+                }
+
+                return false;
+            }
+
+            /// <inheritdoc/>
+            public override int GetHashCode()
+            {
+                return Instance.handle.GetHashCode();
+            }
+
             /// <summary>
             /// Changes the current playing status of this instance. The actual
             /// behavior may change based on this music's pauseForInterrupts setting.

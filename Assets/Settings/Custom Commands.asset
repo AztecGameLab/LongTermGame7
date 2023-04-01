@@ -20,6 +20,7 @@ MonoBehaviour:
   - id: 4
   - id: 5
   - id: 6
+  - id: 7
   references:
     version: 1
     00000000:
@@ -155,3 +156,5 @@ MonoBehaviour:
               Path: event:/Music/Village Soundtrack
     00000006:
       type: {class: YarnMovementCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+    00000007:
+      type: {class: YarnObjectLifetimeCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
