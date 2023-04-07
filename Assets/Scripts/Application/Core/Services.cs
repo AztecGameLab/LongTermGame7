@@ -31,6 +31,8 @@
         public static RespawnTracker RespawnTracker { get; set; }
 
         public static MusicPlayer MusicPlayer { get; set; }
+        
+        public static DialogueSystem DialogueSystem { get; set; }
 
         /// <summary>
         /// Gets or sets the global indicator factory.
@@ -52,6 +54,8 @@
             IndicatorFactory = null;
             PlayerTeamData = null;
             RegionTracker = null;
+            DialogueSystem = null;
+            MusicPlayer = null;
         }
     }
 }

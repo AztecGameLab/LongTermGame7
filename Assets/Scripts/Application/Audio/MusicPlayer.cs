@@ -1,10 +1,13 @@
 ﻿namespace Application.Audio
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using FMOD;
     using FMOD.Studio;
     using FMODUnity;
+    using UniRx;
+    using UnityEngine;
 
     /// <summary>
     /// Manages the playing of music in the game.
@@ -36,6 +39,12 @@
 
             // Stop the currently playing music if it exists.
             _musicList.First?.Value.SetPlaying(false);
+
+            if (_musicList.Count > 0)
+            {
+                musicToPlay.Instance.setVolume(0);
+            }
+
             _musicList.AddFirst(musicToPlay);
             musicToPlay.SetPlaying(true);
             return musicToPlay;
@@ -50,7 +59,7 @@
             ActiveMusic currentMusic = _musicList.First.Value;
             var currentMusicId = GetGuid(currentMusic.Instance);
 
-            musicToRemove.Instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            musicToRemove.SetPlaying(false);
             _musicList.Remove(musicToRemove);
 
             // If there is still music in the list after removing this one, we want to check to see if
@@ -77,10 +86,11 @@
         /// <summary>
         /// Represents a currently active piece of music in the game.
         /// </summary>
-        public readonly struct ActiveMusic : IDisposable
+        public struct ActiveMusic : IDisposable
         {
             private readonly bool _pauseForInterrupts;
             private readonly MusicPlayer _parent;
+            private IDisposable _volumeAnimation;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="ActiveMusic"/> struct.
@@ -95,6 +105,7 @@
                 _parent = parent;
                 Instance = instance;
                 _pauseForInterrupts = pauseForInterrupts;
+                _volumeAnimation = null;
 
                 if (pauseForInterrupts)
                 {
@@ -119,6 +130,23 @@
                 _parent.RemoveMusic(this);
             }
 
+            /// <inheritdoc/>
+            public override bool Equals(object obj)
+            {
+                if (obj is ActiveMusic music)
+                {
+                    return Instance.handle == music.Instance.handle;
+                }
+
+                return false;
+            }
+
+            /// <inheritdoc/>
+            public override int GetHashCode()
+            {
+                return Instance.handle.GetHashCode();
+            }
+
             /// <summary>
             /// Changes the current playing status of this instance. The actual
             /// behavior may change based on this music's pauseForInterrupts setting.
@@ -128,19 +156,50 @@
             {
                 if (_pauseForInterrupts)
                 {
-                    Instance.setPaused(!value);
+                    if (value)
+                    {
+                        Instance.setPaused(false);
+                        _volumeAnimation?.Dispose();
+                        _volumeAnimation = UpdateVolume(1).ToObservable().Subscribe();
+                    }
+                    else
+                    {
+                        var instance = Instance; // need to trap local copy for the lambda
+                        _volumeAnimation?.Dispose();
+                        _volumeAnimation = UpdateVolume(0).ToObservable().Subscribe(_ => instance.setPaused(true));
+                    }
                 }
                 else
                 {
                     if (value)
                     {
                         Instance.start();
+                        _volumeAnimation?.Dispose();
+                        _volumeAnimation = UpdateVolume(1).ToObservable().Subscribe();
                     }
                     else
                     {
-                        Instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                        var instance = Instance; // need to trap local copy for the lambda
+                        _volumeAnimation?.Dispose();
+                        _volumeAnimation = UpdateVolume(0).ToObservable().Subscribe(_ => instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT));
                     }
                 }
+            }
+
+            private IEnumerator UpdateVolume(float to)
+            {
+                float elapsedTime = 0;
+                const float duration = 1;
+                Instance.getVolume(out float currentVolume);
+
+                while (elapsedTime < duration)
+                {
+                    Instance.setVolume(Mathf.Lerp(currentVolume, to, elapsedTime / duration));
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                Instance.setVolume(to);
             }
         }
     }

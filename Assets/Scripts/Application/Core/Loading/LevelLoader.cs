@@ -75,10 +75,15 @@
             }
             else
             {
-                // We are using the legacy player system (e.g. no PlayerSpawn).
-                // In this case, the player is probably positioned manually, and we should let it be.
-                Debug.LogError("LEVEL DESIGNERS: This scene is not using a PlayerSpawn prefab to spawn players." +
-                               "Please add one to the scene ASAP to get rid of this message and ensure everything works.");
+                var legacyPlayer = GameObject.FindWithTag("Player");
+
+                if (legacyPlayer != null)
+                {
+                    // We are using the legacy player system (e.g. no PlayerSpawn).
+                    // In this case, the player is probably positioned manually, and we should let it be.
+                    Debug.LogError("LEVEL DESIGNERS: This scene is not using a PlayerSpawn prefab to spawn players." +
+                                   "Please add one to the scene ASAP to get rid of this message and ensure everything works.");
+                }
             }
 
             yield return _fadeTransition.HideEffect().ToYieldInstruction();

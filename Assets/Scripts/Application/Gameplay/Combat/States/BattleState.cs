@@ -26,13 +26,13 @@
         /// Gets an observable for each time this state is entered.
         /// </summary>
         /// <returns>An observable.</returns>
-        public IObservable<Unit> ObserveOnEnter() => _onEnter;
+        public IObservable<Unit> ObserveEntered() => _onEnter;
 
         /// <summary>
         /// Gets an observable for each time this state is entered.
         /// </summary>
         /// <returns>An observable.</returns>
-        public IObservable<Unit> ObserveOnExit() => _onExit;
+        public IObservable<Unit> ObserveExited() => _onExit;
 
         /// <inheritdoc/>
         public virtual void OnEnter()

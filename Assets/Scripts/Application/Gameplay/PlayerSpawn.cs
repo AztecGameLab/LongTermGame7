@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using System.Threading.Tasks;
+
+namespace Application.Gameplay
 {
     using System.Collections.Generic;
     using Cinemachine;
@@ -51,8 +53,14 @@
 
             SpawnedPlayer = Services.PlayerTeamData.Player.CreateWorldView();
             SpawnedPlayer.transform.position = transform.position;
+            SpawnedPlayer.name = "Player";
+            var brain = Camera.main.GetComponent<CinemachineBrain>();
             CinemachineVirtualCamera playerCamera = Instantiate(playerCameraPrefab, transform);
             playerCamera.Follow = SpawnedPlayer.transform;
+            playerCamera.transform.position = SpawnedPlayer.transform.position;
+            playerCamera.PreviousStateIsValid = false;
+            brain.enabled = false;
+            brain.enabled = true;
 
             // Update spawned members when the list data changes.
             selectedMembers.ObserveAdd()

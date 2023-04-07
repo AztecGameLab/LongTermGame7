@@ -1,4 +1,6 @@
-﻿namespace Application
+﻿using ImGuiNET.Unity;
+
+namespace Application
 {
     using Audio;
     using Core;
@@ -36,6 +38,11 @@
 
         private void Initialize()
         {
+            if (!Debug.isDebugBuild)
+            {
+                GetComponent<DearImGui>().enabled = false;
+            }
+
             Initialized = true;
             DontDestroyOnLoad(this);
 
@@ -44,6 +51,7 @@
             Services.Serializer = new Serializer();
             Services.RespawnTracker = respawnTracker;
             Services.MusicPlayer = new MusicPlayer();
+
             respawnTracker.Init();
 
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);

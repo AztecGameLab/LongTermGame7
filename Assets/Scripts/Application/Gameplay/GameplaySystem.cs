@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using Application.Core;
+
+namespace Application.Gameplay
 {
     using System;
     using Combat;
@@ -23,6 +25,9 @@
         private LandmarkViewer _landmarkViewer = new LandmarkViewer();
         private LevelDesignUtil _levelDesignUtil = new LevelDesignUtil();
 
+        [SerializeField]
+        private DialogueSystem dialogueSystem;
+
         // Combat-related systems
         [SerializeField]
         private OverworldBattleSetup overworldBattleSetup;
@@ -34,6 +39,8 @@
 
         private void Awake()
         {
+            Services.DialogueSystem = dialogueSystem;
+
             _disposables = new CompositeDisposable(
                 _landmarkViewer.Init(),
                 _levelDesignUtil.Init(),
@@ -46,6 +53,7 @@
         private void OnDestroy()
         {
             _disposables.Dispose();
+            Services.DialogueSystem = null;
         }
     }
 }

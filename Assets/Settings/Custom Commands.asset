@@ -19,6 +19,8 @@ MonoBehaviour:
   - id: 3
   - id: 4
   - id: 5
+  - id: 6
+  - id: 7
   references:
     version: 1
     00000000:
@@ -77,10 +79,36 @@ MonoBehaviour:
           dictionary:
           - key: test-combat
             scene: Assets/Levels/! TESTING LEVELS !/Combat Framework/CombatFramework.unity
+          - key: Village
+            scene: Assets/Levels/! TESTING LEVELS !/Intro Demo/VillageIntro.unity
           - key: ForestCave
             scene: Assets/Levels/Forest/ForestCave.unity
           - key: ForestEntry
             scene: Assets/Levels/Forest/ForestEntry.unity
+          - key: ForestLake
+            scene: Assets/Levels/Forest/ForestLake.unity
+          - key: DeforestedArea
+            scene: Assets/Levels/Forest/DeforestedArea.unity
+          - key: RoostingArea
+            scene: Assets/Levels/Forest/Roosting Area/Roosting Area.unity
+          - key: ResearchCamp
+            scene: Assets/Levels/Hills/Research Camp/Research Camp.unity
+          - key: ChemicalCraters
+            scene: Assets/Levels/Hills/Chemical Craters/Chemical Craters.unity
+          - key: RockSpikeTop
+            scene: Assets/Levels/Hills/Rock Spike Valley/(Top) Rock Spike Valley.unity
+          - key: RockSpikeBottom
+            scene: Assets/Levels/Hills/Rock Spike Valley/(Bottom) Rock Spike Valley.unity
+          - key: OutsideBunker
+            scene: Assets/Levels/Lab/OutsideBunker.unity
+          - key: Bunker
+            scene: Assets/Levels/Lab/Bunker.unity
+          - key: BehaviorLab
+            scene: Assets/Levels/Lab/BehaviorManipulationLab.unity
+          - key: ChemicalLab
+            scene: Assets/Levels/Lab/ChemicalLab.unity
+          - key: FinalBoss
+            scene: Assets/Levels/Lab/LabFinalBoss.unity
     00000005:
       type: {class: YarnMusicCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
       data:
@@ -102,3 +130,31 @@ MonoBehaviour:
                 Data3: 887435147
                 Data4: -1697156310
               Path: event:/Music/Vilian-Theme
+          - key: forest-chase
+            value:
+              Guid:
+                Data1: -1730590678
+                Data2: 1090067616
+                Data3: -713920626
+                Data4: 508360450
+              Path: event:/Forest Chase
+          - key: villian-theme
+            value:
+              Guid:
+                Data1: -1328677647
+                Data2: 1148799016
+                Data3: 887435147
+                Data4: -1697156310
+              Path: event:/Music/Vilian-Theme
+          - key: village
+            value:
+              Guid:
+                Data1: 136210297
+                Data2: 1117434004
+                Data3: -1218068581
+                Data4: -776669154
+              Path: event:/Music/Village Soundtrack
+    00000006:
+      type: {class: YarnMovementCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+    00000007:
+      type: {class: YarnObjectLifetimeCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}

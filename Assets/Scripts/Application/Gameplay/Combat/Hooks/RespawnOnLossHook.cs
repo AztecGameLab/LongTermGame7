@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Hooks
+﻿using System.Collections;
+
+namespace Application.Gameplay.Combat.Hooks
 {
     using Core;
     using UniRx;
@@ -9,11 +11,11 @@
     public class RespawnOnLossHook : Hook
     {
         /// <inheritdoc/>
-        public override void OnBattleStart()
+        public override IEnumerator OnBattleStart()
         {
-            base.OnBattleStart();
+            yield return base.OnBattleStart();
 
-            Controller.Loss.ObserveOnExit()
+            Controller.Loss.ObserveExited()
                 .Subscribe(_ => Services.RespawnTracker.Respawn())
                 .AddTo(AutoDispose);
         }
