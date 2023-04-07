@@ -1,6 +1,8 @@
 ﻿namespace Application.Core
 {
+    using Audio;
     using Gameplay;
+    using Gameplay.Combat;
     using Gameplay.Combat.UI.Indicators;
     using Gameplay.Regions;
     using Serialization;
@@ -26,6 +28,12 @@
         /// </summary>
         public static RegionTracker RegionTracker { get; set; }
 
+        public static RespawnTracker RespawnTracker { get; set; }
+
+        public static MusicPlayer MusicPlayer { get; set; }
+        
+        public static DialogueSystem DialogueSystem { get; set; }
+
         /// <summary>
         /// Gets or sets the global indicator factory.
         /// </summary>
@@ -43,6 +51,11 @@
             EventBus = null;
             Serializer = null;
             RegionTracker = null;
+            IndicatorFactory = null;
+            PlayerTeamData = null;
+            RegionTracker = null;
+            DialogueSystem = null;
+            MusicPlayer = null;
         }
     }
 }

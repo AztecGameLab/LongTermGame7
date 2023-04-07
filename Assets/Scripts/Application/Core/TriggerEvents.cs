@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.Events;
+    using UnityEngine.SceneManagement;
 
     /// <summary>
     /// Handles OnTrigger events, and passes them to C# events.
@@ -38,6 +39,16 @@
         [SerializeField]
         [Tooltip("An event that is called when a collider exits this trigger.")]
         private UnityEvent<Rigidbody> rigidbodyTriggerExit = new UnityEvent<Rigidbody>();
+
+        [SerializeField]
+        private bool isOneShot;
+
+        [SerializeField]
+        private bool isSerialized = true;
+
+        [SerializeField]
+        [HideInInspector]
+        private string guid = Guid.NewGuid().ToString();
 
         /// <summary>
         /// An event that is called the first frame when an object enters this trigger.
@@ -92,6 +103,40 @@
         /// All of the colliders currently inside this trigger.
         /// </value>
         public IReadOnlyCollection<Collider> CurrentColliders => _currentColliders;
+
+        private string SerializedId => $"trigger_{SceneManager.GetActiveScene().name}_{guid}";
+
+        /// <inheritdoc/>
+        protected override void Awake()
+        {
+            base.Awake();
+
+            if (isOneShot)
+            {
+                if (isSerialized)
+                {
+                    Services.Serializer.Lookup(SerializedId, out var isActive, true);
+
+                    if (!isActive)
+                    {
+                        gameObject.SetActive(false);
+                    }
+                }
+
+                CollisionEnter += DisableOneShot;
+            }
+        }
+
+        private void DisableOneShot(GameObject obj)
+        {
+            CollisionEnter -= DisableOneShot;
+            gameObject.SetActive(false);
+
+            if (isSerialized)
+            {
+                Services.Serializer.Store(SerializedId, false);
+            }
+        }
 
         private void OnTriggerStay(Collider other)
         {

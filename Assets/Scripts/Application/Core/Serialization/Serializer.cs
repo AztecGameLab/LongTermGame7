@@ -2,14 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
-    using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
+    using Gameplay;
     using ImGuiNET;
     using Newtonsoft.Json;
-    using Surrogates;
+    using Newtonsoft.Json.Linq;
+    using UniRx;
     using UnityEngine;
     using Utility;
     using Debug = UnityEngine.Debug;
@@ -19,11 +18,13 @@
     /// </summary>
     public class Serializer
     {
-        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            Formatting = Formatting.Indented,
-        };
+        /// <summary>
+        /// The settings that this serializer uses during serialization.
+        /// </summary>
+        public readonly JsonSerializerSettings Settings;
+
+        private readonly Subject<Unit> _onWrite = new Subject<Unit>();
+        private readonly Subject<Unit> _onRead = new Subject<Unit>();
 
         private Dictionary<string, object> _savedData;
 
@@ -32,59 +33,62 @@
         /// </summary>
         public Serializer()
         {
-            SurrogateList = new Collection<SurrogateData>
+            Settings = JsonConvert.DefaultSettings?.Invoke();
+
+            if (Settings != null)
             {
-                new SurrogateData { Surrogate = new Vector3SerializationSurrogate(), Type = typeof(Vector3) },
-                new SurrogateData { Surrogate = new QuaternionSerializationSurrogate(), Type = typeof(Quaternion) },
-            };
+                Settings.Formatting = Formatting.Indented;
+                Settings.TypeNameHandling = TypeNameHandling.Auto;
+            }
 
             _savedData = new Dictionary<string, object>();
-
             ImGuiUtil.Register(DrawDebugUI);
         }
 
         /// <summary>
-        /// Gets the list of surrogates used for serializing data.
+        /// An observable that emits each time the disk is written to.
         /// </summary>
-        private Collection<SurrogateData> SurrogateList { get; }
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveWrite() => _onWrite;
 
         /// <summary>
-        /// Returns the save path of a certain save file name.
+        /// An observable that emits each time the disk is read from.
         /// </summary>
-        /// <param name="fileName">The name of the save file to use in the path.</param>
-        /// <returns>The path to the save file named "fileName".</returns>
-        public static string GetPath(string fileName)
-        {
-            string path = $"{Application.persistentDataPath}/Saves";
-            Directory.CreateDirectory(path);
-            return $"{path}/{fileName}";
-        }
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveRead() => _onRead;
 
         /// <summary>
-        /// Determine if a save file exists on the disk.
+        /// Finds a serialized value or creates one if it doesn't exist.
         /// </summary>
-        /// <param name="fileName">The save file name to search for.</param>
-        /// <returns>True if the save file exists, false if it does not.</returns>
-        public static bool IsValid(string fileName)
+        /// <param name="key">The id of the value to search for.</param>
+        /// <param name="result">The object saved by the serializer.</param>
+        /// <param name="defaultValue">The initial value if no items exist with the desired id.</param>
+        /// <typeparam name="T">The type of data to retrieve.</typeparam>
+        public void Lookup<T>(string key, out T result, T defaultValue = default)
         {
-            string savePath = GetPath(fileName);
-            return File.Exists(savePath);
-        }
-
-        /// <summary>
-        /// Attempts to deserialize some data from a file.
-        /// </summary>
-        /// <param name="fileName">The name of the file to read from.</param>
-        /// <param name="result">The result of the deserialization.</param>
-        /// <typeparam name="T">The type of result we are expecting.</typeparam>
-        /// <returns>True if we successfully loaded the data, false if something went wrong.</returns>
-        public static bool TryLoad<T>(string fileName, out T result)
-        {
-            if (IsValid(fileName))
+            if (!Exists(key))
             {
-                string path = GetPath(fileName);
-                string data = File.ReadAllText(path);
-                result = JsonConvert.DeserializeObject<T>(data, Settings);
+                _savedData.Add(key, defaultValue);
+            }
+
+            result = (T)_savedData[key];
+        }
+
+        /// <summary>
+        /// Tries to access a serialized value.
+        /// </summary>
+        /// <param name="key">The key of the data to search for.</param>
+        /// <param name="result">The place to store the result of the query.</param>
+        /// <typeparam name="T">The type of data to search for.</typeparam>
+        /// <returns>True if the data was found, false if it was not.</returns>
+        public bool TryLookup<T>(string key, out T result)
+        {
+            if (Exists(key))
+            {
+                result = _savedData[key] is JObject obj
+                    ? obj.ToObject<T>()
+                    : (T)_savedData[key];
+
                 return true;
             }
 
@@ -93,16 +97,31 @@
         }
 
         /// <summary>
-        /// Serializes some object data to the disk.
+        /// Checks if a key is stored in the serializer.
         /// </summary>
-        /// <param name="fileName">The name of the file to write the data to.</param>
-        /// <param name="target">The object to serialize into the file.</param>
-        /// <typeparam name="T">The type of data we are serializing.</typeparam>
-        public static void Save<T>(string fileName, T target)
+        /// <param name="key">The id of the key to search for.</param>
+        /// <returns>True is the key is present, false if it does not exist.</returns>
+        public bool Exists(string key)
         {
-            string path = GetPath(fileName);
-            string data = JsonConvert.SerializeObject(target, Settings);
-            File.WriteAllText(path, data);
+            return _savedData.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Stores and updates a value in the serializer.
+        /// </summary>
+        /// <param name="key">The id of the object to store.</param>
+        /// <param name="value">The data associated with the object.</param>
+        /// <typeparam name="T">The type of data to store.</typeparam>
+        public void Store<T>(string key, T value)
+        {
+            if (!Exists(key))
+            {
+                _savedData.Add(key, value);
+            }
+            else
+            {
+                _savedData[key] = value;
+            }
         }
 
         /// <summary>
@@ -111,23 +130,8 @@
         /// <param name="fileName">The name of the save file to write the information into.</param>
         public void WriteToDisk(string fileName)
         {
-            // Creates a new file for the save.
-            string savePath = GetPath(fileName);
-            using FileStream saveFile = File.Create(savePath);
-
-            // Writes our data to the file.
-            var surrogateSelector = new SurrogateSelector();
-
-            foreach (var surrogateData in SurrogateList)
-            {
-                surrogateSelector.AddSurrogate(
-                    surrogateData.Type,
-                    new StreamingContext(StreamingContextStates.All),
-                    surrogateData.Surrogate);
-            }
-
-            var binaryFormatter = new BinaryFormatter { SurrogateSelector = surrogateSelector };
-            binaryFormatter.Serialize(saveFile, _savedData);
+            _onWrite.OnNext(Unit.Default);
+            Save(fileName, _savedData);
         }
 
         /// <summary>
@@ -136,40 +140,12 @@
         /// <param name="fileName">The name of the save file to read the information from.</param>
         public void ReadFromDisk(string fileName)
         {
-            string savePath = GetPath(fileName);
-            FileStream fileStream;
-
-            if (!IsValid(fileName))
+            if (!TryLoad(fileName, out _savedData))
             {
-                Debug.LogWarning($"Tried to open the save \"{fileName}\" that doesn't exist! Creating a new file...");
-                fileStream = File.Create(savePath);
-            }
-            else
-            {
-                fileStream = File.OpenRead(savePath);
+                Debug.Log($"Failed to read \"{fileName}\" from disk when loading.");
             }
 
-            Debug.Log($"Accessed the save \"{fileName}\".");
-
-            // Opens the save file.
-            if (fileStream.Length != 0)
-            {
-                // Parses the data from our file.
-                var surrogateSelector = new SurrogateSelector();
-
-                foreach (var surrogateData in SurrogateList)
-                {
-                    surrogateSelector.AddSurrogate(
-                        surrogateData.Type,
-                        new StreamingContext(StreamingContextStates.All),
-                        surrogateData.Surrogate);
-                }
-
-                var binaryFormatter = new BinaryFormatter { SurrogateSelector = surrogateSelector };
-                _savedData = (Dictionary<string, object>)binaryFormatter.Deserialize(fileStream);
-            }
-
-            fileStream.Dispose();
+            _onRead.OnNext(Unit.Default);
         }
 
         /// <summary>
@@ -249,7 +225,64 @@
             }
         }
 
-        private static void DrawDebugUI()
+        /// <summary>
+        /// Returns the save path of a certain save file name.
+        /// </summary>
+        /// <param name="fileName">The name of the save file to use in the path.</param>
+        /// <returns>The path to the save file named "fileName".</returns>
+        private static string GetPath(string fileName)
+        {
+            string path = $"{Application.persistentDataPath}/Saves";
+            Directory.CreateDirectory(path);
+            return $"{path}/{fileName}";
+        }
+
+        /// <summary>
+        /// Determine if a save file exists on the disk.
+        /// </summary>
+        /// <param name="fileName">The save file name to search for.</param>
+        /// <returns>True if the save file exists, false if it does not.</returns>
+        private static bool IsValid(string fileName)
+        {
+            string savePath = GetPath(fileName);
+            return File.Exists(savePath);
+        }
+
+        /// <summary>
+        /// Attempts to deserialize some data from a file.
+        /// </summary>
+        /// <param name="fileName">The name of the file to read from.</param>
+        /// <param name="result">The result of the deserialization.</param>
+        /// <typeparam name="T">The type of result we are expecting.</typeparam>
+        /// <returns>True if we successfully loaded the data, false if something went wrong.</returns>
+        private bool TryLoad<T>(string fileName, out T result)
+        {
+            if (IsValid(fileName))
+            {
+                string path = GetPath(fileName);
+                string data = File.ReadAllText(path);
+                result = JsonConvert.DeserializeObject<T>(data, Settings);
+                return true;
+            }
+
+            result = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Serializes some object data to the disk.
+        /// </summary>
+        /// <param name="fileName">The name of the file to write the data to.</param>
+        /// <param name="target">The object to serialize into the file.</param>
+        /// <typeparam name="T">The type of data we are serializing.</typeparam>
+        private void Save<T>(string fileName, T target)
+        {
+            string path = GetPath(fileName);
+            string data = JsonConvert.SerializeObject(target, Settings);
+            File.WriteAllText(path, data);
+        }
+
+        private void DrawDebugUI()
         {
             ImGui.Begin("Serialization");
 
@@ -265,13 +298,18 @@
                 Directory.Delete(path);
             }
 
-            ImGui.End();
-        }
+            if (ImGui.Button("Write"))
+            {
+                WriteToDisk("debug-save.json");
+            }
 
-        private struct SurrogateData
-        {
-            public ISerializationSurrogate Surrogate;
-            public Type Type;
+            if (ImGui.Button("Read"))
+            {
+                ReadFromDisk("debug-save.json");
+                Services.EventBus.Invoke(new StartGameCommand(), "Serializer IMGUI");
+            }
+
+            ImGui.End();
         }
     }
 }

@@ -1,31 +1,76 @@
 ﻿title: Start
 ---
-Follow the tree
-<<cam-follow Tree>>
+Multi-dialogue time.
+-> Option 1
+    Wassup! Nested choice:
+    -> subchoice1
+    -> subchoice2
+    -> You Really Want This Option
+-> Option 2
+-> You Don't Want This Option
 
-Follow the player
-<<cam-follow Player>>
+Respawn testing
+<<respawn-set test>>
+<<respawn-load>>
+Now you are somewhere else!
 
-Swivel the cam relatively by 30 -40 50 instantly
-<<cam-swivel-rel 30 -40 50>>
+Wanna pick a team member?
+<<team-open-selector>>
+You done yet?
 
-Set the camera to 0, 0, 0 over 1 second
-<<cam-swivel-abs 0 0 0 1>>
+Oh no, artichokie ran away.
+<<team-remove artichokie>>
+<<team-open-selector>>
 
-Move the cam offset over 2 seconds
-<<cam-offset-abs 10 21.9 30 2>>
+Now its back.
+<<team-add artichokie>>
+<<team-open-selector>>
 
-Look at the player
-<<cam-lookAt Player>>
+Lets bounce to some levels.
+<<level-load test-combat>>
 
-Resetting rotation
-<<cam-reset-rotation>>
+New place, huh.
+<<level-load-position test-combat 0 5 0>>
 
-Return to the player with relative offset 1 sec
-<<cam-offset-rel -10 -20 -30 1>>
+Spawned you up in the air.
+<<level-load-entrance test-combat door>>
 
-Anyway, time to get writing!
+Now you just walked in through a door.
 
-<<cam-fade-out>>
-<<cam-fade-in>>
+Wanna listen to music?
+<<music-play test>>
+
+Now some silence.
+<<music-play silence>>
+
+No more silence.
+<<music-stop silence>>
+
+No more music.
+<<music-stop test>>
+
+Google some stuff
+<<web-open google.com>>
+
+Hello, yarn!
+<<image-show test>>
+Do you see this?
+<<image-hide>>
+Now its gone!
+
+Time for some camera effects.
+Go up 5 units.
+<<cam-offset 0 5 0>>
+Go left 5 units.
+<<cam-offset 0 0 -5>>
+Go to player.
+<<cam-refocus>>
+
+Using image-show for a scuffed screen transition.
+<<image-show black>>
+<<image-hide>>
+Now white
+<<image-show white>>
+<<image-hide>>
+how was that?
 ===
