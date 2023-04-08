@@ -1,3 +1,5 @@
+using Application.Core;
+using Application.Gameplay.Combat.Actions;
 using ImGuiNET;
 using System;
 using System.Collections;
@@ -23,7 +25,7 @@ namespace Application.Gameplay.Combat
             Debug.Log("Executing debugging action...");
 
             if (User.TryGetComponent(out ActionPointTracker apTracker))
-                apTracker.remainingActionPoints -= apCost;
+            //    apTracker.remainingActionPoints -= apCost;
             
             yield return null;
             Debug.Log("Done!");
@@ -32,14 +34,13 @@ namespace Application.Gameplay.Combat
         public override void PrepEnter()
         {
             //Getting the position forward to the monster to place Earth Wall there.
-            _PrefabSpawnPosition += Vector3.forward * Time.deltaTime;
+           // _PrefabSpawnPosition += Vector3.forward * Time.deltaTime;
 
             //Need to adjust later in to match EarthWall placement so that it's always forward of wherever the monster is facing
         }
 
-        public override bool PrepTick(){
+        public override void PrepTick(){
             //Spawn prefab at _PrefabSpawnPosition
-            return true;
         }
 
         public void RenderImGui()
