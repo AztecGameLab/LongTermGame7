@@ -22,6 +22,13 @@ namespace Application.Gameplay.Items
             HandleRead();
 
             inventoryView.BindTo(Services.Inventory);
+            inventoryView.ItemClicked.Subscribe(data =>
+            {
+                foreach (IItemEffect itemEffect in data.effects)
+                {
+                    StartCoroutine(itemEffect.Use());
+                }
+            });
         }
 
         private void Update()

@@ -1,6 +1,8 @@
 ﻿using Application.Core;
+using System;
 using System.Collections.Generic;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace Application.Gameplay.Items
@@ -10,7 +12,10 @@ namespace Application.Gameplay.Items
         [SerializeField] private ItemViewUI itemViewPrefab;
         [SerializeField] private Transform itemGroupParent;
 
-        private Dictionary<ItemData, List<ItemViewUI>> _viewLookup = new Dictionary<ItemData, List<ItemViewUI>>();
+        private Dictionary<ItemData, List<ViewInstanceData>> _viewLookup = new Dictionary<ItemData, List<ViewInstanceData>>();
+        private Subject<ItemData> _itemClicked = new Subject<ItemData>();
+
+        public IObservable<ItemData> ItemClicked => _itemClicked;
 
         public override void BindTo(Inventory target)
         {
@@ -32,18 +37,32 @@ namespace Application.Gameplay.Items
 
             if (!_viewLookup.ContainsKey(data))
             {
-                _viewLookup.Add(data, new List<ItemViewUI>());
+                _viewLookup.Add(data, new List<ViewInstanceData>());
             }
 
-            _viewLookup[data].Add(instance);
+            var instanceData = new ViewInstanceData
+            {
+                Instance = instance,
+                OnClickedDisposable = instance.OnPointerClickAsObservable()
+                    .Subscribe(_ => _itemClicked.OnNext(data)),
+            };
+
+            _viewLookup[data].Add(instanceData);
 
         }
 
         private void HandleItemRemove(ItemData data)
         {
-            ItemViewUI instance = _viewLookup[data][0];
-            Destroy(instance);
-            _viewLookup[data].Remove(instance);
+            ViewInstanceData instanceData = _viewLookup[data][0];
+            Destroy(instanceData.Instance);
+            instanceData.OnClickedDisposable.Dispose();
+            _viewLookup[data].Remove(instanceData);
+        }
+
+        private class ViewInstanceData
+        {
+            public ItemViewUI Instance;
+            public IDisposable OnClickedDisposable;
         }
     }
 }

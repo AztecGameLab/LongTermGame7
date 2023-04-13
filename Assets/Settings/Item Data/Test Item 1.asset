@@ -26,14 +26,18 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   effects:
   - id: 0
-  - id: 1
   references:
     version: 1
     00000000:
-      type: {class: PrintMessageEffect, ns: Application.Gameplay.Items, asm: Application}
+      type: {class: ExhaustibleEffect, ns: Application.Gameplay.Items, asm: Application}
       data:
-        message: Hello world!
+        isExhausted: 0
+        effects:
+        - id: 1
     00000001:
       type: {class: HealAllEffect, ns: Application.Gameplay.Items, asm: Application}
       data:
         amount: 4
+        message:
+          project: {fileID: 7545569452688597077, guid: 483976b05ab98e846b2d08ce2c257aae, type: 3}
+          nodeName: HealMessage

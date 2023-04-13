@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 
 namespace Application.Gameplay.Items
 {
-    public class ItemViewUI : View<ItemData>
+    public class ItemViewUI : UIView<ItemData>
     {
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private TMP_Text descriptionText;

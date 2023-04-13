@@ -2,8 +2,10 @@
 using Application.Gameplay.Combat;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using Yarn.Unity;
 using Object = UnityEngine.Object;
 
 namespace Application.Gameplay.Items
@@ -14,14 +16,39 @@ namespace Application.Gameplay.Items
     }
 
     [Serializable]
+    public class ExhaustibleEffect : IItemEffect
+    {
+        public bool isExhausted;
+
+        [SerializeReference]
+        public List<IItemEffect> effects;
+
+        public IEnumerator Use()
+        {
+            if (!isExhausted)
+            {
+                isExhausted = true;
+                Object.FindObjectOfType<ExhaustibleManager>().ExhaustedEffects.Add(this);
+
+                foreach (IItemEffect itemEffect in effects)
+                {
+                    yield return itemEffect.Use();
+                }
+            }
+        }
+    }
+
+    [Serializable]
     public class HealAllEffect : IItemEffect
     {
         [SerializeField]
         private float amount;
 
+        [SerializeField] private DialogueReference message;
+
         public IEnumerator Use()
         {
-            Collection<GameObject> playerTeam = Object.FindObjectOfType<BattleController>().PlayerTeam;
+            Collection<GameObject> playerTeam = Object.FindObjectOfType<BattleController>(true).PlayerTeam;
 
             foreach (GameObject memberInstance in playerTeam)
             {
@@ -29,8 +56,7 @@ namespace Application.Gameplay.Items
                     entity.Heal(amount);
             }
 
-            // todo: play some healing sounds and vfx
-            yield return new WaitForSeconds(1);
+            yield return Services.DialogueSystem.RunDialogue(message);
         }
     }
 
