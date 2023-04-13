@@ -49,4 +49,15 @@ MonoBehaviour:
         projectileTime: 1
         apCost: 1
     00000003:
-      type: {class: , ns: , asm: }
+      type: {class: FlameSpear, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        apCost: 3
+        spread: 30
+        distance: 5
+        burnSettings:
+          roundDuration: 3
+          damagePerRound: 1
+        initialDamage: 1
+        damageMask:
+          serializedVersion: 2
+          m_Bits: 2547
