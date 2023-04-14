@@ -21,6 +21,7 @@ MonoBehaviour:
   - id: 5
   - id: 6
   - id: 7
+  - id: 8
   references:
     version: 1
     00000000:
@@ -158,3 +159,8 @@ MonoBehaviour:
       type: {class: YarnMovementCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
     00000007:
       type: {class: YarnObjectLifetimeCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+    00000008:
+      type: {class: YarnItemCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+      data:
+        items:
+        - {fileID: 11400000, guid: 222ed14c800d55641ac6d41e4e86c0d1, type: 2}
