@@ -1,0 +1,30 @@
+﻿title: RockSpikeLab
+tags:
+---
+It looks like some sort of lab built into the rock. I wonder what happens in there...
+===
+
+title: RockSpikeElevatorTop
+tags:
+---
+Would you like to ride down the elevator?
+-> Yes
+    <<level-load-entrance RockSpikeBottom RSVFloor>>
+-> No
+===
+
+title: RockSpikeElevatorBottom
+tags:
+---
+Would you like to ride up the elevator?
+-> Yes
+    <<level-load-entrance RockSpikeTop RSVTop>>
+-> No
+===
+
+title: AerialWindMonster
+tags:
+---
+This is an Aerial Wind Monster!
+<<team-add artichokie>>
+===
