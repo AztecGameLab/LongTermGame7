@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921f677a868c425390048df2da275b48, type: 3}
+  m_Name: Test Item 1
+  m_EditorClassIdentifier: 
+  itemId: test_item
+  itemName: Test Item 1
+  itemDescription: A description for test item 1.
+  worldView:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  inventoryView:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  effects:
+  - id: 0
+  - id: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: ExhaustibleEffect, ns: Application.Gameplay.Items, asm: Application}
+      data:
+        isExhausted: 1
+        effects:
+        - id: 2
+    00000001:
+      type: {class: PrintMessageEffect, ns: Application.Gameplay.Items, asm: Application}
+      data:
+        message: Hello world!
+    00000002:
+      type: {class: HealAllEffect, ns: Application.Gameplay.Items, asm: Application}
+      data:
+        amount: 4
+        message:
+          project: {fileID: 7545569452688597077, guid: 483976b05ab98e846b2d08ce2c257aae, type: 3}
+          nodeName: HealMessage
