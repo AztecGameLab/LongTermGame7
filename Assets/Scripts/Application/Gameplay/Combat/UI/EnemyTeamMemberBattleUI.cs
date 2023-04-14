@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿using System;
+
+namespace Application.Gameplay.Combat.UI
 {
     using Core;
     using UnityEngine;
@@ -10,6 +12,14 @@
     {
         [SerializeField]
         private HealthBar healthBar;
+
+        [SerializeField] private GameObject autoBind;
+
+        protected override void Start()
+        {
+            base.Start();
+            BindTo(autoBind);
+        }
 
         /// <inheritdoc/>
         public override void BindTo(GameObject target)

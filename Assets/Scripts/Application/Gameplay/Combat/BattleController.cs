@@ -1,6 +1,9 @@
-﻿namespace Application.Gameplay.Combat
+﻿using ElRaccoone.Tweens;
+
+namespace Application.Gameplay.Combat
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Cinemachine;
@@ -46,6 +49,9 @@
         private CinemachineVirtualCamera battleCamera;
 
         [SerializeField]
+        private CinemachineVirtualCamera[] cameras;
+
+        [SerializeField]
         private CinemachineTargetGroup battleTargetGroup;
 
         [SerializeField]
@@ -57,10 +63,7 @@
         private CanvasGroup battleBars;
 
         [SerializeField]
-        private PlayerTeamMemberBattleUI playerBattleUI;
-
-        [SerializeField]
-        private EnemyTeamMemberBattleUI enemyBattleUI;
+        private CanvasGroup battleUi;
 
         /// <summary>
         /// Gets the battle intro logic.
@@ -96,6 +99,8 @@
         /// Gets the script in charge of managing the enemy's turn.
         /// </summary>
         public EnemyOrderDecider EnemyOrderDecider { get; private set; }
+
+        public Queue<Func<IEnumerator>> Interrupts { get; } = new Queue<Func<IEnumerator>>();
 
         /// <summary>
         /// Gets a value indicating whether a battle is currently running.
@@ -136,6 +141,33 @@
                 return;
             }
 
+            gameObject.SetActive(true);
+            StartCoroutine(BattleCoroutine(data));
+        }
+
+        /// <summary>
+        /// Stops running logic for a battle, cleaning up all of the related state.
+        /// </summary>
+        public void EndBattle()
+        {
+            IsBattling = false;
+        }
+
+        private void Awake()
+        {
+            ImGuiUtil.Register(DrawImGuiWindow).AddTo(this);
+
+            BattleStateMachine = new StateMachine();
+
+            battleLoss.Controller = this;
+            battleVictory.Controller = this;
+            battleRound.Controller = this;
+            battleIntro.Controller = this;
+        }
+
+        private IEnumerator BattleCoroutine(BattleData data)
+        {
+            // todo: move this into a hook for the overworldbattle, or something
             var worldLoader = FindObjectOfType<PlayerSpawn>();
 
             if (worldLoader)
@@ -143,13 +175,10 @@
                 worldLoader.MonsterFollowPlayer.Enabled = false;
             }
 
-            gameObject.SetActive(true);
-
             battleBars.alpha = 1;
             BattleCamera.Priority = BattleCameraActivePriority;
             battleTargetGroup.RemoveAllMembers();
-
-            Debug.Log("Starting battle!");
+            Interrupts.Clear();
 
             battleIntro.Initialize();
             battleRound.Initialize();
@@ -165,9 +194,7 @@
             foreach (GameObject playerTeamInstance in data.PlayerTeamInstances)
             {
                 PlayerTeam.Add(playerTeamInstance);
-                PlayerTeamMemberBattleUI instance = Instantiate(playerBattleUI, playerTeamInstance.transform);
-                instance.BindTo(playerTeamInstance);
-                _spawnedUIElements.Add(instance.gameObject);
+                playerTeamInstance.GetComponentInChildren<PlayerTeamMemberBattleUI>(true).gameObject.SetActive(true);
                 battleTargetGroup.AddMember(playerTeamInstance.transform, 1, battleTargetRadius);
             }
 
@@ -176,9 +203,7 @@
             foreach (GameObject enemyTeamInstance in data.EnemyTeamInstances)
             {
                 EnemyTeam.Add(enemyTeamInstance);
-                EnemyTeamMemberBattleUI instance = Instantiate(enemyBattleUI, enemyTeamInstance.transform);
-                instance.BindTo(enemyTeamInstance);
-                _spawnedUIElements.Add(instance.gameObject);
+                enemyTeamInstance.GetComponentInChildren<EnemyTeamMemberBattleUI>(true).gameObject.SetActive(true);
                 battleTargetGroup.AddMember(enemyTeamInstance.transform, 1, battleTargetRadius);
             }
 
@@ -188,36 +213,54 @@
             {
                 _hooks.Add(hook);
                 hook.Controller = this;
-                hook.OnBattleStart();
+                yield return hook.OnBattleStart();
             }
 
             BattleStateMachine.SetState(battleIntro);
-        }
 
-        /// <summary>
-        /// Stops running logic for a battle, cleaning up all of the related state.
-        /// </summary>
-        public void EndBattle()
-        {
-            IsBattling = false;
+            while (IsBattling)
+            {
+                foreach (Hook hook in _hooks)
+                {
+                    hook.OnBattleUpdate();
+                }
+
+                if (Interrupts.Count > 0)
+                {
+                    battleUi.interactable = false;
+                    battleUi.blocksRaycasts = false;
+                    yield return battleUi.TweenCanvasGroupAlpha(0, 0.25f).Yield();
+
+                    while (Interrupts.Count > 0)
+                    {
+                        yield return Interrupts.Dequeue().Invoke();
+                    }
+
+                    yield return battleUi.TweenCanvasGroupAlpha(1, 0.25f).Yield();
+                    battleUi.interactable = true;
+                    battleUi.blocksRaycasts = true;
+                }
+
+
+                BattleStateMachine.Tick();
+
+                yield return null;
+            }
+
             BattleCamera.Priority = 0;
             battleBars.alpha = 0;
 
-            var worldLoader = FindObjectOfType<PlayerSpawn>();
-
+            // todo: move this into a hook for the overworldbattle, or something
             if (worldLoader)
             {
                 worldLoader.MonsterFollowPlayer.Enabled = true;
             }
 
-            // todo: we may have to pass more information on the ending of battle, e.g. win vs. loss and whatnot
-            Debug.Log("Ending battle!");
-
             BattleStateMachine.SetState(null);
 
             foreach (var hook in _hooks)
             {
-                hook.OnBattleEnd();
+                yield return hook.OnBattleEnd();
             }
 
             _hooks.Clear();
@@ -231,31 +274,6 @@
 
             _battleEndSubject.OnNext(Unit.Default);
             gameObject.SetActive(false);
-        }
-
-        private void Awake()
-        {
-            ImGuiUtil.Register(DrawImGuiWindow).AddTo(this);
-
-            BattleStateMachine = new StateMachine();
-
-            battleLoss.Controller = this;
-            battleVictory.Controller = this;
-            battleRound.Controller = this;
-            battleIntro.Controller = this;
-        }
-
-        private void Update()
-        {
-            if (IsBattling)
-            {
-                foreach (Hook hook in _hooks)
-                {
-                    hook.OnBattleUpdate();
-                }
-
-                BattleStateMachine.Tick();
-            }
         }
 
         private void DrawImGuiWindow()

@@ -15,7 +15,7 @@
     [Serializable]
     public class PickMonster : RoundState
     {
-        private const int PickMonsterCameraActivePriority = 50;
+        private const int PickMonsterCameraActivePriority = 20;
 
         private HashSet<GameObject> _usedMonsters;
 
@@ -57,6 +57,11 @@
         {
             base.OnEnter();
 
+            if (PlayerTeam.Count <= 0)
+            {
+                return;
+            }
+
             if (_usedMonsters.Count >= PlayerTeam.Count)
             {
                 Debug.Log("Cannot select next monster - there are none available ones left!");
@@ -75,6 +80,8 @@
             pickMonsterCamera.Follow = SelectedMonster.Value != null
                 ? SelectedMonster.Value.transform
                 : Round.Controller.PlayerTeam[0].transform;
+            pickMonsterCamera.transform.position = Round.Controller.PlayerTeam[0].transform.position;
+            pickMonsterCamera.PreviousStateIsValid = false;
         }
 
         /// <inheritdoc/>
@@ -90,6 +97,11 @@
         public override void OnTick()
         {
             base.OnTick();
+
+            if (PlayerTeam.Count <= 0)
+            {
+                return;
+            }
 
             if (InputTools.TryGetInputDirectionDown(out Vector2 direction) && SelectedMonster.Value != null)
             {

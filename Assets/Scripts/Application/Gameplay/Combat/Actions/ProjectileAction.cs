@@ -31,6 +31,10 @@
         [JsonProperty]
         private float projectileTime = 1;
 
+        [SerializeField]
+        [JsonProperty]
+        private int apCost = 1;
+
         private AimSystem _aimSystem = new AimSystem();
         private IPooledObject<ValidityIndicator> _indicator;
         private Vector3 _targetPosition;
@@ -64,6 +68,11 @@
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
+            if (User.TryGetComponent(out ActionPointTracker apTracker))
+            {
+                apTracker.TrySpend(apCost);
+            }
+            
             Vector3 origin = User.transform.position + Vector3.up;
             var launchVelocity = ProjectileMotion.GetLaunchVelocity(origin, _targetPosition, projectileTime);
             var projectileInstance = projectileAsset.InstantiateAsync(origin, Quaternion.LookRotation(launchVelocity)).WaitForCompletion();

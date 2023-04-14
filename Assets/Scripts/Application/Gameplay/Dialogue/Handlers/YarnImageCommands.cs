@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Dialogue
+﻿using ElRaccoone.Tweens.Core;
+
+namespace Application.Gameplay.Dialogue
 {
     using System;
     using System.Collections;
@@ -23,13 +25,18 @@
         [SerializeField]
         private DictionaryGenerator<string, Sprite> imageTable;
 
-        private YarnImageView _imageView;
+        private YarnImageView _imageViewA;
+        private YarnImageView _imageViewB;
         private Dictionary<string, Sprite> _imageTable;
 
         /// <inheritdoc/>
         public void RegisterCommands(DialogueRunner runner)
         {
-            _imageView = yarnImageViewAsset.InstantiateAsync(runner.transform)
+            _imageViewA = yarnImageViewAsset.InstantiateAsync(runner.transform)
+                .WaitForCompletion()
+                .GetComponent<YarnImageView>();
+
+            _imageViewB = yarnImageViewAsset.InstantiateAsync(runner.transform)
                 .WaitForCompletion()
                 .GetComponent<YarnImageView>();
 
@@ -46,17 +53,35 @@
             runner.RemoveCommandHandler("image-hide");
         }
 
+        private YarnImageView OldView => _viewTracker ? _imageViewA : _imageViewB;
+
+        private YarnImageView CurrentView => _viewTracker ? _imageViewB : _imageViewA;
+
+        private bool _viewTracker;
+
         private IEnumerator ShowImage(string imageId)
         {
+            if (OldView.Image != null)
+            {
+                OldView.CanvasGroup.TweenCanvasGroupAlpha(0, fadeTime).SetEase(EaseType.CubicIn);
+                OldView.CanvasGroup.interactable = false;
+                OldView.CanvasGroup.blocksRaycasts = false;
+            }
+
             Sprite targetImage = _imageTable[imageId];
-            _imageView.Image.sprite = targetImage;
-            yield return _imageView.CanvasGroup.TweenCanvasGroupAlpha(1, fadeTime).Yield();
+            CurrentView.Image.sprite = targetImage;
+            CurrentView.CanvasGroup.interactable = true;
+            CurrentView.CanvasGroup.blocksRaycasts = true;
+            yield return CurrentView.CanvasGroup.TweenCanvasGroupAlpha(1, fadeTime).SetEase(EaseType.CubicOut).Yield();
+            _viewTracker = !_viewTracker;
         }
 
         private IEnumerator HideImage()
         {
-            yield return _imageView.CanvasGroup.TweenCanvasGroupAlpha(0, fadeTime).Yield();
-            _imageView.Image.sprite = null;
+            yield return OldView.CanvasGroup.TweenCanvasGroupAlpha(0, fadeTime).SetEase(EaseType.CubicIn).Yield();
+            OldView.Image.sprite = null;
+            OldView.CanvasGroup.interactable = false;
+            OldView.CanvasGroup.blocksRaycasts = false;
         }
     }
 }
