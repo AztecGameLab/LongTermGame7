@@ -25,6 +25,9 @@
         [SerializeField]
         private PickMonsterUI pickMonsterUI;
 
+        [SerializeField]
+        private GameObject selectedMonsterUI;
+
         private int _selectedMonsterIndex;
         private CompositeDisposable _disposable;
 
@@ -50,6 +53,8 @@
         {
             _usedMonsters.Clear();
             _selectedMonsterIndex = 0;
+            selectedMonsterUI = UnityEngine.Object.Instantiate(selectedMonsterUI);
+            selectedMonsterUI.SetActive(false);
         }
 
         /// <inheritdoc/>
@@ -76,6 +81,10 @@
             _disposable = new CompositeDisposable();
             pickMonsterUI.ObserveMonsterSubmitted().Subscribe(_ => SubmitCurrentMonster()).AddTo(_disposable);
             pickMonsterUI.ObserveSelectNextMonster().Subscribe(_ => SelectNextMonster()).AddTo(_disposable);
+
+            // Show selection UI on the default selection
+            UpdateSelectedMonsterUI();
+            selectedMonsterUI.SetActive(true);
 
             pickMonsterCamera.Follow = SelectedMonster.Value != null
                 ? SelectedMonster.Value.transform
@@ -128,6 +137,7 @@
         {
             IncrementCurrentIndex();
             SelectedMonster.Value = PlayerTeam[_selectedMonsterIndex];
+            UpdateSelectedMonsterUI();
         }
 
         private void IncrementCurrentIndex()
@@ -149,7 +159,24 @@
             _usedMonsters.Add(SelectedMonster.Value);
             IncrementCurrentIndex();
 
+            // Cleanup the selection UI
+            UnityEngine.Object.Destroy(selectedMonsterUI);
+
             Round.TransitionTo(Round.PickActions);
+        }
+
+        private void UpdateSelectedMonsterUI()
+        {
+            // Either a monster or the player is selected
+            GameObject selection = SelectedMonster.Value != null
+                ? SelectedMonster.Value
+                : Round.Controller.PlayerTeam[0];
+
+            // Rotation is weird to grab dynamically but constant so I hardcoded it
+            selectedMonsterUI.transform.rotation = Quaternion.Euler(15, 0, 0);
+
+            // Center the UI vertically and move it just behind the monster
+            selectedMonsterUI.transform.position = selection.transform.position + new Vector3(0, 1, 0.1f);
         }
     }
 }
