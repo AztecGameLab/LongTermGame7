@@ -98,5 +98,7 @@
         {
             _disposeOnExit.Add(disposable);
         }
+
+        protected ActionPointTracker ActionTracker => User.GetComponent<ActionPointTracker>();
     }
 }

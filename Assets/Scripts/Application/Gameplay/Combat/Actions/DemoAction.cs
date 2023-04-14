@@ -43,12 +43,7 @@
         protected override IEnumerator Execute()
         {
             Debug.Log("Executing debugging action...");
-
-            if (User.TryGetComponent(out ActionPointTracker tracker))
-            {
-                tracker.TrySpend(actionPointCost);
-            }
-
+            ActionTracker.Spend(actionPointCost);
             yield return new WaitForSeconds(1);
             Debug.Log("Done!");
         }

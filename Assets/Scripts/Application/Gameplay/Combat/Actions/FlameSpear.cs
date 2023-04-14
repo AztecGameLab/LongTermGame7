@@ -40,13 +40,12 @@ namespace Application.Gameplay.Combat.Actions
             _sliceIndicator.Instance.UpdateView(position, hitInfo.point - position, distance, spread);
             _targetPoint = hitInfo.point;
 
-            IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
+            IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0) && ActionTracker.CanAfford(apCost);
         }
 
         protected override IEnumerator Execute()
         {
-            User.TryGetComponent(out ActionPointTracker tracker);
-            tracker.TrySpend(apCost);
+            ActionTracker.Spend(apCost);
             var position = User.transform.position;
             int hits = Scanner.GetAllInSlice(position, _targetPoint - position, spread, distance, damageMask, _resultBuffer);
 

@@ -63,7 +63,7 @@
 
                 bool canAfford = _actionPointTracker.CanAfford(PointCost);
 
-                IsPrepFinished |= canAfford && Input.GetKeyDown(KeyCode.Mouse0);
+                IsPrepFinished |= canAfford && Input.GetKeyDown(KeyCode.Mouse0) && canAfford;
                 _pathIndicator.Instance.IsValid = canAfford;
             }
             else
@@ -95,13 +95,8 @@
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
-            if (User.TryGetComponent(out ActionPointTracker tracker))
-            {
-                tracker.TrySpend(PointCost);
-            }
-
+            ActionTracker.Spend(PointCost);
             yield return User.transform.PathFindTo(_targetPosition, moveSpeed, 0, _distance, _pathIndicator);
-
             _pathIndicator.Instance.ClearPath();
             _pathIndicator.Dispose();
         }

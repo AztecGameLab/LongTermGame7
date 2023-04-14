@@ -62,17 +62,13 @@
             _indicator.Instance.transform.position = aimInfo.point;
             _targetPosition = aimInfo.point;
 
-            IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
+            IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0) && ActionTracker.CanAfford(apCost);
         }
 
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
-            if (User.TryGetComponent(out ActionPointTracker apTracker))
-            {
-                apTracker.TrySpend(apCost);
-            }
-            
+            ActionTracker.Spend(apCost);
             Vector3 origin = User.transform.position + Vector3.up;
             var launchVelocity = ProjectileMotion.GetLaunchVelocity(origin, _targetPosition, projectileTime);
             var projectileInstance = projectileAsset.InstantiateAsync(origin, Quaternion.LookRotation(launchVelocity)).WaitForCompletion();
