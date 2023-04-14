@@ -18,6 +18,7 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
+  - id: 3
   maxHealth: 1
   worldViewAssetPath: wv-player
   maxActionPoints: 5
@@ -38,9 +39,14 @@ MonoBehaviour:
     00000002:
       type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
+        actionName: Projectile
+        actionDescription: Launches a projectile
         projectileAsset:
           m_AssetGUID: 9f6e80d503eafda4d8bba3c093d6123d
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
         projectileTime: 1
+        apCost: 1
+    00000003:
+      type: {class: , ns: , asm: }
