@@ -11,6 +11,9 @@ namespace Application.Gameplay.Items
     public class ItemData
     {
         [JsonProperty]
+        public string itemId;
+
+        [JsonProperty]
         public StringReactiveProperty name;
 
         [JsonProperty]

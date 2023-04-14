@@ -8,6 +8,9 @@ namespace Application.Gameplay.Items
     public class ItemAuthoring : ScriptableObject
     {
         [SerializeField]
+        private string itemId;
+
+        [SerializeField]
         private string itemName;
 
         [SerializeField]
@@ -22,6 +25,12 @@ namespace Application.Gameplay.Items
         [SerializeReference]
         private IItemEffect[] effects;
 
+        public string ItemName => itemName;
+
+        public string ItemDescription => itemDescription;
+
+        public string ItemId => itemId;
+
         public ItemData GenerateData()
         {
             return new ItemData
@@ -31,6 +40,7 @@ namespace Application.Gameplay.Items
                 name = new StringReactiveProperty(itemName),
                 worldViewAssetPath = new StringReactiveProperty(worldView.AssetGUID),
                 inventoryViewAssetPath = new StringReactiveProperty(inventoryView.AssetGUID),
+                itemId = itemId,
             };
         }
     }

@@ -54,7 +54,7 @@ namespace Application.Gameplay.Items
         private void HandleItemRemove(ItemData data)
         {
             ViewInstanceData instanceData = _viewLookup[data][0];
-            Destroy(instanceData.Instance);
+            Destroy(instanceData.Instance.gameObject);
             instanceData.OnClickedDisposable.Dispose();
             _viewLookup[data].Remove(instanceData);
         }
