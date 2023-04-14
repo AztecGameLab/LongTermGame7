@@ -25,6 +25,10 @@
         [SerializeField]
         private PickMonsterUI pickMonsterUI;
 
+        [SerializeField]
+        private GameObject selectedMonsterUI;
+
+        private GameObject _selectionUIInstance;
         private int _selectedMonsterIndex;
         private CompositeDisposable _disposable;
 
@@ -69,6 +73,10 @@
                 return;
             }
 
+            // Show selection UI on the default selection
+            _selectionUIInstance = UnityEngine.Object.Instantiate(selectedMonsterUI);
+            UpdateSelectedMonsterUI();
+
             SelectedMonster.Value = PlayerTeam[_selectedMonsterIndex];
             pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
             pickMonsterUI.gameObject.SetActive(true);
@@ -90,6 +98,7 @@
             base.OnExit();
             pickMonsterCamera.Priority = 0;
             pickMonsterUI.gameObject.SetActive(false);
+            UnityEngine.Object.Destroy(_selectionUIInstance);
             _disposable?.Dispose();
         }
 
@@ -121,6 +130,7 @@
             if (target != null)
             {
                 pickMonsterCamera.Follow = target.transform;
+                UpdateSelectedMonsterUI();
             }
         }
 
@@ -149,7 +159,23 @@
             _usedMonsters.Add(SelectedMonster.Value);
             IncrementCurrentIndex();
 
+            // Cleanup the selection UI
             Round.TransitionTo(Round.PickActions);
+        }
+
+        private void UpdateSelectedMonsterUI()
+        {
+            // Either a monster or the player is selected
+            GameObject selection = SelectedMonster.Value != null
+                ? SelectedMonster.Value
+                : Round.Controller.PlayerTeam[0];
+
+            // Rotation is weird to grab dynamically but constant so I hardcoded it
+            _selectionUIInstance.transform.rotation = Quaternion.Euler(15, 0, 0);
+            _selectionUIInstance.transform.SetParent(selection.transform);
+
+            // Center the UI vertically and move it just behind the monster
+            _selectionUIInstance.transform.position = selection.transform.position + new Vector3(0, 1, 0.1f);
         }
     }
 }
