@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.UI
+﻿using TMPro;
+
+namespace Application.Gameplay.Combat.UI
 {
     using System;
     using Core;
@@ -13,6 +15,9 @@
     {
         [SerializeField]
         private Slider actionPointSlider;
+
+        [SerializeField]
+        private TMP_Text remainingPointsText;
 
         private IDisposable _disposable;
 
@@ -31,7 +36,18 @@
             compositeDisposable.Add(target.ObserveMaxActionPoints().Subscribe(max => actionPointSlider.maxValue = max));
             compositeDisposable.AddTo(this);
 
+            compositeDisposable.Add(target.ObserveRemainingActionPoints()
+                .Subscribe(_ => UpdateRemainingPoints(target.RemainingActionPoints, target.MaxActionPoints)));
+
+            compositeDisposable.Add(target.ObserveMaxActionPoints()
+                .Subscribe(_ => UpdateRemainingPoints(target.RemainingActionPoints, target.MaxActionPoints)));
+
             _disposable = compositeDisposable;
+        }
+
+        private void UpdateRemainingPoints(int current, int max)
+        {
+            remainingPointsText.text = $"{current}/{max} Points";
         }
     }
 }
