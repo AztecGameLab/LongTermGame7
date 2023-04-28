@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Gameplay.Combat.Actions;
 
 namespace Application.Gameplay
 {
@@ -31,6 +32,9 @@ namespace Application.Gameplay
         [SerializeField]
         private float explosionUpBoost = 1;
 
+        [SerializeField]
+        private DamageSource damageSource;
+
         private void Awake()
         {
             var entity = GetComponent<LivingEntity>();
@@ -50,7 +54,7 @@ namespace Application.Gameplay
 
                 if (targetCollider.TryGetComponentParents(out LivingEntity entity))
                 {
-                    entity.Damage(explosionDamage * falloff);
+                    damageSource.DealDamageTo(entity, explosionDamage * falloff);
                 }
 
                 if (targetCollider.TryGetComponentParents(out IPhysicsComponent physics))

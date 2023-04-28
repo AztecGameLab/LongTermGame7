@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UniRx;
 using UniRx.Diagnostics;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Serialization;
 
 namespace Application.Gameplay.Combat.Effects
@@ -42,6 +43,7 @@ namespace Application.Gameplay.Combat.Effects
     {
         public int roundDuration;
         public float damagePerRound;
+        public AssetReference fxPrefab = new AssetReference("particles-burning-default");
     }
 
     public class BurningEffect : MonoBehaviour
@@ -52,6 +54,7 @@ namespace Application.Gameplay.Combat.Effects
         public void Initialize(BattleController controller, BurningSettings settings)
         {
             var livingEntity = GetComponent<LivingEntity>();
+            _fxInstance = settings.fxPrefab.InstantiateAsync(livingEntity.transform).WaitForCompletion().gameObject;
             remainingRounds = settings.roundDuration;
             damage = settings.damagePerRound;
             var disposable = controller.Round.RoundNumber
@@ -67,6 +70,8 @@ namespace Application.Gameplay.Combat.Effects
             livingEntity.OnDeath.Subscribe(_ => disposable.Dispose());
         }
 
+        private GameObject _fxInstance;
+
         private IEnumerator ApplyBurnDamage(LivingEntity entity, BurningSettings settings, BattleController controller)
         {
             if (remainingRounds > 0)
@@ -81,6 +86,7 @@ namespace Application.Gameplay.Combat.Effects
             else
             {
                 // todo: fire going out animation
+                Destroy(_fxInstance);
                 Destroy(this);
             }
         }

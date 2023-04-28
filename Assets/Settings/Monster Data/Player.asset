@@ -19,6 +19,7 @@ MonoBehaviour:
   - id: 1
   - id: 2
   - id: 3
+  - id: 4
   maxHealth: 1
   worldViewAssetPath: wv-player
   maxActionPoints: 5
@@ -61,3 +62,15 @@ MonoBehaviour:
         damageMask:
           serializedVersion: 2
           m_Bits: 2547
+    00000004:
+      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionName: Fireball
+        actionDescription: Launches a fireball.
+        projectileAsset:
+          m_AssetGUID: b43610ef52b08a440a2f9de28b052116
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        projectileTime: 1
+        apCost: 1
