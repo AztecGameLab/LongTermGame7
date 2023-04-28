@@ -4918,6 +4918,7 @@ MonoBehaviour:
   explosionDamage: 2
   explosionKnockback: 3
   explosionUpBoost: 3
+  damageSource: {fileID: 443481267238639369}
 --- !u!114 &1797340105109341964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4962,3 +4963,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 247489727871326540, guid: 376d122bf88fec24682c92e2c7ff2361, type: 3}
+--- !u!114 &443481267238639369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5305812944337922485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3cb0ff02fe4295909b6f3d4536ab26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dealtDamage:
+    m_PersistentCalls:
+      m_Calls: []

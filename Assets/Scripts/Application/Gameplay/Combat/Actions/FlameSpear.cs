@@ -51,12 +51,12 @@ namespace Application.Gameplay.Combat.Actions
 
             for (int i = 0; i < hits; i++)
             {
-                var cur = _resultBuffer[i].attachedRigidbody.gameObject;
-                Controller.EffectApplier.ApplyBurning(cur, burnSettings);
+                var cur = _resultBuffer[i].GetRoot();
 
                 if (cur.TryGetComponent(out LivingEntity entity))
                 {
                     entity.Damage(initialDamage);
+                    Controller.EffectApplier.ApplyBurning(cur, burnSettings);
                 }
             }
 

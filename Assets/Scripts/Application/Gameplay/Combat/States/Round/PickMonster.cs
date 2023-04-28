@@ -90,7 +90,7 @@
             // pickMonsterCamera.transform.position = Round.Controller.PlayerTeam[0].transform.position;
             // pickMonsterCamera.PreviousStateIsValid = false;
             _cameraDisposable?.Dispose();
-            _cameraDisposable = Round.Controller.TemporaryFollow(Round.Controller.PlayerTeam[0].transform);
+            _cameraDisposable = Round.Controller.TemporaryFollow(SelectedMonster.Value.transform);
         }
 
         /// <inheritdoc/>
