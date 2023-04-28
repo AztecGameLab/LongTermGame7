@@ -42,10 +42,10 @@ MonoBehaviour:
       Index: 0
       Type: 8
       Channel: baseColor
-    OutputTexture: {fileID: 2800000, guid: c307b402d3cfaa84fb915a058250847d, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 1
     IsVirtual: 0
-    IsStandardOutput: 1
+    IsStandardOutput: 0
     IsAlphaAssignable: 1
     AlphaChannel: 
     InvertAssignedAlpha: 0
@@ -58,10 +58,10 @@ MonoBehaviour:
       Index: 1
       Type: 8
       Channel: normal
-    OutputTexture: {fileID: 2800000, guid: 53f77bb18fd15b54f928cbc2429f7c61, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 0
     IsVirtual: 0
-    IsStandardOutput: 1
+    IsStandardOutput: 0
     IsAlphaAssignable: 0
     AlphaChannel: 
     InvertAssignedAlpha: 0
@@ -90,10 +90,10 @@ MonoBehaviour:
       Index: 3
       Type: 8
       Channel: metallic
-    OutputTexture: {fileID: 2800000, guid: e40a03b9dfbfd404c9d6f85e10f18ae2, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 0
     IsVirtual: 0
-    IsStandardOutput: 1
+    IsStandardOutput: 0
     IsAlphaAssignable: 1
     AlphaChannel: roughness
     InvertAssignedAlpha: 1
@@ -106,10 +106,10 @@ MonoBehaviour:
       Index: 4
       Type: 8
       Channel: height
-    OutputTexture: {fileID: 2800000, guid: e1b4055bdc1b2ce468bce0fed3eb8aa7, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 1
     IsVirtual: 0
-    IsStandardOutput: 1
+    IsStandardOutput: 0
     IsAlphaAssignable: 1
     AlphaChannel: 
     InvertAssignedAlpha: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
     />\n  <presetinput identifier=\"Leafiness\" uid=\"2629502710\" type=\"0\" value=\"0.398\"
     />\n  <presetinput identifier=\"Fruits_Density\" uid=\"2630221807\" type=\"0\"
     value=\"1\" />\n </sbspreset>\n"
-  MaterialShader: Universal Render Pipeline/Lit
+  MaterialShader: Shader Graphs/Wind Dither
   RenderTextures: 0
   OutputRemaped: 0
   references:
