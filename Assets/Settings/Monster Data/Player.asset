@@ -26,30 +26,25 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        actionPointsPerUnit: 0.25
-        moveSpeed: 7
-    00000001:
       type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         actionPointCost: 1
         maxRange: 15
         damage: 20
         lightningAssetPath: particle-lightning
-    00000002:
+    00000001:
       type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         actionName: Projectile
         actionDescription: Launches a projectile
         projectileAsset:
-          m_AssetGUID: 9f6e80d503eafda4d8bba3c093d6123d
+          m_AssetGUID: dbd767da992257c4f97fd51442e78aa5
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
         projectileTime: 1
         apCost: 1
-    00000003:
+    00000002:
       type: {class: FlameSpear, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         apCost: 3
@@ -58,19 +53,30 @@ MonoBehaviour:
         burnSettings:
           roundDuration: 3
           damagePerRound: 1
+          fxPrefab:
+            m_AssetGUID: particles-burning-default
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
         initialDamage: 1
         damageMask:
           serializedVersion: 2
           m_Bits: 2547
-    00000004:
-      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+    00000003:
+      type: {class: FlyingMoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
-        actionName: Fireball
-        actionDescription: Launches a fireball.
-        projectileAsset:
-          m_AssetGUID: b43610ef52b08a440a2f9de28b052116
+        actionPointsPerUnit: 0.25
+        moveDuration: 1
+    00000004:
+      type: {class: PrefabSpawningAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        name: spawn a cool guy
+        description: it might happen
+        prefabAsset:
+          m_AssetGUID: a4be835d4e2a793428e070496c85ec88
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
-        projectileTime: 1
         apCost: 1
+        maxRange: 5
+        waitTime: 1
