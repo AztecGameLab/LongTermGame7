@@ -1,4 +1,6 @@
-﻿namespace Application.Core
+﻿using Application.Gameplay.Items;
+
+namespace Application.Core
 {
     using Audio;
     using Gameplay;
@@ -31,7 +33,9 @@
         public static RespawnTracker RespawnTracker { get; set; }
 
         public static MusicPlayer MusicPlayer { get; set; }
-        
+
+        public static Inventory Inventory { get; set; }
+
         public static DialogueSystem DialogueSystem { get; set; }
 
         /// <summary>
@@ -56,6 +60,7 @@
             RegionTracker = null;
             DialogueSystem = null;
             MusicPlayer = null;
+            Inventory = null;
         }
     }
 }
