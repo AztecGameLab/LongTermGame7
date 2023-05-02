@@ -47,7 +47,8 @@ namespace Application.Gameplay.Combat.UI
 
         private void UpdateRemainingPoints(int current, int max)
         {
-            remainingPointsText.text = $"{current}/{max} Points";
+            if (remainingPointsText)
+                remainingPointsText.text = $"{current}/{max} Points";
         }
     }
 }
