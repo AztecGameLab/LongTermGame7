@@ -15,6 +15,7 @@
     public class MoveSelectionUI : UIView<IReadOnlyReactiveCollection<BattleAction>>
     {
         private readonly Subject<BattleAction> _actionSubmitted = new Subject<BattleAction>();
+        private readonly Subject<BattleAction> _actionHovered = new Subject<BattleAction>();
         private readonly List<MoveUI> _boundMoves = new List<MoveUI>();
 
         [SerializeField]
@@ -41,6 +42,8 @@
         /// <returns>An observable.</returns>
         public IObservable<Unit> ObserveTurnPassed() => passTurnButton.OnClickAsObservable();
 
+        public IObservable<BattleAction> ObserveActionHovered() => _actionHovered;
+
         /// <inheritdoc/>
         public override void BindTo(IReadOnlyReactiveCollection<BattleAction> actions)
         {
@@ -65,6 +68,7 @@
                 _boundMoves.Add(instance);
                 instance.OnPointerClickAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)).AddTo(_disposables);
                 instance.OnSubmitAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)).AddTo(_disposables);
+                instance.OnPointerEnterAsObservable().Subscribe(_ => _actionHovered.OnNext(action)).AddTo(_disposables);
             }
         }
 

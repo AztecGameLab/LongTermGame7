@@ -47,6 +47,9 @@
         public override string Description => "Summon a Lightning Bolt dealing damage to an enemy.";
 
         /// <inheritdoc/>
+        public override int Cost => actionPointCost;
+
+        /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepEnter();

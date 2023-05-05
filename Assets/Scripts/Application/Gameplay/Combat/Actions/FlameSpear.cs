@@ -16,8 +16,14 @@ namespace Application.Gameplay.Combat.Actions
         [SerializeField] private float initialDamage = 1;
         [SerializeField] private LayerMask damageMask;
 
+        /// <inheritdoc/>
         public override string Name => "Flame Spear";
+
+        /// <inheritdoc/>
         public override string Description => "A jet of flame expels from this menace, hurting enemies and catching them on fire";
+
+        /// <inheritdoc/>
+        public override int Cost => apCost;
 
         private IPooledObject<SliceIndicator> _sliceIndicator;
         private AimSystem _aimSystem = new AimSystem();

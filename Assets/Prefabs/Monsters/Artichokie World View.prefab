@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 983986549}
   - component: {fileID: 983986551}
   - component: {fileID: 983986550}
+  - component: {fileID: 3480418241878139377}
   m_Layer: 0
   m_Name: Sprite (1)
   m_TagString: Untagged
@@ -93,7 +94,7 @@ Animator:
   m_GameObject: {fileID: 983986548}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b2c306a163fb0a44a28bab150671c3a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -102,6 +103,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3480418241878139377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983986548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e12bc764664fbca488b698c0ea5cd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 983986550}
+  flipSprite: {fileID: 983986551}
 --- !u!1 &2002354540
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821888916, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
       propertyPath: m_Name
-      value: Friendly Artichokie
+      value: Artichokie World View
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
       propertyPath: m_RootOrder
@@ -253,6 +268,34 @@ PrefabInstance:
     - target: {fileID: 7074553817556300333, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
       propertyPath: m_fontSize
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895586264132055369, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895586264132055369, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895586264132055369, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7712923570595810020}
+    - target: {fileID: 8895586264132055369, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895586264132055369, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_enabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895586264132055369, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.Collider, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895586264132055369, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}

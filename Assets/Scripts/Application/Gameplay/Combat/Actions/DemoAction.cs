@@ -34,6 +34,9 @@
         public override string Description => description;
 
         /// <inheritdoc/>
+        public override int Cost => actionPointCost;
+
+        /// <inheritdoc/>
         public void RenderImGui()
         {
             IsPrepFinished |= ImGui.Button("Lock in demo action");

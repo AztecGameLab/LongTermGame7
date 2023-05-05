@@ -29,6 +29,9 @@ namespace Application.Gameplay.Combat.Actions
         [JsonProperty]
         private float moveDuration = 7;
 
+        /// <inheritdoc/>
+        public override int Cost => 0;
+
         private Vector3 _targetPosition;
         private float _distance;
         private IPooledObject<PathIndicator> _pathIndicator;

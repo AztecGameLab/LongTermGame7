@@ -56,6 +56,9 @@
         public override string Description => description;
 
         /// <inheritdoc/>
+        public override int Cost => apCost;
+
+        /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepEnter();

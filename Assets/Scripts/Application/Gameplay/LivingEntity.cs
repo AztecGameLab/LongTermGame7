@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using UnityEngine.Events;
+
+namespace Application.Gameplay
 {
     using System;
     using UniRx;
@@ -20,6 +22,9 @@
 
         [SerializeField]
         private BoolReactiveProperty isInvincible;
+
+        [SerializeField]
+        private UnityEvent onDeath;
 
         /// <summary>
         /// Gets an observable for each time this entity is damaged.
@@ -71,6 +76,11 @@
         {
             get => isInvincible.Value;
             set => isInvincible.Value = value;
+        }
+
+        private void Awake()
+        {
+            OnDeath.Subscribe(_ => onDeath.Invoke()).AddTo(this);
         }
 
         /// <summary>

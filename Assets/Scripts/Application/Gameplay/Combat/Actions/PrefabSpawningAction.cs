@@ -49,6 +49,9 @@ namespace Application.Gameplay.Combat.Actions
         /// <inheritdoc/>
         public override string Description => description;
 
+        /// <inheritdoc/>
+        public override int Cost => apCost;
+
         private Vector3 _targetPosition;
 
         /// <inheritdoc/>

@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Actions
+﻿using Application.Gameplay.Combat.UI;
+
+namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;
@@ -38,12 +40,19 @@
         /// <inheritdoc/>
         public override string Description => "Move the monster to a different location.";
 
+        /// <inheritdoc/>
+        public override int Cost => 0;
+
         private int PointCost => (int)Mathf.Ceil(_distance * actionPointsPerUnit);
+
+        private ActionPointTrackerUI _tracker;
 
         /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepEnter();
+            _tracker = UnityEngine.Object.FindObjectOfType<ActionPointTrackerUI>(includeInactive:true);
+            _tracker.gameObject.SetActive(true);
             _pathIndicator = Services.IndicatorFactory.Borrow<PathIndicator>();
             _path ??= new NavMeshPath();
             _aimSystem.Initialize();
@@ -55,6 +64,7 @@
         {
             base.PrepTick();
             _targetPosition = _aimSystem.Update().point;
+            _tracker.SetPredictedCost(PointCost);
 
             if (NavMesh.CalculatePath(User.transform.position, _targetPosition, NavMesh.AllAreas, _path))
             {
@@ -77,6 +87,8 @@
         public override void PrepExit()
         {
             base.PrepExit();
+
+            _tracker.gameObject.SetActive(false);
 
             if (!IsPrepFinished)
             {
