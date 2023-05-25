@@ -30,6 +30,8 @@
         private ObjectPool<MoveUI> _moveUiPool;
         private CompositeDisposable _disposables;
 
+        public IReadOnlyList<MoveUI> Moves => _boundMoves;
+
         /// <summary>
         /// Gets an observable that changes each time the user submits a new action.
         /// </summary>
@@ -66,7 +68,7 @@
                 instance.BindTo(action);
 
                 _boundMoves.Add(instance);
-                instance.OnPointerClickAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)).AddTo(_disposables);
+                instance.GetComponent<Button>().onClick.AsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)).AddTo(_disposables);
                 instance.OnSubmitAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)).AddTo(_disposables);
                 instance.OnPointerEnterAsObservable().Subscribe(_ => _actionHovered.OnNext(action)).AddTo(_disposables);
             }

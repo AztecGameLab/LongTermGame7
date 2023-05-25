@@ -20,10 +20,13 @@
         [SerializeField]
         private TMP_Text costDisplay;
 
+        public BattleAction Target { get; private set; }
+
         /// <inheritdoc/>
         public override void BindTo(BattleAction target)
         {
             base.BindTo(target);
+            Target = target;
 
             if (target != null)
             {
