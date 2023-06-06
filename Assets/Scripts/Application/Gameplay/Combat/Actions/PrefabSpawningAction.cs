@@ -1,6 +1,4 @@
-﻿using UnityEngine.AddressableAssets;
-
-namespace Application.Gameplay.Combat.Actions
+﻿namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;
@@ -8,6 +6,7 @@ namespace Application.Gameplay.Combat.Actions
     using Newtonsoft.Json;
     using UI.Indicators;
     using UnityEngine;
+    using UnityEngine.AddressableAssets;
 
     /// <summary>
     /// Copy and paste this file to quickly get started with a new BattleAction.
@@ -16,6 +15,8 @@ namespace Application.Gameplay.Combat.Actions
     [JsonObject(MemberSerialization.OptIn)]
     public class PrefabSpawningAction : BattleAction
     {
+        private readonly AimSystem _aimSystem = new AimSystem();
+
         [SerializeField]
         [JsonProperty]
         private string name;
@@ -41,7 +42,7 @@ namespace Application.Gameplay.Combat.Actions
         private float waitTime = 1;
 
         private IPooledObject<ValidityIndicator> _indicator;
-        private AimSystem _aimSystem = new AimSystem();
+        private Vector3 _targetPosition;
 
         /// <inheritdoc/>
         public override string Name => name;
@@ -51,8 +52,6 @@ namespace Application.Gameplay.Combat.Actions
 
         /// <inheritdoc/>
         public override int Cost => apCost;
-
-        private Vector3 _targetPosition;
 
         /// <inheritdoc/>
         public override void PrepEnter()
@@ -84,7 +83,7 @@ namespace Application.Gameplay.Combat.Actions
         {
             // Put execution logic here.
             ActionTracker.Spend(apCost);
-            var instance = prefabAsset.InstantiateAsync(_targetPosition, Quaternion.identity) .WaitForCompletion();
+            var instance = prefabAsset.InstantiateAsync(_targetPosition, Quaternion.identity).WaitForCompletion();
             using IDisposable disposable = Controller.TemporaryFollow(instance.transform);
             yield return new WaitForSeconds(waitTime);
         }

@@ -1,13 +1,11 @@
-﻿using UnityEngine.UIElements;
-using Button = UnityEngine.UI.Button;
-
-namespace Application.Gameplay.Combat.States.Round
+﻿namespace Application.Gameplay.Combat.States.Round
 {
     using System;
     using Actions;
     using UI;
     using UniRx;
     using UnityEngine;
+    using Button = UnityEngine.UI.Button;
 
     /// <summary>
     /// The combat round state where the player is choosing what move a monster should perform.
@@ -46,7 +44,9 @@ namespace Application.Gameplay.Combat.States.Round
             SelectedAction = selectedActionSet.Actions[0];
 
             foreach (MoveUI move in selectionUI.Moves)
+            {
                 move.GetComponent<Button>().interactable = actionPointTracker.CanAfford(move.Target.Cost);
+            }
 
             if (actionPointTracker.RemainingActionPoints <= 0)
             {

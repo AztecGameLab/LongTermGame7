@@ -1,6 +1,4 @@
-﻿using Application.Gameplay.Combat.UI;
-
-namespace Application.Gameplay.Combat.Actions
+﻿namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;
@@ -8,6 +6,7 @@ namespace Application.Gameplay.Combat.Actions
     using Core.Utility;
     using ImGuiNET;
     using Newtonsoft.Json;
+    using UI;
     using UI.Indicators;
     using UnityEngine;
     using UnityEngine.AI;
@@ -33,6 +32,7 @@ namespace Application.Gameplay.Combat.Actions
         private NavMeshPath _path;
         private AimSystem _aimSystem = new AimSystem();
         private ActionPointTracker _actionPointTracker;
+        private ActionPointTrackerUI _tracker;
 
         /// <inheritdoc/>
         public override string Name => "Move";
@@ -45,13 +45,11 @@ namespace Application.Gameplay.Combat.Actions
 
         private int PointCost => (int)Mathf.Ceil(_distance * actionPointsPerUnit);
 
-        private ActionPointTrackerUI _tracker;
-
         /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepEnter();
-            _tracker = UnityEngine.Object.FindObjectOfType<ActionPointTrackerUI>(includeInactive:true);
+            _tracker = UnityEngine.Object.FindObjectOfType<ActionPointTrackerUI>(includeInactive: true);
             _tracker.gameObject.SetActive(true);
             _pathIndicator = Services.IndicatorFactory.Borrow<PathIndicator>();
             _path ??= new NavMeshPath();
@@ -73,7 +71,7 @@ namespace Application.Gameplay.Combat.Actions
 
                 bool canAfford = _actionPointTracker.CanAfford(PointCost);
 
-                IsPrepFinished |= canAfford && Input.GetKeyDown(KeyCode.Mouse0) && canAfford;
+                IsPrepFinished |= canAfford && Input.GetKeyDown(KeyCode.Mouse0);
                 _pathIndicator.Instance.IsValid = canAfford;
             }
             else
