@@ -20,6 +20,7 @@ MonoBehaviour:
   - id: 2
   - id: 3
   - id: 4
+  - id: 5
   maxHealth: 1
   worldViewAssetPath: wv-player
   maxActionPoints: 5
@@ -28,25 +29,40 @@ MonoBehaviour:
     00000000:
       type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
+        <IsPrepFinished>k__BackingField: 0
+        <User>k__BackingField: {fileID: 0}
+        <Controller>k__BackingField: {fileID: 0}
         actionPointCost: 1
         maxRange: 15
         damage: 20
         lightningAssetPath: particle-lightning
+        _targetPosition: {x: 0, y: 0, z: 0}
+        _targetEnemy: {fileID: 0}
+        _actionPointTracker: {fileID: 0}
     00000001:
       type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
+        <IsPrepFinished>k__BackingField: 0
+        <User>k__BackingField: {fileID: 0}
+        <Controller>k__BackingField: {fileID: 0}
         actionName: Projectile
         actionDescription: Launches a projectile
         projectileAsset:
           m_AssetGUID: dbd767da992257c4f97fd51442e78aa5
           m_SubObjectName: 
           m_SubObjectType: 
+          m_CachedAsset: {fileID: 5305812944337922485, guid: dbd767da992257c4f97fd51442e78aa5, type: 3}
+          m_CachedGUID: dbd767da992257c4f97fd51442e78aa5
           m_EditorAssetChanged: 0
         projectileTime: 1
         apCost: 1
+        _targetPosition: {x: 4.1627464, y: 0.00000010091193, z: 0.95844066}
     00000002:
       type: {class: FlameSpear, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
+        <IsPrepFinished>k__BackingField: 0
+        <User>k__BackingField: {fileID: 0}
+        <Controller>k__BackingField: {fileID: 0}
         apCost: 3
         spread: 30
         distance: 5
@@ -57,26 +73,149 @@ MonoBehaviour:
             m_AssetGUID: particles-burning-default
             m_SubObjectName: 
             m_SubObjectType: 
+            m_CachedAsset: {fileID: 0}
+            m_CachedGUID: 
             m_EditorAssetChanged: 0
         initialDamage: 1
         damageMask:
-          serializedVersion: 2
           m_Bits: 2547
+        _targetPoint: {x: 0, y: 0, z: 0}
+        _resultBuffer:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
     00000003:
       type: {class: FlyingMoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
+        <IsPrepFinished>k__BackingField: 0
+        <User>k__BackingField: {fileID: 0}
+        <Controller>k__BackingField: {fileID: 0}
         actionPointsPerUnit: 0.25
         moveDuration: 1
+        _targetPosition: {x: 6.6155, y: 2.4999995, z: 10.322118}
+        _distance: 3.1740956
+        _actionPointTracker: {fileID: 0}
     00000004:
       type: {class: PrefabSpawningAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
+        <IsPrepFinished>k__BackingField: 0
+        <User>k__BackingField: {fileID: 0}
+        <Controller>k__BackingField: {fileID: 0}
         name: spawn a cool guy
         description: it might happen
         prefabAsset:
           m_AssetGUID: a4be835d4e2a793428e070496c85ec88
           m_SubObjectName: 
           m_SubObjectType: 
+          m_CachedAsset: {fileID: 1795061785895423458, guid: a4be835d4e2a793428e070496c85ec88, type: 3}
+          m_CachedGUID: a4be835d4e2a793428e070496c85ec88
           m_EditorAssetChanged: 0
         apCost: 1
         maxRange: 5
         waitTime: 1
+        _targetPosition: {x: 0, y: 0, z: 0}
+    00000005:
+      type: {class: WindPush, ns: , asm: Application}
+      data:
+        <IsPrepFinished>k__BackingField: 0
+        <User>k__BackingField: {fileID: 0}
+        <Controller>k__BackingField: {fileID: 0}
+        apCost: 1
+        _direction: {x: 0, y: 0, z: 0}
