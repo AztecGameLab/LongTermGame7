@@ -1,6 +1,7 @@
 ﻿namespace Application.Vfx
 {
     using System.Collections;
+    using ElRaccoone.Tweens;
     using UnityEngine;
 
     /// <summary>
@@ -8,6 +9,10 @@
     /// </summary>
     public class FadeTransition : SceneTransition
     {
+        private readonly CanvasGroup _blackImage;
+        private readonly float _showTime;
+        private readonly float _hideTime;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FadeTransition"/> class.
         /// </summary>
@@ -16,21 +21,21 @@
         /// <param name="blackImage">The CanvasGroup that should be faded, obscuring the screen.</param>
         public FadeTransition(float showTime, float hideTime, CanvasGroup blackImage)
         {
-            // TODO: integrate these variables into the logic of the fade transition.
+            _blackImage = blackImage;
+            _showTime = showTime;
+            _hideTime = hideTime;
         }
 
         /// <inheritdoc/>
-        public override IEnumerator ShowEffect()
+        protected override IEnumerator ShowEffectCoroutine()
         {
-            // TODO: Make a black image on the canvas slowly gain it's transparency.
-            yield return null;
+            yield return _blackImage.TweenCanvasGroupAlpha(1, _showTime).Yield();
         }
 
         /// <inheritdoc/>
-        public override IEnumerator HideEffect()
+        protected override IEnumerator HideEffectCoroutine()
         {
-            // TODO: Make a black image on the canvas slowly lose it's transparency.
-            yield return null;
+            yield return _blackImage.TweenCanvasGroupAlpha(0, _hideTime).Yield();
         }
     }
 }

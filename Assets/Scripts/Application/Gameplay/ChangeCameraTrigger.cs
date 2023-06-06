@@ -1,4 +1,8 @@
-﻿namespace Application.Gameplay
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Application.Gameplay
 {
     using Cinemachine;
     using Core;
@@ -13,6 +17,17 @@
 
         [SerializeField]
         private CinemachineVirtualCamera targetCamera;
+
+        private void Awake()
+        {
+            targetCamera.gameObject.SetActive(false);
+        }
+
+        private IEnumerator Start()
+        {
+            yield return null;
+            targetCamera.gameObject.SetActive(true);
+        }
 
         /// <inheritdoc/>
         protected override void HandleCollisionEnter(GameObject obj)

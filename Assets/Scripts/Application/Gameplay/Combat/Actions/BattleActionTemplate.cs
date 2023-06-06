@@ -22,6 +22,10 @@
         [JsonProperty]
         private string description;
 
+        [SerializeField]
+        [JsonProperty]
+        private int apCost = 1;
+
         private IPooledObject<ValidityIndicator> _indicator;
         private AimSystem _aimSystem = new AimSystem();
 
@@ -30,6 +34,9 @@
 
         /// <inheritdoc/>
         public override string Description => description;
+
+        /// <inheritdoc/>
+        public override int Cost => apCost;
 
         /// <inheritdoc/>
         public override void PrepEnter()
@@ -50,13 +57,14 @@
             _indicator.Instance.transform.position = aimData.point;
 
             // By default, lock in by left-clicking. You may want a different method.
-            IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
+            IsPrepFinished |= ActionTracker.CanAfford(apCost) && Input.GetKeyDown(KeyCode.Mouse0);
         }
 
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
             // Put execution logic here.
+            ActionTracker.Spend(apCost);
             yield break;
         }
     }

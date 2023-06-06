@@ -123,6 +123,18 @@ PrefabInstance:
       propertyPath: MeshDescription.geometryHashValue
       value: 1822752148010453570
       objectReference: {fileID: 0}
+    - target: {fileID: 8522504427798831151, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: colliderTriggerEnter.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522504427798831151, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: colliderTriggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522504427798831151, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: colliderTriggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
 --- !u!1 &4105484367759234770 stripped
@@ -148,6 +160,7 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
+  - id: 3
   references:
     version: 1
     00000000:
@@ -156,3 +169,5 @@ MonoBehaviour:
       type: {class: KillAllEnemiesObjective, ns: Application.Gameplay.Combat.Hooks, asm: Application}
     00000002:
       type: {class: KeepPlayerAliveObjective, ns: Application.Gameplay.Combat.Hooks, asm: Application}
+    00000003:
+      type: {class: RespawnOnLossHook, ns: Application.Gameplay.Combat.Hooks, asm: Application}

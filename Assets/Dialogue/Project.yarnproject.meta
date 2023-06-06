@@ -11,8 +11,25 @@ ScriptedImporter:
   sourceScripts:
   - {fileID: 6391573757903218779, guid: c9f0a479665d35743975731af408efb5, type: 3}
   - {fileID: 6391573757903218779, guid: 8eca6fa1cd40f934fbfde10f7a622276, type: 3}
-  compileErrors: []
-  serializedDeclarations: []
+  - {fileID: 6391573757903218779, guid: 7bb2bf8e6a7e99646b9f7d1a761cd3d0, type: 3}
+  - {fileID: 6391573757903218779, guid: be0b2780e12e625419e2166f2aabf707, type: 3}
+  - {fileID: 6391573757903218779, guid: 5ed187e5de588a744a7e89bb76bd76b6, type: 3}
+  compileErrors:
+  - '16:16: Error: Can''t figure out the type of variable $hasItem given its context.
+    Specify its type with a <<declare>> statement.
+
+    $hasItem
+
+'
+  serializedDeclarations:
+  - name: $hasItem
+    typeName: Bool
+    defaultValueBool: 0
+    defaultValueNumber: 0
+    defaultValueString: 
+    description: The variable that stores the result of <<item-check>>.
+    isImplicit: 0
+    sourceYarnAsset: {instanceID: 0}
   defaultLanguage: en-US
   languagesToSourceAssets: []
   useAddressableAssets: 0

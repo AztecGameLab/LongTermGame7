@@ -1,6 +1,9 @@
-﻿namespace Application.Gameplay.Combat.Hooks
+﻿using System.Collections;
+
+namespace Application.Gameplay.Combat.Hooks
 {
     using System;
+    using UniRx;
 
     /// <summary>
     /// A logical event that is monitored during a battle.
@@ -15,10 +18,17 @@
         public BattleController Controller { get; set; }
 
         /// <summary>
+        /// Gets a disposable that will be cleaned up when the battle ends.
+        /// </summary>
+        protected CompositeDisposable AutoDispose { get; private set; }
+
+        /// <summary>
         /// Called once when the battle begins.
         /// </summary>
-        public virtual void OnBattleStart()
+        public virtual IEnumerator OnBattleStart()
         {
+            AutoDispose = new CompositeDisposable();
+            yield break;
         }
 
         /// <summary>
@@ -31,8 +41,10 @@
         /// <summary>
         /// Called once when the battle ends.
         /// </summary>
-        public virtual void OnBattleEnd()
+        public virtual IEnumerator OnBattleEnd()
         {
+            AutoDispose?.Dispose();
+            yield break;
         }
     }
 }

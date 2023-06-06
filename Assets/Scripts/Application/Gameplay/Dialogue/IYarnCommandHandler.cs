@@ -4,6 +4,12 @@
 
     /// <summary>
     /// An object that can register yarn commands.
+    /// Naming conventions for yarn commands:
+    /// <remarks>
+    ///     All lowercase. E.g. foobar,
+    ///     Represent spaces with '-'. E.g. my-command-name,
+    ///     Names should go from subject -> action. E.g. light-enable instead of enable-light
+    /// </remarks>
     /// </summary>
     public interface IYarnCommandHandler
     {

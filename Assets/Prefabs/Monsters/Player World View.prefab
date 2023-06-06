@@ -193,13 +193,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 983064936092979559, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7074553816821888916, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
       propertyPath: m_Name
       value: Player World View
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821888916, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821888916, guid: 47ed3229744b88b47bbad73cc02983e8, type: 3}
       propertyPath: m_TagString
@@ -291,22 +295,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &-4659608116779641576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5399309328918950859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ad0311c271145feadb31761a00ea7aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactRange: 3
-  interactKey: 101
-  offset: {x: 0, y: 0.5, z: 0}
-  movement: {fileID: 0}
 --- !u!114 &-831923832386012699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,11 +311,11 @@ MonoBehaviour:
   showDebug: 0
   footstepSfx:
     Guid:
-      Data1: -1735210115
-      Data2: 1153200602
-      Data3: -1585235816
-      Data4: 829438423
-    Path: event:/Footstep
+      Data1: 1706686336
+      Data2: 1099470207
+      Data3: -8694911
+      Data4: 629861225
+    Path: event:/Grass Footstep
 --- !u!114 &1480437382
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,16 +15,17 @@
     [Serializable]
     public class PickMonster : RoundState
     {
-        private const int PickMonsterCameraActivePriority = 50;
+        private const int PickMonsterCameraActivePriority = 20;
 
         private HashSet<GameObject> _usedMonsters;
 
         [SerializeField]
-        private CinemachineVirtualCamera pickMonsterCamera;
-
-        [SerializeField]
         private PickMonsterUI pickMonsterUI;
 
+        [SerializeField]
+        private GameObject selectedMonsterUI;
+
+        private GameObject _selectionUIInstance;
         private int _selectedMonsterIndex;
         private CompositeDisposable _disposable;
 
@@ -52,10 +53,17 @@
             _selectedMonsterIndex = 0;
         }
 
+        private IDisposable _cameraDisposable;
+
         /// <inheritdoc/>
         public override void OnEnter()
         {
             base.OnEnter();
+
+            if (PlayerTeam.Count <= 0)
+            {
+                return;
+            }
 
             if (_usedMonsters.Count >= PlayerTeam.Count)
             {
@@ -64,32 +72,48 @@
                 return;
             }
 
+            // Show selection UI on the default selection
+            _selectionUIInstance = UnityEngine.Object.Instantiate(selectedMonsterUI);
+            UpdateSelectedMonsterUI();
+
             SelectedMonster.Value = PlayerTeam[_selectedMonsterIndex];
-            pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
+            // pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
             pickMonsterUI.gameObject.SetActive(true);
             pickMonsterUI.Initialize(SelectedMonster);
             _disposable = new CompositeDisposable();
             pickMonsterUI.ObserveMonsterSubmitted().Subscribe(_ => SubmitCurrentMonster()).AddTo(_disposable);
             pickMonsterUI.ObserveSelectNextMonster().Subscribe(_ => SelectNextMonster()).AddTo(_disposable);
 
-            pickMonsterCamera.Follow = SelectedMonster.Value != null
-                ? SelectedMonster.Value.transform
-                : Round.Controller.PlayerTeam[0].transform;
+            // pickMonsterCamera.Follow = SelectedMonster.Value != null
+            //     ? SelectedMonster.Value.transform
+            //     : Round.Controller.PlayerTeam[0].transform;
+            // pickMonsterCamera.transform.position = Round.Controller.PlayerTeam[0].transform.position;
+            // pickMonsterCamera.PreviousStateIsValid = false;
+            _cameraDisposable?.Dispose();
+            _cameraDisposable = Round.Controller.TemporaryFollow(SelectedMonster.Value.transform);
         }
 
         /// <inheritdoc/>
         public override void OnExit()
         {
             base.OnExit();
-            pickMonsterCamera.Priority = 0;
+            // pickMonsterCamera.Priority = 0;
             pickMonsterUI.gameObject.SetActive(false);
+            UnityEngine.Object.Destroy(_selectionUIInstance);
             _disposable?.Dispose();
+            _cameraDisposable?.Dispose();
+            _cameraDisposable = null;
         }
 
         /// <inheritdoc/>
         public override void OnTick()
         {
             base.OnTick();
+
+            if (PlayerTeam.Count <= 0)
+            {
+                return;
+            }
 
             if (InputTools.TryGetInputDirectionDown(out Vector2 direction) && SelectedMonster.Value != null)
             {
@@ -108,7 +132,10 @@
         {
             if (target != null)
             {
-                pickMonsterCamera.Follow = target.transform;
+                // pickMonsterCamera.Follow = target.transform;
+                _cameraDisposable?.Dispose();
+                _cameraDisposable = Round.Controller.TemporaryFollow(target.transform);
+                UpdateSelectedMonsterUI();
             }
         }
 
@@ -137,7 +164,23 @@
             _usedMonsters.Add(SelectedMonster.Value);
             IncrementCurrentIndex();
 
+            // Cleanup the selection UI
             Round.TransitionTo(Round.PickActions);
+        }
+
+        private void UpdateSelectedMonsterUI()
+        {
+            // Either a monster or the player is selected
+            GameObject selection = SelectedMonster.Value != null
+                ? SelectedMonster.Value
+                : Round.Controller.PlayerTeam[0];
+
+            // Rotation is weird to grab dynamically but constant so I hardcoded it
+            _selectionUIInstance.transform.rotation = Quaternion.Euler(15, 0, 0);
+            _selectionUIInstance.transform.SetParent(selection.transform);
+
+            // Center the UI vertically and move it just behind the monster
+            _selectionUIInstance.transform.position = selection.transform.position + new Vector3(0, 1, 0.1f);
         }
     }
 }

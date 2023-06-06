@@ -31,5 +31,11 @@
             _instance.stop(STOP_MODE.ALLOWFADEOUT);
             _instance.release();
         }
+
+        private void OnDestroy()
+        {
+            _instance.stop(STOP_MODE.ALLOWFADEOUT);
+            _instance.release();
+        }
     }
 }
