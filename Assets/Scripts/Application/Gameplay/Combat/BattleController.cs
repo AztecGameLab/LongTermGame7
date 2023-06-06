@@ -1,4 +1,5 @@
-﻿using ElRaccoone.Tweens;
+﻿using Application.Gameplay.Combat.Effects;
+using ElRaccoone.Tweens;
 
 namespace Application.Gameplay.Combat
 {
@@ -65,6 +66,8 @@ namespace Application.Gameplay.Combat
         [SerializeField]
         private CanvasGroup battleUi;
 
+        private Transform _trueFollow;
+
         /// <summary>
         /// Gets the battle intro logic.
         /// </summary>
@@ -100,6 +103,8 @@ namespace Application.Gameplay.Combat
         /// </summary>
         public EnemyOrderDecider EnemyOrderDecider { get; private set; }
 
+        public EffectApplier EffectApplier { get; private set; }
+
         public Queue<Func<IEnumerator>> Interrupts { get; } = new Queue<Func<IEnumerator>>();
 
         /// <summary>
@@ -130,6 +135,48 @@ namespace Application.Gameplay.Combat
             BattleStateMachine.SetState(state);
         }
 
+        public IDisposable TemporaryFollow(Transform target)
+        {
+            return new FollowDisposable { value = AddFollowStack(target), parent = this };
+        }
+
+        private LinkedListNode<Transform> AddFollowStack(Transform target)
+        {
+            LinkedListNode<Transform> node = _followStack.AddFirst(target);
+            _trueFollow.position = target.position;
+            _trueFollow.SetParent(target);
+            return node;
+        }
+
+        private void RemoveFollowStack(LinkedListNode<Transform> value)
+        {
+            _followStack.Remove(value);
+
+            if (_followStack.Count > 0)
+            {
+                _trueFollow.position = _followStack.First.Value.position;
+                _trueFollow.SetParent(_followStack.First.Value);
+            }
+        }
+
+        private LinkedList<Transform> _followStack = new LinkedList<Transform>();
+
+        private struct FollowDisposable : IDisposable
+        {
+            public BattleController parent;
+            public LinkedListNode<Transform> value;
+            private bool _disposed;
+
+            public void Dispose()
+            {
+                if (!_disposed)
+                {
+                    _disposed = true;
+                    parent.RemoveFollowStack(value);
+                }
+            }
+        }
+
         /// <summary>
         /// Starts running logic for a battle, specified by the passed in data.
         /// </summary>
@@ -156,8 +203,13 @@ namespace Application.Gameplay.Combat
         private void Awake()
         {
             ImGuiUtil.Register(DrawImGuiWindow).AddTo(this);
+            _trueFollow = new GameObject("Camera Follow").transform;
+            _trueFollow.SetParent(transform);
+            battleCamera.Follow = _trueFollow;
+            AddFollowStack(battleTargetGroup.Transform);
 
             BattleStateMachine = new StateMachine();
+            EffectApplier = new EffectApplier(this);
 
             battleLoss.Controller = this;
             battleVictory.Controller = this;

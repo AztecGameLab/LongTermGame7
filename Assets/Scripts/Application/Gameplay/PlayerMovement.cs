@@ -25,11 +25,10 @@
         private GroundCheck groundCheck;
 
         private IPhysicsComponent _controller;
-        private Vector2 _playerInput;
-        private Vector2 _currentDirection;
-        private Vector2 _currentVelocity;
-        private Vector3 _movementDirection;
+        private Vector3 _targetVelocity;
+        private Vector3 _velocity;
         private bool _didReverse;
+        private Vector3 _currentVelocity;
 
         /// <summary>
         /// Gets the direction that the player is currently facing.
@@ -44,11 +43,12 @@
         {
             if (value != null)
             {
-                _playerInput = value.Get<Vector2>();
+                var playerInput = value.Get<Vector2>();
+                _targetVelocity = new Vector3(playerInput.x, 0, playerInput.y) * maxSpeed;
 
-                if (_playerInput != Vector2.zero)
+                if (playerInput != Vector2.zero)
                 {
-                    FacingDirection = new Vector3(_playerInput.x, 0, _playerInput.y);
+                    FacingDirection = new Vector3(playerInput.x, 0, playerInput.y);
                 }
             }
         }
@@ -60,46 +60,50 @@
 
         private void Update()
         {
+            _velocity = _controller.Velocity;
             ApplyGravity();
-            ApplyAcceleration();
+
+            if (groundCheck.IsGrounded)
+                ApplyAcceleration();
+
             CheckIfReverse();
             MovePlayer();
         }
 
         private void ApplyGravity()
         {
-            if (groundCheck.IsGrounded && _movementDirection.y < 0f)
+            if (groundCheck.IsGrounded && _velocity.y < 0f)
             {
-                _movementDirection.y = 0f;
+                _velocity.y = 0f;
             }
 
-            _movementDirection.y += gravity * Time.deltaTime;
+            _velocity.y += gravity * Time.deltaTime;
         }
 
         private void ApplyAcceleration()
         {
-            _currentDirection = !_didReverse
-                ? Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime)
-                : Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
-
-            _movementDirection = new Vector3(_currentDirection.x, _movementDirection.y, _currentDirection.y);
+            var oldY = _velocity.y;
+            _velocity = !_didReverse
+                ? Vector3.SmoothDamp(_velocity, _targetVelocity, ref _currentVelocity, accelerationSmoothTime)
+                : Vector3.SmoothDamp(_velocity, _targetVelocity, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
+            _velocity.y = oldY;
         }
 
         private void CheckIfReverse()
         {
-            if (_currentDirection.x > 0f && _playerInput.x < 0f)
+            if (_velocity.x > 0f && _targetVelocity.x < 0f)
             {
                 _didReverse = true;
             }
-            else if (_currentDirection.x < 0f && _playerInput.x > 0f)
+            else if (_velocity.x < 0f && _targetVelocity.x > 0f)
             {
                 _didReverse = true;
             }
-            else if (_currentDirection.y > 0f && _playerInput.y < 0f)
+            else if (_velocity.y > 0f && _targetVelocity.y < 0f)
             {
                 _didReverse = true;
             }
-            else if (_currentDirection.y < 0f && _playerInput.y > 0f)
+            else if (_velocity.y < 0f && _targetVelocity.y > 0f)
             {
                 _didReverse = true;
             }
@@ -112,7 +116,7 @@
         private void MovePlayer()
         {
             Physics.SyncTransforms();
-            _controller.Velocity = _movementDirection * maxSpeed;
+            _controller.Velocity = _velocity;
         }
     }
 }

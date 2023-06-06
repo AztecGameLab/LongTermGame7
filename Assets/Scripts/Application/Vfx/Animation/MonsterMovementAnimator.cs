@@ -1,4 +1,6 @@
-﻿namespace Application.Vfx.Animation
+﻿using System;
+
+namespace Application.Vfx.Animation
 {
     using UnityEngine;
 
@@ -25,16 +27,18 @@
             _isFlipped = flipSprite.flipX;
         }
 
+        private const float Sensitivity = 0.5f;
+
         private void Update()
         {
             _velocityTracker.Update(transform.position, Time.deltaTime);
             animator.SetFloat(Speed, _velocityTracker.Velocity.magnitude);
 
-            if (_velocityTracker.Velocity.x < 0.1)
+            if (_velocityTracker.Velocity.x > Sensitivity)
             {
                 flipSprite.flipX = _isFlipped;
             }
-            else if (_velocityTracker.Velocity.x > -0.1)
+            else if (_velocityTracker.Velocity.x < -Sensitivity)
             {
                 flipSprite.flipX = !_isFlipped;
             }
@@ -43,5 +47,11 @@
                 // We not moving at all, and the sprite can just stay at whatever it was before.
             }
         }
+
+        // private void OnGUI()
+        // {
+        //     GUILayout.Label($"{_velocityTracker.Velocity.x < Sensitivity}");
+        //     GUILayout.Label($"{_velocityTracker.Velocity.x > -Sensitivity}");
+        // }
     }
 }

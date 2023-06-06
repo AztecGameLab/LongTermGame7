@@ -20,9 +20,6 @@
         private HashSet<GameObject> _usedMonsters;
 
         [SerializeField]
-        private CinemachineVirtualCamera pickMonsterCamera;
-
-        [SerializeField]
         private PickMonsterUI pickMonsterUI;
 
         [SerializeField]
@@ -56,6 +53,8 @@
             _selectedMonsterIndex = 0;
         }
 
+        private IDisposable _cameraDisposable;
+
         /// <inheritdoc/>
         public override void OnEnter()
         {
@@ -78,28 +77,32 @@
             UpdateSelectedMonsterUI();
 
             SelectedMonster.Value = PlayerTeam[_selectedMonsterIndex];
-            pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
+            // pickMonsterCamera.Priority = PickMonsterCameraActivePriority;
             pickMonsterUI.gameObject.SetActive(true);
             pickMonsterUI.Initialize(SelectedMonster);
             _disposable = new CompositeDisposable();
             pickMonsterUI.ObserveMonsterSubmitted().Subscribe(_ => SubmitCurrentMonster()).AddTo(_disposable);
             pickMonsterUI.ObserveSelectNextMonster().Subscribe(_ => SelectNextMonster()).AddTo(_disposable);
 
-            pickMonsterCamera.Follow = SelectedMonster.Value != null
-                ? SelectedMonster.Value.transform
-                : Round.Controller.PlayerTeam[0].transform;
-            pickMonsterCamera.transform.position = Round.Controller.PlayerTeam[0].transform.position;
-            pickMonsterCamera.PreviousStateIsValid = false;
+            // pickMonsterCamera.Follow = SelectedMonster.Value != null
+            //     ? SelectedMonster.Value.transform
+            //     : Round.Controller.PlayerTeam[0].transform;
+            // pickMonsterCamera.transform.position = Round.Controller.PlayerTeam[0].transform.position;
+            // pickMonsterCamera.PreviousStateIsValid = false;
+            _cameraDisposable?.Dispose();
+            _cameraDisposable = Round.Controller.TemporaryFollow(SelectedMonster.Value.transform);
         }
 
         /// <inheritdoc/>
         public override void OnExit()
         {
             base.OnExit();
-            pickMonsterCamera.Priority = 0;
+            // pickMonsterCamera.Priority = 0;
             pickMonsterUI.gameObject.SetActive(false);
             UnityEngine.Object.Destroy(_selectionUIInstance);
             _disposable?.Dispose();
+            _cameraDisposable?.Dispose();
+            _cameraDisposable = null;
         }
 
         /// <inheritdoc/>
@@ -129,7 +132,9 @@
         {
             if (target != null)
             {
-                pickMonsterCamera.Follow = target.transform;
+                // pickMonsterCamera.Follow = target.transform;
+                _cameraDisposable?.Dispose();
+                _cameraDisposable = Round.Controller.TemporaryFollow(target.transform);
                 UpdateSelectedMonsterUI();
             }
         }

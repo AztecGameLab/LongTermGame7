@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay.Combat.Actions
+﻿using Application.Gameplay.Combat.UI;
+
+namespace Application.Gameplay.Combat.Actions
 {
     using System;
     using System.Collections;
@@ -38,12 +40,19 @@
         /// <inheritdoc/>
         public override string Description => "Move the monster to a different location.";
 
+        /// <inheritdoc/>
+        public override int Cost => 0;
+
         private int PointCost => (int)Mathf.Ceil(_distance * actionPointsPerUnit);
+
+        private ActionPointTrackerUI _tracker;
 
         /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepEnter();
+            _tracker = UnityEngine.Object.FindObjectOfType<ActionPointTrackerUI>(includeInactive:true);
+            _tracker.gameObject.SetActive(true);
             _pathIndicator = Services.IndicatorFactory.Borrow<PathIndicator>();
             _path ??= new NavMeshPath();
             _aimSystem.Initialize();
@@ -55,6 +64,7 @@
         {
             base.PrepTick();
             _targetPosition = _aimSystem.Update().point;
+            _tracker.SetPredictedCost(PointCost);
 
             if (NavMesh.CalculatePath(User.transform.position, _targetPosition, NavMesh.AllAreas, _path))
             {
@@ -63,7 +73,7 @@
 
                 bool canAfford = _actionPointTracker.CanAfford(PointCost);
 
-                IsPrepFinished |= canAfford && Input.GetKeyDown(KeyCode.Mouse0);
+                IsPrepFinished |= canAfford && Input.GetKeyDown(KeyCode.Mouse0) && canAfford;
                 _pathIndicator.Instance.IsValid = canAfford;
             }
             else
@@ -77,6 +87,8 @@
         public override void PrepExit()
         {
             base.PrepExit();
+
+            _tracker.gameObject.SetActive(false);
 
             if (!IsPrepFinished)
             {
@@ -95,13 +107,8 @@
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
-            if (User.TryGetComponent(out ActionPointTracker tracker))
-            {
-                tracker.TrySpend(PointCost);
-            }
-
+            ActionTracker.Spend(PointCost);
             yield return User.transform.PathFindTo(_targetPosition, moveSpeed, 0, _distance, _pathIndicator);
-
             _pathIndicator.Instance.ClearPath();
             _pathIndicator.Dispose();
         }
