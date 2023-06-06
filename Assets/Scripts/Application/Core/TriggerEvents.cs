@@ -113,7 +113,7 @@
 
             if (isOneShot)
             {
-                if (isSerialized)
+                if (isSerialized && Services.Serializer != null)
                 {
                     Services.Serializer.Lookup(SerializedId, out var isActive, true);
 

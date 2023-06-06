@@ -13,6 +13,7 @@
 
         private void OnTriggerEnter(Collider col)
         {
+            // Ensure the object we collided with is a layer we defined
             if ((1 << col.gameObject.layer & layersToHit) != 0)
             {
                 GetComponent<LivingEntity>().Kill();

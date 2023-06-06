@@ -34,6 +34,9 @@
         public override string Description => description;
 
         /// <inheritdoc/>
+        public override int Cost => actionPointCost;
+
+        /// <inheritdoc/>
         public void RenderImGui()
         {
             IsPrepFinished |= ImGui.Button("Lock in demo action");
@@ -43,12 +46,7 @@
         protected override IEnumerator Execute()
         {
             Debug.Log("Executing debugging action...");
-
-            if (User.TryGetComponent(out ActionPointTracker tracker))
-            {
-                tracker.TrySpend(actionPointCost);
-            }
-
+            ActionTracker.Spend(actionPointCost);
             yield return new WaitForSeconds(1);
             Debug.Log("Done!");
         }

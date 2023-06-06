@@ -17,15 +17,29 @@
         [SerializeField]
         private TMP_Text descriptionDisplay;
 
+        [SerializeField]
+        private TMP_Text costDisplay;
+
+        public BattleAction Target { get; private set; }
+
         /// <inheritdoc/>
         public override void BindTo(BattleAction target)
         {
             base.BindTo(target);
+            Target = target;
 
             if (target != null)
             {
                 nameDisplay.text = target.Name;
                 descriptionDisplay.text = target.Description;
+
+                if (costDisplay)
+                {
+                    if (target.Cost != 0)
+                        costDisplay.text = $"Cost: {target.Cost}";
+
+                    else costDisplay.text = string.Empty;
+                }
             }
         }
 
