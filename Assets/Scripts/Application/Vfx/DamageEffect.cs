@@ -1,10 +1,9 @@
-﻿using FMODUnity;
-
-namespace Application.Vfx
+﻿namespace Application.Vfx
 {
     using System.Collections.Generic;
     using ElRaccoone.Tweens;
     using ElRaccoone.Tweens.Core;
+    using FMODUnity;
     using Gameplay;
     using UniRx;
     using UnityEngine;
@@ -54,6 +53,7 @@ namespace Application.Vfx
             foreach (Renderer target in targetRenderers)
             {
                 _tweens.Add(target.TweenSpriteRendererColor(Color.white, duration).SetFrom(flashColor));
+                _tweens.Add(target.TweenMaterialColor(Color.white, duration).SetFrom(flashColor));
             }
 
             _tweens.Add(targetTransform.TweenLocalScale(Vector3.one, duration).SetFrom(Vector3.one * scaleAmount));
