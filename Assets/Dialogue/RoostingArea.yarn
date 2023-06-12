@@ -1,0 +1,42 @@
+title: IntroCutscene
+position: 80,296
+---
+<<set $deviceName to "Thingamajig">>
+// todo: camera focus on mutalist
+Psychomutalist: Ah... this is the Ventling-type monster species Bios was talking about earlier. They're so small and cute!
+Psychomutalist: And yet, their manipulation of wind lets them overpower predators over twice their size...
+Psychomutalist: Yes... this is suitable! This is great! A perfect subject for my next experiment!
+Psychomutalist: Let us see how {$deviceName} performs on multiple targets...
+// todo: device activating animation, beep sfx, birds eyes glow red / controlling effect
+Psychomutalist: Yes! Yes! Awesome! It works perfectly! My little lovelies! You're mine now, and mine alone!
+// todo: camera focus on player
+Artichokie: What?! The whole flock!? No... we have to stop them.
+Artichokie: Um... I hope you're ready... this is gonna be rough...
+===
+
+title: BossStart
+---
+// todo: camera focus on mutalist
+Psychomutalist: You again?! You killed my little friend, and now you have the nerve to come back?
+Psychomutalist: You think you can walk around and mess my experiments up? You think you can take my friends away?
+Psychomutalist: Well, you've got a surprise coming, shit-for-brains.
+// todo: bird mind control animation
+Psychomutalist: I'll feed you corpse to the birds.
+// todo: boss fight start
+===
+
+title: BossDefeat
+---
+// todo: camera focus on mutalist
+Psychomutalist: Ugh... gods... it hurts... you piece of...
+// todo: device powering down animation
+Psychomutalist: ...Huh? My lovelies? Please... help me...
+Psychomutalist: ...you guys... are my friends... right?
+// todo: mutalist swarmed animation
+Psychomutalist: Wait! No... aAAAUGGH! Please... urghh...
+// todo: camera focus on player
+Artichokie: We... we got her...
+Artichokie: ...
+Artichokie: Well, she deserved it. I think...
+Artichokie: We gotta go.
+===
