@@ -1,47 +1,36 @@
-using Application.Core;
-using Application.Core.Abstraction;
-using Application.Gameplay.Combat;
-using Application.Gameplay.Combat.Actions;
-using Application.Gameplay.Combat.UI.Indicators;
-using ImGuiNET;
-using System;
-using System.Collections;
-using UnityEngine;
-
-public class SuperJumpAction : BattleAction, IDebugImGui
+namespace Application.Gameplay.Combat.Actions
 {
-    [SerializeField] 
-    private int apCost = 4;
-    public override string Name => "Super Jump Anywhere";
-    public override string Description => "Jumps across the stage with ease";
+    using System;
+    using System.Collections;
+    using Core;
+    using Core.Abstraction;
+    using UI.Indicators;
+    using UnityEngine;
 
-    private Vector3 LandingSpot;
-    private AimSystem _aimSystem = new AimSystem();
-    private IPooledObject<ValidityIndicator> _indicator;
-
-protected override IEnumerator Execute()
+    /// <summary>
+    /// An action that launches the user to a desired position in the world.
+    /// </summary>
+    [Serializable]
+    public class SuperJumpAction : BattleAction
     {
-        Debug.Log("Executing debugging action...");
+        private readonly AimSystem _aimSystem = new AimSystem();
 
-        if (User.TryGetComponent(out ActionPointTracker apTracker))
-            apTracker.TrySpend(apCost);
-            Debug.Log("Points were spent");
-        Debug.Log(User.name);
-            //Calculating the jump
-            var launchVelocity = ProjectileMotion.GetLaunchVelocity(User.transform.position, LandingSpot);
-            Debug.Log(launchVelocity);
-            PhysicsComponent physics = User.GetComponent<PhysicsComponent>();
-            // User.transform.position = LandingSpot;
-            
-            //Jumping
-            physics.Velocity = launchVelocity;
-            Debug.Log(launchVelocity);
+        [SerializeField]
+        private int apCost = 4;
 
-            Debug.Log("Jumped to spot!");
-            yield return null;
-            Debug.Log("Done!");
-    }
+        private Vector3 _landingSpot;
+        private IPooledObject<ValidityIndicator> _indicator;
 
+        /// <inheritdoc/>
+        public override string Name => "Super Jump Anywhere";
+
+        /// <inheritdoc/>
+        public override string Description => "Jumps across the stage with ease";
+
+        /// <inheritdoc/>
+        public override int Cost => apCost;
+
+        /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepTick();
@@ -49,20 +38,29 @@ protected override IEnumerator Execute()
             _indicator = Services.IndicatorFactory.Borrow<ValidityIndicator>();
         }
 
+        /// <inheritdoc/>
         public override void PrepTick()
         {
-            LandingSpot = _aimSystem.Update().point;
-            _indicator.Instance.transform.position = LandingSpot;
+            _landingSpot = _aimSystem.Update().point;
+            _indicator.Instance.transform.position = _landingSpot;
             IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
         }
 
+        /// <inheritdoc/>
         public override void PrepExit()
         {
             base.PrepExit();
             _indicator.Dispose();
         }
-        public void RenderImGui()
+
+        /// <inheritdoc/>
+        protected override IEnumerator Execute()
         {
-            ImGui.Text($"Position: {LandingSpot}");
+            ActionTracker.Spend(apCost);
+            var launchVelocity = ProjectileMotion.GetLaunchVelocity(User.transform.position, _landingSpot);
+            PhysicsComponent physics = User.GetComponent<PhysicsComponent>();
+            physics.Velocity = launchVelocity;
+            yield return new WaitForSeconds(1);
         }
     }
+}

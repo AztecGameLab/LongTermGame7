@@ -1,56 +1,83 @@
-using Application.Core;
-using Application.Core.Abstraction;
-using Application.Gameplay.Combat;
-using Application.Gameplay.Combat.Actions;
-using Application.Gameplay.Combat.UI.Indicators;
-using ImGuiNET;
-using System;
-using System.Collections;
-using UnityEngine;
-/// <summary>
-/// An action that pushes monsters in a certain direction.
-/// </summary>
-
-public class WindPush : BattleAction
+namespace Application.Gameplay.Combat.Actions
 {
+    using System;
+    using System.Collections;
+    using Core;
+    using Core.Abstraction;
+    using UI.Indicators;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
-    private Vector3 direction;
-    private AimSystem _aimSystem = new AimSystem();
-
-    private IPooledObject<ValidityIndicator> _indicator;
-
-
-    public override string Name => throw new NotImplementedException();
-    public override string Description => throw new NotImplementedException();
-
-    protected override IEnumerator Execute()
+    /// <summary>
+    /// An action that pushes monsters in a certain direction.
+    /// </summary>
+    [Serializable]
+    public class WindPush : BattleAction
     {
-        throw new NotImplementedException();
-       PhysicsComponent[] Components = UnityEngine.Object.FindObjectsOfType<PhysicsComponent>();
+        private readonly AimSystem _aimSystem = new AimSystem();
 
-        foreach (PhysicsComponent james in Components)
-        {
-            james.Velocity = (direction - User.transform.position).normalized;
-        }
-    }
+        [SerializeField]
+        private int cost;
 
-    public override void PrepEnter()
+        [SerializeField]
+        private float duration = 1;
+
+        [SerializeField]
+        private float strength = 5;
+
+        private Vector3 _direction;
+
+        private IPooledObject<ValidityIndicator> _indicator;
+
+        /// <inheritdoc/>
+        public override string Name => "Wind Push";
+
+        /// <inheritdoc/>
+        public override string Description => "Push with wind.";
+
+        /// <inheritdoc/>
+        public override int Cost => cost;
+
+        /// <inheritdoc/>
+        public override void PrepEnter()
         {
             base.PrepTick();
             _aimSystem.Initialize();
             _indicator = Services.IndicatorFactory.Borrow<ValidityIndicator>();
         }
-    public override void PrepTick()
+
+        /// <inheritdoc/>
+        public override void PrepTick()
         {
-            direction = _aimSystem.Update().point;
-            _indicator.Instance.transform.position = direction;
+            _direction = _aimSystem.Update().point;
+            _indicator.Instance.transform.position = _direction;
             IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
         }
 
+        /// <inheritdoc/>
         public override void PrepExit()
         {
             base.PrepExit();
             _indicator.Dispose();
         }
-}
 
+        /// <inheritdoc/>
+        protected override IEnumerator Execute()
+        {
+            PhysicsComponent[] physicsComponents = Object.FindObjectsOfType<PhysicsComponent>();
+            float elapsed = 0;
+            Vector3 pushDirection = (_direction - User.transform.position).normalized;
+
+            while (elapsed < duration)
+            {
+                foreach (PhysicsComponent component in physicsComponents)
+                {
+                    component.Velocity += pushDirection * strength;
+                }
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+    }
+}

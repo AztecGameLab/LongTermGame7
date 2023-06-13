@@ -56,16 +56,9 @@
         /// </summary>
         /// <param name="amount">The cost we are trying to apply.</param>
         /// <returns>True if we successfully payed the desired amount, false if the payment didn't go through.</returns>
-        public bool TrySpend(int amount)
+        public void Spend(int amount)
         {
-            bool success = CanAfford(amount);
-
-            if (success)
-            {
-                remainingActionPoints.Value -= amount;
-            }
-
-            return success;
+            remainingActionPoints.Value -= amount;
         }
 
         /// <summary>

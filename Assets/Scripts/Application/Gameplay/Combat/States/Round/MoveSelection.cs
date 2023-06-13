@@ -5,6 +5,7 @@
     using UI;
     using UniRx;
     using UnityEngine;
+    using Button = UnityEngine.UI.Button;
 
     /// <summary>
     /// The combat round state where the player is choosing what move a monster should perform.
@@ -37,9 +38,15 @@
 
             selectionUI.gameObject.SetActive(true);
             selectionUI.BindTo(selectedActionSet.Actions);
+            DisposeOnExit(selectionUI.ObserveActionHovered().Subscribe(action => trackerUI.SetPredictedCost(action.Cost)));
             DisposeOnExit(selectionUI.ObserveActionSubmitted().Subscribe(OnSelectAction));
             DisposeOnExit(selectionUI.ObserveTurnPassed().Subscribe(_ => Round.TransitionTo(Round.EnemyMoveMonsters)));
             SelectedAction = selectedActionSet.Actions[0];
+
+            foreach (MoveUI move in selectionUI.Moves)
+            {
+                move.GetComponent<Button>().interactable = actionPointTracker.CanAfford(move.Target.Cost);
+            }
 
             if (actionPointTracker.RemainingActionPoints <= 0)
             {
@@ -53,6 +60,7 @@
             base.OnExit();
             selectionUI.gameObject.SetActive(false);
             trackerUI.gameObject.SetActive(false);
+            trackerUI.SetPredictedCost(0);
         }
 
         private void OnSelectAction(BattleAction monsterAction)

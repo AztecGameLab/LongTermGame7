@@ -47,6 +47,9 @@
         public override string Description => "Summon a Lightning Bolt dealing damage to an enemy.";
 
         /// <inheritdoc/>
+        public override int Cost => actionPointCost;
+
+        /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepEnter();
@@ -83,7 +86,7 @@
             {
                 _validityIndicator.Instance.IsValid = true;
                 _targetEnemy = closestEnemy;
-                IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
+                IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0) && ActionTracker.CanAfford(actionPointCost);
             }
             else
             {
@@ -101,10 +104,7 @@
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
-            if (User.TryGetComponent(out ActionPointTracker tracker))
-            {
-                tracker.TrySpend(actionPointCost);
-            }
+            ActionTracker.Spend(actionPointCost);
 
             // Play the lightning particle
             var instance = Addressables.InstantiateAsync(lightningAssetPath).WaitForCompletion().GetComponent<ParticleSystem>();

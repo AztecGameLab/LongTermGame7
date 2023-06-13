@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 8895586264132055369}
   - component: {fileID: -3186707540160008838}
   - component: {fileID: 1502489082666997754}
+  - component: {fileID: 2860012383100074923}
   m_Layer: 2
   m_Name: Enemy World View
   m_TagString: Untagged
@@ -140,6 +141,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.718072, z: 1}
   m_Center: {x: 0, y: 1.340371, z: 0}
+--- !u!114 &2860012383100074923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7074553816821888916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73027564cb534c42970cf87a8ee70e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5069979107749952558
 PrefabInstance:
   m_ObjectHideFlags: 0
