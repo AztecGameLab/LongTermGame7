@@ -7,18 +7,26 @@ namespace Application.Gameplay.Combat.Brains
         public float invisibilityRange;
         public float projectileDamage;
         public Collider targetCollider;
-        public GameObject projectilePrefab;
-
+        [SerializeField] private GameObject projectilePrefab;
         
         protected override IEnumerator MakeDecision(BattleController controller)
         {
+            var closest = controller.PlayerTeam.GetClosest(transform.position, out float distance);
             //if the closest person is too close, go invisibility
-            if (controller.PlayerTeam.GetClosest(transform.position, out float distance) <= invisibilityRange)
+            if (closest <= invisibilityRange)
             {
                 targetCollider.enabled = false;
             }
             else {          //else, fire a projectile to the closest
+                var launchVelocity = ProjectileMotion.GetLaunchVelocity(User.transform.position, closest);
+                //spawn a projectile
+                //PhysicsComponent physics = Prefab.GetComponent<PhysicsComponent>();
                 
+                //shoot projectile
+                //physics.Velocity = launchVelocity;
+
+                //Apply damage
+
             }
         }
         
