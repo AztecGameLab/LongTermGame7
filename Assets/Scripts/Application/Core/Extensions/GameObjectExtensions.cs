@@ -1,13 +1,39 @@
-﻿namespace Application.Core
+﻿using System.Text;
+
+namespace Application.Core
 {
     using System;
     using UnityEngine;
 
     /// <summary>
-    /// Static extension methods for hooking into the GameObject lifetime.
+    /// GameObject related extension methods.
     /// </summary>
-    public static class GameObjectLifetimeEventExtensions
+    public static class GameObjectExtensions
     {
+        /// <summary>
+        /// Gets a full hierarchy path for naming a transform.
+        /// </summary>
+        /// <param name="target">The transform to start with.</param>
+        /// <returns>The unique path of this transform in the hierarchy.</returns>
+        public static string GetFullName(this Transform target)
+        {
+            var builder = new StringBuilder(target.name);
+
+            while (target.parent != null)
+            {
+                target = target.parent;
+                builder.Insert(0, $"{target.name}/");
+            }
+
+            return builder.ToString();
+        }
+
+        /// <inheritdoc cref="GetFullName(UnityEngine.Transform)"/>
+        public static string GetFullName(this GameObject target)
+        {
+            return GetFullName(target.transform);
+        }
+
         /// <summary>
         /// Binds the lifetime of an IDisposable to the lifetime of a GameObject.
         /// </summary>
