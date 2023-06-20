@@ -117,6 +117,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3647530290600936587}
   flipSprite: {fileID: 9188226340032940690}
+  idleStateName: Idle
+  movingStateName: Walk
+  idleThreshold: 0.4
+  movingThreshold: 1
 --- !u!1 &7074553816821888916
 GameObject:
   m_ObjectHideFlags: 0
