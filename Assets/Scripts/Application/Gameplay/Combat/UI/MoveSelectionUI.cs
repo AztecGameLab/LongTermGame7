@@ -7,6 +7,7 @@
     using UniRx;
     using UniRx.Triggers;
     using UnityEngine;
+    using UnityEngine.UI;
 
     /// <summary>
     /// Displays a list of moves that can be selected.
@@ -14,6 +15,7 @@
     public class MoveSelectionUI : UIView<IReadOnlyReactiveCollection<BattleAction>>
     {
         private readonly Subject<BattleAction> _actionSubmitted = new Subject<BattleAction>();
+        private readonly Subject<BattleAction> _actionHovered = new Subject<BattleAction>();
         private readonly List<MoveUI> _boundMoves = new List<MoveUI>();
 
         [SerializeField]
@@ -22,14 +24,27 @@
         [SerializeField]
         private Transform layoutParent;
 
+        [SerializeField]
+        private Button passTurnButton;
+
         private ObjectPool<MoveUI> _moveUiPool;
         private CompositeDisposable _disposables;
+
+        public IReadOnlyList<MoveUI> Moves => _boundMoves;
 
         /// <summary>
         /// Gets an observable that changes each time the user submits a new action.
         /// </summary>
-        /// <returns>An observable that changes each time the user submits a new action.</returns>
+        /// <returns>An observable.</returns>
         public IObservable<BattleAction> ObserveActionSubmitted() => _actionSubmitted;
+
+        /// <summary>
+        /// Gets an observable that changes each time the user passer their turn without selecting an action.
+        /// </summary>
+        /// <returns>An observable.</returns>
+        public IObservable<Unit> ObserveTurnPassed() => passTurnButton.OnClickAsObservable();
+
+        public IObservable<BattleAction> ObserveActionHovered() => _actionHovered;
 
         /// <inheritdoc/>
         public override void BindTo(IReadOnlyReactiveCollection<BattleAction> actions)
@@ -53,8 +68,9 @@
                 instance.BindTo(action);
 
                 _boundMoves.Add(instance);
-                _disposables.Add(instance.OnPointerClickAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)));
-                _disposables.Add(instance.OnSubmitAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)));
+                instance.GetComponent<Button>().onClick.AsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)).AddTo(_disposables);
+                instance.OnSubmitAsObservable().Subscribe(_ => _actionSubmitted.OnNext(action)).AddTo(_disposables);
+                instance.OnPointerEnterAsObservable().Subscribe(_ => _actionHovered.OnNext(action)).AddTo(_disposables);
             }
         }
 

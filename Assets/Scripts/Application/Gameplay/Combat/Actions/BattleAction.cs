@@ -27,6 +27,8 @@
         /// </summary>
         public abstract string Description { get; }
 
+        public abstract int Cost { get; }
+
         /// <summary>
         /// Gets or sets a value indicating whether gets whether the player has finished preparing this action.
         /// </summary>
@@ -64,6 +66,7 @@
             }
 
             _disposeOnExit.Clear();
+            IsPrepFinished = false;
         }
 
         /// <summary>
@@ -97,5 +100,7 @@
         {
             _disposeOnExit.Add(disposable);
         }
+
+        protected ActionPointTracker ActionTracker => User.GetComponent<ActionPointTracker>();
     }
 }

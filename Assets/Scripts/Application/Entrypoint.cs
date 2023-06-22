@@ -1,12 +1,17 @@
-﻿namespace Application
+﻿using ImGuiNET.Unity;
+
+namespace Application
 {
+    using Audio;
     using Core;
-    using Core.Events;
     using Core.Serialization;
     using Gameplay;
+    using Gameplay.Combat;
     using Gameplay.Regions;
     using UnityEngine;
     using UnityEngine.SceneManagement;
+
+    // todo: more cleanup needed, I don't even like hard-coding the services in here anymore.
 
     /// <summary>
     /// This class should be the first one that is loaded in the game.
@@ -16,7 +21,13 @@
     public partial class Entrypoint : MonoBehaviour
     {
         [SerializeField]
-        private GameplaySystem gameplaySystem = new GameplaySystem();
+        private LevelLoader _levelLoader = new LevelLoader();
+
+        [SerializeField]
+        private GameplayLauncher launcher = new GameplayLauncher();
+
+        [SerializeField]
+        private RespawnTracker respawnTracker;
 
         private static bool Initialized { get; set; }
 
@@ -25,32 +36,30 @@
             Initialize();
         }
 
-        private void OnDestroy()
-        {
-            Services.Serializer.WriteToDisk("TestingSave");
-
-            gameplaySystem.Dispose();
-        }
-
         private void Initialize()
         {
+            if (!Debug.isDebugBuild)
+            {
+                GetComponent<DearImGui>().enabled = false;
+            }
+
             Initialized = true;
             DontDestroyOnLoad(this);
 
             Services.EventBus = new EventBus();
             Services.RegionTracker = new RegionTracker();
             Services.Serializer = new Serializer();
-            Services.Serializer.ReadFromDisk("TestingSave");
+            Services.RespawnTracker = respawnTracker;
+            Services.MusicPlayer = new MusicPlayer();
+
+            respawnTracker.Init();
 
             var settings = Resources.Load<ApplicationSettings>(ApplicationConstants.ApplicationSettingsPath);
             Debug.Log($"Loaded settings: {settings.name}");
 
-            // todo: unify level loading to clear confusion
-            Services.EventBus.AddListener<LoadLevelEvent>(@event => SceneManager.LoadScene(@event.LevelName), "Level Loader");
+            launcher.Initialize();
+            _levelLoader.Initialize();
 
-            gameplaySystem.Init();
-
-            // todo: is this important?
             if (!Application.isEditor)
             {
                 SceneManager.LoadScene(1);

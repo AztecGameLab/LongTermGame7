@@ -1,8 +1,8 @@
 ﻿namespace Application.Gameplay.Combat.Hooks
 {
+    using System.Collections;
     using System.Collections.Generic;
     using UniRx;
-    using UniRx.Diagnostics;
     using UnityEngine;
 
     /// <summary>
@@ -13,9 +13,9 @@
         private CompositeDisposable _disposable;
 
         /// <inheritdoc/>
-        public override void OnBattleStart()
+        public override IEnumerator OnBattleStart()
         {
-            base.OnBattleStart();
+            yield return base.OnBattleStart();
 
             _disposable = new CompositeDisposable();
             SetupDeathHandlers(Controller.PlayerTeam);
@@ -24,9 +24,9 @@
         }
 
         /// <inheritdoc/>
-        public override void OnBattleEnd()
+        public override IEnumerator OnBattleEnd()
         {
-            base.OnBattleEnd();
+            yield return base.OnBattleEnd();
             _disposable.Dispose();
         }
 

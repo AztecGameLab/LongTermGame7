@@ -1,8 +1,7 @@
 ﻿namespace Application.Gameplay
 {
-    using Core;
     using Core.Abstraction;
-    using Core.Events;
+    using FMODUnity;
     using UnityEngine;
 
     /// <summary>
@@ -16,6 +15,9 @@
 
         [SerializeField]
         private bool showDebug;
+
+        [SerializeField]
+        private EventReference footstepSfx;
 
         private GroundCheck _groundCheck;
 
@@ -38,7 +40,7 @@
                 // Compare elapsedDistance to our step distance to see if we walked far enough
                 if (_elapsedDistance >= stepDistance)
                 {
-                    Services.EventBus.Invoke(new StepEvent(), "Demo Step");
+                    RuntimeManager.PlayOneShot(footstepSfx);
 
                     // If we did, fire the event and reset elapsedDistance to 0
                     _elapsedDistance = 0;

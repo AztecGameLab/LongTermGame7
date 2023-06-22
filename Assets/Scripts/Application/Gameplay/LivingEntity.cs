@@ -1,4 +1,6 @@
-﻿namespace Application.Gameplay
+﻿using UnityEngine.Events;
+
+namespace Application.Gameplay
 {
     using System;
     using UniRx;
@@ -18,6 +20,12 @@
         [SerializeField]
         private FloatReactiveProperty maxHealth;
 
+        [SerializeField]
+        private BoolReactiveProperty isInvincible;
+
+        [SerializeField]
+        private UnityEvent onDeath;
+
         /// <summary>
         /// Gets an observable for each time this entity is damaged.
         /// </summary>
@@ -27,6 +35,11 @@
         /// Gets an observable for each time this entity is healed.
         /// </summary>
         public IObservable<float> OnHeal => _onHeal;
+
+        /// <summary>
+        /// Gets an observable for each time this entity is healed.
+        /// </summary>
+        public IObservable<bool> InvincibilityChanged => isInvincible;
 
         /// <summary>
         /// Gets an observable for each time this entity's health drops below zero.
@@ -59,6 +72,17 @@
             set => maxHealth.Value = value;
         }
 
+        public bool IsInvincible
+        {
+            get => isInvincible.Value;
+            set => isInvincible.Value = value;
+        }
+
+        private void Awake()
+        {
+            OnDeath.Subscribe(_ => onDeath.Invoke()).AddTo(this);
+        }
+
         /// <summary>
         /// Sets up the initial values for this entity.
         /// </summary>
@@ -76,9 +100,12 @@
         /// <param name="amount">How much health to remove.</param>
         public void Damage(float amount)
         {
-            float newHealth = Mathf.Max(0, health.Value - amount);
-            health.Value = newHealth;
-            _onDamage.OnNext(newHealth);
+            if (!IsInvincible)
+            {
+                float newHealth = Mathf.Max(0, health.Value - amount);
+                health.Value = newHealth;
+                _onDamage.OnNext(newHealth);
+            }
         }
 
         /// <summary>
@@ -90,6 +117,14 @@
             float newHealth = Mathf.Min(maxHealth.Value, health.Value + amount);
             health.Value = newHealth;
             _onHeal.OnNext(newHealth);
+        }
+
+        /// <summary>
+        /// Deals enough damage to kill this entity.
+        /// </summary>
+        public void Kill()
+        {
+            health.Value = 0;
         }
     }
 }

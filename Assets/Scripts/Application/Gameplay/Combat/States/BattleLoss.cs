@@ -29,7 +29,7 @@
         {
             base.OnEnter();
             defeatUI.gameObject.SetActive(true);
-            DisposeOnExit(VictoryCoroutine().ToObservable().Subscribe(_ => Controller.EndBattle()));
+            DisposeOnExit(LossCoroutine().ToObservable().Subscribe(_ => Controller.EndBattle()));
         }
 
         /// <inheritdoc/>
@@ -39,7 +39,7 @@
             defeatUI.gameObject.SetActive(false);
         }
 
-        private IEnumerator VictoryCoroutine()
+        private IEnumerator LossCoroutine()
         {
             yield return defeatUI.defeatText.TweenCanvasGroupAlpha(1, 1).Yield();
             yield return new WaitUntil(() => Input.anyKey);

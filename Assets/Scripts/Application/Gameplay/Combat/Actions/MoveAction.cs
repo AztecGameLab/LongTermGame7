@@ -5,6 +5,8 @@
     using Core;
     using Core.Utility;
     using ImGuiNET;
+    using Newtonsoft.Json;
+    using UI;
     using UI.Indicators;
     using UnityEngine;
     using UnityEngine.AI;
@@ -13,12 +15,15 @@
     /// The action where an entity moves around, in a grounded manner, on the battlefield.
     /// </summary>
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class MoveAction : BattleAction, IDebugImGui
     {
         [SerializeField]
+        [JsonProperty]
         private float actionPointsPerUnit = 0.25f;
 
         [SerializeField]
+        [JsonProperty]
         private float moveSpeed = 7;
 
         private Vector3 _targetPosition;
@@ -27,6 +32,7 @@
         private NavMeshPath _path;
         private AimSystem _aimSystem = new AimSystem();
         private ActionPointTracker _actionPointTracker;
+        private ActionPointTrackerUI _tracker;
 
         /// <inheritdoc/>
         public override string Name => "Move";
@@ -34,12 +40,17 @@
         /// <inheritdoc/>
         public override string Description => "Move the monster to a different location.";
 
+        /// <inheritdoc/>
+        public override int Cost => 0;
+
         private int PointCost => (int)Mathf.Ceil(_distance * actionPointsPerUnit);
 
         /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepEnter();
+            _tracker = UnityEngine.Object.FindObjectOfType<ActionPointTrackerUI>(includeInactive: true);
+            _tracker.gameObject.SetActive(true);
             _pathIndicator = Services.IndicatorFactory.Borrow<PathIndicator>();
             _path ??= new NavMeshPath();
             _aimSystem.Initialize();
@@ -51,6 +62,7 @@
         {
             base.PrepTick();
             _targetPosition = _aimSystem.Update().point;
+            _tracker.SetPredictedCost(PointCost);
 
             if (NavMesh.CalculatePath(User.transform.position, _targetPosition, NavMesh.AllAreas, _path))
             {
@@ -74,6 +86,8 @@
         {
             base.PrepExit();
 
+            _tracker.gameObject.SetActive(false);
+
             if (!IsPrepFinished)
             {
                 _pathIndicator.Dispose();
@@ -91,13 +105,8 @@
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
-            if (User.TryGetComponent(out ActionPointTracker tracker))
-            {
-                tracker.TrySpend(PointCost);
-            }
-
+            ActionTracker.Spend(PointCost);
             yield return User.transform.PathFindTo(_targetPosition, moveSpeed, 0, _distance, _pathIndicator);
-
             _pathIndicator.Instance.ClearPath();
             _pathIndicator.Dispose();
         }

@@ -34,25 +34,6 @@
             }
         }
 
-        // todo: for some reason this doesnt work?
-
-        /// <summary>
-        /// Visualizes this path by drawing lines between each corner.
-        /// </summary>
-        /// <param name="path">The path to visualize.</param>
-        /// <param name="color">The color to use when drawing this line.</param>
-        /// <param name="duration">How long the lines should stay visible for.</param>
-        public static void DebugDraw(NavMeshPath path, Color color, float duration = 0)
-        {
-            if (path != null && path.corners.Length > 1)
-            {
-                for (int i = 1; i < path.corners.Length; i++)
-                {
-                    Debug.DrawLine(path.corners[i - 1], path.corners[i], color, duration, true);
-                }
-            }
-        }
-
         /// <summary>
         /// Gets the position at some distance along the path.
         /// </summary>
@@ -110,7 +91,7 @@
             Vector3 targetPosition,
             float moveSpeed = 5,
             float stopDistance = 1,
-            float maxDistance = -1,
+            float maxDistance = float.PositiveInfinity,
             IPooledObject<PathIndicator> indicator = null)
         {
             if (user == null)
@@ -118,14 +99,14 @@
                 yield break;
             }
 
-            bool hasIndicator = true;
+            bool hasIndicator = indicator != null;
 
-            if (indicator == null)
-            {
-                indicator = Services.IndicatorFactory.Borrow<PathIndicator>();
-                indicator.Instance.IsValid = true;
-                hasIndicator = false;
-            }
+            // if (indicator == null)
+            // {
+            //     indicator = Services.IndicatorFactory.Borrow<PathIndicator>();
+            //     indicator.Instance.IsValid = true;
+            //     hasIndicator = false;
+            // }
 
             float elapsedDistance = 0;
             NavMeshPath path = new NavMeshPath();
@@ -140,15 +121,19 @@
                 NavMesh.CalculatePath(user.transform.position, targetPosition, NavMesh.AllAreas, inProgressPath);
                 elapsedDistance += Time.deltaTime * moveSpeed;
                 user.transform.MoveTo(path, elapsedDistance);
-                indicator.Instance.RenderPath(inProgressPath.corners);
+                if (hasIndicator)
+                {
+                    indicator.Instance.RenderPath(inProgressPath.corners);
+                }
+
                 yield return null;
             }
 
-            if (!hasIndicator)
-            {
-                indicator.Instance.ClearPath();
-                indicator.Dispose();
-            }
+            // if (hasIndicator)
+            // {
+            //     indicator.Instance.ClearPath();
+            //     indicator.Dispose();
+            // }
         }
     }
 }

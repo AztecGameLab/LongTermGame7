@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using Combat.UI;
     using Core;
-    using Core.Serialization;
     using Core.Utility;
     using ImGuiNET;
+    using UniRx;
     using UnityEngine;
 
     /// <summary>
@@ -16,7 +16,7 @@
     /// </summary>
     public class TeamDataLoader : MonoBehaviour, IDebugImGui
     {
-        private const string SaveName = "player_team.json";
+        private const string TeamDataID = "player_team";
 
         [SerializeField]
         private TeamSelectionUI selectionUI;
@@ -26,8 +26,6 @@
 
         [SerializeField]
         private TeamMemberAuthoring testingPlayer;
-
-        private TeamData _teamData;
 
         /// <inheritdoc/>
         public void RenderImGui()
@@ -41,30 +39,40 @@
 
             if (ImGui.Button("Save"))
             {
-                Serializer.Save(SaveName, _teamData);
+                Services.Serializer.Store(TeamDataID, Services.PlayerTeamData);
             }
 
             ImGui.End();
         }
 
-        private void Start()
+        private static void HandleSerializerWrite()
+        {
+            Services.Serializer.Store(TeamDataID, Services.PlayerTeamData);
+        }
+
+        private void Awake()
         {
             ImGuiUtil.Register(this);
+            Services.Serializer.ObserveWrite().Subscribe(_ => HandleSerializerWrite()).AddTo(this);
 
-            if (!Serializer.TryLoad(SaveName, out _teamData))
+            if (!Services.Serializer.Exists(TeamDataID))
             {
-                _teamData = new TeamData { Player = testingPlayer.GenerateData() };
+                Services.PlayerTeamData = new TeamData { Player = testingPlayer.GenerateData() };
 
                 foreach (TeamMemberAuthoring member in testingTeam)
                 {
-                    _teamData.UnlockedMembers.Add(member.GenerateData());
+                    Services.PlayerTeamData.UnlockedMembers.Add(member.GenerateData());
                 }
             }
+            else
+            {
+                Services.Serializer.Lookup(TeamDataID, out TeamData data);
+                Services.PlayerTeamData = data;
+            }
 
-            selectionUI.BindTo(_teamData);
+            selectionUI.BindTo(Services.PlayerTeamData);
             selectionUI.gameObject.SetActive(false);
 
-            Services.PlayerTeamData = _teamData;
             Services.EventBus.AddListener<OpenTeamSelectorCommand>(_ => OpenTeamSelector(), "Team Data Loader").AddTo(this);
         }
 

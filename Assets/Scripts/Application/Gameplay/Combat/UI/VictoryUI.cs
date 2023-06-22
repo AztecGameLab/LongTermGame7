@@ -7,6 +7,9 @@
     /// </summary>
     public class VictoryUI : MonoBehaviour
     {
+        /// <summary>
+        /// The canvas group for the entire victory UI.
+        /// </summary>
         public CanvasGroup victoryText;
     }
 }

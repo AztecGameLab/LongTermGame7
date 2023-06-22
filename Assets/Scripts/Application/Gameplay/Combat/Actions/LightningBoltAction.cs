@@ -5,6 +5,7 @@
     using Core;
     using Core.Utility;
     using ImGuiNET;
+    using Newtonsoft.Json;
     using UI.Indicators;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -13,18 +14,23 @@
     /// The action where an entity moves around, in a grounded manner, on the battlefield.
     /// </summary>
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public class LightningBoltAction : BattleAction, IDebugImGui
     {
         [SerializeField]
+        [JsonProperty]
         private int actionPointCost = 4;
 
         [SerializeField]
+        [JsonProperty]
         private float maxRange = 5f;
 
         [SerializeField]
+        [JsonProperty]
         private float damage = 5f;
 
         [SerializeField]
+        [JsonProperty]
         private string lightningAssetPath;
 
         private Vector3 _targetPosition;
@@ -39,6 +45,9 @@
 
         /// <inheritdoc/>
         public override string Description => "Summon a Lightning Bolt dealing damage to an enemy.";
+
+        /// <inheritdoc/>
+        public override int Cost => actionPointCost;
 
         /// <inheritdoc/>
         public override void PrepEnter()
@@ -77,7 +86,7 @@
             {
                 _validityIndicator.Instance.IsValid = true;
                 _targetEnemy = closestEnemy;
-                IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
+                IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0) && ActionTracker.CanAfford(actionPointCost);
             }
             else
             {
@@ -95,10 +104,7 @@
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
-            if (User.TryGetComponent(out ActionPointTracker tracker))
-            {
-                tracker.TrySpend(actionPointCost);
-            }
+            ActionTracker.Spend(actionPointCost);
 
             // Play the lightning particle
             var instance = Addressables.InstantiateAsync(lightningAssetPath).WaitForCompletion().GetComponent<ParticleSystem>();

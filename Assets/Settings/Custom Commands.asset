@@ -1,0 +1,166 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa036b7281d4a2daa75485456fe1668, type: 3}
+  m_Name: Custom Commands
+  m_EditorClassIdentifier: 
+  commandHandlers:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  references:
+    version: 1
+    00000000:
+      type: {class: YarnImageCommands, ns: Application.Gameplay.Dialogue, asm: Application}
+      data:
+        yarnImageViewAsset:
+          m_AssetGUID: 944485a59943d3f4096ae88656f348f4
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        fadeTime: 1
+        imageTable:
+          dictionary:
+          - key: test
+            value: {fileID: 21300000, guid: 528a6dd601766934abb8b1053bd798ef, type: 3}
+          - key: black
+            value: {fileID: -2557647423667781354, guid: 66880f0cfd5886049a2f077ff5709f17, type: 3}
+          - key: white
+            value: {fileID: -27267820631033918, guid: 66880f0cfd5886049a2f077ff5709f17, type: 3}
+          - key: cutscene-1-1
+            value: {fileID: 21300000, guid: fd1b4a14851a54041a31c5af18257344, type: 3}
+          - key: cutscene-1-2
+            value: {fileID: 21300000, guid: 909f4e59c1d3bc6498bb4362442886c4, type: 3}
+          - key: cutscene-1-3
+            value: {fileID: 21300000, guid: a1f9ce77e949f274693b4ee7a22c3d30, type: 3}
+          - key: cutscene-1-4
+            value: {fileID: 21300000, guid: 7392f8721ce9f6348b58ab9f7c9da06b, type: 3}
+    00000001:
+      type: {class: YarnCameraCommands, ns: Application.Gameplay, asm: Application}
+      data:
+        dialogueCameraPrefab: {fileID: 2275752361829420294, guid: 71510576ce13daf47bb54dc4dcf2f5d0, type: 3}
+        easeType: 21
+    00000002:
+      type: {class: YarnRespawnCommands, ns: Application.Gameplay.Combat, asm: Application}
+    00000003:
+      type: {class: YarnTeamCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+      data:
+        teamMemberIds:
+          dictionary:
+          - key: artichokie
+            value: {fileID: 11400000, guid: 8646431ce0d48884abfdfd4429951a87, type: 2}
+          - key: ghost-a-light
+            value: {fileID: 11400000, guid: 682dfacd3decd484ea99bfbc6d852a58, type: 2}
+          - key: infernidoe
+            value: {fileID: 11400000, guid: 62e7c0c0ff99b424c953536525267f18, type: 2}
+          - key: piranka
+            value: {fileID: 11400000, guid: 797a26a818f3b8c479e408ffb867d24b, type: 2}
+          - key: scalatump
+            value: {fileID: 11400000, guid: 150b0e23e4f021d4d9c6684073d2a6e6, type: 2}
+          - key: ventling
+            value: {fileID: 11400000, guid: 6f7d934186281f34ea2ea229b2ae301c, type: 2}
+    00000004:
+      type: {class: YarnLoadingCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+      data:
+        levelIds:
+          dictionary:
+          - key: test-combat
+            scene: Assets/Levels/! TESTING LEVELS !/Combat Framework/CombatFramework.unity
+          - key: Village
+            scene: Assets/Levels/! TESTING LEVELS !/Intro Demo/VillageIntro.unity
+          - key: ForestCave
+            scene: Assets/Levels/Forest/ForestCave.unity
+          - key: ForestEntry
+            scene: Assets/Levels/Forest/ForestEntry.unity
+          - key: ForestLake
+            scene: Assets/Levels/Forest/ForestLake.unity
+          - key: DeforestedArea
+            scene: Assets/Levels/Forest/DeforestedArea.unity
+          - key: RoostingArea
+            scene: Assets/Levels/Forest/Roosting Area/Roosting Area.unity
+          - key: ResearchCamp
+            scene: Assets/Levels/Hills/Research Camp/Research Camp.unity
+          - key: ChemicalCraters
+            scene: Assets/Levels/Hills/Chemical Craters/Chemical Craters.unity
+          - key: RockSpikeTop
+            scene: Assets/Levels/Hills/Rock Spike Valley/(Top) Rock Spike Valley.unity
+          - key: RockSpikeBottom
+            scene: Assets/Levels/Hills/Rock Spike Valley/(Bottom) Rock Spike Valley.unity
+          - key: OutsideBunker
+            scene: Assets/Levels/Lab/OutsideBunker.unity
+          - key: Bunker
+            scene: Assets/Levels/Lab/Bunker.unity
+          - key: BehaviorLab
+            scene: Assets/Levels/Lab/BehaviorManipulationLab.unity
+          - key: ChemicalLab
+            scene: Assets/Levels/Lab/ChemicalLab.unity
+          - key: FinalBoss
+            scene: Assets/Levels/Lab/LabFinalBoss.unity
+    00000005:
+      type: {class: YarnMusicCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+      data:
+        musicLookupAuthoring:
+          dictionary:
+          - key: silence
+            value:
+              Guid:
+                Data1: -731324733
+                Data2: 1221087167
+                Data3: 283017650
+                Data4: -1704408852
+              Path: event:/Silence
+          - key: test
+            value:
+              Guid:
+                Data1: -1328677647
+                Data2: 1148799016
+                Data3: 887435147
+                Data4: -1697156310
+              Path: event:/Music/Vilian-Theme
+          - key: forest-chase
+            value:
+              Guid:
+                Data1: -1730590678
+                Data2: 1090067616
+                Data3: -713920626
+                Data4: 508360450
+              Path: event:/Forest Chase
+          - key: villian-theme
+            value:
+              Guid:
+                Data1: -1328677647
+                Data2: 1148799016
+                Data3: 887435147
+                Data4: -1697156310
+              Path: event:/Music/Vilian-Theme
+          - key: village
+            value:
+              Guid:
+                Data1: 136210297
+                Data2: 1117434004
+                Data3: -1218068581
+                Data4: -776669154
+              Path: event:/Music/Village Soundtrack
+    00000006:
+      type: {class: YarnMovementCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+    00000007:
+      type: {class: YarnObjectLifetimeCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+    00000008:
+      type: {class: YarnItemCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+      data:
+        items:
+        - {fileID: 11400000, guid: 222ed14c800d55641ac6d41e4e86c0d1, type: 2}
