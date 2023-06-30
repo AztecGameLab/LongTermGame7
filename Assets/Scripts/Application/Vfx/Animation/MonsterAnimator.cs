@@ -36,6 +36,10 @@
         [Tooltip("How fast the monster should be moving when it starts the moving animation.")]
         private float movingThreshold = 1f;
 
+        [SerializeField]
+        [Tooltip("Should scale flipping be lerped?")]
+        private bool smoothFlip;
+
         private StateMachine _fsm;
         private bool _overrideAnimations;
         private Vector3 _originalScale;
@@ -81,7 +85,7 @@
                 Transform t = transform;
                 Vector3 scale = t.localScale;
                 scale.x = _originalScale.x;
-                t.localScale = scale;
+                t.localScale = smoothFlip ? Vector3.Lerp(t.localScale, scale, 15 * Time.deltaTime) : scale;
             }
             else if (_velocityTracker.Velocity.x < -Sensitivity)
             {
@@ -89,7 +93,7 @@
                 Transform t = transform;
                 Vector3 scale = t.localScale;
                 scale.x = -_originalScale.x;
-                t.localScale = scale;
+                t.localScale = smoothFlip ? Vector3.Lerp(t.localScale, scale, 15 * Time.deltaTime) : scale;
             }
             else
             {
