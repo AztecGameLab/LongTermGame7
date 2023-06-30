@@ -1,15 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1683924478868043966
+--- !u!1001 &2202095046163376074
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6332812940744486055, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332812940744486055, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.026
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332812940744486055, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.432
+      objectReference: {fileID: 0}
+    - target: {fileID: 6633065800899383027, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 44ae6e7c8d5d234489112d6da2336ea4, type: 2}
     - target: {fileID: 7074553816821888916, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_Name
-      value: Biomutalist
+      value: Psychomutalist
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_RootOrder
@@ -17,15 +33,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -33
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.000010967255
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -33.5
+      value: -8.8
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_LocalRotation.w
@@ -33,15 +49,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7074553816821889002, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -55,5 +71,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8751008372615377695, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1154732048256548004, guid: e4061c011875c0d449135f87a8ddaabc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96c8044ea5ed22e49bcbce7816e43846, type: 3}
