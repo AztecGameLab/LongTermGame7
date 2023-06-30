@@ -37,16 +37,23 @@
         private float movingThreshold = 1f;
 
         [SerializeField]
-        [Tooltip("Should scale flipping be lerped?")]
+        [Tooltip("Should scale flipping be smoothly animated?")]
         private bool smoothFlip;
 
         private StateMachine _fsm;
         private bool _overrideAnimations;
         private Vector3 _originalScale;
+        private FacingDirection _direction = FacingDirection.Right;
 
         // Hashed versions of state names, for performance.
         private int _idleStateHash;
         private int _movingStateHash;
+
+        private enum FacingDirection
+        {
+            Left,
+            Right,
+        }
 
         private void Start()
         {
@@ -81,24 +88,21 @@
         {
             if (_velocityTracker.Velocity.x > Sensitivity)
             {
-                // Return to the original X scale.
-                Transform t = transform;
-                Vector3 scale = t.localScale;
-                scale.x = _originalScale.x;
-                t.localScale = smoothFlip ? Vector3.Lerp(t.localScale, scale, 15 * Time.deltaTime) : scale;
+                _direction = FacingDirection.Right;
             }
             else if (_velocityTracker.Velocity.x < -Sensitivity)
             {
-                // Return to an inverted X scale.
-                Transform t = transform;
-                Vector3 scale = t.localScale;
-                scale.x = -_originalScale.x;
-                t.localScale = smoothFlip ? Vector3.Lerp(t.localScale, scale, 15 * Time.deltaTime) : scale;
+                _direction = FacingDirection.Left;
             }
             else
             {
                 // We not moving at all, and the sprite can just stay at whatever it was before.
             }
+
+            Transform t = transform;
+            Vector3 scale = t.localScale;
+            scale.x = _originalScale.x * (_direction == FacingDirection.Left ? -1 : 1);
+            t.localScale = smoothFlip ? Vector3.Lerp(t.localScale, scale, 15 * Time.deltaTime) : scale;
         }
 
         // Checks to make sure that our animator contains the desired state, providing a useful error message.
