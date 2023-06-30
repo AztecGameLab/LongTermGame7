@@ -16,6 +16,7 @@ namespace Application.Gameplay.Combat.Brains
         private Vector3 _baseScale;
 
         public bool IsPlaying { get; set; } = false;
+
         public Vector3 TargetScale => IsPlaying ? _baseScale * scaleAmount : _baseScale;
 
         public Vector3 TargetOffset => IsPlaying

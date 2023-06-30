@@ -15,6 +15,11 @@
         public Vector3 Velocity { get; private set; }
 
         /// <summary>
+        /// Gets the current speed of this object.
+        /// </summary>
+        public float Speed { get; private set; }
+
+        /// <summary>
         /// Gets the position of this object before <see cref="Update"/> was called.
         /// </summary>
         public Vector3 PreviousPosition { get; private set; }
@@ -52,6 +57,7 @@
 
             CurrentPosition = currentPosition;
             Velocity = (CurrentPosition - PreviousPosition) / deltaTime;
+            Speed = Velocity.magnitude;
             PreviousPosition = CurrentPosition;
         }
     }
