@@ -1,4 +1,6 @@
 ﻿using JetBrains.Annotations;
+using System;
+using UniRx;
 
 namespace Application.Vfx
 {
@@ -12,7 +14,10 @@ namespace Application.Vfx
     public class OutlinerTester : MonoBehaviour
     {
         [SerializeField]
-        private Color color;
+        private Color color = Color.white;
+
+        [SerializeField]
+        private float duration = 0.1f;
 
         private bool _hasOutline;
         private OutlineInstance _outline;
@@ -25,12 +30,18 @@ namespace Application.Vfx
             }
         }
 
+        private void Start()
+        {
+            InputTools.ObjectMouseOver.Where(obj => obj == gameObject).Subscribe(_ => ShowOutliner());
+            InputTools.ObjectMouseOver.Where(obj => obj != gameObject && _hasOutline).Subscribe(_ => HideOutliner());
+        }
+
         [Button]
         [ShowInPlayMode]
         [UsedImplicitly]
         private void ShowOutliner()
         {
-            _outline = Services.Outliner.AddOutline(gameObject, color);
+            _outline = Services.Outliner.AddOutline(gameObject, color, duration);
             _hasOutline = true;
         }
 
@@ -39,7 +50,7 @@ namespace Application.Vfx
         [UsedImplicitly]
         private void HideOutliner()
         {
-            Services.Outliner.RemoveOutline(gameObject);
+            Services.Outliner.RemoveOutline(gameObject, duration);
             _hasOutline = false;
         }
     }

@@ -1,4 +1,7 @@
-﻿namespace Application.Core
+﻿using System;
+using UniRx;
+
+namespace Application.Core
 {
     using UnityEngine;
 
@@ -7,6 +10,25 @@
     /// </summary>
     public static class InputTools
     {
+        /// <summary>
+        /// Gets an observable that fires each time an object becomes hovered over.
+        /// </summary>
+        public static IObservable<GameObject> ObjectMouseOver { get; } = Observable.EveryFixedUpdate()
+            .Select(_ => CameraMouseRaycast())
+            .Where(tuple => tuple.isHit) // only fire if we hit something
+            .Select(tuple => tuple.info.rigidbody == null ? tuple.info.collider.gameObject : tuple.info.rigidbody.gameObject)
+            .DistinctUntilChanged(); // we dont want any duplicates
+
+        private static (bool isHit, RaycastHit info) CameraMouseRaycast()
+        {
+            float distance = float.PositiveInfinity;
+            Camera camera = Camera.main;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            int mask = ~LayerMask.GetMask("Ignore Raycast");
+            bool hit = Physics.Raycast(ray, out var hitInfo, distance, mask);
+            return (hit, hitInfo);
+        }
+
         /// <summary>
         /// Polls the alpha-numeric keys to see if a number has just been pressed.
         /// </summary>
