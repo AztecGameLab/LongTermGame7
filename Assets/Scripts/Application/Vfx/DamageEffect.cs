@@ -51,10 +51,7 @@
             RuntimeManager.PlayOneShot(hitSound);
 
             foreach (Renderer target in targetRenderers)
-            {
                 _tweens.Add(target.TweenSpriteRendererColor(Color.white, duration).SetFrom(flashColor));
-                _tweens.Add(target.TweenMaterialColor(Color.white, duration).SetFrom(flashColor));
-            }
 
             _tweens.Add(targetTransform.TweenLocalScale(Vector3.one, duration).SetFrom(Vector3.one * scaleAmount));
         }
