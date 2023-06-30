@@ -120,6 +120,49 @@ MonoBehaviour:
   movingStateName: Walk
   idleThreshold: 0.4
   movingThreshold: 1
+--- !u!1 &958361439536958473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2726159429541133209}
+  - component: {fileID: 9159055755556782333}
+  m_Layer: 9
+  m_Name: Emote Origin
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2726159429541133209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958361439536958473}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.39, z: 0.747}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5399309328918950837}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9159055755556782333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958361439536958473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1339a2a5b54575983daa0afaa7bfe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6361399635676787736
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +412,8 @@ MonoBehaviour:
   accelerationSmoothTime: 0.1
   reverseMultiplier: 1
   groundCheck: {fileID: 1480437383}
-  sprintMultiplier: 2
+  sprintSpeedMultiplier: 2
+  sprintAnimationMultiplier: 1.5
   animator: {fileID: 491588983837985053}
 --- !u!114 &1480437383
 MonoBehaviour:
