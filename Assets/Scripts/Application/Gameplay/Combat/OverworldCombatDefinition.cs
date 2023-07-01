@@ -9,7 +9,7 @@
     /// <summary>
     /// The in-game trigger effect that can begin a combat sequence.
     /// </summary>
-    public class EnterOverworldCombat : TriggerEffect
+    public class OverworldCombatDefinition : MonoBehaviour
     {
         // todo: better way of enemy authoring
         [SerializeField]
@@ -21,8 +21,7 @@
         [SerializeReference]
         private List<Hook> hooks;
 
-        /// <inheritdoc/>
-        protected override void HandleCollisionEnter(GameObject obj)
+        public void EnterCombat()
         {
             List<GameObject> enemyTeamInstances = enemyTeam;
             List<GameObject> playerTeamInstances = new List<GameObject>();

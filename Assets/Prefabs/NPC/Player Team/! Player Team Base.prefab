@@ -199,11 +199,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529207674136634134, guid: e84d225896e66d043b41512220e2f19b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.499
       objectReference: {fileID: 0}
     - target: {fileID: 2529207674136634134, guid: e84d225896e66d043b41512220e2f19b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2529207674851850957, guid: e84d225896e66d043b41512220e2f19b, type: 3}
       propertyPath: m_Layer
@@ -211,15 +211,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529207674889619196, guid: e84d225896e66d043b41512220e2f19b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.499
       objectReference: {fileID: 0}
     - target: {fileID: 2529207674889619196, guid: e84d225896e66d043b41512220e2f19b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2529207674889619196, guid: e84d225896e66d043b41512220e2f19b, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.499
       objectReference: {fileID: 0}
     - target: {fileID: 2529207674889619199, guid: e84d225896e66d043b41512220e2f19b, type: 3}
       propertyPath: m_Layer
@@ -320,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1707017613868320135, guid: fb837a1447d41b442b5f1b9145d91c8d, type: 3}
       propertyPath: m_Name
-      value: Player Team Base
+      value: '! Player Team Base'
       objectReference: {fileID: 0}
     - target: {fileID: 1707017613868320135, guid: fb837a1447d41b442b5f1b9145d91c8d, type: 3}
       propertyPath: m_Layer
@@ -409,6 +409,10 @@ PrefabInstance:
     - target: {fileID: 7566443470479141888, guid: fb837a1447d41b442b5f1b9145d91c8d, type: 3}
       propertyPath: m_Controller
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8512263937601418725, guid: fb837a1447d41b442b5f1b9145d91c8d, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb837a1447d41b442b5f1b9145d91c8d, type: 3}

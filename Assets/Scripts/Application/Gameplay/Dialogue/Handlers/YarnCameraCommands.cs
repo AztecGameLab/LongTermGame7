@@ -124,13 +124,6 @@
         {
             _cam.gameObject.SetActive(true);
             _cam.Priority = ActivePriority;
-            var player = Object.FindObjectOfType<PlayerMovement>();
-
-            if (player != null)
-            {
-                _cam.Follow = player.transform;
-            }
-
             _cam.PreviousStateIsValid = false;
         }
 
@@ -138,6 +131,7 @@
         {
             _cam.gameObject.SetActive(false);
             _cam.Priority = 0;
+            FreeCamera();
         }
 
         private void DeactivateDialogueCamera(string node)

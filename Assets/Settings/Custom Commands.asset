@@ -22,6 +22,7 @@ MonoBehaviour:
   - id: 6
   - id: 7
   - id: 8
+  - id: 9
   references:
     version: 1
     00000000:
@@ -165,3 +166,5 @@ MonoBehaviour:
       data:
         items:
         - {fileID: 11400000, guid: 222ed14c800d55641ac6d41e4e86c0d1, type: 2}
+    00000009:
+      type: {class: YarnCombatCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
