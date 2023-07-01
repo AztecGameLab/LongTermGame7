@@ -1,10 +1,9 @@
-﻿using UnityEngine.Events;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
     using UniRx;
     using UnityEngine;
+    using UnityEngine.Events;
 
     /// <summary>
     /// Represents something in the game that can live, die, and take damage.
@@ -28,6 +27,7 @@ namespace Application.Gameplay
 
         /// <summary>
         /// Gets an observable for each time this entity is damaged.
+        /// Passes the remaining health of the entity.
         /// </summary>
         public IObservable<float> OnDamage => _onDamage;
 
@@ -72,15 +72,13 @@ namespace Application.Gameplay
             set => maxHealth.Value = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this entity can be damaged.
+        /// </summary>
         public bool IsInvincible
         {
             get => isInvincible.Value;
             set => isInvincible.Value = value;
-        }
-
-        private void Awake()
-        {
-            OnDeath.Subscribe(_ => onDeath.Invoke()).AddTo(this);
         }
 
         /// <summary>
@@ -125,6 +123,11 @@ namespace Application.Gameplay
         public void Kill()
         {
             health.Value = 0;
+        }
+
+        private void Awake()
+        {
+            OnDeath.Subscribe(_ => onDeath.Invoke()).AddTo(this);
         }
     }
 }
