@@ -13,11 +13,10 @@ namespace Application.Core
         /// <summary>
         /// Gets an observable that fires each time an object becomes hovered over.
         /// </summary>
-        public static IObservable<GameObject> ObjectMouseOver { get; } = Observable.EveryFixedUpdate()
+        public static IObservable<RaycastHit> ObjectMouseHover { get; } = Observable.EveryFixedUpdate()
             .Select(_ => CameraMouseRaycast())
             .Where(tuple => tuple.isHit) // only fire if we hit something
-            .Select(tuple => tuple.info.rigidbody == null ? tuple.info.collider.gameObject : tuple.info.rigidbody.gameObject)
-            .DistinctUntilChanged(); // we dont want any duplicates
+            .Select(tuple => tuple.info);
 
         private static (bool isHit, RaycastHit info) CameraMouseRaycast()
         {
@@ -28,6 +27,10 @@ namespace Application.Core
             bool hit = Physics.Raycast(ray, out var hitInfo, distance, mask);
             return (hit, hitInfo);
         }
+
+        public static IObservable<RaycastHit> ObjectSelect { get; } = Observable.EveryUpdate()
+            .Where(_ => Input.GetKeyDown(KeyCode.Mouse0))
+            .SelectMany(_ => ObjectMouseHover.First());
 
         /// <summary>
         /// Polls the alpha-numeric keys to see if a number has just been pressed.

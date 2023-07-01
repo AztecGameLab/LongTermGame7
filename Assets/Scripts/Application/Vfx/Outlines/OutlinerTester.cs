@@ -1,11 +1,11 @@
-﻿using JetBrains.Annotations;
-using System;
-using UniRx;
+﻿using Application.Core.Utility;
 
 namespace Application.Vfx
 {
     using Core;
+    using JetBrains.Annotations;
     using TriInspector;
+    using UniRx;
     using UnityEngine;
 
     /// <summary>
@@ -32,8 +32,17 @@ namespace Application.Vfx
 
         private void Start()
         {
-            InputTools.ObjectMouseOver.Where(obj => obj == gameObject).Subscribe(_ => ShowOutliner());
-            InputTools.ObjectMouseOver.Where(obj => obj != gameObject && _hasOutline).Subscribe(_ => HideOutliner());
+            InputTools.ObjectMouseHover
+                .DistinctUntilChanged()
+                .Where(obj => obj.GetGameObject() == gameObject && !_hasOutline)
+                .Subscribe(_ => ShowOutliner())
+                .AddTo(this);
+
+            InputTools.ObjectMouseHover
+                .DistinctUntilChanged()
+                .Where(obj => obj.GetGameObject() != gameObject && _hasOutline)
+                .Subscribe(_ => HideOutliner())
+                .AddTo(this);
         }
 
         [Button]

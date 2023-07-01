@@ -97,7 +97,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &4295368892619711061
 BoxCollider:
@@ -204,6 +204,7 @@ MonoBehaviour:
   movingStateName: Walk
   idleThreshold: 0.4
   movingThreshold: 1
+  smoothFlip: 0
 --- !u!1 &5929078836886918222
 GameObject:
   m_ObjectHideFlags: 0

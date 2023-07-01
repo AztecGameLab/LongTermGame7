@@ -121,7 +121,7 @@
         [Button]
         [Group("animation_controls")]
         [UsedImplicitly]
-        private void ForceIdle()
+        public void ForceIdle()
         {
             _overrideAnimations = true;
             _fsm.RequestStateChange("idle");
@@ -130,7 +130,7 @@
         [Button]
         [Group("animation_controls")]
         [UsedImplicitly]
-        private void ForceWalking()
+        public void ForceWalking()
         {
             _overrideAnimations = true;
             _fsm.RequestStateChange("walking");
@@ -139,6 +139,6 @@
         [ShowIf("_overrideAnimations")]
         [Button]
         [UsedImplicitly]
-        private void RestoreAnimations() => _overrideAnimations = false;
+        public void RestoreAnimations() => _overrideAnimations = false;
     }
 }
