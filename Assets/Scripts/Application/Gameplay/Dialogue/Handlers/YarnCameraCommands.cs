@@ -145,7 +145,8 @@
             if (_hasTarget)
             {
                 Transform camTransform = _cam.transform;
-                camTransform.position = trackedObjectOffset + _currentTarget.position;
+                Vector3 targetPosition = trackedObjectOffset + _currentTarget.position;
+                camTransform.position = Vector3.Lerp(camTransform.position, targetPosition, 15 * Time.deltaTime);
             }
         }
     }

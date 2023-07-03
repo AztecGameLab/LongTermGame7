@@ -55,6 +55,8 @@ namespace Application.Core
         /// </summary>
         public static Outliner Outliner { get; set; }
 
+        public static ShakeApplier ShakeApplier { get; set; }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
