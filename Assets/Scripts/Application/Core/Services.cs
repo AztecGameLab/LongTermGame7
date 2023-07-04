@@ -1,4 +1,6 @@
 ﻿using Application.Gameplay.Items;
+using Application.Vfx;
+using UnityEngine.UI;
 
 namespace Application.Core
 {
@@ -47,6 +49,13 @@ namespace Application.Core
         /// Gets or sets the global player team data.
         /// </summary>
         public static TeamData PlayerTeamData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the global outlining utility;
+        /// </summary>
+        public static Outliner Outliner { get; set; }
+
+        public static ShakeApplier ShakeApplier { get; set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()

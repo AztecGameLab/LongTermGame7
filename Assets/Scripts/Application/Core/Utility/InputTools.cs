@@ -1,4 +1,7 @@
-﻿namespace Application.Core
+﻿using System;
+using UniRx;
+
+namespace Application.Core
 {
     using UnityEngine;
 
@@ -7,6 +10,28 @@
     /// </summary>
     public static class InputTools
     {
+        /// <summary>
+        /// Gets an observable that fires each time an object becomes hovered over.
+        /// </summary>
+        public static IObservable<RaycastHit> ObjectMouseHover { get; } = Observable.EveryFixedUpdate()
+            .Select(_ => CameraMouseRaycast())
+            .Where(tuple => tuple.isHit) // only fire if we hit something
+            .Select(tuple => tuple.info);
+
+        private static (bool isHit, RaycastHit info) CameraMouseRaycast()
+        {
+            float distance = float.PositiveInfinity;
+            Camera camera = Camera.main;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            int mask = ~LayerMask.GetMask("Ignore Raycast");
+            bool hit = Physics.Raycast(ray, out var hitInfo, distance, mask);
+            return (hit, hitInfo);
+        }
+
+        public static IObservable<RaycastHit> ObjectSelect { get; } = Observable.EveryUpdate()
+            .Where(_ => Input.GetKeyDown(KeyCode.Mouse0))
+            .SelectMany(_ => ObjectMouseHover.First());
+
         /// <summary>
         /// Polls the alpha-numeric keys to see if a number has just been pressed.
         /// </summary>

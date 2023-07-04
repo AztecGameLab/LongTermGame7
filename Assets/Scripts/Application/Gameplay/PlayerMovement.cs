@@ -24,10 +24,20 @@
         [SerializeField]
         private GroundCheck groundCheck;
 
+        [SerializeField]
+        private float sprintSpeedMultiplier = 2;
+
+        [SerializeField]
+        private float sprintAnimationMultiplier = 1.5f;
+
+        [SerializeField]
+        private Animator animator;
+
         private IPhysicsComponent _controller;
         private Vector3 _targetVelocity;
         private Vector3 _velocity;
         private bool _didReverse;
+        private bool _isSprinting;
         private Vector3 _currentVelocity;
 
         /// <summary>
@@ -53,6 +63,14 @@
             }
         }
 
+        public void OnSprint(InputValue value)
+        {
+            if (value != null)
+            {
+                _isSprinting = value.isPressed;
+            }
+        }
+
         private void Start()
         {
             _controller = GetComponent<IPhysicsComponent>();
@@ -63,8 +81,12 @@
             _velocity = _controller.Velocity;
             ApplyGravity();
 
+            animator.speed = _isSprinting ? sprintAnimationMultiplier : 1;
+
             if (groundCheck.IsGrounded)
+            {
                 ApplyAcceleration();
+            }
 
             CheckIfReverse();
             MovePlayer();
@@ -83,9 +105,10 @@
         private void ApplyAcceleration()
         {
             var oldY = _velocity.y;
+            var target = _targetVelocity * (_isSprinting ? sprintSpeedMultiplier : 1);
             _velocity = !_didReverse
-                ? Vector3.SmoothDamp(_velocity, _targetVelocity, ref _currentVelocity, accelerationSmoothTime)
-                : Vector3.SmoothDamp(_velocity, _targetVelocity, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
+                ? Vector3.SmoothDamp(_velocity, target, ref _currentVelocity, accelerationSmoothTime)
+                : Vector3.SmoothDamp(_velocity, target, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
             _velocity.y = oldY;
         }
 

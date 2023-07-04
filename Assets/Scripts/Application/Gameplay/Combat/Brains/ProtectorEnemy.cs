@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using UniRx;
-using UnityEngine;
-
-namespace Application.Gameplay.Combat.Brains
+﻿namespace Application.Gameplay.Combat.Brains
 {
+    using System.Collections.Generic;
+    using UniRx;
+    using UnityEngine;
+
     public class ProtectorEnemy : MonoBehaviour
     {
         public GameObject shieldPrefab;
@@ -49,13 +48,17 @@ namespace Application.Gameplay.Combat.Brains
         private void AddShields()
         {
             foreach (LivingEntity target in targets)
+            {
                 AddShield(target);
+            }
         }
 
         private void BreakShields()
         {
             foreach (LivingEntity target in targets)
+            {
                 BreakShield(target);
+            }
         }
     }
 }
