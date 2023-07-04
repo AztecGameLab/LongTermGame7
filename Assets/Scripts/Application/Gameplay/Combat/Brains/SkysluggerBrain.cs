@@ -23,12 +23,14 @@ namespace Application.Gameplay.Combat.Brains
         public BigAttackPreparation prepFx;
         public BigAttackEffect attackFx;
         public Rigidbody rigidbody;
+        public Transform targetTransform;
 
         private Collider[] _hitBuffer = new Collider[20];
 
         private void Start()
         {
-            prepFx.Initialize(transform);
+            prepFx.Initialize(targetTransform);
+            attackFx.Initialize();
         }
 
         private void Update()
