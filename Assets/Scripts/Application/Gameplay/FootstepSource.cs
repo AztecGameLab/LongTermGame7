@@ -3,6 +3,7 @@
     using Core.Abstraction;
     using FMODUnity;
     using UnityEngine;
+    using UnityEngine.Events;
 
     /// <summary>
     /// Tracks the distance walked and periodically emits footstep events.
@@ -17,7 +18,7 @@
         private bool showDebug;
 
         [SerializeField]
-        private EventReference footstepSfx;
+        private UnityEvent onStep;
 
         private GroundCheck _groundCheck;
 
@@ -40,7 +41,7 @@
                 // Compare elapsedDistance to our step distance to see if we walked far enough
                 if (_elapsedDistance >= stepDistance)
                 {
-                    RuntimeManager.PlayOneShot(footstepSfx);
+                    onStep.Invoke();
 
                     // If we did, fire the event and reset elapsedDistance to 0
                     _elapsedDistance = 0;

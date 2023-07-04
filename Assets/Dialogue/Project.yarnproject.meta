@@ -14,13 +14,9 @@ ScriptedImporter:
   - {fileID: 6391573757903218779, guid: 7bb2bf8e6a7e99646b9f7d1a761cd3d0, type: 3}
   - {fileID: 6391573757903218779, guid: be0b2780e12e625419e2166f2aabf707, type: 3}
   - {fileID: 6391573757903218779, guid: 5ed187e5de588a744a7e89bb76bd76b6, type: 3}
-  compileErrors:
-  - '16:16: Error: Can''t figure out the type of variable $hasItem given its context.
-    Specify its type with a <<declare>> statement.
-
-    $hasItem
-
-'
+  - {fileID: 6391573757903218779, guid: a4e95fda29ae82049932ac792b36e306, type: 3}
+  - {fileID: 6391573757903218779, guid: baa3bd26540f7824aa9afbe7f4555269, type: 3}
+  compileErrors: []
   serializedDeclarations:
   - name: $hasItem
     typeName: Bool
@@ -30,6 +26,14 @@ ScriptedImporter:
     description: The variable that stores the result of <<item-check>>.
     isImplicit: 0
     sourceYarnAsset: {instanceID: 0}
+  - name: $found_artichokie
+    typeName: Bool
+    defaultValueBool: 0
+    defaultValueNumber: 0
+    defaultValueString: 
+    description: Implicitly declared in VillageIntro.yarn, node ChieftainTalk
+    isImplicit: 1
+    sourceYarnAsset: {fileID: 6391573757903218779, guid: be0b2780e12e625419e2166f2aabf707, type: 3}
   defaultLanguage: en-US
   languagesToSourceAssets: []
   useAddressableAssets: 0

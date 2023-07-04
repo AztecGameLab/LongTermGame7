@@ -22,6 +22,8 @@ MonoBehaviour:
   - id: 6
   - id: 7
   - id: 8
+  - id: 9
+  - id: 10
   references:
     version: 1
     00000000:
@@ -54,6 +56,7 @@ MonoBehaviour:
       data:
         dialogueCameraPrefab: {fileID: 2275752361829420294, guid: 71510576ce13daf47bb54dc4dcf2f5d0, type: 3}
         easeType: 21
+        trackedObjectOffset: {x: 0, y: 6.25, z: -8}
     00000002:
       type: {class: YarnRespawnCommands, ns: Application.Gameplay.Combat, asm: Application}
     00000003:
@@ -164,3 +167,7 @@ MonoBehaviour:
       data:
         items:
         - {fileID: 11400000, guid: 222ed14c800d55641ac6d41e4e86c0d1, type: 2}
+    00000009:
+      type: {class: YarnCombatCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+    0000000A:
+      type: {class: YarnMindControl, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
