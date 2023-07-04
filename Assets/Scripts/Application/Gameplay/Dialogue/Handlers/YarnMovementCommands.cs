@@ -13,11 +13,12 @@
     {
         private DialogueRunner _runner;
 
+
         /// <inheritdoc/>
         public void RegisterCommands(DialogueRunner runner)
         {
             _runner = runner;
-            runner.AddCommandHandler<GameObject, GameObject>("move", MoveToCoroutine);
+            runner.AddCommandHandler<GameObject, GameObject, float>("move", MoveToCoroutine);
         }
 
         /// <inheritdoc/>
@@ -26,12 +27,12 @@
             runner.RemoveCommandHandler("move");
         }
 
-        private Coroutine MoveToCoroutine(GameObject from, GameObject to) =>
-            _runner.StartCoroutine(MoveTo(from, to));
-
-        private static IEnumerator MoveTo(GameObject from, GameObject to)
+        private static IEnumerator MoveTo(GameObject from, GameObject to, float speed)
         {
-            yield return from.transform.PathFindTo(to.transform.position);
+            yield return from.transform.PathFindTo(to.transform.position, speed);
         }
+
+        private Coroutine MoveToCoroutine(GameObject from, GameObject to, float speed = 5) =>
+            _runner.StartCoroutine(MoveTo(from, to, speed));
     }
 }
