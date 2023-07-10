@@ -2,6 +2,7 @@
 {
     using Core;
     using UnityEngine;
+    using Vfx;
     using Yarn.Unity;
 
     /// <summary>
@@ -11,6 +12,16 @@
     {
         [SerializeField]
         private DialogueReference reference;
+
+        private void Start()
+        {
+            var hintView = GetComponentInChildren<HintView>(true);
+
+            if (hintView != null)
+            {
+                hintView.gameObject.SetActive(true);
+            }
+        }
 
         /// <inheritdoc/>
         public void Interact(GameObject source)
