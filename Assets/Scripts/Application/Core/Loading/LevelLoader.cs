@@ -72,6 +72,7 @@
 
                 // We need to initialize this logic last, after all positions are fully set to avoid problems.
                 playerSpawner.MonsterFollowPlayer.Target = playerSpawner.SpawnedPlayer.transform;
+                Physics.SyncTransforms();
             }
             else
             {
