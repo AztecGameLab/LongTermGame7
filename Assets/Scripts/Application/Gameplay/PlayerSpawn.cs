@@ -76,8 +76,7 @@
 
         private void SpawnWorldView(TeamMemberData member)
         {
-            TeamMemberWorldView instance = member.CreateWorldView();
-            instance.transform.position = MemberSpawnPosition;
+            TeamMemberWorldView instance = member.CreateWorldView(MemberSpawnPosition, Quaternion.identity);
 
             _worldViewList.Add(instance);
             _memberViewLookup.Add(member, instance);
