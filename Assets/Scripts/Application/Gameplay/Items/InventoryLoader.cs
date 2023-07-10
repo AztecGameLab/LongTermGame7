@@ -47,7 +47,13 @@ namespace Application.Gameplay.Items
 
                 foreach (ItemAuthoring item in testingItems)
                 {
-                    inventory.Items.Add(item.GenerateData());
+                    var data = item.GenerateData();
+                    inventory.Items.Add(data);
+
+                    foreach (IItemEffect effect in data.effects)
+                    {
+                        effect.Initialize();
+                    }
                 }
             }
 
