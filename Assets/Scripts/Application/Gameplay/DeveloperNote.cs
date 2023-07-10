@@ -23,11 +23,11 @@
 
         private void Awake()
         {
-            // We don't want developer notes to show up in builds.
-            // if (!Application.isEditor)
-            //{
-            //    gameObject.SetActive(false);
-            //}
+             // We don't want developer notes to show up in builds.
+             if (!Application.isEditor)
+            {
+                gameObject.SetActive(false);
+            }
 
             ApplyText();
         }

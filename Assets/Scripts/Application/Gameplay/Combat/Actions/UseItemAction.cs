@@ -69,14 +69,19 @@ namespace Application.Gameplay.Combat.Actions
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
+            yield return FuckCoroutines().ToCoroutine().ToYieldInstruction();
+        }
+
+        private async UniTask FuckCoroutines()
+        {
             if (_selectedItem == null)
             {
-                yield break;
+                return;
             }
 
             foreach (IItemEffect itemEffect in _selectedItem.effects)
             {
-                yield return itemEffect.Use().ToYieldInstruction();
+                await itemEffect.Use().ToUniTask();
             }
         }
     }

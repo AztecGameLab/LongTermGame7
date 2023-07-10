@@ -18,7 +18,6 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
-  - id: 3
   maxHealth: 5
   worldViewAssetPath: wv-artichokie
   maxActionPoints: 5
@@ -35,19 +34,14 @@ MonoBehaviour:
           m_SubObjectType: 
           m_EditorAssetChanged: 0
         projectileTime: 1
+        apCost: 1
     00000001:
-      type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        name: Earth Wall Block
-        description: Place a wall of earth down that can be sent towards enemies
-          if hit
-        actionPointCost: 2
-    00000002:
       type: {class: ShotgunDash, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         name: Rock & Roll
         description: Launch forward and deal damage to everything behind you.
         distance: 8
+        apCost: 3
         damage: 3
         range: 2
         spread: 90
@@ -61,7 +55,7 @@ MonoBehaviour:
           m_Bits: 2547
         moveDuration: 0.25
         moveEasing: 41
-    00000003:
+    00000002:
       type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         actionPointsPerUnit: 0.25

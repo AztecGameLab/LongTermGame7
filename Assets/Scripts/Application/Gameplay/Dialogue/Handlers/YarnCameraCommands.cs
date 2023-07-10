@@ -133,10 +133,10 @@
 
             if (player != null)
             {
-                Follow(player).Forget();
+                _currentTarget = player.transform;
+                _hasTarget = true;
+                _cam.transform.position = TargetPosition;
             }
-
-            _cam.transform.position = TargetPosition;
         }
 
         private void DeactivateCam()

@@ -16,6 +16,7 @@ MonoBehaviour:
   memberDescription: It's you!
   actions:
   - id: 0
+  - id: 1
   maxHealth: 3
   worldViewAssetPath: wv-player
   maxActionPoints: 5
@@ -29,3 +30,13 @@ MonoBehaviour:
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
+        hint:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    00000001:
+      type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointsPerUnit: 0.25
+        moveSpeed: 7
