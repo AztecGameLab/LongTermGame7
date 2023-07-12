@@ -16,6 +16,7 @@ namespace Application.Gameplay.Combat.Brains
         private Vector3 _baseScale;
 
         public bool IsPlaying { get; set; } = false;
+
         public Vector3 TargetScale => IsPlaying ? _baseScale * scaleAmount : _baseScale;
 
         public Vector3 TargetOffset => IsPlaying
@@ -34,6 +35,7 @@ namespace Application.Gameplay.Combat.Brains
 
             // Create a new parent for our target which we will animate with effects.
             _animatedTransform = new GameObject($"[Auto-Generated Shake Transform, by {nameof(SkysluggerBrain)}]").transform;
+            _animatedTransform.position = _targetTransform.parent.position;
             _animatedTransform.SetParent(target.parent);
             target.SetParent(_animatedTransform);
         }
@@ -41,7 +43,7 @@ namespace Application.Gameplay.Combat.Brains
         public void Update()
         {
             _targetTransform.localScale = Vector3.Lerp(_targetTransform.localScale, TargetScale, scaleSpeed * Time.deltaTime);
-            _animatedTransform.position = Vector3.Lerp(_animatedTransform.position, TargetOffset, scaleSpeed * Time.deltaTime);
+            _animatedTransform.localPosition = Vector3.Lerp(_animatedTransform.localPosition, TargetOffset, scaleSpeed * Time.deltaTime);
         }
     }
 }

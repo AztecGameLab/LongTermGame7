@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 73268616, guid: 138f46c145d7f614ca2233183e26df53, type: 3}
+      propertyPath: m_FocusOffset
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 73268616, guid: 138f46c145d7f614ca2233183e26df53, type: 3}
+      propertyPath: m_FocusTracking
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7060901475507836645, guid: 138f46c145d7f614ca2233183e26df53, type: 3}
       propertyPath: m_XDamping
       value: 0
@@ -71,5 +79,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6444095528586081098, guid: 138f46c145d7f614ca2233183e26df53, type: 3}
+    - {fileID: 7060901475507836645, guid: 138f46c145d7f614ca2233183e26df53, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 138f46c145d7f614ca2233183e26df53, type: 3}

@@ -1,6 +1,7 @@
 ﻿using Cinemachine;
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Application.Gameplay.Combat.Brains
 {
@@ -10,10 +11,17 @@ namespace Application.Gameplay.Combat.Brains
         [SerializeField] private ParticleSystem particles;
         [SerializeField] private CinemachineImpulseSource screenShake;
 
+        private ParticleSystem _particleInstance;
+
+        public void Initialize()
+        {
+            _particleInstance = Object.Instantiate(particles);
+        }
+
         public void Play(Vector3 position)
         {
-            particles.transform.position = position;
-            particles.Play();
+            _particleInstance.transform.position = position;
+            _particleInstance.Play();
 
             screenShake.GenerateImpulseAt(position, Vector3.one);
         }
