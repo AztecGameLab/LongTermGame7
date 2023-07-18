@@ -1,16 +1,19 @@
 fileFormatVersion: 2
-guid: 2176194504468c748a4be8832f668075
+guid: 621b15f3eddaa7948b0c7f4950ed0cd7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2545853083733837482
-    second: AP Bar_0
+      213: 8736802612526893018
+    second: Health Bar Side_0
   - first:
-      213: 6481561844871497851
-    second: AP Bar_1
+      213: 2283553243918133776
+    second: Health Bar Side_1
   - first:
-      213: 3008043863607067948
-    second: AP Bar_2
+      213: -3767533011353006692
+    second: Health Bar Side_2
+  - first:
+      213: 6952069950035555546
+    second: Health Bar Side_3
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -101,13 +104,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AP Bar_0
+      name: Health Bar Side_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 335
-        height: 2553
+        width: 208
+        height: 1473
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,20 +118,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa6c94224efa45320800000000000000
-      internalID: 2545853083733837482
+      spriteID: ad7ce50cfab5f3970800000000000000
+      internalID: 8736802612526893018
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AP Bar_1
+      name: Health Bar Side_1
       rect:
         serializedVersion: 2
-        x: 456
-        y: 0
-        width: 335
-        height: 2553
+        x: 284
+        y: 65
+        width: 190
+        height: 1363
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,20 +139,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b788a49382223f950800000000000000
-      internalID: 6481561844871497851
+      spriteID: 01a6e69939fc0bf10800000000000000
+      internalID: 2283553243918133776
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AP Bar_2
+      name: Health Bar Side_2
       rect:
         serializedVersion: 2
-        x: 926
-        y: 47
-        width: 204
-        height: 2470
+        x: 335
+        y: 64
+        width: 20
+        height: 5
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,8 +160,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c25c717e4f7beb920800000000000000
-      internalID: 3008043863607067948
+      spriteID: c9d0fbaffa807bbc0800000000000000
+      internalID: -3767533011353006692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Health Bar Side_3
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 5
+        width: 208
+        height: 1473
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad4798139c6ba7060800000000000000
+      internalID: 6952069950035555546
       vertices: []
       indices: 
       edges: []
@@ -166,7 +190,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: dd18c8d5e3da0854fa23cebde7902a11
     internalID: 0
     vertices: []
     indices: 
