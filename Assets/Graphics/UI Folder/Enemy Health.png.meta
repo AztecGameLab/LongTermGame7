@@ -1,7 +1,16 @@
 fileFormatVersion: 2
 guid: 5615bb547928cc5458821a6ea8980082
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 5935005883292133768
+    second: Enemy Health_0
+  - first:
+      213: 1656286254196910432
+    second: Enemy Health_1
+  - first:
+      213: -7938265594625329906
+    second: Enemy Health_2
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -38,10 +47,10 @@ TextureImporter:
     wrapU: 0
     wrapV: 0
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,7 +61,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -90,11 +99,74 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Enemy Health_0
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 543
+        width: 1472
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8892b75e7606d5250800000000000000
+      internalID: 5935005883292133768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Health_1
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 264
+        width: 1361
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 069e4c3a29f4cf610800000000000000
+      internalID: 1656286254196910432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy Health_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1473
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e05f6ab108d95d190800000000000000
+      internalID: -7938265594625329906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 91dc9e53ba88754489ed1e78de49dfe2
     internalID: 0
     vertices: []
     indices: 
