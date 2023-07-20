@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Yarn.Unity;
 using Object = UnityEngine.Object;
 
@@ -12,16 +13,22 @@ namespace Application.Gameplay.Items
 {
     public interface IItemEffect
     {
+        void Initialize();
         IEnumerator Use();
     }
 
     [Serializable]
     public class ExhaustibleEffect : IItemEffect
     {
-        public bool isExhausted;
-
         [SerializeReference]
         public List<IItemEffect> effects;
+
+        public bool isExhausted;
+
+        public void Initialize()
+        {
+            isExhausted = false;
+        }
 
         public IEnumerator Use()
         {
@@ -46,6 +53,10 @@ namespace Application.Gameplay.Items
 
         [SerializeField] private DialogueReference message;
 
+        public void Initialize()
+        {
+        }
+
         public IEnumerator Use()
         {
             Collection<GameObject> playerTeam = Object.FindObjectOfType<BattleController>(true).PlayerTeam;
@@ -64,6 +75,10 @@ namespace Application.Gameplay.Items
     public class PrintMessageEffect : IItemEffect
     {
         [SerializeField] private string message;
+
+        public void Initialize()
+        {
+        }
 
         public IEnumerator Use()
         {

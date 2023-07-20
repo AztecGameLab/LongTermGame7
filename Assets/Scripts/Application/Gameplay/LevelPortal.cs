@@ -8,12 +8,12 @@
     public class LevelPortal : MonoBehaviour
     {
         [SerializeField]
-        private string portalId;
+        public string portalId;
 
         [SerializeField]
-        private string targetScene;
+        public string targetScene;
 
-        private void Start()
+        private void Awake()
         {
             LevelEntrance entrance = GetComponentInChildren<LevelEntrance>();
             LevelExit exit = GetComponentInChildren<LevelExit>();

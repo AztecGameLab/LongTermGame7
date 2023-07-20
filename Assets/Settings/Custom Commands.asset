@@ -57,6 +57,7 @@ MonoBehaviour:
         dialogueCameraPrefab: {fileID: 2275752361829420294, guid: 71510576ce13daf47bb54dc4dcf2f5d0, type: 3}
         easeType: 21
         trackedObjectOffset: {x: 0, y: 6.25, z: -8}
+        followSpeed: 5
     00000002:
       type: {class: YarnRespawnCommands, ns: Application.Gameplay.Combat, asm: Application}
     00000003:
@@ -81,10 +82,8 @@ MonoBehaviour:
       data:
         levelIds:
           dictionary:
-          - key: test-combat
-            scene: Assets/Levels/! TESTING LEVELS !/Combat Framework/CombatFramework.unity
           - key: Village
-            scene: Assets/Levels/! TESTING LEVELS !/Intro Demo/VillageIntro.unity
+            scene: Assets/Levels/VillageIntro/VillageIntro.unity
           - key: ForestCave
             scene: Assets/Levels/Forest/ForestCave.unity
           - key: ForestEntry
@@ -113,6 +112,8 @@ MonoBehaviour:
             scene: Assets/Levels/Lab/ChemicalLab.unity
           - key: FinalBoss
             scene: Assets/Levels/Lab/LabFinalBoss.unity
+          - key: test-combat
+            scene: Assets/Levels/! TESTING LEVELS !/Combat Framework/CombatFramework.unity
     00000005:
       type: {class: YarnMusicCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
       data:
@@ -167,6 +168,7 @@ MonoBehaviour:
       data:
         items:
         - {fileID: 11400000, guid: 222ed14c800d55641ac6d41e4e86c0d1, type: 2}
+        - {fileID: 11400000, guid: fa41b4f7c4d1ef945934fbff6f4937e4, type: 2}
     00000009:
       type: {class: YarnCombatCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
     0000000A:

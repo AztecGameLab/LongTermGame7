@@ -1,4 +1,8 @@
-﻿namespace Application.Gameplay
+﻿using Application.Core;
+using Application.Gameplay.Combat;
+using Application.Gameplay.Combat.Actions;
+
+namespace Application.Gameplay
 {
     using Core.Abstraction;
     using UnityEngine;
@@ -82,6 +86,14 @@
             ApplyGravity();
 
             animator.speed = _isSprinting ? sprintAnimationMultiplier : 1;
+
+            // see other comments - i'm exhausted
+            var bs = FindObjectOfType<BattleController>(true);
+            if (bs != null && bs.IsBattling)
+            {
+                FacingDirection = Vector3.zero;
+                _targetVelocity = Vector3.zero;
+            }
 
             if (groundCheck.IsGrounded)
             {
