@@ -1,4 +1,6 @@
-﻿namespace Application.Vfx
+﻿using System.Linq;
+
+namespace Application.Vfx
 {
     using System.Collections.Generic;
     using Core;
@@ -14,6 +16,20 @@
 
         [SerializeField]
         private HintView defaultHint;
+
+        public IInteractable GetNearest(Vector3 position)
+        {
+            GameObject nearest = _interactablesToHints.Keys
+                .OrderBy(key => (position - key.transform.position).sqrMagnitude)
+                .FirstOrDefault();
+
+            if (nearest != null)
+            {
+                return nearest.GetComponentInChildren<IInteractable>();
+            }
+
+            return null;
+        }
 
         /// <inheritdoc/>
         protected override void HandleCollisionEnter(GameObject obj)

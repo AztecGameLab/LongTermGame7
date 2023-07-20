@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Version: 1
-  SharedMesh: {fileID: 4379402400305711189}
+  SharedMesh: {fileID: 7027562761554467900}
   RenderMaterial: {fileID: 0}
   PhysicsMaterial: {fileID: 13400000, guid: 0c5fdfb44d6f19646a41a0720fbf751a, type: 2}
   RenderSurfaceType: 5
@@ -53,7 +53,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 12526
+    surfaceParameter: 12538
     meshQueryIndex: 0
     subMeshQueryIndex: 0
     geometryHashValue: 4159522225637079211
@@ -76,7 +76,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 14
-  m_Mesh: {fileID: 4379402400305711189}
+  m_Mesh: {fileID: 7027562761554467900}
 --- !u!1001 &387229415253547960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3573500098068145753, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: MeshDescription.surfaceParameter
-      value: 12526
+      value: 12538
       objectReference: {fileID: 0}
     - target: {fileID: 3601824089793253440, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: m_Layer
@@ -163,7 +163,7 @@ PrefabInstance:
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[0].SharedMesh
       value: 
-      objectReference: {fileID: 3320300023482397114}
+      objectReference: {fileID: 8441333232234598805}
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[1].GameObject
       value: 
@@ -175,7 +175,7 @@ PrefabInstance:
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[1].SharedMesh
       value: 
-      objectReference: {fileID: 8441333232234598805}
+      objectReference: {fileID: -3137524520437125035}
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[0].MeshRenderer
       value: 
@@ -183,6 +183,14 @@ PrefabInstance:
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[1].MeshRenderer
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[0].RenderSurfaceType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[1].RenderSurfaceType
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[0].HasGeneratedNormals
@@ -193,8 +201,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[0].MeshDescription.meshQueryIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[1].MeshDescription.meshQueryIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[0].MeshDescription.meshQuery.layers
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[0].MeshDescription.surfaceParameter
-      value: 12526
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[1].MeshDescription.meshQuery.layers
+      value: 33554440
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[1].MeshDescription.surfaceParameter
+      value: 12538
       objectReference: {fileID: 0}
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[0].MeshDescription.geometryHashValue
@@ -203,6 +231,14 @@ PrefabInstance:
     - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: helperSurfaces.Array.data[1].MeshDescription.geometryHashValue
       value: 4159522225637079211
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[0].MeshDescription.meshQuery.maskAndChannels
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454277812223054264, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
+      propertyPath: helperSurfaces.Array.data[1].MeshDescription.meshQuery.maskAndChannels
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4590262504367212937, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: m_Mesh
@@ -238,7 +274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8522504427798831151, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: excludeLayers.m_Bits
-      value: 3575
+      value: 7671
       objectReference: {fileID: 0}
     - target: {fileID: 8522504427798831151, guid: 52243a79e3320bd4fb3b5d4a911e3e54, type: 3}
       propertyPath: colliderTriggerEnter.m_PersistentCalls.m_Calls.Array.size
@@ -309,13 +345,13 @@ MonoBehaviour:
       type: {class: KeepPlayerAliveObjective, ns: Application.Gameplay.Combat.Hooks, asm: Application}
     00000003:
       type: {class: RespawnOnLossHook, ns: Application.Gameplay.Combat.Hooks, asm: Application}
---- !u!43 &3320300023482397114
+--- !u!43 &-3137524520437125035
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: <Trigger helper surface generated -103176>
+  m_Name: <Trigger helper surface generated -117282>
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -473,13 +509,13 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!43 &4379402400305711189
+--- !u!43 &7027562761554467900
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: <Unknown generated -103174>
+  m_Name: <Unknown generated -117280>
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
