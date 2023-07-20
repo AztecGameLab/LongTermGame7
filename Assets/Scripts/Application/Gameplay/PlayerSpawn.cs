@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System.Collections.Generic;
     using Cinemachine;
@@ -36,6 +34,8 @@ namespace Application.Gameplay
         /// Gets the currently spawned player object in the scene.
         /// </summary>
         public TeamMemberWorldView SpawnedPlayer { get; private set; }
+
+        public Vector3 MemberSpawnPosition { get; set; }
 
         /// <summary>
         /// Creates GameObject instances of the player and their currently selected team.
@@ -76,8 +76,7 @@ namespace Application.Gameplay
 
         private void SpawnWorldView(TeamMemberData member)
         {
-            var instance = member.CreateWorldView();
-            instance.transform.position = transform.position;
+            TeamMemberWorldView instance = member.CreateWorldView(MemberSpawnPosition, Quaternion.identity);
 
             _worldViewList.Add(instance);
             _memberViewLookup.Add(member, instance);

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 449137837558555189}
   - component: {fileID: 4124080361288384871}
+  - component: {fileID: -3912376934047128660}
   m_Layer: 0
   m_Name: Bigger Connifer Tree Pinecones 1
   m_TagString: Untagged
@@ -74,6 +75,20 @@ LODGroup:
     - renderer: {fileID: 8251109769663541671}
     - renderer: {fileID: 261712902772375815}
   m_Enabled: 1
+--- !u!136 &-3912376934047128660
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3778356412246268406}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.24970178
+  m_Height: 6.5609
+  m_Direction: 1
+  m_Center: {x: 0.0000000170299, y: 3.3883178, z: 0}
 --- !u!1001 &7161598878995355591
 PrefabInstance:
   m_ObjectHideFlags: 0

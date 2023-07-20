@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2693258165134099856}
   - component: {fileID: 202089680136711362}
+  - component: {fileID: 5575281171284181731}
   m_Layer: 0
   m_Name: Fruit Tree Fruity
   m_TagString: Untagged
@@ -65,6 +66,20 @@ LODGroup:
     - renderer: {fileID: 708553454651531163}
     - renderer: {fileID: 5332955243298794309}
   m_Enabled: 1
+--- !u!136 &5575281171284181731
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3678928599450805074}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.31705898
+  m_Height: 4.7860847
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.37028, z: -0.087493606}
 --- !u!1001 &3040996888172225474
 PrefabInstance:
   m_ObjectHideFlags: 0

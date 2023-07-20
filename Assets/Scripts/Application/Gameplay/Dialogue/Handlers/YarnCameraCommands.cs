@@ -31,9 +31,14 @@
         [SerializeField]
         private Vector3 trackedObjectOffset = new Vector3(0, 2, 0);
 
+        [SerializeField]
+        private float followSpeed = 5;
+
         private CinemachineVirtualCamera _cam;
         private Transform _currentTarget;
         private bool _hasTarget;
+
+        private Vector3 TargetPosition => trackedObjectOffset + (_hasTarget ? _currentTarget.position : Vector3.zero);
 
         /// <inheritdoc/>
         public void RegisterCommands(DialogueRunner runner)
@@ -124,7 +129,14 @@
         {
             _cam.gameObject.SetActive(true);
             _cam.Priority = ActivePriority;
-            _cam.PreviousStateIsValid = false;
+            var player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+            {
+                _currentTarget = player.transform;
+                _hasTarget = true;
+                _cam.transform.position = TargetPosition;
+            }
         }
 
         private void DeactivateCam()
@@ -145,8 +157,7 @@
             if (_hasTarget)
             {
                 Transform camTransform = _cam.transform;
-                Vector3 targetPosition = trackedObjectOffset + _currentTarget.position;
-                camTransform.position = Vector3.Lerp(camTransform.position, targetPosition, 15 * Time.deltaTime);
+                camTransform.position = Vector3.Lerp(camTransform.position, TargetPosition, followSpeed * Time.deltaTime);
             }
         }
     }

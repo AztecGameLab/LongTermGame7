@@ -4913,7 +4913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layersToDamage:
     serializedVersion: 2
-    m_Bits: 2547
+    m_Bits: 6643
   explosionRadius: 6
   explosionDamage: 2
   explosionKnockback: 3
@@ -4933,7 +4933,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layersToHit:
     serializedVersion: 2
-    m_Bits: 2547
+    m_Bits: 6643
 --- !u!114 &5037806209803510840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4965,3 +4965,8 @@ MonoBehaviour:
     value: 100
   maxHealth:
     value: 100
+  isInvincible:
+    value: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
