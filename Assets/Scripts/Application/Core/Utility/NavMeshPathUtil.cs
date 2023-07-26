@@ -100,18 +100,15 @@
             }
 
             bool hasIndicator = indicator != null;
-
-            // if (indicator == null)
-            // {
-            //     indicator = Services.IndicatorFactory.Borrow<PathIndicator>();
-            //     indicator.Instance.IsValid = true;
-            //     hasIndicator = false;
-            // }
-
             float elapsedDistance = 0;
             NavMeshPath path = new NavMeshPath();
             NavMeshPath inProgressPath = new NavMeshPath();
             NavMesh.CalculatePath(user.transform.position, targetPosition, NavMesh.AllAreas, path);
+
+            if (user.TryGetComponent(out Rigidbody b1))
+            {
+                b1.isKinematic = true;
+            }
 
             float totalDistance = CalculateDistance(path);
             float distance = Mathf.Min(totalDistance, maxDistance) - stopDistance;
@@ -121,6 +118,7 @@
                 NavMesh.CalculatePath(user.transform.position, targetPosition, NavMesh.AllAreas, inProgressPath);
                 elapsedDistance += Time.deltaTime * moveSpeed;
                 user.transform.MoveTo(path, elapsedDistance);
+
                 if (hasIndicator)
                 {
                     indicator.Instance.RenderPath(inProgressPath.corners);
@@ -129,11 +127,10 @@
                 yield return null;
             }
 
-            // if (hasIndicator)
-            // {
-            //     indicator.Instance.ClearPath();
-            //     indicator.Dispose();
-            // }
+            if (user.TryGetComponent(out Rigidbody b2))
+            {
+                b2.isKinematic = false;
+            }
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Application.Gameplay.Dialogue
+﻿using Cysharp.Threading.Tasks;
+using UniRx;
+
+namespace Application.Gameplay.Dialogue
 {
     using System.Collections.Generic;
     using UnityEngine;
@@ -21,6 +24,25 @@
         {
             _emotePlayerLookup = emotePlayerGenerator.GenerateDictionary();
             runner.AddCommandHandler<string, GameObject>("emote", HandleEmoteCommand);
+        }
+
+        public async UniTask PlayEmote(string emoteId, GameObject target)
+        {
+            if (_emotePlayerLookup.TryGetValue(emoteId, out EmotePlayer value))
+            {
+                var emoteOrigin = target.GetComponentInChildren<EmoteOrigin>();
+
+                if (emoteOrigin != null)
+                {
+                    target = emoteOrigin.gameObject;
+                }
+
+                await value.Play(target);
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Yarn tried to play emote {emoteId}, but it doesn't exist!");
+            }
         }
 
         private Coroutine HandleEmoteCommand(string emoteId, GameObject target)

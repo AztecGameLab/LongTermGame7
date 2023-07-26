@@ -34,7 +34,7 @@
 
                 if (distance > meleeRange)
                 {
-                    yield return transform.PathFindTo(targetPosition, stopDistance: 2, maxDistance: moveDistance);
+                    yield return transform.PathFindTo(targetPosition, stopDistance: meleeRange / 2, maxDistance: moveDistance);
                     distance = Vector3.Distance(transform.position, targetPosition);
                 }
 
