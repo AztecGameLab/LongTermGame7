@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5525642453287521830}
   - component: {fileID: 6446798184300299468}
+  - component: {fileID: 5325086059184474519}
   m_Layer: 0
   m_Name: Orticon Tree
   m_TagString: Untagged
@@ -62,6 +63,20 @@ LODGroup:
     - renderer: {fileID: 3420836436708882365}
     - renderer: {fileID: 3430336138114924505}
   m_Enabled: 1
+--- !u!136 &5325086059184474519
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2716844144024293685}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.37226844
+  m_Height: 4.9657583
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.3843207, z: -0.054742217}
 --- !u!1001 &3332000649793326612
 PrefabInstance:
   m_ObjectHideFlags: 0

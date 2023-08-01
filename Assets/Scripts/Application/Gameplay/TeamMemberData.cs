@@ -55,14 +55,19 @@
         [JsonProperty]
         public string WorldViewAssetPath { get; set; }
 
+        public TeamMemberWorldView CreateWorldView()
+        {
+            return CreateWorldView(Vector3.zero, Quaternion.identity);
+        }
+
         /// <summary>
         /// Instantiates a GameObject representation of this team member.
         /// </summary>
         /// <returns>An instance of this team member.</returns>
-        public TeamMemberWorldView CreateWorldView()
+        public TeamMemberWorldView CreateWorldView(Vector3 position, Quaternion rotation)
         {
-            AsyncOperationHandle<GameObject> test = Addressables.InstantiateAsync(WorldViewAssetPath);
-            var result = test.WaitForCompletion().GetComponent<TeamMemberWorldView>();
+            AsyncOperationHandle<GameObject> test = Addressables.InstantiateAsync(WorldViewAssetPath, position, rotation);
+            var result = test.WaitForCompletion().GetComponentInChildren<TeamMemberWorldView>(true);
             result.BindTo(this);
             return result;
         }

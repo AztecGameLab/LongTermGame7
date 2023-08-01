@@ -21,6 +21,7 @@ namespace Application.Gameplay.Items
 
             HandleRead();
 
+            Services.Inventory.Items.ObserveAdd().Subscribe(item => HandleNewItem(item.Value)).AddTo(this);
             inventoryView.BindTo(Services.Inventory);
             inventoryView.ItemClicked.Subscribe(data =>
             {
@@ -31,10 +32,18 @@ namespace Application.Gameplay.Items
             });
         }
 
+        private void HandleNewItem(ItemData item)
+        {
+            foreach (IItemEffect effect in item.effects)
+            {
+                effect.Initialize();
+            }
+        }
+
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.I))
-                inventoryView.gameObject.SetActive(!inventoryView.gameObject.activeSelf);
+            // if (Input.GetKeyDown(KeyCode.I))
+            //     inventoryView.gameObject.SetActive(!inventoryView.gameObject.activeSelf);
         }
 
         private void HandleRead()
@@ -47,7 +56,16 @@ namespace Application.Gameplay.Items
 
                 foreach (ItemAuthoring item in testingItems)
                 {
-                    inventory.Items.Add(item.GenerateData());
+                    var data = item.GenerateData();
+                    inventory.Items.Add(data);
+                }
+            }
+
+            foreach (ItemData item in inventory.Items)
+            {
+                foreach (IItemEffect effect in item.effects)
+                {
+                    effect.Initialize();
                 }
             }
 

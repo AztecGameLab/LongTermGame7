@@ -24,8 +24,8 @@
         /// <inheritdoc/>
         public Vector3 CalculateSpawnPosition()
         {
-            LevelEntrance entrance = UnityEngine.Object.FindObjectsOfType<LevelEntrance>()
-                .FirstOrDefault(entrance => entrance.EntranceID == _targetId);
+            LevelPortal entrance = UnityEngine.Object.FindObjectsOfType<LevelPortal>()
+                .FirstOrDefault(entrance => entrance.portalId == _targetId);
 
             // If we are traveling between entrances and exits, we want to use that position.
             if (entrance != default)
