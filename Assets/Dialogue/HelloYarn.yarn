@@ -9,6 +9,18 @@ Multi-dialogue time.
 -> Option 2
 -> You Don't Want This Option
 
+Add a cool item!
+<<item-add "test_item">>
+Do I have a test item?
+<<item-check "test_item">>
+The answer is: {$hasItem}
+Remove the cool item!
+<<item-remove "test_item">>
+Do I have a test item?
+<<item-check "test_item">>
+The answer is: {$hasItem}
+
+
 Respawn testing
 <<respawn-set test>>
 <<respawn-load>>
