@@ -5,7 +5,7 @@
 			<value>MW-ForestWindIsolated Wind</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{07d78b24-4970-4ca6-a787-ac41cb7e2b84}</destination>
@@ -60,7 +60,11 @@
 			<destination>{e7917fff-6790-4fb6-b631-f1e1f658688a}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{7d284482-282f-49b1-8dc8-f71ead833df1}" />
+	<object class="EventAutomatableProperties" id="{7d284482-282f-49b1-8dc8-f71ead833df1}">
+		<property name="maximumDistance">
+			<value>65</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{e58b2604-90e9-4c96-a969-257c520f50b7}" />
 	<object class="GroupTrack" id="{1f964aa7-3e67-47ce-bcf5-08f47b49f512}">
 		<relationship name="modules">
@@ -174,6 +178,7 @@
 	<object class="MixerBusEffectChain" id="{6ecaf4e4-3055-4228-8cf1-c7a750709d72}">
 		<relationship name="effects">
 			<destination>{51e06e3a-a0b2-4f52-9e55-ccd5a43fd609}</destination>
+			<destination>{0ac7c41f-ba42-497a-902a-7f2845112a66}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{d73ce643-dc9b-4473-9746-6f7b1320a1c9}" />
@@ -237,6 +242,17 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{51e06e3a-a0b2-4f52-9e55-ccd5a43fd609}" />
+	<object class="SpatialiserEffect" id="{0ac7c41f-ba42-497a-902a-7f2845112a66}">
+		<property name="maximumDistance">
+			<value>65</value>
+		</property>
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>32</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{62f9e279-57bb-46c1-9161-560fb17e19e1}">
 		<property name="position">
 			<value>0</value>

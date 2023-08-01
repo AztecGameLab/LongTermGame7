@@ -64,8 +64,8 @@
             AssertHasState(movingStateName);
 
             _fsm = new StateMachine();
-            _fsm.AddState("idle", onEnter: _ => animator.Play(_idleStateHash, 0));
-            _fsm.AddState("walking", onEnter: _ => animator.Play(_movingStateHash, 0));
+            _fsm.AddState("idle", onEnter: _ => PlayAnimation(_idleStateHash));
+            _fsm.AddState("walking", onEnter: _ => PlayAnimation(_movingStateHash));
             _fsm.AddTransition(from: "idle", to: "walking", _ => !_overrideAnimations && _velocityTracker.Speed > movingThreshold);
             _fsm.AddTransition(from: "walking", to: "idle", _ => !_overrideAnimations && _velocityTracker.Speed < idleThreshold);
             _fsm.SetStartState("idle");
@@ -73,6 +73,14 @@
 
             _velocityTracker.Initialize(transform.position);
             _originalScale = transform.localScale;
+        }
+
+        private void PlayAnimation(int hash)
+        {
+            if (animator != null && animator.runtimeAnimatorController != null)
+            {
+                animator.Play(hash, 0);
+            }
         }
 
         private void Update()
@@ -110,7 +118,7 @@
         {
             var hash = Animator.StringToHash(stateName);
 
-            if (!animator.HasState(0, hash))
+            if (animator != null && animator.runtimeAnimatorController != null && !animator.HasState(0, hash))
             {
                 Debug.LogError($"{transform.GetFullName()} is missing the animation state \"{stateName}\"!", gameObject);
             }
