@@ -18,7 +18,7 @@
         public string Id => id;
 
         [Button]
-        private void SetActive()
+        public void SetActive()
         {
             Services.RespawnTracker.SetRespawnPoint(id);
         }
