@@ -1,4 +1,4 @@
-﻿namespace Application.Gameplay
+namespace Application.Gameplay
 {
     using UnityEngine;
     using UnityEngine.Events;
