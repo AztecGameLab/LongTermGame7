@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 921f677a868c425390048df2da275b48, type: 3}
   m_Name: red mushroom item
   m_EditorClassIdentifier: 
-  itemId: herb-green-small
-  itemName: Small Green Herb
-  itemDescription: Restore a small amount of your health.
+  itemId: red-mushroom-item
+  itemName: red mushroom item
+  itemDescription: Increase Max Health by 1
   worldView:
     m_AssetGUID: 
     m_SubObjectName: 
@@ -36,9 +36,9 @@ MonoBehaviour:
         - id: 1
         isExhausted: 1
     00000001:
-      type: {class: HealAllEffect, ns: Application.Gameplay.Items, asm: Application}
+      type: {class: StrengthenAllEffect, ns: Application.Gameplay.Items, asm: Application}
       data:
-        amount: 4
+        size: 4
         message:
           project: {fileID: 7545569452688597077, guid: 483976b05ab98e846b2d08ce2c257aae, type: 3}
-          nodeName: HealMessage
+          nodeName: RedMushroom
