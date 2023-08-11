@@ -86,4 +86,33 @@ namespace Application.Gameplay.Items
             yield return new WaitForSeconds(2);
         }
     }
+    
+    [Serializable]
+    public class StrengthenAllEffect : IItemEffect
+    {
+        [SerializeField]
+        private string size;
+
+        [SerializeField] private DialogueReference message;
+
+        public void Initialize()
+        {
+        }
+
+        public IEnumerator Use()
+        {
+            Collection<GameObject> playerTeam = Object.FindObjectOfType<BattleController>(true).PlayerTeam;
+
+            foreach (GameObject memberInstance in playerTeam)
+            {
+                if (memberInstance.TryGetComponent(out LivingEntity entity))
+                    entity.StrengthenRM(size);
+            }
+
+            yield return Services.DialogueSystem.RunDialogue(message);
+        }
+    }
+    
+    
+    
 }
