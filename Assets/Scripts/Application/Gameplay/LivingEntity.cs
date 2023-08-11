@@ -118,6 +118,34 @@
         }
 
         /// <summary>
+        /// Increase max health by 1.
+        /// </summary>
+        /// <param name="type">item found, to be determined how much increase based on item.</param>
+        public void StrengthenRM(string type)
+        {
+            // float increaseHealth = 0;
+            //
+            // if (type == "red herb item")
+            // {
+            //    //smallest number. Will Change value later.
+            //    increaseHealth = 10;
+            // }
+            // else if (type == "red mushroom item")
+            // {
+            //     //mid number. Will Change value later
+            //     increaseHealth = 10;
+            // }
+            // else if (type == "red elixir item")
+            // {
+            //     //big number. Will change value later
+            //     increaseHealth = 10;
+            // }
+            //
+            // //increase maxHealth by amount
+            maxHealth.Value += 1;
+        }
+
+        /// <summary>
         /// Deals enough damage to kill this entity.
         /// </summary>
         public void Kill()
