@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: graph_0
   m_EditorClassIdentifier: 
   AssetPath: Assets/Graphics/Environment/Materials/Pixel_Cage_Top.sbsar
-  OutputPath: Assets/Graphics/Environment/Materials/Pixel_Cage_Top_graph_0
-  RawData: {fileID: -244192453324840774, guid: dc08e26754259a8459df4b4c95652bc6, type: 3}
+  OutputPath: Assets\Graphics\Environment\Materials\Pixel_Cage_Top_graph_0
+  RawData: {fileID: -244192453324840774, guid: a55826c7a223bd54cba16073342c84a2, type: 3}
   Name: graph_0
   IsRoot: 1
   FlagedForDelete: 0
-  GUID: 4239698d-8b74-4d7b-8512-78119c4f491a
+  GUID: 899b9d39-ea9b-45d3-a58d-4d8cb53e77dd
   Index: 0
   Input:
   - id: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
       Index: 0
       Type: 8
       Channel: baseColor
-    OutputTexture: {fileID: 2800000, guid: d37ff88bd4a2bc84ea17fc0cc02cc34e, type: 3}
+    OutputTexture: {fileID: 2800000, guid: fd594538a1d72bf48af09beda743bc92, type: 3}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -53,7 +53,7 @@ MonoBehaviour:
       Index: 1
       Type: 8
       Channel: normal
-    OutputTexture: {fileID: 2800000, guid: a57f8f6839ae5fc419407301a633da93, type: 3}
+    OutputTexture: {fileID: 2800000, guid: 71df75aac48eeb247a0e4eedc1d9ede4, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -85,7 +85,7 @@ MonoBehaviour:
       Index: 3
       Type: 8
       Channel: metallic
-    OutputTexture: {fileID: 2800000, guid: 067a9708d6d55c94a8ca85bbe915f526, type: 3}
+    OutputTexture: {fileID: 2800000, guid: 15f2575d73916eb45a6c0a56b301c80c, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -101,7 +101,7 @@ MonoBehaviour:
       Index: 4
       Type: 8
       Channel: height
-    OutputTexture: {fileID: 2800000, guid: 4b104835b7976824f9bb377e99079b26, type: 3}
+    OutputTexture: {fileID: 2800000, guid: 049609510c683ca40b016964c84651d4, type: 3}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -130,17 +130,13 @@ MonoBehaviour:
   EnablePhysicalSize: 0
   Thumbnail: 
   HasThumbnail: 0
-  CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Pixel_Cage_Top\" label=\"\" >\n 
-    <presetinput identifier=\"$outputsize\" uid=\"1019955588\" type=\"8\" value=\"10,10\"
-    />\n  <presetinput identifier=\"Warp_Intensity\" uid=\"1361565331\" type=\"0\"
-    value=\"1\" />\n </sbspreset>\n"
+  CurrentStatePreset: 
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
-  OutputMaterial: {fileID: 2100000, guid: f2af7056814c9704ab94c0ea7de82cdb, type: 2}
+  OutputMaterial: {fileID: 2100000, guid: 5453dda8b91f2354692a5aa2932dd5b9, type: 2}
   DefaultPreset: " <sbspreset pkgurl=\"pkg://Pixel_Cage_Top\" label=\"\" >\n  <presetinput
-    identifier=\"$outputsize\" uid=\"1019955588\" type=\"8\" value=\"10,10\" />\n
-    </sbspreset>\n"
+    identifier=\"$outputsize\" uid=\"1019955588\" type=\"8\" value=\"10,10\" />\n</sbspreset>\n"
   MaterialShader: Universal Render Pipeline/Lit
   RenderTextures: 0
   OutputRemaped: 0
@@ -282,7 +278,7 @@ MonoBehaviour:
             warp
           Type: 0
           WidgetType: 1
-        Data: 1
+        Data: 18.44
         NumericalDescription:
           DefaultValue: 18.44
           MinValue: 0
