@@ -16,6 +16,7 @@ ScriptedImporter:
   - {fileID: 6391573757903218779, guid: 5ed187e5de588a744a7e89bb76bd76b6, type: 3}
   - {fileID: 6391573757903218779, guid: a4e95fda29ae82049932ac792b36e306, type: 3}
   - {fileID: 6391573757903218779, guid: baa3bd26540f7824aa9afbe7f4555269, type: 3}
+  - {fileID: 6391573757903218779, guid: 7e996ca73e0541a4d88d99fda0d77d00, type: 3}
   compileErrors: []
   serializedDeclarations:
   - name: $hasItem
@@ -34,6 +35,22 @@ ScriptedImporter:
     description: Implicitly declared in VillageIntro.yarn, node ChieftainTalk
     isImplicit: 1
     sourceYarnAsset: {fileID: 6391573757903218779, guid: be0b2780e12e625419e2166f2aabf707, type: 3}
+  - name: $largeMonster
+    typeName: String
+    defaultValueBool: 0
+    defaultValueNumber: 0
+    defaultValueString: 
+    description: Implicitly declared in DeforestedArea.yarn, node MutalistEncounter
+    isImplicit: 1
+    sourceYarnAsset: {fileID: 6391573757903218779, guid: a4e95fda29ae82049932ac792b36e306, type: 3}
+  - name: $deviceName
+    typeName: String
+    defaultValueBool: 0
+    defaultValueNumber: 0
+    defaultValueString: 
+    description: Implicitly declared in RoostingArea.yarn, node IntroCutscene
+    isImplicit: 1
+    sourceYarnAsset: {fileID: 6391573757903218779, guid: baa3bd26540f7824aa9afbe7f4555269, type: 3}
   defaultLanguage: en-US
   languagesToSourceAssets: []
   useAddressableAssets: 0
