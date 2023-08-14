@@ -275,3 +275,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-132333212781789923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7008882168531331636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9080eed2e1d24efa9c3437be573fa5c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lungeRange: 5
+  lungeSpeed: 15
+  lungeDamage: 1
+  moveAmount: 2
+  projectilePrefab: {fileID: 5305812944337922485, guid: a9bc075428375064885e3c241590f6aa, type: 3}
+  projectileSpeed: 1
+  waitTime: 2
+  physics: {fileID: 0}
+  layersToDamage:
+    serializedVersion: 2
+    m_Bits: 0
