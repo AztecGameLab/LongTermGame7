@@ -19,11 +19,15 @@ MonoBehaviour:
     m_AssetGUID: 
     m_SubObjectName: 
     m_SubObjectType: 
+    m_CachedAsset: {fileID: 0}
+    m_CachedGUID: 
     m_EditorAssetChanged: 0
   inventoryView:
     m_AssetGUID: 
     m_SubObjectName: 
     m_SubObjectType: 
+    m_CachedAsset: {fileID: 0}
+    m_CachedGUID: 
     m_EditorAssetChanged: 0
   effects:
   - id: 0
@@ -38,7 +42,5 @@ MonoBehaviour:
     00000001:
       type: {class: StrengthenAllEffect, ns: Application.Gameplay.Items, asm: Application}
       data:
-        size: 4
-        message:
-          project: {fileID: 7545569452688597077, guid: 483976b05ab98e846b2d08ce2c257aae, type: 3}
-          nodeName: RedMushroom
+        size: 1
+        message: {project: {fileID: 7545569452688597077, guid: 483976b05ab98e846b2d08ce2c257aae, type: 3}, nodeName: RedMushroom}
