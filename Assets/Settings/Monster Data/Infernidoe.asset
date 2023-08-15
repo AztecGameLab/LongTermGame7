@@ -16,6 +16,7 @@ MonoBehaviour:
   memberDescription: Monster Description
   actions:
   - id: 0
+  - id: 1
   maxHealth: 5
   worldViewAssetPath: wv-infernidoe
   maxActionPoints: 5
@@ -26,3 +27,21 @@ MonoBehaviour:
       data:
         actionPointsPerUnit: 0.25
         moveSpeed: 7
+    00000001:
+      type: {class: FlameSpear, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        apCost: 3
+        spread: 30
+        distance: 7
+        burnSettings:
+          roundDuration: 0
+          damagePerRound: 0
+          fxPrefab:
+            m_AssetGUID: particles-burning-default
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+        initialDamage: 1
+        damageMask:
+          serializedVersion: 2
+          m_Bits: 4096

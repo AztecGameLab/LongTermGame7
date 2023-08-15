@@ -18,34 +18,34 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
-  - id: 3
   maxHealth: 5
   worldViewAssetPath: wv-piranka
   maxActionPoints: 5
   references:
     version: 1
     00000000:
-      type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        name: Whirlpool
-        description: Summon whirlpool around creature that pushes nearby monsters
-          away
-        actionPointCost: 3
-    00000001:
-      type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        name: Dash
-        description: You dash forward, not stepping on anything in the stage
-        actionPointCost: 2
-    00000002:
-      type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        actionPointCost: 4
-        maxRange: 5
-        damage: 5
-        lightningAssetPath: particle-lightning
-    00000003:
       type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         actionPointsPerUnit: 0.25
         moveSpeed: 7
+    00000001:
+      type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointCost: 4
+        maxRange: 5
+        damage: 3
+        lightningAssetPath: particle-lightning
+    00000002:
+      type: {class: Dash, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        name: Dash
+        description: You dash forward, not stepping on anything in the stage.
+        distance: 3
+        apCost: 6
+        dashEffect:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        moveDuration: 0.25
+        moveEasing: 0
