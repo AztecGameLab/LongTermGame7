@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AssetPath: Assets/Graphics/Environment/Materials/Pixel_Cage.sbsar
   OutputPath: Assets\Graphics\Environment\Materials\Pixel_Cage_graph_0
-  RawData: {fileID: -244192453324840774, guid: 21d5f214dc0de144b9efa7d92a0be9ff, type: 3}
+  RawData: {fileID: -244192453324840774, guid: 99bc27d585a5b8b45baf792bbf3614ec, type: 3}
   Name: graph_0
   IsRoot: 1
   FlagedForDelete: 0
-  GUID: bfe0446f-beea-42fb-a058-961ed1a51f6d
+  GUID: ac4d0fe5-40b4-4af1-8f6e-cd32ae98f81f
   Index: 0
   Input:
   - id: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
       Index: 0
       Type: 8
       Channel: baseColor
-    OutputTexture: {fileID: 2800000, guid: 73591804b055aa64da108902b62e5224, type: 3}
+    OutputTexture: {fileID: 2800000, guid: 66d67cc52e46d374bb3b0a6ba9b0203f, type: 3}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -53,7 +53,7 @@ MonoBehaviour:
       Index: 1
       Type: 8
       Channel: normal
-    OutputTexture: {fileID: 2800000, guid: e08c3fc4742a0df4092a6d34b1c7e259, type: 3}
+    OutputTexture: {fileID: 2800000, guid: f9e75948c5b7ce649be5e0585c46ea98, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -85,7 +85,7 @@ MonoBehaviour:
       Index: 3
       Type: 8
       Channel: metallic
-    OutputTexture: {fileID: 2800000, guid: 88de1fe80e470554bb7fa26507d89734, type: 3}
+    OutputTexture: {fileID: 2800000, guid: 1c778c49edc80ad47b3f0b07d6f59121, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -101,7 +101,7 @@ MonoBehaviour:
       Index: 4
       Type: 8
       Channel: height
-    OutputTexture: {fileID: 2800000, guid: 52afbf856b0a47547b2798b7c0654bc8, type: 3}
+    OutputTexture: {fileID: 2800000, guid: cfbe7a314a1b14c4ab2db6ce44dc5e4b, type: 3}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -150,7 +150,7 @@ MonoBehaviour:
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
-  OutputMaterial: {fileID: 2100000, guid: 8ce9d5ec4a8409648a889ec3d1706ce3, type: 2}
+  OutputMaterial: {fileID: 2100000, guid: 3965bcce7b940684a835245343d2cd51, type: 2}
   DefaultPreset: " <sbspreset pkgurl=\"pkg://Pixel_Cage\" label=\"\" >\n  <presetinput
     identifier=\"$outputsize\" uid=\"3279798896\" type=\"8\" value=\"10,10\" />\n</sbspreset>\n"
   MaterialShader: Universal Render Pipeline/Lit
