@@ -17,34 +17,25 @@ MonoBehaviour:
   actions:
   - id: 0
   - id: 1
-  - id: 2
-  - id: 3
   maxHealth: 5
   worldViewAssetPath: wv-ventling
   maxActionPoints: 5
   references:
     version: 1
     00000000:
-      type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        name: Wind ball
-        description: Fireball but wind like in avatar
-        actionPointCost: 3
-    00000001:
-      type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        name: Reflect
-        description: The next time you take damage prevent it and hit an for a %
-        actionPointCost: 2
-    00000002:
-      type: {class: DemoAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        name: Flying Mixed
-        description: '"This character is flying, is not bound  to navmsh, can move
-          anywhere"'
-        actionPointCost: 0
-    00000003:
       type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
-        actionPointsPerUnit: 0.25
+        actionPointsPerUnit: 0.1
         moveSpeed: 7
+    00000001:
+      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionName: Projectile
+        actionDescription: Launches a projectile
+        projectileAsset:
+          m_AssetGUID: dbd767da992257c4f97fd51442e78aa5
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        projectileTime: 1
+        apCost: 1
