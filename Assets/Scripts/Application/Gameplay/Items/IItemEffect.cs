@@ -143,9 +143,12 @@ namespace Application.Gameplay.Items
     {
         [SerializeField] private string size;
         [SerializeField] private DialogueReference message;
-        public void Initialize() {}
 
-        public IEnumerator Use() 
+        public void Initialize()
+        {
+        }
+
+        public IEnumerator Use()
         {
             Collection<GameObject> playerTeam = Object.FindObjectOfType<BattleController>(true).PlayerTeam;
             foreach (GameObject memberInstance in playerTeam) 
