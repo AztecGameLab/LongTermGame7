@@ -88,10 +88,35 @@ namespace Application.Gameplay.Items
     }
     
     [Serializable]
-    public class StrengthenAllEffect : IItemEffect
+    public class StrengthenAllEffectLow : IItemEffect
     {
         [SerializeField]
         private string size;
+
+        [SerializeField] private DialogueReference message;
+
+        public void Initialize()
+        {
+        }
+
+        public IEnumerator Use()
+        {
+            Collection<GameObject> playerTeam = Object.FindObjectOfType<BattleController>(true).PlayerTeam;
+
+            foreach (GameObject memberInstance in playerTeam)
+            {
+                if (memberInstance.TryGetComponent(out LivingEntity entity))
+                    entity.StrengthenRH(size);
+            }
+
+            yield return Services.DialogueSystem.RunDialogue(message);
+        }
+    }
+
+    [Serializable]
+    public class StrengthenAllEffectMid : IItemEffect
+    {
+        [SerializeField] private string size;
 
         [SerializeField] private DialogueReference message;
 
@@ -112,7 +137,29 @@ namespace Application.Gameplay.Items
             yield return Services.DialogueSystem.RunDialogue(message);
         }
     }
-    
-    
-    
+
+    [Serializable]
+    public class StrengthenAllEffectHigh : IItemEffect
+    {
+        [SerializeField] private string size;
+        [SerializeField] private DialogueReference message;
+
+        public void Initialize()
+        {
+        }
+
+        public IEnumerator Use()
+        {
+            Collection<GameObject> playerTeam = Object.FindObjectOfType<BattleController>(true).PlayerTeam;
+            foreach (GameObject memberInstance in playerTeam) 
+            { 
+                if (memberInstance.TryGetComponent(out LivingEntity entity)) 
+                    entity.StrengthenRE(size);
+            }
+            
+            yield return Services.DialogueSystem.RunDialogue(message);
+        }
+
+
+    }
 }
