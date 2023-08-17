@@ -32,6 +32,7 @@ namespace Application.Gameplay
         /// <inheritdoc/>
         protected override void HandleCollisionEnter(GameObject obj)
         {
+            if (obj.gameObject.tag == "Player")
             targetCamera.Priority = ActivePriority;
         }
 
