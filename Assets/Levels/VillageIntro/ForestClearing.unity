@@ -981,6 +981,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2761583235809183109, guid: 91f6b7afabf1b174594051aa8b303e3b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761583235809183109, guid: 91f6b7afabf1b174594051aa8b303e3b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761583235809183109, guid: 91f6b7afabf1b174594051aa8b303e3b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91f6b7afabf1b174594051aa8b303e3b, type: 3}
 --- !u!1 &458384694 stripped
@@ -1135,6 +1147,82 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0]
+      value: Application Application.Gameplay.Combat.Actions.ShotgunDash
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].data
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].name
+      value: Burst Dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].range
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].apCost
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].damage
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].spread
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].distance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].moveSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].moveEasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].description
+      value: Launch forward and deal damage to everything behind you.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].moveDuration
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].damageMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].actionPointsPerUnit
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].dashEffect.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].dashEffect.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].dashEffect.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617006354863684382, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+      propertyPath: actions.Array.data[0].dashEffect.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9030960847930012843, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1181,7 +1269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9030960847930012885, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
       propertyPath: m_Name
-      value: Ventling Variant
+      value: Ventling
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
@@ -1659,7 +1747,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5166095780850103840, guid: 62daeaefe57ed2642861c4e27ac8b6ca, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5166095780850103840, guid: 62daeaefe57ed2642861c4e27ac8b6ca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2170,7 +2258,7 @@ MonoBehaviour:
   - id: 1
   friendlies:
   - {fileID: 2070655261}
-  - {fileID: 0}
+  - {fileID: 2063910183}
   - {fileID: 1098241527}
   enemies:
   - {fileID: 458384694}
@@ -3344,7 +3432,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1842060264}
   - component: {fileID: 1842060267}
-  - component: {fileID: 1842060265}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -3366,28 +3453,6 @@ Transform:
   m_Father: {fileID: 1734230348}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1842060265
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1842060263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0, z: -10}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_AngularDampingMode: 0
-  m_PitchDamping: 0
-  m_YawDamping: 0
-  m_RollDamping: 0
-  m_AngularDamping: 0
 --- !u!114 &1842060267
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -3749,6 +3814,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1018090048233368142, guid: 28365697638d2bf47b0eb50c91870f4c, type: 3}
   m_PrefabInstance: {fileID: 2016125102}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2063910183 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9030960847930012885, guid: d3318f83f1b69e74295e19e92ee7d629, type: 3}
+  m_PrefabInstance: {fileID: 784714157}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2070655260
 PrefabInstance:
