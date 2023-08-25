@@ -22,6 +22,8 @@ MonoBehaviour:
   - id: 6
   - id: 7
   - id: 8
+  - id: 9
+  - id: 10
   references:
     version: 1
     00000000:
@@ -54,6 +56,8 @@ MonoBehaviour:
       data:
         dialogueCameraPrefab: {fileID: 2275752361829420294, guid: 71510576ce13daf47bb54dc4dcf2f5d0, type: 3}
         easeType: 21
+        trackedObjectOffset: {x: 0, y: 6.25, z: -8}
+        followSpeed: 5
     00000002:
       type: {class: YarnRespawnCommands, ns: Application.Gameplay.Combat, asm: Application}
     00000003:
@@ -73,15 +77,21 @@ MonoBehaviour:
             value: {fileID: 11400000, guid: 150b0e23e4f021d4d9c6684073d2a6e6, type: 2}
           - key: ventling
             value: {fileID: 11400000, guid: 6f7d934186281f34ea2ea229b2ae301c, type: 2}
+          - key: shrem
+            value: {fileID: 11400000, guid: ecacbdb6cdb79ef4a9f23a4717db5f6c, type: 2}
+          - key: aquanaut
+            value: {fileID: 11400000, guid: e677ef88811e7ce4fb56237f79fec08e, type: 2}
+          - key: batacooni
+            value: {fileID: 11400000, guid: 103d79f5a9a2bf74da546b5fb5c8d71a, type: 2}
+          - key: emplorfa
+            value: {fileID: 11400000, guid: eab9a79f41ef9de48b77e70e8ad9cbe4, type: 2}
     00000004:
       type: {class: YarnLoadingCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
       data:
         levelIds:
           dictionary:
-          - key: test-combat
-            scene: Assets/Levels/! TESTING LEVELS !/Combat Framework/CombatFramework.unity
           - key: Village
-            scene: Assets/Levels/! TESTING LEVELS !/Intro Demo/VillageIntro.unity
+            scene: Assets/Levels/VillageIntro/VillageIntro.unity
           - key: ForestCave
             scene: Assets/Levels/Forest/ForestCave.unity
           - key: ForestEntry
@@ -110,6 +120,8 @@ MonoBehaviour:
             scene: Assets/Levels/Lab/ChemicalLab.unity
           - key: FinalBoss
             scene: Assets/Levels/Lab/LabFinalBoss.unity
+          - key: test-combat
+            scene: Assets/Levels/! TESTING LEVELS !/Combat Framework/CombatFramework.unity
     00000005:
       type: {class: YarnMusicCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
       data:
@@ -164,3 +176,11 @@ MonoBehaviour:
       data:
         items:
         - {fileID: 11400000, guid: 222ed14c800d55641ac6d41e4e86c0d1, type: 2}
+        - {fileID: 11400000, guid: 3965bdcd1f94a2449a8543b38c225365, type: 2}
+        - {fileID: 11400000, guid: 801eab37959dc3e40885ca9272116773, type: 2}
+        - {fileID: 11400000, guid: bd97c273c205acd4097b368fe365d3b2, type: 2}
+        - {fileID: 11400000, guid: 24bde68fcc99ba3428e55b79245b2a74, type: 2}
+    00000009:
+      type: {class: YarnCombatCommands, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}
+    0000000A:
+      type: {class: YarnMindControl, ns: Application.Gameplay.Dialogue.Handlers, asm: Application}

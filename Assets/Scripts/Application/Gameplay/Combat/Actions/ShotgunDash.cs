@@ -29,7 +29,11 @@
         private string description = "Launch forward and deal damage to everything behind you.";
 
         [SerializeField]
+        [JsonProperty]
         private float distance = 3;
+
+        [SerializeField]
+        private int apCost = 6;
 
         [SerializeField]
         [JsonProperty]
@@ -71,6 +75,9 @@
         public override string Description => description;
 
         /// <inheritdoc/>
+        public override int Cost => apCost;
+
+        /// <inheritdoc/>
         public override void PrepEnter()
         {
             base.PrepEnter();
@@ -96,12 +103,13 @@
             _sliceIndicator.Instance.UpdateView(origin, -direction, range, spread);
 
             // By default, lock in by left-clicking. You may want a different method.
-            IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0);
+            IsPrepFinished |= Input.GetKeyDown(KeyCode.Mouse0) && ActionTracker.CanAfford(apCost);
         }
 
         /// <inheritdoc/>
         protected override IEnumerator Execute()
         {
+            ActionTracker.Spend(apCost);
             yield return new WaitForSeconds(0.1f);
             var origin = User.transform.position;
             var direction = _targetPosition - origin;

@@ -66,7 +66,7 @@ MonoBehaviour:
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 10
+  m_CameraDistance: 15
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 7060901476056951582}
   - component: {fileID: 73268616}
   - component: {fileID: 6444095528586081098}
+  - component: {fileID: 919184368153531199}
   m_Layer: 0
   m_Name: Tracking Camera
   m_TagString: Untagged
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_FocusTracksTarget: 0
   m_FocusTracking: 2
   m_FocusTarget: {fileID: 0}
-  m_FocusOffset: 0
+  m_FocusOffset: 8
   m_Profile: {fileID: 11400000, guid: 94e0c6e3b0e114640bb8b90ac17ee6e4, type: 2}
 --- !u!114 &6444095528586081098
 MonoBehaviour:
@@ -187,3 +188,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   FollowTarget: {fileID: 0}
+--- !u!114 &919184368153531199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060901476056951581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0

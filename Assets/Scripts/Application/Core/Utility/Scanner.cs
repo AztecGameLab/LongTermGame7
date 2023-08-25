@@ -36,5 +36,10 @@
 
             return result;
         }
+
+        public static int GetAllInSphere(Vector3 origin, float radius, LayerMask mask, Collider[] results)
+        {
+            return Physics.OverlapSphereNonAlloc(origin, radius, results, mask.value);
+        }
     }
 }

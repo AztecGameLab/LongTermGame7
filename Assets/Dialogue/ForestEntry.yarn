@@ -45,3 +45,94 @@ I think this cave over here would be a pretty good place to have a fan meetup!
 <<team-add artichokie>> 
 <<level-load ForestCave>>
 ===
+
+title: NPCScaredStart
+---
+Ah! Please don't hurt me...
+Oh, this one seems to be unlike the others...
+Please, the wild Artichokie in this area are out of control - they attack on sight! Can you do something?
+===
+
+title: NPCHiding
+---
+Shh! They might hear you!
+And don't give away my hiding place!
+===
+
+title: NPCStuck
+---
+I worked up the courage to come out here and face the Artichokie's, but they have the high ground!
+There's no way anyone could get up that hill...
+===
+
+title: FindSmallGreenHerb
+---
+It's a green herb, laying on the side of the path.
+You remember hearing about the remarkable healing properties of these green herbs, although this one is quite small.
+<<item-add herb-green-small>>
+You added the small green herb to your inventory!
+===
+title: RedHerb
+---
+Here's a red herb!
+<<item-add red-herb>> 
+a red herb has been added to your inventory
+===
+title: RedMushroom
+---
+Here's a red mushroom!
+<<item-add red-mushroom>> 
+a red mushroom has been added to your inventory
+===
+title: RedElixir
+---
+Here's a red elixir!
+<<item-add red-elixir>> 
+a red elixir has been added to your inventory
+===
+title: infernidoeTeamAdd
+---
+You free the Infernidoe that was caged for defending his forest.
+Infernidoe jonined your team.
+<<team-add-overworld infernidoe MonsterSpawn>> 
+===
+title: aquanautTeamAdd
+---
+Infernidoe joined your team.
+<<team-add aquanaut>> 
+===
+title: artichokieTeamAdd
+---
+Infernidoe joined your team.
+<<team-add artichokie>> 
+===
+title: batacooniTeamAdd
+---
+You pull out a smelly fish from the bottom of the crate. A hungry Batcooni joins your party!
+<<team-add batacooni>> 
+===
+title: emplorfaTeamAdd
+---
+Infernidoe joined your team.
+<<team-add-overworld emplorfa MonsterSpawn>> 
+===
+title: scalatumpTeamAdd
+---
+A wounded Scalatump joins your party. She no longer feels safe within the cave.
+<<team-add-overworld scalatump MonsterSpawn>>
+===
+title: shremTeamAdd
+---
+Infernidoe joined your team.
+<<team-add shrem>> 
+===
+title: ventlingTeamAdd
+---
+You pull out a smelly fish from the bottom of the crate. A hungry Batcooni joins your party!
+<<team-add-overworld ventling MonsterSpawn>> 
+===
+title: pirankaTeamAdd
+---
+Infernidoe joined your team.
+<<team-add piranka>> 
+===

@@ -1,0 +1,62 @@
+﻿title: GhostALight
+
+---
+This is Ghost-a-light!
+===
+
+title: MutalistEncounter
+position: 10,229
+---
+<<set $largeMonster to "Large Monster">>
+<<cam-follow Mutalist>>
+Psychomutalist: You're such a cutie! Can you hear me well?
+<<cam-follow LargeMonster>>
+<<emote dots LargeMonster>>
+// todo: monster red eyes glow, sound fx
+<<cam-follow Mutalist>>
+Psychomutalist: Wonderful! You're so smart, aren't you!
+Psychomutalist: You monsters are always so nice when you just listen to what I say.
+Psychomutalist: If only humans were this easy...
+<<cam-follow Player>> // todo: maybe follow artichokie here...
+Artichokie: Hey! I think that's the one! Or maybe not...
+Artichokie: The clothes are the same, but the face... are there more than one!?
+You can hear the {$largeMonster} from here. It is not happy.
+Artichokie: That {$largeMonster} is acting kind of weird, though. Why isn't he fighting back?
+<<move Player mutalistConversation>>
+<<emote surprised Mutalist>>
+Psychomutalist: (Damn... speaking of which...)
+Psychomutalist: Hey hey! What's a ragged-looking bumpkin doing this deep in the forest?
+// todo: player getsure
+<<emote angry Player>>
+Psychomutlist: No... don't tell me... you're a native?
+Psychomutalist: Hah! Lucky me! I don't get to share my creations with new people often...
+Psychomutalist: Come over here and take a look!
+<<move Player Mutalist 10>>
+<<move Mutalist mutalistBackAway>>
+Psychomutalist: Whoa! Not in a good mood today, huh?
+Psychomutalist: I guess you can't expect too much from such a primative people...
+Psychomutalist: Here... why don't you have a conversation with someone more your speed?
+// todo: device activating animation, beep
+<<mind-control LargeMonster>>
+Psychomutalist: He's a little scary lookin, but I think you two will get along just fine! Heh...
+Psychomutalist: Cya~
+<<emote love Mutalist>>
+<<move Mutalist mutalistRunAway>>
+<<disable Mutalist>>
+<<combat-start ShremMiniboss>>
+===
+
+title: BossVictory
+position: 31,-141
+---
+Artichokie: That... was tough. If that human gets their hands on the other monsters here... we'll be in big trouble...
+Artichokie: We gotta catch up to her before she takes control of something stronger!
+// todo: fade out into scene with mutalist in roosting area
+Psychomutalist: Hmm? The signal's gone?
+// todo: device activating + beep animation
+Psychomutalist: Oh no... no no no no...
+Psychomutalist: ...my little friend... did you...
+Psychomutalist: ...
+Psychomutalist: You piece of shit. If I see you again...
+// todo: fade back to party
+===

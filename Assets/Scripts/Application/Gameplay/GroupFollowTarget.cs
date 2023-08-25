@@ -61,32 +61,30 @@
         /// </summary>
         public void Tick()
         {
-            if (Target == null || GroupMembers.Count <= 0 || !Enabled)
-            {
-                return;
-            }
-
             Vector3 currentPosition = Target.position;
             float moveDelta = Vector3.Distance(currentPosition, _previousPosition);
-
-            for (int i = 0; i < GroupMembers.Count; i++)
-            {
-                GroupMembers[i].position = Vector3.MoveTowards(
-                    GroupMembers[i].position,
-                    _targetPositions[(_headIndex + i) % GroupMembers.Count],
-                    moveDelta * 0.9f);
-            }
-
-            if (_elapsedDistance >= _followSpacing)
-            {
-                // we want to add a new position
-                _elapsedDistance = 0;
-                _headIndex = (_headIndex + 1) % GroupMembers.Count;
-                _targetPositions[_headIndex] = currentPosition;
-            }
-
             _elapsedDistance += moveDelta;
             _previousPosition = currentPosition;
+
+
+            if (Target != null && GroupMembers.Count > 0 && Enabled)
+            {
+                if (_elapsedDistance >= _followSpacing)
+                {
+                    // we want to add a new position
+                    _elapsedDistance = 0;
+                    _headIndex = (_headIndex + 1) % GroupMembers.Count;
+                    _targetPositions[_headIndex] = currentPosition;
+                }
+
+                for (int i = 0; i < GroupMembers.Count; i++)
+                {
+                    GroupMembers[i].position = Vector3.MoveTowards(
+                        GroupMembers[i].position,
+                        _targetPositions[(_headIndex + i) % GroupMembers.Count],
+                        moveDelta * 0.9f);
+                }
+            }
         }
     }
 }

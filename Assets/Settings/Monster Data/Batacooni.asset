@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332a3c975c72477da90ff14a3d7a81c0, type: 3}
+  m_Name: Batacooni
+  m_EditorClassIdentifier: 
+  memberName: Batacooni
+  memberDescription: Tiny swarm fliers that form tornados.
+  actions:
+  - id: 0
+  - id: 1
+  maxHealth: 5
+  worldViewAssetPath: wv-batacooni
+  maxActionPoints: 5
+  references:
+    version: 1
+    00000000:
+      type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionPointsPerUnit: 0.1
+        moveSpeed: 7
+    00000001:
+      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        actionName: Projectile
+        actionDescription: Launches a projectile
+        projectileAsset:
+          m_AssetGUID: dbd767da992257c4f97fd51442e78aa5
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        projectileTime: 1
+        apCost: 1

@@ -17,36 +17,26 @@ MonoBehaviour:
   actions:
   - id: 0
   - id: 1
-  - id: 2
-  - id: 3
-  maxHealth: 1
+  maxHealth: 3
   worldViewAssetPath: wv-player
   maxActionPoints: 5
   references:
     version: 1
     00000000:
+      type: {class: UseItemAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
+      data:
+        inventoryView:
+          m_AssetGUID: e25a2b547d0101442869395da96f1171
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        hint:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+    00000001:
       type: {class: MoveAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
       data:
         actionPointsPerUnit: 0.25
         moveSpeed: 7
-    00000001:
-      type: {class: LightningBoltAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        actionPointCost: 1
-        maxRange: 15
-        damage: 20
-        lightningAssetPath: particle-lightning
-    00000002:
-      type: {class: ProjectileAction, ns: Application.Gameplay.Combat.Actions, asm: Application}
-      data:
-        actionName: Projectile
-        actionDescription: Launches a projectile
-        projectileAsset:
-          m_AssetGUID: 9f6e80d503eafda4d8bba3c093d6123d
-          m_SubObjectName: 
-          m_SubObjectType: 
-          m_EditorAssetChanged: 0
-        projectileTime: 1
-        apCost: 1
-    00000003:
-      type: {class: , ns: , asm: }

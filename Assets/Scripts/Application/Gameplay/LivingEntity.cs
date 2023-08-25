@@ -3,6 +3,7 @@
     using System;
     using UniRx;
     using UnityEngine;
+    using UnityEngine.Events;
 
     /// <summary>
     /// Represents something in the game that can live, die, and take damage.
@@ -18,8 +19,15 @@
         [SerializeField]
         private FloatReactiveProperty maxHealth;
 
+        [SerializeField]
+        private BoolReactiveProperty isInvincible;
+
+        [SerializeField]
+        private UnityEvent onDeath;
+
         /// <summary>
         /// Gets an observable for each time this entity is damaged.
+        /// Passes the remaining health of the entity.
         /// </summary>
         public IObservable<float> OnDamage => _onDamage;
 
@@ -27,6 +35,11 @@
         /// Gets an observable for each time this entity is healed.
         /// </summary>
         public IObservable<float> OnHeal => _onHeal;
+
+        /// <summary>
+        /// Gets an observable for each time this entity is healed.
+        /// </summary>
+        public IObservable<bool> InvincibilityChanged => isInvincible;
 
         /// <summary>
         /// Gets an observable for each time this entity's health drops below zero.
@@ -60,6 +73,15 @@
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this entity can be damaged.
+        /// </summary>
+        public bool IsInvincible
+        {
+            get => isInvincible.Value;
+            set => isInvincible.Value = value;
+        }
+
+        /// <summary>
         /// Sets up the initial values for this entity.
         /// </summary>
         /// <param name="targetHealth">How much health to have.</param>
@@ -76,9 +98,12 @@
         /// <param name="amount">How much health to remove.</param>
         public void Damage(float amount)
         {
-            float newHealth = Mathf.Max(0, health.Value - amount);
-            health.Value = newHealth;
-            _onDamage.OnNext(newHealth);
+            if (!IsInvincible)
+            {
+                float newHealth = Mathf.Max(0, health.Value - amount);
+                health.Value = newHealth;
+                _onDamage.OnNext(newHealth);
+            }
         }
 
         /// <summary>
@@ -91,6 +116,33 @@
             health.Value = newHealth;
             _onHeal.OnNext(newHealth);
         }
+        
+        /// <summary>
+        /// Increase max health by 1.
+        /// </summary>
+        /// <param name="type">item found, to be determined how much increase based on item.</param>
+        public void StrengthenRH(string type)
+        {
+            maxHealth.Value += 1;
+        }
+
+        /// <summary>
+        /// Increase max health by 2.
+        /// </summary>
+        /// <param name="type">item found, to be determined how much increase based on item.</param>
+        public void StrengthenRM(string type)
+        {
+            maxHealth.Value += 2;
+        }
+        
+        /// <summary>
+        /// Increase max health by 3.
+        /// </summary>
+        /// <param name="type">item found, to be determined how much increase based on item.</param>
+        public void StrengthenRE(string type)
+        {
+            maxHealth.Value += 3;
+        }
 
         /// <summary>
         /// Deals enough damage to kill this entity.
@@ -98,6 +150,11 @@
         public void Kill()
         {
             health.Value = 0;
+        }
+
+        private void Awake()
+        {
+            OnDeath.Subscribe(_ => onDeath.Invoke()).AddTo(this);
         }
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5089439577509865347}
   - component: {fileID: 5984943366457643046}
+  - component: {fileID: 5449415803077079908}
   m_Layer: 0
   m_Name: Connifer Tree
   m_TagString: Untagged
@@ -71,6 +72,20 @@ LODGroup:
     - renderer: {fileID: 8002888824368057308}
     - renderer: {fileID: 8691405167488163571}
   m_Enabled: 1
+--- !u!136 &5449415803077079908
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958848974058979815}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.23951045
+  m_Height: 6.7256174
+  m_Direction: 1
+  m_Center: {x: 0, y: 3.3878088, z: -0.1116384}
 --- !u!1001 &1755494216766097459
 PrefabInstance:
   m_ObjectHideFlags: 0

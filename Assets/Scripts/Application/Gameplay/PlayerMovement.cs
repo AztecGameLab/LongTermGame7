@@ -1,4 +1,8 @@
-﻿namespace Application.Gameplay
+﻿using Application.Core;
+using Application.Gameplay.Combat;
+using Application.Gameplay.Combat.Actions;
+
+namespace Application.Gameplay
 {
     using Core.Abstraction;
     using UnityEngine;
@@ -24,12 +28,21 @@
         [SerializeField]
         private GroundCheck groundCheck;
 
+        [SerializeField]
+        private float sprintSpeedMultiplier = 2;
+
+        [SerializeField]
+        private float sprintAnimationMultiplier = 1.5f;
+
+        [SerializeField]
+        private Animator animator;
+
         private IPhysicsComponent _controller;
-        private Vector2 _playerInput;
-        private Vector2 _currentDirection;
-        private Vector2 _currentVelocity;
-        private Vector3 _movementDirection;
+        private Vector3 _targetVelocity;
+        private Vector3 _velocity;
         private bool _didReverse;
+        private bool _isSprinting;
+        private Vector3 _currentVelocity;
 
         /// <summary>
         /// Gets the direction that the player is currently facing.
@@ -44,12 +57,21 @@
         {
             if (value != null)
             {
-                _playerInput = value.Get<Vector2>();
+                var playerInput = value.Get<Vector2>();
+                _targetVelocity = new Vector3(playerInput.x, 0, playerInput.y) * maxSpeed;
 
-                if (_playerInput != Vector2.zero)
+                if (playerInput != Vector2.zero)
                 {
-                    FacingDirection = new Vector3(_playerInput.x, 0, _playerInput.y);
+                    FacingDirection = new Vector3(playerInput.x, 0, playerInput.y);
                 }
+            }
+        }
+
+        public void OnSprint(InputValue value)
+        {
+            if (value != null)
+            {
+                _isSprinting = value.isPressed;
             }
         }
 
@@ -60,46 +82,63 @@
 
         private void Update()
         {
+            _velocity = _controller.Velocity;
             ApplyGravity();
-            ApplyAcceleration();
+
+            animator.speed = _isSprinting ? sprintAnimationMultiplier : 1;
+
+            // see other comments - i'm exhausted
+            var bs = FindObjectOfType<BattleController>(true);
+            if (bs != null && bs.IsBattling)
+            {
+                FacingDirection = Vector3.zero;
+                _targetVelocity = Vector3.zero;
+            }
+
+            if (groundCheck.IsGrounded)
+            {
+                ApplyAcceleration();
+            }
+
             CheckIfReverse();
             MovePlayer();
         }
 
         private void ApplyGravity()
         {
-            if (groundCheck.IsGrounded && _movementDirection.y < 0f)
+            if (groundCheck.IsGrounded && _velocity.y < 0f)
             {
-                _movementDirection.y = 0f;
+                _velocity.y = 0f;
             }
 
-            _movementDirection.y += gravity * Time.deltaTime;
+            _velocity.y += gravity * Time.deltaTime;
         }
 
         private void ApplyAcceleration()
         {
-            _currentDirection = !_didReverse
-                ? Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime)
-                : Vector2.SmoothDamp(_currentDirection, _playerInput, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
-
-            _movementDirection = new Vector3(_currentDirection.x, _movementDirection.y, _currentDirection.y);
+            var oldY = _velocity.y;
+            var target = _targetVelocity * (_isSprinting ? sprintSpeedMultiplier : 1);
+            _velocity = !_didReverse
+                ? Vector3.SmoothDamp(_velocity, target, ref _currentVelocity, accelerationSmoothTime)
+                : Vector3.SmoothDamp(_velocity, target, ref _currentVelocity, accelerationSmoothTime / reverseMultiplier);
+            _velocity.y = oldY;
         }
 
         private void CheckIfReverse()
         {
-            if (_currentDirection.x > 0f && _playerInput.x < 0f)
+            if (_velocity.x > 0f && _targetVelocity.x < 0f)
             {
                 _didReverse = true;
             }
-            else if (_currentDirection.x < 0f && _playerInput.x > 0f)
+            else if (_velocity.x < 0f && _targetVelocity.x > 0f)
             {
                 _didReverse = true;
             }
-            else if (_currentDirection.y > 0f && _playerInput.y < 0f)
+            else if (_velocity.y > 0f && _targetVelocity.y < 0f)
             {
                 _didReverse = true;
             }
-            else if (_currentDirection.y < 0f && _playerInput.y > 0f)
+            else if (_velocity.y < 0f && _targetVelocity.y > 0f)
             {
                 _didReverse = true;
             }
@@ -112,7 +151,7 @@
         private void MovePlayer()
         {
             Physics.SyncTransforms();
-            _controller.Velocity = _movementDirection * maxSpeed;
+            _controller.Velocity = _velocity;
         }
     }
 }

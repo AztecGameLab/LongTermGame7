@@ -30,6 +30,15 @@
             runner.AddCommandHandler("team-open-selector", HandleOpenSelector);
             runner.AddCommandHandler<string, string>("team-add", HandleAdd);
             runner.AddCommandHandler<string, string>("team-remove", HandleRemove);
+            runner.AddCommandHandler<string, GameObject>("team-add-overworld", HandleAddOverWorld);
+        }
+
+        private void HandleAddOverWorld(string name, GameObject obj)
+        {
+            var spawn = UnityEngine.Object.FindObjectOfType<PlayerSpawn>();
+            spawn.MemberSpawnPosition = obj.transform.position;
+            HandleAdd(name, TargetSelected);
+            UnityEngine.Object.Destroy(obj);
         }
 
         /// <inheritdoc/>
@@ -38,6 +47,7 @@
             runner.RemoveCommandHandler("team-open-selector");
             runner.RemoveCommandHandler("team-add");
             runner.RemoveCommandHandler("team-remove");
+            runner.RemoveCommandHandler("team-add-overworld");
         }
 
         private static void HandleOpenSelector()
