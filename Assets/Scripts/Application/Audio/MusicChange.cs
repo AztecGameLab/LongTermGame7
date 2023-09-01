@@ -8,7 +8,7 @@
     {
         public EventReference music;
 
-        private static EventReference _activeMusic;
+        private static MusicPlayer.ActiveMusic _activeMusic;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStatics()
@@ -18,15 +18,12 @@
 
         private void Start()
         {
-            if (_activeMusic.Guid != music.Guid)
+            if (_activeMusic.Instance.GetGuid() != music.Guid)
             {
-                foreach (MusicPlayer.ActiveMusic activeMusic in Services.MusicPlayer.MusicList)
-                {
-                    activeMusic.Dispose();
-                }
+                if (_activeMusic.Instance.isValid())
+                    _activeMusic.Dispose();
 
-                Services.MusicPlayer.AddMusic(music);
-                _activeMusic = music;
+                _activeMusic = Services.MusicPlayer.AddMusic(music);
             }
         }
     }
