@@ -16,11 +16,21 @@
         /// Gets the ID for this respawn point.
         /// </summary>
         public string Id => id;
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Player")
+            {
+               SetActive();
+            }
+        }
 
         [Button]
         private void SetActive()
         {
-            Services.RespawnTracker.SetRespawnPoint(id);
+           // if () { } check to see if there is already a respawn point. If so, make it null
+           
+           Services.RespawnTracker.SetRespawnPoint(id);
         }
     }
 }

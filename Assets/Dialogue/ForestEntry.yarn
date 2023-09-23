@@ -51,7 +51,6 @@ title: NPCScaredStart
 Ah! Please don't hurt me...
 Oh, this one seems to be unlike the others...
 Please, the wild Artichokie in this area are out of control - they attack on sight! Can you do something?
-<<respawn-set ForestEntryID>>
 ===
 
 title: NPCHiding
@@ -99,12 +98,12 @@ Infernidoe jonined your team.
 ===
 title: aquanautTeamAdd
 ---
-Infernidoe joined your team.
+aquanaut joined your team.
 <<team-add aquanaut>> 
 ===
 title: artichokieTeamAdd
 ---
-Infernidoe joined your team.
+artichokie joined your team.
 <<team-add artichokie>> 
 ===
 title: batacooniTeamAdd
@@ -114,7 +113,7 @@ You pull out a smelly fish from the bottom of the crate. A hungry Batcooni joins
 ===
 title: emplorfaTeamAdd
 ---
-Infernidoe joined your team.
+emplorfa joined your team.
 <<team-add-overworld emplorfa MonsterSpawn>> 
 ===
 title: scalatumpTeamAdd
@@ -124,7 +123,7 @@ A wounded Scalatump joins your party. She no longer feels safe within the cave.
 ===
 title: shremTeamAdd
 ---
-Infernidoe joined your team.
+shrem joined your team.
 <<team-add shrem>> 
 ===
 title: ventlingTeamAdd
@@ -134,6 +133,6 @@ You pull out a smelly fish from the bottom of the crate. A hungry Batcooni joins
 ===
 title: pirankaTeamAdd
 ---
-Infernidoe joined your team.
+piranka joined your team.
 <<team-add piranka>> 
 ===
