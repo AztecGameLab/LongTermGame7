@@ -2,8 +2,6 @@ using Application.Core;
 using Application.Gameplay.Combat;
 using UnityEngine;
 
-// Use this script if you want the Respawn point and the trigger for it to be in seperate places
-// Remember to add a BoxCollider and check the isTrigger box if you use it
 public class RespawnTrigger : MonoBehaviour
 {
     [SerializeField]
