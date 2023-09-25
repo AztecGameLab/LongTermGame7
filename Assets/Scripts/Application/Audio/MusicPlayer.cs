@@ -57,7 +57,7 @@
         public void RemoveMusic(ActiveMusic musicToRemove)
         {
             ActiveMusic currentMusic = _musicList.First.Value;
-            var currentMusicId = GetGuid(currentMusic.Instance);
+            var currentMusicId = currentMusic.Instance.GetGuid();
 
             musicToRemove.SetPlaying(false);
             _musicList.Remove(musicToRemove);
@@ -67,20 +67,13 @@
             if (_musicList.Count > 0)
             {
                 ActiveMusic newMusic = _musicList.First.Value;
-                var newMusicId = GetGuid(newMusic.Instance);
+                var newMusicId = newMusic.Instance.GetGuid();
 
                 if (currentMusicId != newMusicId)
                 {
                     _musicList.First?.Value.SetPlaying(true);
                 }
             }
-        }
-
-        private static GUID GetGuid(EventInstance instance)
-        {
-            instance.getDescription(out var desc);
-            desc.getID(out var guid);
-            return guid;
         }
 
         /// <summary>
@@ -201,6 +194,16 @@
 
                 Instance.setVolume(to);
             }
+        }
+    }
+
+    public static class EventInstanceExtensions
+    {
+        public static GUID GetGuid(this EventInstance instance)
+        {
+            instance.getDescription(out var desc);
+            desc.getID(out var guid);
+            return guid;
         }
     }
 }
