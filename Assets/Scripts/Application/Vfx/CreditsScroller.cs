@@ -1,34 +1,20 @@
-﻿#if UNITY_EDITOR
-using UnityEditor;
+﻿namespace Application.Vfx
+{
+#if UNITY_EDITOR
+    using UnityEditor;
 #endif
 
-using Application.Audio;
-using Application.Core;
-using Application.Gameplay;
-using FMODUnity;
-using System;
-using TriInspector;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+    using Audio;
+    using Core;
+    using FMODUnity;
+    using Gameplay;
+    using UnityEngine;
 
-namespace Application.Vfx
-{
+    /// <summary>
+    /// Handles logic for playing the credits scene.
+    /// </summary>
     public class CreditsScroller : MonoBehaviour
     {
-
-#if UNITY_EDITOR
-        [CustomEditor(typeof(CreditsScroller))]
-        private class EditorLogic : Editor
-        {
-            private void OnSceneGUI()
-            {
-                var t = target as CreditsScroller;
-                t.startY = Handles.PositionHandle(t.transform.position + t.startY, t.transform.rotation) - t.transform.position;
-                t.endY = Handles.PositionHandle(t.transform.position + t.endY, t.transform.rotation) - t.transform.position;
-            }
-        }
-#endif
-
         [SerializeField]
         private float duration = 120;
 
@@ -75,10 +61,30 @@ namespace Application.Vfx
 
             if (t >= 1)
             {
-                Services.EventBus.Invoke(new LevelChangeEvent{NextScene = postCreditsScene}, "Change to post-credits");
+                Services.EventBus.Invoke(new LevelChangeEvent { NextScene = postCreditsScene }, "Change to post-credits");
                 _creditsMusic.Dispose();
                 Destroy(this);
             }
         }
+
+#if UNITY_EDITOR
+        [CustomEditor(typeof(CreditsScroller))]
+        private sealed class EditorLogic : Editor
+        {
+            private void OnSceneGUI()
+            {
+                var t = target as CreditsScroller;
+
+                if (t != null)
+                {
+                    Transform transform = t.transform;
+                    Vector3 pos = transform.position;
+                    Quaternion rot = transform.rotation;
+                    t.startY = Handles.PositionHandle(pos + t.startY, rot) - pos;
+                    t.endY = Handles.PositionHandle(pos + t.endY, rot) - pos;
+                }
+            }
+        }
+#endif
     }
 }
