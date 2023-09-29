@@ -16,7 +16,9 @@
 
         private void Update()
         {
-            textDisplay.text = $"Build {BuildNumber} : {SceneManager.GetActiveScene().name}";
+            textDisplay.text = Debug.isDebugBuild
+                ? $"Build {BuildNumber} : {SceneManager.GetActiveScene().name}"
+                : string.Empty;
         }
     }
 }
