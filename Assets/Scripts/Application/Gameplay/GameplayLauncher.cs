@@ -21,10 +21,10 @@
         private string firstSceneName;
 
         [SerializeField]
-        private GameObject gameplaySystemPrefab;
+        private GameplaySystem gameplaySystemPrefab;
 
         private IDisposable _disposable;
-        private GameObject _gameplaySystemInstance;
+        private GameplaySystem _gameplaySystemInstance;
 
         /// <summary>
         /// Sets up the gameplay launcher.
@@ -51,6 +51,7 @@
         {
             if (_gameplaySystemInstance != null)
             {
+                _gameplaySystemInstance.Dispose();
                 UnityEngine.Object.Destroy(_gameplaySystemInstance);
             }
 

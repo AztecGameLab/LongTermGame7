@@ -31,7 +31,7 @@
 
         [SerializeField]
         [JsonProperty]
-        private string lightningAssetPath;
+        private AssetReference lightningAssetPath;
 
         private Vector3 _targetPosition;
         private GameObject _targetEnemy;

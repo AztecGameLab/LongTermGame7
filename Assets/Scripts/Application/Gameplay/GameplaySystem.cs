@@ -1,9 +1,8 @@
-﻿using Application.Core;
-
-namespace Application.Gameplay
+﻿namespace Application.Gameplay
 {
     using System;
     using Combat;
+    using Core;
     using Core.Utility;
     using Landmarks;
     using Regions;
@@ -16,7 +15,7 @@ namespace Application.Gameplay
     /// The system settings for gameplay.
     /// </summary>
     [Serializable]
-    public class GameplaySystem : MonoBehaviour
+    public class GameplaySystem : MonoBehaviour, IDisposable
     {
         [SerializeField]
         private BattleController battleController;
@@ -50,7 +49,7 @@ namespace Application.Gameplay
             RegionDebugger.Init();
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
             _disposables.Dispose();
             Services.DialogueSystem = null;

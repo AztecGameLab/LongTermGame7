@@ -531,7 +531,7 @@ MonoBehaviour:
     fadeImage: {fileID: 702779815}
   launcher:
     firstSceneName: Assets/Levels/VillageIntro/ForestClearing.unity
-    gameplaySystemPrefab: {fileID: 6173434894590649065, guid: 59511661150f1a146a8254b85ac79e2d, type: 3}
+    gameplaySystemPrefab: {fileID: 6173434894590649071, guid: 59511661150f1a146a8254b85ac79e2d, type: 3}
   respawnTracker:
     respawnLookup:
       dictionary:
@@ -539,6 +539,26 @@ MonoBehaviour:
         value:
           sceneName: CombatFramework
           respawnPointId: test-combatframework
+      - key: ForestEntryID
+        value:
+          sceneName: ForestEntry
+          respawnPointId: ForestEntryID
+      - key: ForestCaveID
+        value:
+          sceneName: ForestCave
+          respawnPointId: ForestCaveID
+      - key: ForestLakeID
+        value:
+          sceneName: ForestLake
+          respawnPointId: ForestLakeID
+      - key: DeforestedAreaID
+        value:
+          sceneName: DeforestedArea
+          respawnPointId: DeforestedAreaID
+      - key: RoostingAreaID
+        value:
+          sceneName: RoostingArea
+          respawnPointId: RoostingAreaID
 --- !u!114 &1028751779
 MonoBehaviour:
   m_ObjectHideFlags: 0
